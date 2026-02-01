@@ -689,10 +689,14 @@
         }
 
         /* Chain thumbnail preview */
+        .chain-right-col {
+            display: flex;
+            flex-direction: column;
+        }
+
         .chain-preview {
-            margin-top: 24px;
+            margin-top: 20px;
             position: relative;
-            min-height: 60px;
             overflow: hidden;
         }
 
@@ -702,8 +706,9 @@
             border-radius: 12px;
             padding: 20px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 24px;
+            gap: 16px;
             opacity: 0;
             transform: translateY(8px);
             transition: opacity 0.35s ease, transform 0.35s ease;
@@ -715,17 +720,16 @@
         }
 
         .chain-preview-img {
-            max-width: 320px;
-            max-height: 260px;
+            max-width: 100%;
+            max-height: 300px;
             border-radius: 8px;
             border: 1px solid var(--border-light);
             background: #fff;
             object-fit: contain;
-            flex-shrink: 0;
         }
 
         .chain-preview-info {
-            flex: 1;
+            text-align: center;
         }
 
         .chain-preview-name {
@@ -754,12 +758,7 @@
         }
 
         @media (max-width: 768px) {
-            .chain-preview-inner {
-                flex-direction: column;
-                text-align: center;
-            }
             .chain-preview-img {
-                max-width: 100%;
                 max-height: 220px;
             }
         }
@@ -1220,23 +1219,25 @@
                     <p>Since Bitcoin, dozens of chains have taken this foundation and built on it — adding smart contracts, sharding, merged mining, and more. The <strong>UTXO Alliance</strong> brings these projects together to advance the model. The knowledge base includes a comprehensive visual guide to every major UTXO variant, adapted from the Alliance's official handbook.</p>
                     <a href="#" class="btn btn-secondary" style="margin-top: 16px;">Explore in Knowledge Base →</a>
                 </div>
-                <div class="chain-tags-bottom">
-                    <span class="chain-tag" data-chain="bitcoin" data-img="Bitcoin.png" data-name="Bitcoin" data-desc="The original UTXO model — basic script locking, Proof of Work consensus, and the foundation every other variant builds on.">Bitcoin</span>
-                    <span class="chain-tag" data-chain="cardano" data-img="Cardano.png" data-name="Cardano eUTXO" data-desc="Extended UTXO with datum and redeemer fields, enabling on-chain smart contracts via Ouroboros Proof of Stake.">Cardano eUTXO</span>
-                    <span class="chain-tag" data-chain="ergo" data-img="Ergo.png" data-name="Ergo" data-desc="Extended UTXO with registers for rich data storage, powered by Non-Interactive Proof of Proof of Work (NiPoPoW).">Ergo</span>
-                    <span class="chain-tag" data-chain="nervos" data-img="Nervos.png" data-name="Nervos Cell" data-desc="Cell model — smart contracts implemented as type scripts attached to cells, with Proof of Work consensus.">Nervos Cell</span>
-                    <span class="chain-tag" data-chain="alephium" data-img="Alephium.png" data-name="Alephium" data-desc="Stateful UTXO with sharding across multiple groups, smart contract logic via the Alphred VM, and contract UTXOs.">Alephium</span>
-                    <span class="chain-tag highlight" data-chain="quai" data-img="Quai.png" data-name="Quai Network" data-desc="Hierarchical UTXO across Prime, Paxos, and Cyprus chains — merged mining with Proof of Entropy Minima consensus.">Quai Network</span>
-                    <span class="chain-tag" data-chain="digibyte" data-img="Digibyte.png" data-name="DigiByte" data-desc="Classic UTXO with basic script support, Proof of Work consensus using five mining algorithms for decentralization.">DigiByte</span>
-                    <span class="chain-tag" data-chain="hathor" data-img="Hathor.png" data-name="Hathor" data-desc="UTXO model with a DAG-based ledger structure, Proof of Work consensus, and nano contracts for lightweight scripting.">Hathor</span>
-                </div>
-                <div class="chain-preview" id="chainPreview">
-                    <div class="chain-preview-inner" id="chainPreviewInner">
-                        <img class="chain-preview-img" id="chainPreviewImg" src="" alt="">
-                        <div class="chain-preview-info">
-                            <div class="chain-preview-name" id="chainPreviewName"></div>
-                            <div class="chain-preview-desc" id="chainPreviewDesc"></div>
-                            <div class="chain-preview-source">Diagram from the <a href="https://github.com/UTXO-Alliance/handbooks" target="_blank" rel="noopener">UTXO Alliance Handbook</a></div>
+                <div class="chain-right-col">
+                    <div class="chain-tags-bottom">
+                        <span class="chain-tag" data-chain="bitcoin" data-img="Bitcoin.png" data-name="Bitcoin" data-desc="The original UTXO model — basic script locking, Proof of Work consensus, and the foundation every other variant builds on.">Bitcoin</span>
+                        <span class="chain-tag" data-chain="cardano" data-img="Cardano.png" data-name="Cardano eUTXO" data-desc="Extended UTXO with datum and redeemer fields, enabling on-chain smart contracts via Ouroboros Proof of Stake.">Cardano eUTXO</span>
+                        <span class="chain-tag" data-chain="ergo" data-img="Ergo.png" data-name="Ergo" data-desc="Extended UTXO with registers for rich data storage, powered by Non-Interactive Proof of Proof of Work (NiPoPoW).">Ergo</span>
+                        <span class="chain-tag" data-chain="nervos" data-img="Nervos.png" data-name="Nervos Cell" data-desc="Cell model — smart contracts implemented as type scripts attached to cells, with Proof of Work consensus.">Nervos Cell</span>
+                        <span class="chain-tag" data-chain="alephium" data-img="Alephium.png" data-name="Alephium" data-desc="Stateful UTXO with sharding across multiple groups, smart contract logic via the Alphred VM, and contract UTXOs.">Alephium</span>
+                        <span class="chain-tag highlight" data-chain="quai" data-img="Quai.png" data-name="Quai Network" data-desc="Hierarchical UTXO across Prime, Paxos, and Cyprus chains — merged mining with Proof of Entropy Minima consensus.">Quai Network</span>
+                        <span class="chain-tag" data-chain="digibyte" data-img="Digibyte.png" data-name="DigiByte" data-desc="Classic UTXO with basic script support, Proof of Work consensus using five mining algorithms for decentralization.">DigiByte</span>
+                        <span class="chain-tag" data-chain="hathor" data-img="Hathor.png" data-name="Hathor" data-desc="UTXO model with a DAG-based ledger structure, Proof of Work consensus, and nano contracts for lightweight scripting.">Hathor</span>
+                    </div>
+                    <div class="chain-preview" id="chainPreview">
+                        <div class="chain-preview-inner" id="chainPreviewInner">
+                            <img class="chain-preview-img" id="chainPreviewImg" src="" alt="">
+                            <div class="chain-preview-info">
+                                <div class="chain-preview-name" id="chainPreviewName"></div>
+                                <div class="chain-preview-desc" id="chainPreviewDesc"></div>
+                                <div class="chain-preview-source">Diagram from the <a href="https://github.com/UTXO-Alliance/handbooks" target="_blank" rel="noopener">UTXO Alliance Handbook</a></div>
+                            </div>
                         </div>
                     </div>
                 </div>
