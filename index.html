@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thermoeconomics — A New Science Is Emerging</title>
+    <meta name="description" content="Where physics meets money. A computational framework connecting energy, entropy, and proof of work to the foundations of economic value.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           RESET & DESIGN SYSTEM
+           ============================================ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green: #39FF14;
+            --green-glow: rgba(57, 255, 20, 0.15);
+            --green-subtle: rgba(57, 255, 20, 0.06);
+            --bg: #FAFAFA;
+            --bg-white: #FFFFFF;
+            --text-primary: #0A0A0A;
+            --text-secondary: #3A3A3A;
+            --text-muted: #6B6B6B;
+            --border: #E0E0E0;
+            --border-light: #F0F0F0;
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+            --max-width: 1120px;
+            --section-padding: 120px 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* ============================================
+           UTILITY
+           ============================================ */
+        .container {
+            width: 100%;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .section {
+            padding: var(--section-padding);
+        }
+
+        .overline {
+            font-family: var(--font-body);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            font-weight: 300;
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        /* ============================================
+           ANIMATIONS
+           ============================================ */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .animate-delay-1 { transition-delay: 0.1s; }
+        .animate-delay-2 { transition-delay: 0.2s; }
+        .animate-delay-3 { transition-delay: 0.3s; }
+        .animate-delay-4 { transition-delay: 0.4s; }
+        .animate-delay-5 { transition-delay: 0.5s; }
+
+        /* ============================================
+           NAV
+           ============================================ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(250, 250, 250, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-light);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .nav.scrolled {
+            box-shadow: 0 1px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .nav-logo span {
+            color: var(--green);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-muted);
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-cta {
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary) !important;
+            background: var(--green);
+            padding: 8px 20px;
+            border-radius: 5px;
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .nav-cta:hover {
+            box-shadow: 0 0 20px var(--green-glow);
+            transform: translateY(-1px);
+        }
+
+        .nav-mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .nav-mobile-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--text-primary);
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        /* ============================================
+           HERO
+           ============================================ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: var(--bg-white);
+            position: relative;
+            overflow: hidden;
+            padding-top: 64px;
+        }
+
+        .hero-grid-bg {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(57, 255, 20, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(57, 255, 20, 0.04) 1px, transparent 1px);
+            background-size: 80px 80px;
+            pointer-events: none;
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: -250px;
+            right: -150px;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--green-glow), transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 720px;
+            padding: 80px 0;
+        }
+
+        .hero-overline {
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 28px;
+            animation: fadeUp 0.6s ease 0.1s both;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(44px, 6vw, 76px);
+            font-weight: 800;
+            line-height: 1.05;
+            color: var(--text-primary);
+            margin-bottom: 28px;
+            letter-spacing: -1px;
+            animation: fadeUp 0.7s ease 0.25s both;
+        }
+
+        .hero-title .dot {
+            color: var(--green);
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-body);
+            font-size: clamp(17px, 2vw, 21px);
+            font-weight: 300;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 48px;
+            animation: fadeUp 0.6s ease 0.45s both;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            animation: fadeUp 0.6s ease 0.6s both;
+        }
+
+        .btn {
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            padding: 14px 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            color: var(--text-primary);
+            background: var(--green);
+            box-shadow: 0 0 30px var(--green-glow);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 40px rgba(57, 255, 20, 0.25);
+        }
+
+        .btn-secondary {
+            color: var(--text-secondary);
+            background: transparent;
+            border: 1.5px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-muted);
+        }
+
+        .hero-author {
+            margin-top: 56px;
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 0.8s ease 0.9s both;
+        }
+
+        .hero-author-line {
+            width: 28px;
+            height: 1px;
+            background: var(--green);
+        }
+
+        /* ============================================
+           WHAT IS THERMOECONOMICS
+           ============================================ */
+        .what-section {
+            background: var(--bg);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .what-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .what-text p {
+            font-size: 17px;
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .what-text p strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .what-pillars {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .pillar {
+            background: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 28px 28px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .pillar:hover {
+            border-color: var(--green);
+            box-shadow: 0 0 20px var(--green-glow);
+        }
+
+        .pillar-label {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .pillar-desc {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .pillar-icon {
+            font-size: 20px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        /* ============================================
+           COURSE
+           ============================================ */
+        .course-section {
+            background: var(--bg-white);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .course-header {
+            margin-bottom: 60px;
+        }
+
+        .course-note {
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .module-card {
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 32px 28px;
+            background: var(--bg);
+            transition: border-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .module-card:hover {
+            border-color: var(--green);
+            transform: translateY(-3px);
+        }
+
+        .module-number {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 12px;
+        }
+
+        .module-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .module-desc {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .module-card.coming-soon {
+            opacity: 0.5;
+        }
+
+        .module-card.coming-soon .module-number {
+            color: var(--text-muted);
+        }
+
+        /* Videos */
+        .videos-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            border: 1px solid var(--border-light);
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .course-cta-row {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .course-cta-note {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* ============================================
+           UTXO ARCHITECTURES
+           ============================================ */
+        .utxo-section {
+            background: var(--bg);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .utxo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .utxo-text p {
+            font-size: 17px;
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .utxo-text p strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .utxo-visual {
+            background: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 40px;
+            position: relative;
+        }
+
+        .utxo-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .utxo-flow-step {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .utxo-flow-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--green);
+            flex-shrink: 0;
+            box-shadow: 0 0 8px var(--green-glow);
+        }
+
+        .utxo-flow-line {
+            width: 1px;
+            height: 24px;
+            background: var(--border);
+            margin-left: 4.5px;
+        }
+
+        .utxo-flow-label {
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .utxo-flow-sublabel {
+            font-size: 12px;
+            font-weight: 300;
+            color: var(--text-muted);
+        }
+
+        .chain-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 28px;
+        }
+
+        .chain-tag {
+            font-size: 12px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            background: var(--bg);
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .chain-tag:hover {
+            border-color: var(--green);
+            color: var(--text-primary);
+        }
+
+        .chain-tag.highlight {
+            border-color: var(--green);
+            color: var(--text-primary);
+            background: var(--green-subtle);
+        }
+
+        /* ============================================
+           TOOLS
+           ============================================ */
+        .tools-section {
+            background: var(--bg-white);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .tool-card {
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 36px 28px;
+            background: var(--bg);
+            transition: border-color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tool-card:hover {
+            border-color: var(--green);
+            transform: translateY(-3px);
+        }
+
+        .tool-icon {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .tool-title {
+            font-family: var(--font-display);
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .tool-desc {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .tool-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--green);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: gap 0.2s;
+        }
+
+        .tool-link:hover {
+            gap: 10px;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            background: var(--text-primary);
+            color: rgba(255, 255, 255, 0.5);
+            padding: 80px 0 40px;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand-name {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 16px;
+        }
+
+        .footer-brand-name span {
+            color: var(--green);
+        }
+
+        .footer-brand-desc {
+            font-size: 14px;
+            line-height: 1.7;
+            max-width: 320px;
+        }
+
+        .footer-col-title {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col a {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: var(--green);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-copy {
+            font-size: 13px;
+        }
+
+        .footer-author {
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-author-line {
+            width: 20px;
+            height: 1px;
+            background: var(--green);
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 900px) {
+            :root {
+                --section-padding: 80px 0;
+            }
+
+            .container {
+                padding: 0 24px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 64px;
+                left: 0;
+                right: 0;
+                background: rgba(250, 250, 250, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 24px;
+                gap: 20px;
+                border-bottom: 1px solid var(--border-light);
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-mobile-toggle {
+                display: block;
+            }
+
+            .hero-content {
+                padding: 60px 0;
+            }
+
+            .what-grid,
+            .utxo-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .modules-grid,
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .videos-row {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            :root {
+                --section-padding: 60px 0;
+            }
+
+            .container {
+                padding: 0 20px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .hero-ctas {
+                flex-direction: column;
+            }
+
+            .hero-ctas .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+         NAV
+         ============================================ -->
+    <nav class="nav" id="nav">
+        <div class="container nav-inner">
+            <a href="#hero" class="nav-logo">thermoeconomics<span>.</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#what">The Science</a></li>
+                <li><a href="#course">Course</a></li>
+                <li><a href="#utxo">Architectures</a></li>
+                <li><a href="#tools">Tools</a></li>
+                <li><a href="https://www.wolfram.com/wolfram-u/" target="_blank" rel="noopener" class="nav-cta">Start Learning</a></li>
+            </ul>
+            <button class="nav-mobile-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ============================================
+         HERO
+         ============================================ -->
+    <section class="hero" id="hero">
+        <div class="hero-grid-bg"></div>
+        <div class="hero-glow"></div>
+        <div class="container">
+            <div class="hero-content">
+                <p class="hero-overline">A New Science Is Emerging</p>
+                <h1 class="hero-title">Thermoeconomics<span class="dot">.</span></h1>
+                <p class="hero-subtitle">Where physics meets money. A computational framework connecting energy, entropy, and proof of work to the foundations of economic value.</p>
+                <div class="hero-ctas">
+                    <a href="https://www.wolfram.com/wolfram-u/" target="_blank" rel="noopener" class="btn btn-primary">Start the Course →</a>
+                    <a href="#" class="btn btn-secondary">Open Knowledge Base</a>
+                </div>
+                <div class="hero-author">
+                    <span class="hero-author-line"></span>
+                    By Steph Macurdy · Wolfram Blockchain Labs · UTXO Alliance
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         WHAT IS THERMOECONOMICS
+         ============================================ -->
+    <section class="what-section section" id="what">
+        <div class="container">
+            <div class="what-grid">
+                <div class="what-text">
+                    <p class="overline animate">The Science</p>
+                    <h2 class="section-title animate animate-delay-1">What is thermoeconomics?</h2>
+                    <p class="animate animate-delay-2">Thermoeconomics sits at the intersection of <strong>physics, information theory, computation, and economics</strong>. It treats economic value not as an abstraction, but as something grounded in physical reality — energy expended, entropy produced, work performed.</p>
+                    <p class="animate animate-delay-3">The field draws on Shannon's information theory (1948), Jaynes' maximum entropy principle (1957), Wolfram's computational universe, and the living mathematics of blockchain proof-of-work systems.</p>
+                    <p class="animate animate-delay-4">This isn't speculative philosophy. It's <strong>a framework you can compute</strong> — and this course teaches you how, step by step, in both Wolfram Language and Python.</p>
+                </div>
+                <div class="what-pillars animate animate-delay-2">
+                    <div class="pillar">
+                        <span class="pillar-icon">⚡</span>
+                        <div class="pillar-label">Energy</div>
+                        <div class="pillar-desc">The physical cost of computation. Proof of work converts electricity into verifiable truth.</div>
+                    </div>
+                    <div class="pillar">
+                        <span class="pillar-icon">🔀</span>
+                        <div class="pillar-label">Entropy</div>
+                        <div class="pillar-desc">Information theory and thermodynamic irreversibility. The arrow of time embedded in every block.</div>
+                    </div>
+                    <div class="pillar">
+                        <span class="pillar-icon">⛏️</span>
+                        <div class="pillar-label">Proof of Work</div>
+                        <div class="pillar-desc">The bridge between physical and digital scarcity. Consensus through computational expenditure.</div>
+                    </div>
+                    <div class="pillar">
+                        <span class="pillar-icon">💰</span>
+                        <div class="pillar-label">Value</div>
+                        <div class="pillar-desc">Economic value as a measurable thermodynamic quantity, not a social convention.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         COURSE
+         ============================================ -->
+    <section class="course-section section" id="course">
+        <div class="container">
+            <div class="course-header">
+                <p class="overline animate">The Curriculum</p>
+                <h2 class="section-title animate animate-delay-1">Learn by computing</h2>
+                <p class="section-subtitle animate animate-delay-2">Five modules take you from blockchain fundamentals through cryptography to the thermoeconomic thesis. Every concept comes with runnable code.</p>
+                <p class="course-note animate animate-delay-3">Primary track: Wolfram Language on Wolfram U · Open-source track: Python on GitBook</p>
+            </div>
+
+            <div class="modules-grid">
+                <div class="module-card animate">
+                    <div class="module-number">Module 01</div>
+                    <div class="module-title">Introduction to Blockchain</div>
+                    <div class="module-desc">Coordination systems, the trilemma, six core ingredients, Byzantine fault tolerance, and the design space of blockchains.</div>
+                </div>
+                <div class="module-card animate animate-delay-1">
+                    <div class="module-number">Module 02</div>
+                    <div class="module-title">Blockchain Programming</div>
+                    <div class="module-desc">Reading blocks, transactions, and addresses. Writing and signing transactions. Hands-on with real blockchain data.</div>
+                </div>
+                <div class="module-card animate animate-delay-2">
+                    <div class="module-number">Module 03</div>
+                    <div class="module-title">Cryptography</div>
+                    <div class="module-desc">Hash functions, public/private keys, digital signatures, and how cryptographic primitives secure the chain.</div>
+                </div>
+                <div class="module-card animate animate-delay-3">
+                    <div class="module-number">Module 04</div>
+                    <div class="module-title">Blockchain Architecture</div>
+                    <div class="module-desc">Fault tolerance, replicated state machines, consensus mechanisms, and the architectural choices that define each network.</div>
+                </div>
+                <div class="module-card animate animate-delay-4">
+                    <div class="module-number">Module 05</div>
+                    <div class="module-title">Core Ingredients Deep Dive</div>
+                    <div class="module-desc">Encryption, UTXO models, transaction structures, network designs, and blockchain specifications in detail.</div>
+                </div>
+                <div class="module-card coming-soon animate animate-delay-5">
+                    <div class="module-number">Coming Soon</div>
+                    <div class="module-title">Thermoeconomics</div>
+                    <div class="module-desc">Energy, entropy, and value. Proof of work as thermodynamic process. Active inference. Causal invariance and consensus.</div>
+                </div>
+            </div>
+
+            <!-- Videos -->
+            <div class="videos-row animate">
+                <div class="video-wrapper">
+                    <iframe
+                        src="https://www.youtube.com/embed/1KTpKUHAtIE"
+                        title="Thermoeconomics Video 1"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        loading="lazy"
+                    ></iframe>
+                </div>
+                <div class="video-wrapper">
+                    <iframe
+                        src="https://www.youtube.com/embed/uw2sHodvoII"
+                        title="Thermoeconomics Video 2"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        loading="lazy"
+                    ></iframe>
+                </div>
+            </div>
+
+            <div class="course-cta-row animate">
+                <a href="https://www.wolfram.com/wolfram-u/" target="_blank" rel="noopener" class="btn btn-primary">Start on Wolfram U →</a>
+                <span class="course-cta-note">Free course · Wolfram Language · Interactive notebooks</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         UTXO ARCHITECTURES
+         ============================================ -->
+    <section class="utxo-section section" id="utxo">
+        <div class="container">
+            <div class="utxo-grid">
+                <div class="utxo-text">
+                    <p class="overline animate">Blockchain Architectures</p>
+                    <h2 class="section-title animate animate-delay-1">The UTXO model and its many flavors</h2>
+                    <p class="animate animate-delay-2">Bitcoin introduced the <strong>Unspent Transaction Output (UTXO)</strong> model — a fundamentally different way of tracking value on a blockchain. Instead of accounts with balances, the system tracks individual outputs waiting to be spent.</p>
+                    <p class="animate animate-delay-3">Since Bitcoin, dozens of chains have taken this foundation and built on it — adding smart contracts, sharding, merged mining, and more. The <strong>UTXO Alliance</strong> brings these projects together to advance the model.</p>
+                    <p class="animate animate-delay-4">The knowledge base includes a comprehensive visual guide to every major UTXO variant, adapted from the Alliance's official handbook.</p>
+                    <a href="#" class="btn btn-secondary animate animate-delay-5" style="margin-top: 12px;">Explore in Knowledge Base →</a>
+                </div>
+                <div class="utxo-visual animate animate-delay-3">
+                    <div class="utxo-flow">
+                        <div class="utxo-flow-step">
+                            <div class="utxo-flow-dot"></div>
+                            <div>
+                                <div class="utxo-flow-label">Transaction Created</div>
+                                <div class="utxo-flow-sublabel">Inputs reference previous unspent outputs</div>
+                            </div>
+                        </div>
+                        <div class="utxo-flow-line"></div>
+                        <div class="utxo-flow-step">
+                            <div class="utxo-flow-dot"></div>
+                            <div>
+                                <div class="utxo-flow-label">Validation</div>
+                                <div class="utxo-flow-sublabel">Signatures verified, inputs confirmed unspent</div>
+                            </div>
+                        </div>
+                        <div class="utxo-flow-line"></div>
+                        <div class="utxo-flow-step">
+                            <div class="utxo-flow-dot"></div>
+                            <div>
+                                <div class="utxo-flow-label">Block Inclusion</div>
+                                <div class="utxo-flow-sublabel">Transaction mined into the next block</div>
+                            </div>
+                        </div>
+                        <div class="utxo-flow-line"></div>
+                        <div class="utxo-flow-step">
+                            <div class="utxo-flow-dot"></div>
+                            <div>
+                                <div class="utxo-flow-label">New UTXOs</div>
+                                <div class="utxo-flow-sublabel">Outputs become new unspent value</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chain-tags">
+                        <span class="chain-tag">Bitcoin</span>
+                        <span class="chain-tag">Cardano</span>
+                        <span class="chain-tag">Ergo</span>
+                        <span class="chain-tag">Nervos</span>
+                        <span class="chain-tag">Alephium</span>
+                        <span class="chain-tag highlight">Quai Network</span>
+                        <span class="chain-tag">Komodo</span>
+                        <span class="chain-tag">Topl</span>
+                        <span class="chain-tag">DigiByte</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         TOOLS
+         ============================================ -->
+    <section class="tools-section section" id="tools">
+        <div class="container">
+            <p class="overline animate">Interactive Tools</p>
+            <h2 class="section-title animate animate-delay-1" style="margin-bottom: 48px;">Compute, explore, verify</h2>
+            <div class="tools-grid">
+                <a href="https://americanenergymoney.com" target="_blank" rel="noopener" class="tool-card animate">
+                    <span class="tool-icon">⛏️</span>
+                    <div class="tool-title">Mining Calculator</div>
+                    <div class="tool-desc">Compare SHA-256 mining profitability across Bitcoin, Quai Network, and other proof-of-work chains. Model difficulty growth and ROI over time.</div>
+                    <span class="tool-link">Open calculator →</span>
+                </a>
+                <a href="https://www.youtube.com/@wolframblockchainlabs" target="_blank" rel="noopener" class="tool-card animate animate-delay-1">
+                    <span class="tool-icon">🎥</span>
+                    <div class="tool-title">Video Library</div>
+                    <div class="tool-desc">Full lecture series from Wolfram Blockchain Labs covering every module of the thermoeconomics curriculum.</div>
+                    <span class="tool-link">Watch on YouTube →</span>
+                </a>
+                <a href="https://www.wolfram.com/cloud/" target="_blank" rel="noopener" class="tool-card animate animate-delay-2">
+                    <span class="tool-icon">📓</span>
+                    <div class="tool-title">Wolfram Notebooks</div>
+                    <div class="tool-desc">Interactive computational notebooks. Run blockchain queries, hash functions, and cryptographic operations live in Wolfram Cloud.</div>
+                    <span class="tool-link">Open notebooks →</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div>
+                    <div class="footer-brand-name">thermoeconomics<span>.</span></div>
+                    <p class="footer-brand-desc">A computational framework connecting energy, entropy, and proof of work to the foundations of economic value. An emerging science at the intersection of physics and money.</p>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-col-title">Learn</div>
+                    <ul>
+                        <li><a href="https://www.wolfram.com/wolfram-u/" target="_blank" rel="noopener">Wolfram U Course</a></li>
+                        <li><a href="#">Knowledge Base</a></li>
+                        <li><a href="https://www.youtube.com/@wolframblockchainlabs" target="_blank" rel="noopener">Video Library</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-col-title">Ecosystem</div>
+                    <ul>
+                        <li><a href="https://www.utxoa.org/" target="_blank" rel="noopener">UTXO Alliance</a></li>
+                        <li><a href="https://www.wolframblockchainlabs.com/" target="_blank" rel="noopener">Wolfram Blockchain Labs</a></li>
+                        <li><a href="https://qu.ai/" target="_blank" rel="noopener">Quai Network</a></li>
+                        <li><a href="https://americanenergymoney.com" target="_blank" rel="noopener">American Energy Money</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-col-title">Reference</div>
+                    <ul>
+                        <li><a href="https://github.com/UTXO-Alliance/handbooks" target="_blank" rel="noopener">UTXO Handbook</a></li>
+                        <li><a href="https://www.wolframphysics.org/" target="_blank" rel="noopener">Wolfram Physics</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="footer-copy">© 2026 thermoeconomics.info</span>
+                <span class="footer-author">
+                    <span class="footer-author-line"></span>
+                    Steph Macurdy · Wolfram Blockchain Labs · UTXO Alliance
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+        // Nav scroll effect
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 20);
+        });
+
+        // Mobile nav toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+
+        // Close mobile nav on link click
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+            });
+        });
+
+        // Scroll-triggered animations
+        const animateElements = document.querySelectorAll('.animate');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -40px 0px'
+        });
+
+        animateElements.forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>
