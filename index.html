@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -665,7 +666,9 @@
             border: 1px solid var(--border);
             color: var(--text-muted);
             background: var(--bg);
-            transition: border-color 0.2s, color 0.2s;
+            transition: border-color 0.2s, color 0.2s, background 0.2s;
+            cursor: pointer;
+            user-select: none;
         }
 
         .chain-tag:hover {
@@ -677,6 +680,88 @@
             border-color: var(--green);
             color: var(--text-primary);
             background: var(--green-subtle);
+        }
+
+        .chain-tag.active {
+            border-color: var(--green);
+            color: var(--text-primary);
+            background: var(--green-subtle);
+        }
+
+        /* Chain thumbnail preview */
+        .chain-preview {
+            margin-top: 24px;
+            position: relative;
+            min-height: 60px;
+            overflow: hidden;
+        }
+
+        .chain-preview-inner {
+            background: #fafbfc;
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .chain-preview-inner.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .chain-preview-img {
+            max-width: 320px;
+            max-height: 260px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            background: #fff;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .chain-preview-info {
+            flex: 1;
+        }
+
+        .chain-preview-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .chain-preview-desc {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .chain-preview-source {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+
+        .chain-preview-source a {
+            color: var(--green);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .chain-preview-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+            .chain-preview-img {
+                max-width: 100%;
+                max-height: 220px;
+            }
         }
 
         /* ============================================
@@ -1136,17 +1221,24 @@
                     <a href="#" class="btn btn-secondary" style="margin-top: 16px;">Explore in Knowledge Base →</a>
                 </div>
                 <div class="chain-tags-bottom">
-                    <span class="chain-tag">Bitcoin</span>
-                    <span class="chain-tag">Cardano eUTXO</span>
-                    <span class="chain-tag">Ergo</span>
-                    <span class="chain-tag">Nervos Cell</span>
-                    <span class="chain-tag">Alephium</span>
-                    <span class="chain-tag highlight">Quai Network</span>
-                    <span class="chain-tag">Komodo</span>
-                    <span class="chain-tag">Topl</span>
-                    <span class="chain-tag">DigiByte</span>
-                    <span class="chain-tag">Hathor</span>
-                    <span class="chain-tag">Horizen</span>
+                    <span class="chain-tag" data-chain="bitcoin" data-img="Bitcoin.png" data-name="Bitcoin" data-desc="The original UTXO model — basic script locking, Proof of Work consensus, and the foundation every other variant builds on.">Bitcoin</span>
+                    <span class="chain-tag" data-chain="cardano" data-img="Cardano.png" data-name="Cardano eUTXO" data-desc="Extended UTXO with datum and redeemer fields, enabling on-chain smart contracts via Ouroboros Proof of Stake.">Cardano eUTXO</span>
+                    <span class="chain-tag" data-chain="ergo" data-img="Ergo.png" data-name="Ergo" data-desc="Extended UTXO with registers for rich data storage, powered by Non-Interactive Proof of Proof of Work (NiPoPoW).">Ergo</span>
+                    <span class="chain-tag" data-chain="nervos" data-img="Nervos.png" data-name="Nervos Cell" data-desc="Cell model — smart contracts implemented as type scripts attached to cells, with Proof of Work consensus.">Nervos Cell</span>
+                    <span class="chain-tag" data-chain="alephium" data-img="Alephium.png" data-name="Alephium" data-desc="Stateful UTXO with sharding across multiple groups, smart contract logic via the Alphred VM, and contract UTXOs.">Alephium</span>
+                    <span class="chain-tag highlight" data-chain="quai" data-img="Quai.png" data-name="Quai Network" data-desc="Hierarchical UTXO across Prime, Paxos, and Cyprus chains — merged mining with Proof of Entropy Minima consensus.">Quai Network</span>
+                    <span class="chain-tag" data-chain="digibyte" data-img="Digibyte.png" data-name="DigiByte" data-desc="Classic UTXO with basic script support, Proof of Work consensus using five mining algorithms for decentralization.">DigiByte</span>
+                    <span class="chain-tag" data-chain="hathor" data-img="Hathor.png" data-name="Hathor" data-desc="UTXO model with a DAG-based ledger structure, Proof of Work consensus, and nano contracts for lightweight scripting.">Hathor</span>
+                </div>
+                <div class="chain-preview" id="chainPreview">
+                    <div class="chain-preview-inner" id="chainPreviewInner">
+                        <img class="chain-preview-img" id="chainPreviewImg" src="" alt="">
+                        <div class="chain-preview-info">
+                            <div class="chain-preview-name" id="chainPreviewName"></div>
+                            <div class="chain-preview-desc" id="chainPreviewDesc"></div>
+                            <div class="chain-preview-source">Diagram from the <a href="https://github.com/UTXO-Alliance/handbooks" target="_blank" rel="noopener">UTXO Alliance Handbook</a></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1266,6 +1358,44 @@
         });
 
         animateElements.forEach(el => observer.observe(el));
+
+        // Chain tag click → thumbnail preview
+        const chainTags = document.querySelectorAll('.chain-tag[data-chain]');
+        const previewInner = document.getElementById('chainPreviewInner');
+        const previewImg = document.getElementById('chainPreviewImg');
+        const previewName = document.getElementById('chainPreviewName');
+        const previewDesc = document.getElementById('chainPreviewDesc');
+        let activeChain = null;
+
+        chainTags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                const chain = tag.dataset.chain;
+
+                // Toggle off if clicking same chain
+                if (activeChain === chain) {
+                    previewInner.classList.remove('visible');
+                    tag.classList.remove('active');
+                    activeChain = null;
+                    return;
+                }
+
+                // Remove active from all tags
+                chainTags.forEach(t => t.classList.remove('active'));
+                tag.classList.add('active');
+
+                // Fade out, swap, fade in
+                previewInner.classList.remove('visible');
+                setTimeout(() => {
+                    previewImg.src = tag.dataset.img;
+                    previewImg.alt = tag.dataset.name + ' UTXO architecture';
+                    previewName.textContent = tag.dataset.name;
+                    previewDesc.textContent = tag.dataset.desc;
+                    previewInner.classList.add('visible');
+                }, previewInner.classList.contains('visible') ? 200 : 50);
+
+                activeChain = chain;
+            });
+        });
     </script>
 
 </body>
