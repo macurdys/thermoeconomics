@@ -431,6 +431,29 @@
             line-height: 1.6;
         }
 
+        .pillar-papers {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 10px;
+        }
+
+        .pillar-papers a {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--green);
+            text-decoration: none;
+            opacity: 0.85;
+            transition: opacity 0.2s;
+        }
+
+        .pillar-papers a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
         .pillar-icon {
             font-size: 20px;
             margin-bottom: 12px;
@@ -557,80 +580,66 @@
             border-top: 1px solid var(--border-light);
         }
 
-        .utxo-grid {
+        .utxo-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .utxo-image-card {
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg-white);
+            transition: border-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .utxo-image-card:hover {
+            border-color: var(--green);
+            transform: translateY(-3px);
+        }
+
+        .utxo-image-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .utxo-image-caption {
+            padding: 16px 20px;
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--text-muted);
+            line-height: 1.5;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .utxo-bottom {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 60px;
-            align-items: center;
+            align-items: start;
         }
 
-        .utxo-text p {
+        .utxo-text-bottom p {
             font-size: 17px;
             font-weight: 300;
             line-height: 1.8;
             color: var(--text-secondary);
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
-        .utxo-text p strong {
+        .utxo-text-bottom p strong {
             font-weight: 600;
             color: var(--text-primary);
         }
 
-        .utxo-visual {
-            background: var(--bg-white);
-            border: 1px solid var(--border-light);
-            border-radius: 12px;
-            padding: 40px;
-            position: relative;
-        }
-
-        .utxo-flow {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .utxo-flow-step {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .utxo-flow-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--green);
-            flex-shrink: 0;
-            box-shadow: 0 0 8px var(--green-glow);
-        }
-
-        .utxo-flow-line {
-            width: 1px;
-            height: 24px;
-            background: var(--border);
-            margin-left: 4.5px;
-        }
-
-        .utxo-flow-label {
-            font-family: var(--font-body);
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-
-        .utxo-flow-sublabel {
-            font-size: 12px;
-            font-weight: 300;
-            color: var(--text-muted);
-        }
-
-        .chain-tags {
+        .chain-tags-bottom {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 28px;
+            gap: 10px;
+            padding-top: 8px;
         }
 
         .chain-tag {
@@ -850,9 +859,13 @@
             }
 
             .what-grid,
-            .utxo-grid {
+            .utxo-bottom {
                 grid-template-columns: 1fr;
                 gap: 40px;
+            }
+
+            .utxo-images {
+                grid-template-columns: 1fr;
             }
 
             .modules-grid,
@@ -911,7 +924,7 @@
          ============================================ -->
     <nav class="nav" id="nav">
         <div class="container nav-inner">
-            <a href="#hero" class="nav-logo">thermoeconomics<span>.</span></a>
+            <a href="#hero" class="nav-logo">thermoeconomics<span>.info</span></a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#what">The Science</a></li>
                 <li><a href="#course">Course</a></li>
@@ -968,21 +981,37 @@
                         <span class="pillar-icon">⚡</span>
                         <div class="pillar-label">Energy</div>
                         <div class="pillar-desc">The physical cost of computation. Proof of work converts electricity into verifiable truth.</div>
+                        <div class="pillar-papers">
+                            <a href="https://worrydream.com/refs/Landauer_1961_-_Irreversibility_and_Heat_Generation_in_the_Computing_Process.pdf" target="_blank">Landauer (1961)</a>
+                            <a href="https://mathweb.ucsd.edu/~sbuss/CourseWeb/Math268_2013W/Bennett_Reversibiity.pdf" target="_blank">Bennett (1973)</a>
+                            <a href="https://www.amazon.com/Incomplete-Nature-Mind-Emerged-Matter/dp/0393343901" target="_blank">Deacon (2011)</a>
+                        </div>
                     </div>
                     <div class="pillar">
                         <span class="pillar-icon">🔀</span>
                         <div class="pillar-label">Entropy</div>
                         <div class="pillar-desc">Information theory and thermodynamic irreversibility. The arrow of time embedded in every block.</div>
+                        <div class="pillar-papers">
+                            <a href="https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf" target="_blank">Shannon (1948)</a>
+                            <a href="https://bayes.wustl.edu/etj/articles/theory.1.pdf" target="_blank">Jaynes (1957)</a>
+                        </div>
                     </div>
                     <div class="pillar">
                         <span class="pillar-icon">⛏️</span>
                         <div class="pillar-label">Proof of Work</div>
                         <div class="pillar-desc">The bridge between physical and digital scarcity. Consensus through computational expenditure.</div>
+                        <div class="pillar-papers">
+                            <a href="https://bitcoin.org/bitcoin.pdf" target="_blank">Nakamoto (2008)</a>
+                            <a href="https://qu.ai/whitepaper/" target="_blank">Kreder — PoEM</a>
+                        </div>
                     </div>
                     <div class="pillar">
                         <span class="pillar-icon">💰</span>
                         <div class="pillar-label">Value</div>
                         <div class="pillar-desc">Economic value as a measurable thermodynamic quantity, not a social convention.</div>
+                        <div class="pillar-papers">
+                            <span style="opacity:0.5; font-style:italic;">Papers forthcoming</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1068,60 +1097,41 @@
          ============================================ -->
     <section class="utxo-section section" id="utxo">
         <div class="container">
-            <div class="utxo-grid">
-                <div class="utxo-text">
-                    <p class="overline animate">Blockchain Architectures</p>
-                    <h2 class="section-title animate animate-delay-1">The UTXO model and its many flavors</h2>
-                    <p class="animate animate-delay-2">Bitcoin introduced the <strong>Unspent Transaction Output (UTXO)</strong> model — a fundamentally different way of tracking value on a blockchain. Instead of accounts with balances, the system tracks individual outputs waiting to be spent.</p>
-                    <p class="animate animate-delay-3">Since Bitcoin, dozens of chains have taken this foundation and built on it — adding smart contracts, sharding, merged mining, and more. The <strong>UTXO Alliance</strong> brings these projects together to advance the model.</p>
-                    <p class="animate animate-delay-4">The knowledge base includes a comprehensive visual guide to every major UTXO variant, adapted from the Alliance's official handbook.</p>
-                    <a href="#" class="btn btn-secondary animate animate-delay-5" style="margin-top: 12px;">Explore in Knowledge Base →</a>
+            <p class="overline animate">Blockchain Architectures</p>
+            <h2 class="section-title animate animate-delay-1">The UTXO model and its many flavors</h2>
+            <p class="section-subtitle animate animate-delay-2" style="margin-bottom: 60px;">From Bitcoin's original design to the exotic variants powering modern chains — the UTXO Alliance maps the entire landscape.</p>
+
+            <!-- Handbook images -->
+            <div class="utxo-images animate animate-delay-3">
+                <div class="utxo-image-card">
+                    <img src="https://raw.githubusercontent.com/UTXO-Alliance/handbooks/main/utxo-model-flavors-handbook/readme-assets/README-high-level-blockchain.png" alt="High-level blockchain architecture — UTXO Alliance Handbook" loading="lazy">
+                    <div class="utxo-image-caption">High-level blockchain architecture — how transactions flow from creation to consensus</div>
                 </div>
-                <div class="utxo-visual animate animate-delay-3">
-                    <div class="utxo-flow">
-                        <div class="utxo-flow-step">
-                            <div class="utxo-flow-dot"></div>
-                            <div>
-                                <div class="utxo-flow-label">Transaction Created</div>
-                                <div class="utxo-flow-sublabel">Inputs reference previous unspent outputs</div>
-                            </div>
-                        </div>
-                        <div class="utxo-flow-line"></div>
-                        <div class="utxo-flow-step">
-                            <div class="utxo-flow-dot"></div>
-                            <div>
-                                <div class="utxo-flow-label">Validation</div>
-                                <div class="utxo-flow-sublabel">Signatures verified, inputs confirmed unspent</div>
-                            </div>
-                        </div>
-                        <div class="utxo-flow-line"></div>
-                        <div class="utxo-flow-step">
-                            <div class="utxo-flow-dot"></div>
-                            <div>
-                                <div class="utxo-flow-label">Block Inclusion</div>
-                                <div class="utxo-flow-sublabel">Transaction mined into the next block</div>
-                            </div>
-                        </div>
-                        <div class="utxo-flow-line"></div>
-                        <div class="utxo-flow-step">
-                            <div class="utxo-flow-dot"></div>
-                            <div>
-                                <div class="utxo-flow-label">New UTXOs</div>
-                                <div class="utxo-flow-sublabel">Outputs become new unspent value</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="chain-tags">
-                        <span class="chain-tag">Bitcoin</span>
-                        <span class="chain-tag">Cardano</span>
-                        <span class="chain-tag">Ergo</span>
-                        <span class="chain-tag">Nervos</span>
-                        <span class="chain-tag">Alephium</span>
-                        <span class="chain-tag highlight">Quai Network</span>
-                        <span class="chain-tag">Komodo</span>
-                        <span class="chain-tag">Topl</span>
-                        <span class="chain-tag">DigiByte</span>
-                    </div>
+                <div class="utxo-image-card">
+                    <img src="https://raw.githubusercontent.com/UTXO-Alliance/handbooks/main/utxo-model-flavors-handbook/readme-assets/README-simple-blockchain.png" alt="Simple blockchain structure — UTXO Alliance Handbook" loading="lazy">
+                    <div class="utxo-image-caption">The building blocks — transactions, blocks, and the chain that connects them</div>
+                </div>
+            </div>
+
+            <!-- Text + chain tags -->
+            <div class="utxo-bottom animate animate-delay-4">
+                <div class="utxo-text-bottom">
+                    <p>Bitcoin introduced the <strong>Unspent Transaction Output (UTXO)</strong> model — a fundamentally different way of tracking value on a blockchain. Instead of accounts with balances, the system tracks individual outputs waiting to be spent.</p>
+                    <p>Since Bitcoin, dozens of chains have taken this foundation and built on it — adding smart contracts, sharding, merged mining, and more. The <strong>UTXO Alliance</strong> brings these projects together to advance the model. The knowledge base includes a comprehensive visual guide to every major UTXO variant, adapted from the Alliance's official handbook.</p>
+                    <a href="#" class="btn btn-secondary" style="margin-top: 16px;">Explore in Knowledge Base →</a>
+                </div>
+                <div class="chain-tags-bottom">
+                    <span class="chain-tag">Bitcoin</span>
+                    <span class="chain-tag">Cardano eUTXO</span>
+                    <span class="chain-tag">Ergo</span>
+                    <span class="chain-tag">Nervos Cell</span>
+                    <span class="chain-tag">Alephium</span>
+                    <span class="chain-tag highlight">Quai Network</span>
+                    <span class="chain-tag">Komodo</span>
+                    <span class="chain-tag">Topl</span>
+                    <span class="chain-tag">DigiByte</span>
+                    <span class="chain-tag">Hathor</span>
+                    <span class="chain-tag">Horizen</span>
                 </div>
             </div>
         </div>
@@ -1164,7 +1174,7 @@
         <div class="container">
             <div class="footer-top">
                 <div>
-                    <div class="footer-brand-name">thermoeconomics<span>.</span></div>
+                    <div class="footer-brand-name">thermoeconomics<span>.info</span></div>
                     <p class="footer-brand-desc">A computational framework connecting energy, entropy, and proof of work to the foundations of economic value. An emerging science at the intersection of physics and money.</p>
                 </div>
                 <div class="footer-col">
@@ -1179,7 +1189,7 @@
                     <div class="footer-col-title">Ecosystem</div>
                     <ul>
                         <li><a href="https://www.utxoa.org/" target="_blank" rel="noopener">UTXO Alliance</a></li>
-                        <li><a href="https://www.wolframblockchainlabs.com/" target="_blank" rel="noopener">Wolfram Blockchain Labs</a></li>
+                        <li><a href="https://wolframblockchainlabs.github.io/wbl-landing/" target="_blank" rel="noopener">Wolfram Blockchain Labs</a></li>
                         <li><a href="https://qu.ai/" target="_blank" rel="noopener">Quai Network</a></li>
                         <li><a href="https://americanenergymoney.com" target="_blank" rel="noopener">American Energy Money</a></li>
                     </ul>
