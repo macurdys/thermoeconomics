@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -98,6 +99,10 @@
             text-transform: uppercase;
             color: var(--green);
             margin-bottom: 20px;
+            background: var(--text-primary);
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
         }
 
         .section-title {
@@ -294,6 +299,10 @@
             color: var(--green);
             margin-bottom: 28px;
             animation: fadeUp 0.6s ease 0.1s both;
+            background: var(--text-primary);
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 4px;
         }
 
         .hero-title {
@@ -393,6 +402,11 @@
             border-top: 1px solid var(--border-light);
         }
 
+        .what-section .overline {
+            background: transparent;
+            padding: 0;
+        }
+
         .what-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -463,6 +477,9 @@
             text-decoration: none;
             opacity: 0.85;
             transition: opacity 0.2s;
+            background: var(--text-primary);
+            padding: 2px 6px;
+            border-radius: 3px;
         }
 
         .pillar-papers a:hover {
@@ -473,7 +490,7 @@
         .pillar-icon {
             font-size: 20px;
             margin-bottom: 12px;
-            display: block;
+            display: none;
         }
 
         /* ============================================
@@ -524,6 +541,10 @@
             text-transform: uppercase;
             color: var(--green);
             margin-bottom: 12px;
+            background: var(--text-primary);
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
         }
 
         .module-title {
@@ -755,6 +776,9 @@
         .chain-preview-source a {
             color: var(--green);
             text-decoration: none;
+            background: var(--text-primary);
+            padding: 2px 6px;
+            border-radius: 3px;
         }
 
         @media (max-width: 768px) {
@@ -795,6 +819,7 @@
         .tool-icon {
             font-size: 28px;
             margin-bottom: 20px;
+            display: none;
         }
 
         .tool-title {
@@ -822,6 +847,9 @@
             align-items: center;
             gap: 6px;
             transition: gap 0.2s;
+            background: var(--text-primary);
+            padding: 3px 8px;
+            border-radius: 3px;
         }
 
         .tool-link:hover {
@@ -854,6 +882,9 @@
 
         .footer-brand-name span {
             color: var(--green);
+            background: var(--text-primary);
+            padding: 1px 5px;
+            border-radius: 3px;
         }
 
         .footer-brand-desc {
@@ -1077,7 +1108,7 @@
                 </div>
                 <div class="what-pillars animate animate-delay-2">
                     <div class="pillar">
-                        <span class="pillar-icon">⚡</span>
+                        <span class="pillar-icon"></span>
                         <div class="pillar-label">Energy</div>
                         <div class="pillar-desc">The physical cost of computation. Proof of work converts electricity into verifiable truth.</div>
                         <div class="pillar-papers">
@@ -1087,7 +1118,7 @@
                         </div>
                     </div>
                     <div class="pillar">
-                        <span class="pillar-icon">🔀</span>
+                        <span class="pillar-icon"></span>
                         <div class="pillar-label">Entropy</div>
                         <div class="pillar-desc">Information theory and thermodynamic irreversibility. The arrow of time embedded in every block.</div>
                         <div class="pillar-papers">
@@ -1096,20 +1127,12 @@
                         </div>
                     </div>
                     <div class="pillar">
-                        <span class="pillar-icon">⛏️</span>
+                        <span class="pillar-icon"></span>
                         <div class="pillar-label">Proof of Work</div>
                         <div class="pillar-desc">The bridge between physical and digital scarcity. Consensus through computational expenditure.</div>
                         <div class="pillar-papers">
                             <a href="https://bitcoin.org/bitcoin.pdf" target="_blank">Nakamoto (2008)</a>
                             <a href="https://qu.ai/whitepaper/" target="_blank">Kreder — PoEM</a>
-                        </div>
-                    </div>
-                    <div class="pillar">
-                        <span class="pillar-icon">💰</span>
-                        <div class="pillar-label">Value</div>
-                        <div class="pillar-desc">Economic value as a measurable thermodynamic quantity, not a social convention.</div>
-                        <div class="pillar-papers">
-                            <span style="opacity:0.5; font-style:italic;">Papers forthcoming</span>
                         </div>
                     </div>
                 </div>
@@ -1254,19 +1277,19 @@
             <h2 class="section-title animate animate-delay-1" style="margin-bottom: 48px;">Compute, explore, verify</h2>
             <div class="tools-grid">
                 <a href="https://americanenergymoney.com" target="_blank" rel="noopener" class="tool-card animate">
-                    <span class="tool-icon">⛏️</span>
+                    <span class="tool-icon"></span>
                     <div class="tool-title">Mining Calculator</div>
                     <div class="tool-desc">Compare SHA-256 mining profitability across Bitcoin, Quai Network, and other proof-of-work chains. Model difficulty growth and ROI over time.</div>
                     <span class="tool-link">Open calculator →</span>
                 </a>
                 <a href="https://www.youtube.com/@wolframblockchainlabs" target="_blank" rel="noopener" class="tool-card animate animate-delay-1">
-                    <span class="tool-icon">🎥</span>
+                    <span class="tool-icon"></span>
                     <div class="tool-title">Video Library</div>
                     <div class="tool-desc">Full lecture series from Wolfram Blockchain Labs covering every module of the thermoeconomics curriculum.</div>
                     <span class="tool-link">Watch on YouTube →</span>
                 </a>
                 <a href="https://www.wolfram.com/cloud/" target="_blank" rel="noopener" class="tool-card animate animate-delay-2">
-                    <span class="tool-icon">📓</span>
+                    <span class="tool-icon"></span>
                     <div class="tool-title">Wolfram Notebooks</div>
                     <div class="tool-desc">Interactive computational notebooks. Run blockchain queries, hash functions, and cryptographic operations live in Wolfram Cloud.</div>
                     <span class="tool-link">Open notebooks →</span>
