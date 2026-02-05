@@ -1,6 +1,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1437,7 +1438,7 @@
                         </div>
                         <div class="research-finding">
                             <div class="research-finding-label">Information as Value</div>
-                            <div class="research-finding-text">Qi emission is strictly proportional to hash rate (Joules). Because cumulative entropy reduction is a lossless proxy for work, Qi becomes a direct representation of the free energy supplied to the system — a unit of account for computational work.</div>
+                            <div class="research-finding-text">Qi emission is strictly proportional to hash rate (Watts). Because cumulative entropy reduction is a lossless proxy for work, Qi becomes a direct representation of the free energy supplied to the system — a unit of account for computational work.</div>
                         </div>
                     </div>
                 </div>
@@ -1866,37 +1867,61 @@
             }
 
             function spawnChaos() {
-                const cx = Math.floor((gliderA.x + gliderB.x) / 2);
-                const cy = Math.floor((gliderA.y + gliderB.y) / 2);
-                const chaosSize = 14;
-                const pattern = chaosPatterns[Math.floor(Math.random() * chaosPatterns.length)];
+                // Merge both gliders' live cells onto one large GoL grid
+                const minX = Math.floor(Math.min(gliderA.x, gliderB.x)) - 3;
+                const minY = Math.floor(Math.min(gliderA.y, gliderB.y)) - 3;
+                const maxX = Math.floor(Math.max(gliderA.x, gliderB.x)) + gridSize + 3;
+                const maxY = Math.floor(Math.max(gliderA.y, gliderB.y)) + gridSize + 3;
+                const chaosSize = Math.max(maxX - minX, maxY - minY, 16);
 
-                // Build a larger grid with the chaos pattern centered + random scatter
                 const g = Array.from({length: chaosSize}, () => Array(chaosSize).fill(0));
-                const ox = Math.floor(chaosSize / 2) - 2;
-                const oy = Math.floor(chaosSize / 2) - 2;
-                pattern.forEach(([r,c]) => {
-                    const nr = r + oy;
-                    const nc = c + ox;
-                    if (nr >= 0 && nr < chaosSize && nc >= 0 && nc < chaosSize) g[nr][nc] = 1;
-                });
-                // Add random scatter around impact
-                for (let i = 0; i < 12; i++) {
-                    const ry = Math.floor(Math.random() * chaosSize);
-                    const rx = Math.floor(Math.random() * chaosSize);
-                    g[ry][rx] = 1;
+
+                // Stamp glider A cells
+                for (let y = 0; y < gridSize; y++) {
+                    for (let x = 0; x < gridSize; x++) {
+                        if (gliderA.grid[y][x]) {
+                            const gy = Math.floor(gliderA.y) + y - minY;
+                            const gx = Math.floor(gliderA.x) + x - minX;
+                            if (gy >= 0 && gy < chaosSize && gx >= 0 && gx < chaosSize) g[gy][gx] = 1;
+                        }
+                    }
+                }
+                // Stamp glider B cells
+                for (let y = 0; y < gridSize; y++) {
+                    for (let x = 0; x < gridSize; x++) {
+                        if (gliderB.grid[y][x]) {
+                            const gy = Math.floor(gliderB.y) + y - minY;
+                            const gx = Math.floor(gliderB.x) + x - minX;
+                            if (gy >= 0 && gy < chaosSize && gx >= 0 && gx < chaosSize) g[gy][gx] = 1;
+                        }
+                    }
                 }
 
+                // Add random scatter near the collision point to vary the outcome
+                const centerGY = Math.floor(chaosSize / 2);
+                const centerGX = Math.floor(chaosSize / 2);
+                const scatterCount = 3 + Math.floor(Math.random() * 6); // 3-8 random cells
+                for (let i = 0; i < scatterCount; i++) {
+                    const ry = centerGY + Math.floor((Math.random() - 0.5) * 8);
+                    const rx = centerGX + Math.floor((Math.random() - 0.5) * 8);
+                    if (ry >= 0 && ry < chaosSize && rx >= 0 && rx < chaosSize) {
+                        g[ry][rx] = g[ry][rx] ? 0 : 1; // toggle — adds or removes, either way it's different
+                    }
+                }
+
+                const cx = Math.floor((gliderA.x + gliderB.x) / 2);
+                const cy = Math.floor((gliderA.y + gliderB.y) / 2);
+
                 chaosField = {
-                    x: cx - Math.floor(chaosSize / 2),
-                    y: cy - Math.floor(chaosSize / 2),
+                    x: minX,
+                    y: minY,
                     grid: g,
                     size: chaosSize,
                     life: 0,
-                    maxLife: 55
+                    maxLife: Infinity
                 };
 
-                // Spawn expanding particles
+                // Spawn expanding particles for visual impact
                 for (let i = 0; i < 8; i++) {
                     const angle = (Math.PI * 2 / 8) * i + Math.random() * 0.4;
                     chaosParticles.push({
@@ -1908,31 +1933,12 @@
                     });
                 }
 
-                // Hide gliders briefly, then respawn
+                // Gliders are consumed — they don't come back
                 gliderA.alive = false;
                 gliderB.alive = false;
             }
 
-            function respawnGliders() {
-                const mc = maxCols();
-                const mr = maxRows();
-                // Respawn from random edges
-                const edge = Math.floor(Math.random() * 4);
-                if (edge === 0) { gliderA.x = 2; gliderA.y = navOffset + 2; gliderA.vx = 1.6; gliderA.vy = 1.2; }
-                else if (edge === 1) { gliderA.x = mc - 8; gliderA.y = navOffset + 2; gliderA.vx = -1.4; gliderA.vy = 1.0; }
-                else if (edge === 2) { gliderA.x = 2; gliderA.y = mr - 8; gliderA.vx = 1.4; gliderA.vy = -1.2; }
-                else { gliderA.x = mc - 8; gliderA.y = mr - 8; gliderA.vx = -1.6; gliderA.vy = -1.0; }
-
-                gliderB.x = mc - gliderA.x - 4;
-                gliderB.y = mr - gliderA.y - 4;
-                gliderB.vx = -gliderA.vx * (0.9 + Math.random() * 0.2);
-                gliderB.vy = -gliderA.vy * (0.9 + Math.random() * 0.2);
-
-                gliderA.grid = createGrid(gliderPattern);
-                gliderB.grid = createGrid(gliderPatternB);
-                gliderA.alive = true;
-                gliderB.alive = true;
-            }
+            // No respawn — collision outcome plays out naturally
 
             function drawGlider(g, alpha) {
                 if (!g.alive) return;
@@ -1953,17 +1959,15 @@
 
             function drawChaos() {
                 if (!chaosField) return;
-                const progress = chaosField.life / chaosField.maxLife;
-                const fadeAlpha = progress < 0.3 ? 0.7 : 0.7 * (1 - (progress - 0.3) / 0.7);
 
-                ctx.shadowColor = `rgba(57, 255, 20, ${fadeAlpha * 0.5})`;
-                ctx.shadowBlur = 14;
+                ctx.shadowColor = 'rgba(57, 255, 20, 0.35)';
+                ctx.shadowBlur = 10;
                 for (let y = 0; y < chaosField.size; y++) {
                     for (let x = 0; x < chaosField.size; x++) {
                         if (chaosField.grid[y][x]) {
                             const px = (chaosField.x + x) * cellSize;
                             const py = (chaosField.y + y) * cellSize;
-                            ctx.fillStyle = `rgba(57, 255, 20, ${fadeAlpha})`;
+                            ctx.fillStyle = 'rgba(57, 255, 20, 0.5)';
                             ctx.fillRect(px, py, cellSize - gap, cellSize - gap);
                         }
                     }
@@ -2000,10 +2004,12 @@
                 });
                 chaosParticles = chaosParticles.filter(p => p.life < p.maxLife);
 
-                if (chaosField.life >= chaosField.maxLife) {
+                // Check if all cells are dead — if so, the interaction has concluded
+                const alive = chaosField.grid.some(row => row.some(cell => cell));
+                if (!alive && chaosParticles.length === 0) {
                     chaosField = null;
                     chaosParticles = [];
-                    respawnGliders();
+                    // No respawn — animation is done
                 }
             }
 
