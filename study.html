@@ -1,19 +1,47 @@
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Study — Thermoeconomics</title>
-    <meta name="description" content="An open knowledge base for computational thermoeconomics. Explore the science connecting energy, entropy, and proof of work to economic value.">
+    <title>Thermoeconomics — A New Science Is Emerging</title>
+    <meta name="description" content="Where physics meets money. A computational framework connecting energy, entropy, and proof of work to the foundations of economic value.">
+
+    <!-- Open Graph (Facebook, LinkedIn, Discord) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://thermoeconomics.info">
+    <meta property="og:title" content="Thermoeconomics — Where Physics Meets Money">
+    <meta property="og:description" content="A computational framework connecting energy, entropy, and proof of work to the foundations of economic value.">
+    <meta property="og:image" content="https://thermoeconomics.info/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Thermoeconomics — Where Physics Meets Money">
+    <meta name="twitter:description" content="A computational framework connecting energy, entropy, and proof of work to the foundations of economic value.">
+    <meta name="twitter:image" content="https://thermoeconomics.info/og-image.png">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        /* ============================================
+           RESET & DESIGN SYSTEM
+           ============================================ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         :root {
             --green: #39FF14;
@@ -28,802 +56,1785 @@
             --border-light: #F0F0F0;
             --font-display: 'Syne', sans-serif;
             --font-body: 'Outfit', sans-serif;
-            --sidebar-width: 280px;
-            --topbar-height: 56px;
+            --max-width: 1120px;
+            --section-padding: 120px 0;
         }
 
-        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
-        body { font-family: var(--font-body); background: var(--bg); color: var(--text-secondary); line-height: 1.6; overflow-x: hidden; }
-        a { text-decoration: none; color: inherit; }
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-        /* ============ TOPBAR ============ */
-        .topbar {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            height: var(--topbar-height);
-            background: rgba(255,255,255,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* ============================================
+           UTILITY
+           ============================================ */
+        .container {
+            width: 100%;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .section {
+            padding: var(--section-padding);
+        }
+
+        .overline {
+            font-family: var(--font-body);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 20px;
+            background: var(--text-primary);
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            font-weight: 300;
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        /* ============================================
+           ANIMATIONS
+           ============================================ */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .animate-delay-1 { transition-delay: 0.1s; }
+        .animate-delay-2 { transition-delay: 0.2s; }
+        .animate-delay-3 { transition-delay: 0.3s; }
+        .animate-delay-4 { transition-delay: 0.4s; }
+        .animate-delay-5 { transition-delay: 0.5s; }
+
+        /* ============================================
+           NAV
+           ============================================ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(250, 250, 250, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-light);
-            display: flex; align-items: center; padding: 0 24px; gap: 16px;
-        }
-        .topbar-toggle {
-            display: none; background: none; border: none; cursor: pointer; padding: 6px;
-        }
-        .topbar-toggle span { display: block; width: 20px; height: 2px; background: var(--text-primary); margin: 4px 0; }
-        .topbar-logo {
-            font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--text-primary);
-        }
-        .topbar-logo span { color: var(--green); }
-        .topbar-sep { width: 1px; height: 24px; background: var(--border); }
-        .topbar-label { font-size: 14px; font-weight: 500; color: var(--text-muted); }
-        .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
-        .topbar-search {
-            font-family: var(--font-body); font-size: 13px; padding: 6px 14px; border-radius: 6px;
-            border: 1px solid var(--border); background: var(--bg); color: var(--text-primary);
-            width: 200px; outline: none; transition: border-color 0.2s;
-        }
-        .topbar-search:focus { border-color: var(--green); }
-        .topbar-home {
-            font-size: 13px; font-weight: 600; color: var(--text-primary);
-            background: var(--green); padding: 6px 16px; border-radius: 5px;
-            transition: box-shadow 0.2s;
-        }
-        .topbar-home:hover { box-shadow: 0 0 16px var(--green-glow); }
-
-        /* ============ LAYOUT ============ */
-        .layout {
-            display: flex; min-height: 100vh; padding-top: var(--topbar-height);
+            transition: box-shadow 0.3s ease;
         }
 
-        /* ============ SIDEBAR ============ */
-        .sidebar {
-            width: var(--sidebar-width); min-width: var(--sidebar-width);
-            background: var(--bg-white); border-right: 1px solid var(--border-light);
-            height: calc(100vh - var(--topbar-height)); position: sticky; top: var(--topbar-height);
-            overflow-y: auto; padding: 20px 0;
-            scrollbar-width: thin; scrollbar-color: var(--border) transparent;
-        }
-        .sidebar::-webkit-scrollbar { width: 4px; }
-        .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-
-        .sb-section { margin-bottom: 4px; }
-        .sb-header {
-            display: flex; align-items: center; gap: 8px; padding: 8px 20px; cursor: pointer;
-            font-family: var(--font-display); font-size: 12px; font-weight: 700;
-            letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted);
-            user-select: none; transition: color 0.2s;
-        }
-        .sb-header:hover { color: var(--text-primary); }
-        .sb-arrow {
-            font-size: 10px; transition: transform 0.2s; display: inline-block; width: 12px; flex-shrink: 0;
-        }
-        .sb-section.open .sb-arrow { transform: rotate(90deg); }
-        .sb-pages { display: none; padding: 0 0 8px 0; }
-        .sb-section.open .sb-pages { display: block; }
-        .sb-link {
-            display: block; padding: 5px 20px 5px 32px; font-size: 13px; font-weight: 400;
-            color: var(--text-muted); cursor: pointer; transition: color 0.15s, background 0.15s;
-            border-left: 2px solid transparent; line-height: 1.4;
-        }
-        .sb-link:hover { color: var(--text-primary); background: var(--green-subtle); }
-        .sb-link.active {
-            color: var(--text-primary); font-weight: 600; background: var(--green-subtle);
-            border-left-color: var(--green);
+        .nav.scrolled {
+            box-shadow: 0 1px 20px rgba(0, 0, 0, 0.06);
         }
 
-        /* ============ MAIN CONTENT ============ */
-        .main {
-            flex: 1; min-width: 0; padding: 48px 64px 120px; max-width: 820px;
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
         }
 
-        .page-section-tag {
-            font-family: var(--font-body); font-size: 11px; font-weight: 600;
-            letter-spacing: 2.5px; text-transform: uppercase; color: var(--green);
-            background: var(--text-primary); display: inline-block; padding: 4px 10px;
-            border-radius: 4px; margin-bottom: 20px;
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
         }
-        .page-title {
-            font-family: var(--font-display); font-size: 36px; font-weight: 700;
-            color: var(--text-primary); line-height: 1.2; margin-bottom: 12px;
-        }
-        .page-meta {
-            font-size: 14px; color: var(--text-muted); margin-bottom: 32px;
-        }
-        .page-body { font-size: 16px; font-weight: 300; line-height: 1.85; color: var(--text-secondary); }
-        .page-body h2 {
-            font-family: var(--font-display); font-size: 22px; font-weight: 700;
-            color: var(--text-primary); margin: 40px 0 16px; line-height: 1.3;
-        }
-        .page-body h3 {
-            font-family: var(--font-display); font-size: 17px; font-weight: 700;
-            color: var(--text-primary); margin: 28px 0 12px;
-        }
-        .page-body p { margin-bottom: 16px; }
-        .page-body strong { font-weight: 600; color: var(--text-primary); }
-        .page-body a { color: var(--green); background: var(--text-primary); padding: 1px 6px; border-radius: 3px; font-size: 14px; font-weight: 500; }
-        .page-body a:hover { opacity: 0.85; }
-        .page-body blockquote {
-            border-left: 3px solid var(--green); padding: 16px 20px; margin: 20px 0;
-            background: var(--bg-white); border-radius: 0 8px 8px 0;
-            font-size: 14px; color: var(--text-muted); line-height: 1.7;
-        }
-        .page-body .equation {
-            background: var(--bg-white); border: 1px solid var(--border-light); border-radius: 8px;
-            padding: 20px 24px; margin: 24px 0; text-align: center;
-            font-size: 18px; color: var(--text-primary); overflow-x: auto;
-        }
-        .page-body table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
-        .page-body th {
-            font-weight: 600; color: var(--text-primary); text-align: left;
-            padding: 10px 14px; border-bottom: 2px solid var(--border); background: var(--bg-white);
-        }
-        .page-body td { padding: 10px 14px; border-bottom: 1px solid var(--border-light); color: var(--text-secondary); }
-        .page-body ul, .page-body ol { margin: 12px 0 16px 24px; }
-        .page-body li { margin-bottom: 6px; }
 
-        /* Connection callout */
-        .connection-box {
-            background: var(--text-primary); border-radius: 10px; padding: 24px 28px; margin: 32px 0;
-            border-left: 4px solid var(--green);
+        .nav-logo span {
+            color: var(--green);
         }
-        .connection-box-label {
-            font-family: var(--font-display); font-size: 11px; font-weight: 700;
-            letter-spacing: 2px; text-transform: uppercase; color: var(--green); margin-bottom: 10px;
-        }
-        .connection-box-text { font-size: 15px; font-weight: 300; line-height: 1.8; color: rgba(255,255,255,0.82); }
-        .connection-box-text strong { color: #fff; font-weight: 500; }
 
-        /* Author's notes */
-        .notes-box {
-            background: var(--bg-white); border: 1px solid var(--border-light); border-left: 3px solid var(--green);
-            border-radius: 0 10px 10px 0; margin: 28px 0; overflow: hidden;
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
         }
-        .notes-toggle {
-            display: flex; align-items: center; gap: 8px; padding: 14px 20px; cursor: pointer;
-            font-size: 13px; font-weight: 600; color: var(--text-muted); user-select: none;
-            background: none; border: none; width: 100%; text-align: left; font-family: var(--font-body);
-        }
-        .notes-toggle:hover { color: var(--text-primary); }
-        .notes-body { display: none; padding: 0 20px 16px; font-size: 14px; font-weight: 300; line-height: 1.8; color: var(--text-secondary); }
-        .notes-box.open .notes-body { display: block; }
-        .notes-date { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
 
-        /* Video embed */
-        .video-embed {
-            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
-            border-radius: 10px; border: 1px solid var(--border-light); background: #000; margin: 24px 0;
+        .nav-links a {
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-muted);
+            transition: color 0.2s ease;
         }
-        .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        /* Transcript */
-        .transcript-box {
-            background: var(--bg-white); border: 1px solid var(--border-light);
-            border-radius: 10px; margin: 24px 0; overflow: hidden;
+        .nav-links a:hover {
+            color: var(--text-primary);
         }
-        .transcript-toggle {
-            display: flex; align-items: center; gap: 8px; padding: 14px 20px; cursor: pointer;
-            font-size: 13px; font-weight: 600; color: var(--text-muted); user-select: none;
-            background: none; border: none; width: 100%; text-align: left; font-family: var(--font-body);
-        }
-        .transcript-body { display: none; padding: 0 20px 16px; font-size: 13px; line-height: 1.8; color: var(--text-muted); max-height: 400px; overflow-y: auto; }
-        .transcript-box.open .transcript-body { display: block; }
 
-        /* Further reading links */
-        .further-reading { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border-light); }
-        .further-reading h3 { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--text-muted); margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase; }
-        .further-link {
-            display: inline-block; font-size: 13px; font-weight: 500; color: var(--green);
-            background: var(--text-primary); padding: 4px 12px; border-radius: 4px; margin: 0 6px 8px 0;
-            cursor: pointer; transition: opacity 0.2s;
+        .nav-cta {
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary) !important;
+            background: var(--green);
+            padding: 8px 20px;
+            border-radius: 5px;
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
         }
-        .further-link:hover { opacity: 0.8; }
 
-        /* ============ PREV / NEXT NAV ============ */
-        .page-nav {
-            display: flex; justify-content: space-between; align-items: stretch; gap: 16px;
-            margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--border-light);
+        .nav-cta:hover {
+            box-shadow: 0 0 20px var(--green-glow);
+            transform: translateY(-1px);
         }
-        .page-nav-btn {
-            flex: 1; display: flex; flex-direction: column; gap: 4px; padding: 16px 20px;
-            border: 1px solid var(--border-light); border-radius: 10px; cursor: pointer;
-            transition: border-color 0.2s, transform 0.2s; background: var(--bg-white);
-        }
-        .page-nav-btn:hover { border-color: var(--green); transform: translateY(-2px); }
-        .page-nav-btn.next { text-align: right; }
-        .page-nav-dir { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); }
-        .page-nav-title { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--text-primary); line-height: 1.3; }
-        .page-nav-map {
-            display: flex; align-items: center; justify-content: center; padding: 16px; min-width: 52px;
-            border: 1px solid var(--border-light); border-radius: 10px; cursor: pointer;
-            font-size: 18px; transition: border-color 0.2s, transform 0.2s; background: var(--bg-white);
-        }
-        .page-nav-map:hover { border-color: var(--green); transform: translateY(-2px); }
-        .page-nav-placeholder { flex: 1; }
 
-        /* ============ MAP MODAL ============ */
-        .map-overlay {
-            display: none; position: fixed; inset: 0; z-index: 200;
-            background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+        .nav-mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
         }
-        .map-overlay.open { display: flex; align-items: center; justify-content: center; }
-        .map-modal {
-            background: var(--bg-white); border-radius: 16px; padding: 36px; max-width: 900px;
-            width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-        }
-        .map-modal h2 { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 24px; }
-        .map-section-title {
-            font-family: var(--font-display); font-size: 11px; font-weight: 700;
-            letter-spacing: 2px; text-transform: uppercase; color: var(--green);
-            background: var(--text-primary); display: inline-block; padding: 3px 8px;
-            border-radius: 3px; margin: 16px 0 8px;
-        }
-        .map-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-        .map-node {
-            font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 6px;
-            border: 1px solid var(--border); color: var(--text-muted); background: var(--bg);
-            cursor: pointer; transition: all 0.15s;
-        }
-        .map-node:hover { border-color: var(--green); color: var(--text-primary); }
-        .map-node.active { border-color: var(--green); color: var(--text-primary); background: var(--green-subtle); font-weight: 700; }
 
-        /* ============ SEARCH ============ */
-        .search-results {
-            display: none; position: absolute; top: calc(var(--topbar-height) - 4px); right: 24px;
-            width: 320px; max-height: 400px; overflow-y: auto; background: var(--bg-white);
-            border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-            z-index: 150; padding: 8px;
+        .nav-mobile-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--text-primary);
+            margin: 5px 0;
+            transition: 0.3s;
         }
-        .search-results.open { display: block; }
-        .search-result {
-            padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: background 0.15s;
-        }
-        .search-result:hover { background: var(--green-subtle); }
-        .search-result-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
-        .search-result-section { font-size: 11px; color: var(--text-muted); }
 
-        /* ============ MOBILE ============ */
-        @media (max-width: 860px) {
-            .topbar-toggle { display: block; }
-            .topbar-search { width: 140px; }
-            .sidebar {
-                position: fixed; left: -300px; top: var(--topbar-height); z-index: 90;
-                width: 280px; height: calc(100vh - var(--topbar-height));
-                transition: left 0.3s ease; box-shadow: none;
+        /* ============================================
+           HERO
+           ============================================ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: var(--bg-white);
+            position: relative;
+            overflow: hidden;
+            padding-top: 64px;
+        }
+
+        .hero-grid-bg {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(57, 255, 20, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(57, 255, 20, 0.05) 1px, transparent 1px);
+            background-size: 80px 80px;
+            pointer-events: none;
+            mask-image: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.05) 60%, rgba(0,0,0,0.5) 100%);
+            -webkit-mask-image: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.05) 60%, rgba(0,0,0,0.5) 100%);
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: -200px;
+            left: -200px;
+            width: 1000px;
+            height: 1000px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(57, 255, 20, 0.22), rgba(57, 255, 20, 0.08) 45%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-glow-secondary {
+            position: absolute;
+            bottom: -250px;
+            right: -250px;
+            width: 1100px;
+            height: 1100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(57, 255, 20, 0.32), rgba(57, 255, 20, 0.14) 35%, rgba(57, 255, 20, 0.05) 55%, transparent 75%);
+            pointer-events: none;
+        }
+
+        .hero-glow-diag {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140%;
+            height: 140%;
+            background: linear-gradient(135deg, rgba(57, 255, 20, 0.10) 0%, rgba(57, 255, 20, 0.03) 25%, transparent 45%, transparent 55%, rgba(57, 255, 20, 0.03) 75%, rgba(57, 255, 20, 0.12) 100%);
+            pointer-events: none;
+        }
+
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 720px;
+            padding: 80px 0;
+        }
+
+        .hero-overline {
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 28px;
+            animation: fadeUp 0.6s ease 0.1s both;
+            background: var(--text-primary);
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 4px;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: 52px;
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--text-primary);
+            margin-bottom: 28px;
+            letter-spacing: 0px;
+            width: auto;
+            display: inline-block;
+            animation: fadeUp 0.7s ease 0.25s both;
+        }
+
+        .hero-title .dot {
+            color: var(--green);
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-body);
+            font-size: clamp(17px, 2vw, 21px);
+            font-weight: 300;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 48px;
+            animation: fadeUp 0.6s ease 0.45s both;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            animation: fadeUp 0.6s ease 0.6s both;
+        }
+
+        .btn {
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            padding: 14px 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            color: var(--text-primary);
+            background: var(--green);
+            box-shadow: 0 0 30px var(--green-glow);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 40px rgba(57, 255, 20, 0.25);
+        }
+
+        .btn-secondary {
+            color: var(--text-secondary);
+            background: transparent;
+            border: 1.5px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-muted);
+        }
+
+        .hero-author {
+            margin-top: 56px;
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 0.8s ease 0.9s both;
+        }
+
+        .hero-author-line {
+            width: 28px;
+            height: 1px;
+            background: var(--green);
+        }
+
+        /* ============================================
+           WHAT IS THERMOECONOMICS
+           ============================================ */
+        .what-section {
+            background: var(--bg);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .what-section .overline {
+            background: transparent;
+            padding: 0;
+        }
+
+        .what-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .what-text p {
+            font-size: 17px;
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .what-text p strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .what-pillars {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .pillar {
+            background: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 28px 28px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .pillar:hover {
+            border-color: var(--green);
+            box-shadow: 0 0 20px var(--green-glow);
+        }
+
+        .pillar-label {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .pillar-desc {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .pillar-papers {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 10px;
+        }
+
+        .pillar-papers a {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--green);
+            text-decoration: none;
+            opacity: 0.85;
+            transition: opacity 0.2s;
+            background: var(--text-primary);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .pillar-papers a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .pillar-icon {
+            font-size: 20px;
+            margin-bottom: 12px;
+            display: none;
+        }
+
+        /* ============================================
+           LATEST RESEARCH
+           ============================================ */
+        .research-section {
+            background: var(--bg-white);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .research-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .research-card {
+            display: grid;
+            grid-template-columns: 2fr 1.2fr;
+            gap: 48px;
+            align-items: start;
+            background: var(--bg);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 44px;
+            transition: border-color 0.3s ease;
+        }
+
+        .research-card:hover {
+            border-color: var(--green);
+        }
+
+        .research-meta {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .research-badge {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--green);
+            background: var(--text-primary);
+            padding: 3px 8px;
+            border-radius: 3px;
+        }
+
+        .research-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+
+        .research-authors {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .research-summary {
+            font-size: 15px;
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .research-summary strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .research-topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 24px;
+        }
+
+        .research-topic {
+            font-size: 11px;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            background: var(--bg-white);
+        }
+
+        .research-cta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-pdf {
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: none;
+            color: var(--text-primary);
+            background: var(--green);
+            box-shadow: 0 0 30px var(--green-glow);
+            text-decoration: none;
+        }
+
+        .btn-pdf:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px rgba(57, 255, 20, 0.25);
+        }
+
+        .research-findings {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .research-finding {
+            padding: 18px 20px;
+            background: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+        }
+
+        .research-finding-label {
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .research-finding-text {
+            font-size: 13px;
+            font-weight: 300;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 900px) {
+            .research-card {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                padding: 28px 24px;
             }
-            .sidebar.open { left: 0; box-shadow: 4px 0 20px rgba(0,0,0,0.1); }
-            .sidebar-overlay {
-                display: none; position: fixed; inset: 0; top: var(--topbar-height);
-                background: rgba(0,0,0,0.3); z-index: 89;
+
+            .research-title {
+                font-size: 22px;
             }
-            .sidebar.open ~ .sidebar-overlay { display: block; }
-            .main { padding: 32px 24px 100px; }
-            .page-title { font-size: 28px; }
         }
-        @media (max-width: 500px) {
-            .topbar-search { display: none; }
-            .page-nav { flex-direction: column; }
+
+        .research-videos-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .research-video-wrap {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            background: #000;
+        }
+
+        .research-video-wrap iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .research-video-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .research-transcript-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .transcript-link {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--green);
+            background: var(--text-primary);
+            padding: 4px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: opacity 0.2s;
+        }
+
+        .transcript-link:hover {
+            opacity: 0.85;
+        }
+
+        /* ============================================
+           COURSE
+           ============================================ */
+        .course-section {
+            background: var(--bg-white);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .course-header {
+            margin-bottom: 60px;
+        }
+
+        .course-note {
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .module-card {
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 32px 28px;
+            background: var(--bg);
+            transition: border-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .module-card:hover {
+            border-color: var(--green);
+            transform: translateY(-3px);
+        }
+
+        .module-number {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 12px;
+            background: var(--text-primary);
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+        }
+
+        .module-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .module-desc {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .module-card.coming-soon {
+            opacity: 0.5;
+        }
+
+        .module-card.coming-soon .module-number {
+            color: var(--text-muted);
+        }
+
+        /* Videos */
+        .videos-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            border: 1px solid var(--border-light);
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .course-cta-row {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .course-cta-note {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* ============================================
+           UTXO ARCHITECTURES
+           ============================================ */
+        .utxo-section {
+            background: var(--bg);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .utxo-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .utxo-image-card {
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg-white);
+            transition: border-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .utxo-image-card:hover {
+            border-color: var(--green);
+            transform: translateY(-3px);
+        }
+
+        .utxo-image-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .utxo-image-caption {
+            padding: 16px 20px;
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--text-muted);
+            line-height: 1.5;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .utxo-bottom {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .utxo-text-bottom p {
+            font-size: 17px;
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .utxo-text-bottom p strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .chain-tags-bottom {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-top: 8px;
+        }
+
+        .chain-tag {
+            font-size: 12px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            background: var(--bg);
+            transition: border-color 0.2s, color 0.2s, background 0.2s;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .chain-tag:hover {
+            border-color: var(--green);
+            color: var(--text-primary);
+        }
+
+        .chain-tag.highlight {
+            border-color: var(--green);
+            color: var(--text-primary);
+            background: var(--green-subtle);
+        }
+
+        .chain-tag.active {
+            border-color: var(--green);
+            color: var(--text-primary);
+            background: var(--green-subtle);
+        }
+
+        /* Chain thumbnail preview */
+        .chain-right-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chain-preview {
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chain-preview-inner {
+            background: #fafbfc;
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .chain-preview-inner.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .chain-preview-img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            background: #fff;
+            object-fit: contain;
+        }
+
+        .chain-preview-info {
+            text-align: center;
+        }
+
+        .chain-preview-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .chain-preview-desc {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .chain-preview-source {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+
+        .chain-preview-source a {
+            color: var(--green);
+            text-decoration: none;
+            background: var(--text-primary);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 768px) {
+            .chain-preview-img {
+                max-height: 220px;
+            }
+        }
+
+        /* ============================================
+           TOOLS
+           ============================================ */
+        .tools-section {
+            background: var(--bg-white);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .tool-card {
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 36px 28px;
+            background: var(--bg);
+            transition: border-color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tool-card:hover {
+            border-color: var(--green);
+            transform: translateY(-3px);
+        }
+
+        .tool-icon {
+            font-size: 28px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .tool-title {
+            font-family: var(--font-display);
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .tool-desc {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .tool-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--green);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: gap 0.2s;
+            background: var(--text-primary);
+            padding: 3px 8px;
+            border-radius: 3px;
+        }
+
+        .tool-link:hover {
+            gap: 10px;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            background: var(--text-primary);
+            color: rgba(255, 255, 255, 0.5);
+            padding: 80px 0 40px;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand-name {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 16px;
+        }
+
+        .footer-brand-name span {
+            color: var(--green);
+            background: var(--text-primary);
+            padding: 1px 5px;
+            border-radius: 3px;
+        }
+
+        .footer-brand-desc {
+            font-size: 14px;
+            line-height: 1.7;
+            max-width: 320px;
+        }
+
+        .footer-col-title {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col a {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: var(--green);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-copy {
+            font-size: 13px;
+        }
+
+        .footer-author {
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-author-line {
+            width: 20px;
+            height: 1px;
+            background: var(--green);
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 900px) {
+            :root {
+                --section-padding: 80px 0;
+            }
+
+            .container {
+                padding: 0 24px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 64px;
+                left: 0;
+                right: 0;
+                background: rgba(250, 250, 250, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 24px;
+                gap: 20px;
+                border-bottom: 1px solid var(--border-light);
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-mobile-toggle {
+                display: block;
+            }
+
+            .hero-content {
+                padding: 60px 0;
+            }
+
+            .what-grid,
+            .utxo-bottom {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .utxo-images {
+                grid-template-columns: 1fr;
+            }
+
+            .modules-grid,
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .videos-row {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            :root {
+                --section-padding: 60px 0;
+            }
+
+            .container {
+                padding: 0 20px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .hero-ctas {
+                flex-direction: column;
+            }
+
+            .hero-ctas .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
-<div class="topbar">
-    <button class="topbar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
-        <span></span><span></span><span></span>
-    </button>
-    <a href="index.html" class="topbar-logo">thermoeconomics<span>.info</span></a>
-    <div class="topbar-sep"></div>
-    <span class="topbar-label">The Study</span>
-    <div class="topbar-right">
-        <input type="text" class="topbar-search" id="searchInput" placeholder="Search…" autocomplete="off">
-        <a href="index.html" class="topbar-home">Home</a>
-    </div>
-</div>
+    <!-- ============================================
+         NAV
+         ============================================ -->
+    <nav class="nav" id="nav">
+        <div class="container nav-inner">
+            <a href="#hero" class="nav-logo">thermoeconomics<span>.info</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#what">Science</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#course">Course</a></li>
+                <li><a href="#utxo">Models</a></li>
+                <li><a href="#tools">Tools</a></li>
+                <li><a href="study.html" class="nav-cta">The Study</a></li>
+            </ul>
+            <button class="nav-mobile-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
 
-<!-- SEARCH RESULTS DROPDOWN -->
-<div class="search-results" id="searchResults"></div>
+    <!-- ============================================
+         HERO
+         ============================================ -->
+    <section class="hero" id="hero">
+        <div class="hero-grid-bg"></div>
+        <div class="hero-glow"></div>
+        <div class="hero-glow-secondary"></div>
+        <div class="hero-glow-diag"></div>
 
-<!-- LAYOUT -->
-<div class="layout">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar"></aside>
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <!-- MAIN -->
-    <main class="main" id="mainContent"></main>
-</div>
-
-<!-- MAP MODAL -->
-<div class="map-overlay" id="mapOverlay">
-    <div class="map-modal" id="mapModal"></div>
-</div>
-
-<script>
-// ============================================================
-// CONTENT DATA
-// ============================================================
-const SECTIONS = [
-    { id: "welcome", label: "Welcome" },
-    { id: "info-theory", label: "Information Theory" },
-    { id: "pow", label: "Proof of Work" },
-    { id: "wolfram", label: "Wolfram Physics" },
-    { id: "comp-mech", label: "Computational Mechanics" },
-    { id: "deacon", label: "Terrence Deacon" },
-    { id: "active-inference", label: "Active Inference" },
-    { id: "synthesis", label: "Synthesis & Quai" },
-    { id: "reference", label: "Reference" }
-];
-
-const PAGES = [
-// -------- WELCOME --------
-{
-slug: "welcome", section: "welcome", title: "Welcome to the Study",
-body: `<p>This is the open knowledge base for <strong>Computational Thermoeconomics</strong> — the emerging science connecting energy, entropy, information theory, and proof-of-work blockchain systems to the foundations of economic value.</p>
-<p>Use the <strong>sidebar</strong> to navigate sections, or the <strong>← →</strong> buttons at the bottom to read sequentially. The recommended reading order follows the learning sequence: start with Information Theory, then Proof of Work, and build upward through six scientific traditions until they converge in the Synthesis.</p>
-<p>Every page is a single slice of the theory. Some are dense with equations and video. Some are lean explanations of one key idea. Scroll down on any page to go deeper into that slice — you'll find author's notes, related videos, transcripts, and connections to the broader framework.</p>
-<h2>For AI-Assisted Learning</h2>
-<p>This knowledge base is designed for both humans and AI. In the Reference section you'll find an <strong>AI Instructor Prompt</strong> — copy it into a conversation with Claude or ChatGPT, tell the AI your background, and let it guide you through this material interactively.</p>`
-},
-{
-slug: "how-to-use", section: "welcome", title: "How to Use This Resource",
-body: `<h2>Learning Paths</h2>
-<p>There is no single correct order. Choose based on where you're coming from:</p>
-<h3>Path A: "I'm a Bitcoin miner — I want the physics"</h3>
-<p>Start with <a data-goto="pow">Proof of Work</a>, then <a data-goto="info-theory">Information Theory</a> (Shannon → Jaynes → Landauer). Read <a data-goto="pow-thermo">PoW as Thermodynamic Process</a>. Finish with the <a data-goto="operator">Thermoeconomic Operator</a> and <a data-goto="quai">Quai Network</a>.</p>
-<h3>Path B: "I'm a physics student curious about blockchain"</h3>
-<p>Quick pass through <a data-goto="info-theory">Information Theory</a> (focus on Jaynes and Landauer). Then <a data-goto="comp-mech">Computational Mechanics</a>. Then <a data-goto="pow">Proof of Work</a> for blockchain fundamentals. The <a data-goto="pow-thermo">synthesis page</a> is where your physics meets their money.</p>
-<h3>Path C: "I want to learn with AI"</h3>
-<p>Go to the <a data-goto="ai-prompt">AI Instructor Prompt</a> in Reference. Copy it into a new conversation. Tell the AI your background. Let it guide you.</p>
-<h2>Dual Language</h2>
-<p>Code examples appear in <strong>Wolfram Language</strong> (primary) and <strong>Python</strong> (open-source track). The concepts are the same; only the syntax differs.</p>`
-},
-
-// -------- INFORMATION THEORY --------
-{
-slug: "info-theory", section: "info-theory", title: "Information Theory",
-body: `<p><strong>Information is physical.</strong> It takes energy to create, store, and erase. Shannon quantified it. Landauer proved it has thermodynamic cost. Bennett showed computation can be reversible but erasure cannot. Jaynes connected entropy in physics to entropy in inference.</p>
-<p>These four results — spanning 1948 to 1982 — underpin everything in thermoeconomics. They establish that information is not abstract: it is a physical quantity with measurable cost, and any system that processes information (including a proof-of-work blockchain) is subject to the laws of thermodynamics.</p>
-<h2>The Thread</h2>
-<p><strong>Shannon (1948)</strong> — Defined information as the reduction of uncertainty. Created the mathematical framework: entropy, channel capacity, source coding. Gave us the formula: H(X) = −Σ p(x) log₂ p(x).</p>
-<p><strong>Jaynes (1957)</strong> — Proved that Shannon entropy and thermodynamic entropy are the same quantity. The Maximum Entropy Principle: assign probabilities that maximize entropy subject to constraints. This connects to the difficulty adjustment.</p>
-<p><strong>Landauer (1961)</strong> — Erasing one bit of information dissipates at least kBT ln 2 of energy as heat. Information erasure is physically irreversible. This is the bridge between computation and thermodynamics.</p>
-<p><strong>Bennett (1982)</strong> — Computation itself can be thermodynamically reversible. Only erasure costs energy. This means the thermodynamic cost of mining is specifically in the erasure of failed nonces — the mechanism by which work is proved.</p>`,
-connection: "These four results establish that proof-of-work mining is a physical process with irreducible thermodynamic cost. Shannon tells us how much information a valid block carries. Jaynes tells us the difficulty adjustment is a MaxEnt constraint. Landauer gives us the physical cost floor. Bennett tells us exactly where the irreversibility lives."
-},
-{
-slug: "shannon", section: "info-theory", title: "Shannon (1948) — A Mathematical Theory of Communication",
-meta: "Claude E. Shannon · Bell System Technical Journal · 1948",
-body: `<blockquote><strong>Paper:</strong> Claude E. Shannon, "A Mathematical Theory of Communication," <em>Bell System Technical Journal</em>, Vol. 27, pp. 379–423, 623–656, July & October 1948.<br><a href="https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf" target="_blank">PDF →</a></blockquote>
-<h2>Summary</h2>
-<p>Shannon established the mathematical framework for quantifying information. His key insight: <strong>information is the reduction of uncertainty</strong>. A message is informative to the extent that it tells you something you didn't already know.</p>
-<h2>Key Concepts</h2>
-<p><strong>Entropy (H)</strong> — The average information content of a message source, measured in bits:</p>
-<div class="equation">H(X) = −Σ p(x<sub>i</sub>) log₂ p(x<sub>i</sub>)</div>
-<p>This is identical in form to Boltzmann-Gibbs entropy in statistical mechanics — a connection that Jaynes would later prove is not coincidental.</p>
-<p><strong>Channel Capacity</strong> — Every communication channel has a maximum rate at which information can be transmitted reliably. Noise sets the limit.</p>
-<p><strong>Source Coding Theorem</strong> — Data can be compressed to a rate approaching its entropy, but no further.</p>`,
-connection: "Shannon entropy measures the information content of a proof-of-work solution. A valid block hash at difficulty D carries approximately log₂(D) bits of information — it represents a selection from an exponentially large space of possibilities. The difficulty adjustment ensures that the information produced per block remains constant regardless of total hash power.",
-notes: [{ date: "2025-12", text: "The difficulty adjustment is a constraint on entropy production rate. This is the entry point to the Jaynes connection — the protocol is doing MaxEnt inference over block production." }]
-},
-{
-slug: "jaynes", section: "info-theory", title: "Jaynes (1957) — Maximum Entropy Principle",
-meta: "E.T. Jaynes · Physical Review · 1957",
-body: `<blockquote><strong>Paper:</strong> E.T. Jaynes, "Information Theory and Statistical Mechanics," <em>Physical Review</em>, Vol. 106, No. 4, 1957.<br><a href="https://doi.org/10.1103/PhysRev.106.620" target="_blank">DOI →</a></blockquote>
-<h2>Summary</h2>
-<p>Jaynes showed that <strong>Shannon entropy and thermodynamic entropy are the same quantity</strong>, measured in different units. This is not analogy — it is mathematical identity. The connection was always there in the formalism; Jaynes made it explicit.</p>
-<h2>The Maximum Entropy Principle</h2>
-<p>When making inferences under incomplete information, assign the probability distribution that <strong>maximizes entropy subject to known constraints</strong>. This is the least biased inference given what you know — any other distribution would smuggle in unjustified assumptions.</p>
-<p>Applied to statistical mechanics, MaxEnt derives the <strong>Boltzmann distribution</strong> as the unique distribution maximizing entropy subject to a constraint on average energy:</p>
-<div class="equation">P(state) = (1/Z) exp(−E / k<sub>B</sub>T)</div>
-<p>This is not an approximation. It is the mathematically necessary consequence of maximum entropy under an energy constraint.</p>
-<h2>The Separation Principle</h2>
-<p>Jaynes argued for a clean separation between the <strong>laws of physics</strong> (which constrain what's possible) and <strong>statistical inference</strong> (which tells us what to believe given those constraints). MaxEnt is the bridge: it tells you the least-biased probability assignment consistent with your physical knowledge.</p>`,
-connection: "The difficulty adjustment in proof of work is a MaxEnt constraint. It fixes the average rate of block production (one constraint), and within that constraint, the specific hash values that satisfy the target are maximally random (maximum entropy). The Thermoeconomic Operator paper shows this formally: IID hash-based Bernoulli trials under the difficulty constraint yield the Generalized Boltzmann Distribution — the only distribution where Gibbs-Shannon entropy equals thermodynamic entropy.",
-notes: [{ date: "2025-12", text: "This is the most important single result for the Thermoeconomic Operator. The formal chain: IID hashes → MaxEnt under difficulty constraint → Generalized Boltzmann → formal isomorphism between hash-market system and thermodynamics. Jaynes' separation principle is key: the physics (Landauer cost) and the inference (MaxEnt over hash space) are cleanly separated but convergent." }]
-},
-{
-slug: "landauer", section: "info-theory", title: "Landauer (1961) — Irreversibility and Heat Generation",
-meta: "Rolf Landauer · IBM Journal of Research and Development · 1961",
-body: `<blockquote><strong>Paper:</strong> Rolf Landauer, "Irreversibility and Heat Generation in the Computing Process," <em>IBM Journal of Research and Development</em>, Vol. 5, No. 3, 1961.<br><a href="https://doi.org/10.1147/rd.53.0183" target="_blank">DOI →</a></blockquote>
-<h2>Summary</h2>
-<p>Landauer proved that <strong>erasing one bit of information dissipates at least k<sub>B</sub>T ln 2 of energy as heat</strong>. This is not an engineering limitation — it is a consequence of the second law of thermodynamics.</p>
-<div class="equation">E<sub>erase</sub> ≥ k<sub>B</sub>T ln 2 ≈ 2.85 × 10<sup>−21</sup> J (at 300K)</div>
-<h2>Why Erasure Matters</h2>
-<p>Computation that merely moves information around can, in principle, be done reversibly — with no energy cost (Bennett would formalize this later). But computation that <strong>destroys information</strong> — maps many inputs to fewer outputs — is thermodynamically irreversible. The erased information must go somewhere, and "somewhere" is heat.</p>
-<p>A hash function is the paradigmatic example. SHA-256 maps an arbitrarily large input space to a 256-bit output space. Information is destroyed with every hash. This destruction has a minimum thermodynamic cost that no engineering improvement can eliminate.</p>
-<h2>The Landauer Limit vs. Reality</h2>
-<p>The actual energy cost of a SHA-256 hash on modern hardware is roughly <strong>10 billion times</strong> the Landauer limit. But the limit matters because it proves the cost is <strong>fundamental</strong>. Even a perfect computer running at the thermodynamic limit would still pay an energy cost for every hash. The cost is physical law, not engineering overhead.</p>`,
-connection: "Landauer's principle is the bridge between information theory and physics. It establishes that proof-of-work mining has an irreducible physical cost — not because hardware is inefficient, but because the hash function destroys information, and information destruction dissipates energy. This is what makes the proof unforgeable: you cannot prove you did the work without actually doing it, because the work is thermodynamic.",
-notes: [{ date: "2025-12", text: "The 10-billion-times gap between Landauer and reality is actually a feature of the argument, not a weakness. It means the fundamental result is robust — we're not relying on being near the limit. We're saying: even at the limit, the cost is nonzero and irreducible. Everything above the limit is engineering overhead that may shrink. The limit itself cannot." }]
-},
-{
-slug: "bennett", section: "info-theory", title: "Bennett (1982) — Thermodynamics of Computation",
-meta: "Charles H. Bennett · International Journal of Theoretical Physics · 1982",
-body: `<blockquote><strong>Paper:</strong> Charles H. Bennett, "The Thermodynamics of Computation — A Review," <em>International Journal of Theoretical Physics</em>, Vol. 21, 1982.<br><a href="https://doi.org/10.1007/BF02084158" target="_blank">DOI →</a></blockquote>
-<h2>Summary</h2>
-<p>Bennett showed that <strong>computation itself can be thermodynamically reversible</strong> — it is only the <strong>erasure of information</strong> that necessarily generates heat. This completes the Landauer argument by pinpointing exactly where the irreversibility lives.</p>
-<h2>Reversible vs. Irreversible Computation</h2>
-<p>A computation is <strong>logically reversible</strong> if you can reconstruct the input from the output. It is <strong>logically irreversible</strong> if you cannot — if the function maps many inputs to one output, discarding information in the process.</p>
-<p>Bennett proved that any logically irreversible computation can be decomposed into: (1) a reversible computation that produces the output alongside a copy of the input, followed by (2) an erasure step that discards the input copy. Step 1 can be done with zero energy cost in principle. Step 2 — the erasure — is where Landauer's limit kicks in.</p>
-<h2>Implication for Mining</h2>
-<p>In proof-of-work mining, the miner tries nonce after nonce. Each failed nonce is <strong>erased</strong> — it served no purpose and is discarded. This erasure is the thermodynamically irreversible step. The accumulation of erased nonces is the physical trace of work that cannot be counterfeited.</p>`,
-connection: "Bennett completes the chain: Shannon quantified information → Jaynes connected it to thermodynamics → Landauer proved erasure costs energy → Bennett showed that it is specifically the erasure (not the computation) that is irreversible. In mining, the irreversible step is discarding failed nonces. Each discarded nonce is a bit erased, a bit of heat generated, a bit of proof accumulated. The work is literally written in dissipated energy."
-},
-
-// -------- PROOF OF WORK --------
-{
-slug: "pow", section: "pow", title: "Proof of Work",
-body: `<p>The engineering lineage. Proof of work began as an anti-spam mechanism, became a practical system, was made transferable, and finally became the foundation of decentralized money. Each step made the thermodynamic nature of the system more explicit.</p>
-<h2>The Lineage</h2>
-<p><strong>Dwork & Naor (1993)</strong> — The idea: require a sender to perform computational work before sending a message. This makes spam expensive. The key insight is that computation has cost, and that cost can be used as a signal.</p>
-<p><strong>Back (1997) — Hashcash</strong> — Made PoW practical using partial hash collisions. Find a nonce such that H(message || nonce) has d leading zeros. Simple, verifiable, tunable difficulty.</p>
-<p><strong>Finney (2004) — Reusable Proofs of Work</strong> — Made proofs transferable. A proof of work token that could be passed from person to person — the conceptual predecessor to cryptocurrency.</p>
-<p><strong>Nakamoto (2008) — Bitcoin</strong> — The synthesis. Proof of work as consensus mechanism for a decentralized ledger. The difficulty adjustment makes it self-regulating. The emission schedule creates scarcity. The longest-chain rule achieves convergence without coordination.</p>`,
-connection: "Each step in the PoW lineage made the thermodynamic nature more explicit. Dwork & Naor established that computation has cost. Back showed that hash functions provide the right cost structure. Finney showed the cost could be embodied in a transferable token. Nakamoto showed the cost could sustain a self-regulating economic system."
-},
-{
-slug: "pow-thermo", section: "pow", title: "Proof of Work as Thermodynamic Process",
-body: `<p>This page synthesizes the connections between proof of work and all six scientific traditions. It is the central argument of thermoeconomics.</p>
-<h2>The Claim</h2>
-<p>Proof of work is not a computational metaphor for value. It is the literal, physical, thermodynamic process by which digital scarcity is created.</p>
-<h2>The Nine-Step Argument</h2>
-<p><strong>1. Computation is physical</strong> (Landauer) — Every hash operation is a physical event that consumes energy and produces entropy. Minimum cost per irreversible bit: k<sub>B</sub>T ln 2.</p>
-<p><strong>2. PoW is irreversible computation</strong> (Bennett) — Each failed nonce is erased — a logically irreversible operation. The erasure generates heat. The thermodynamic cost is the <em>mechanism</em> of proof.</p>
-<p><strong>3. The difficulty adjustment maximizes entropy subject to constraints</strong> (Jaynes) — The target constrains block production rate. Within that constraint, valid hashes are maximally random. This is the MaxEnt principle.</p>
-<p><strong>4. The proof carries measurable information</strong> (Shannon) — A valid block hash at difficulty D carries ~log₂(D) bits of information. This is what makes the proof valuable.</p>
-<p><strong>5. There is no shortcut</strong> (Wolfram) — The hash function is computationally irreducible. No algorithm finds valid hashes faster than brute-force search.</p>
-<p><strong>6. The network converges without coordination</strong> (Causal Invariance) — Independent miners processing transactions in different orders converge on the same chain. Causal structure is invariant under reordering.</p>
-<p><strong>7. The system maintains itself through constraint</strong> (Deacon) — Mining → tokens → value → incentivizes mining → mining. The constraint structure is self-generated and self-maintained.</p>
-<p><strong>8. The network minimizes surprise</strong> (Friston) — Mining is active inference: the network maintains a model (the ledger) and acts on the world (consuming energy) to reduce uncertainty (achieving consensus).</p>
-<p><strong>9. Complexity emerges at the boundary</strong> (Crutchfield) — SHA-256 output is random. But the mining <em>process</em> — blocks, difficulty adjustments, economic dynamics — has rich structural complexity.</p>
-<h2>The Conclusion</h2>
-<p>Proof of work is not an arbitrary engineering choice. It is the natural expression of a deep structure: <strong>the thermodynamic cost of irreversible computation is the only known physical basis for unforgeable digital scarcity.</strong></p>`,
-connection: "This is the convergence point. All six traditions contribute a necessary piece: information theory gives the measurement, physics gives the cost, computational mechanics gives the structure, Deacon gives the self-organization, Friston gives the agency, and Wolfram gives the irreducibility. Remove any one and the argument is incomplete."
-},
-
-// -------- WOLFRAM PHYSICS (overview) --------
-{
-slug: "wolfram-overview", section: "wolfram", title: "Wolfram Physics",
-body: `<p>The universe may be a computation — a hypergraph rewriting system that generates space, time, and quantum mechanics from simple rules. Two properties from this framework are directly relevant to thermoeconomics:</p>
-<p><strong>Computational irreducibility</strong> means you cannot shortcut the computation; you must run it. There is no algorithm that predicts the output of a complex computation faster than performing the computation itself. This is the foundation of proof-of-work security.</p>
-<p><strong>Causal invariance</strong> means independent observers converge on the same causal structure. Different observers may apply rules in different sequences, but they all arrive at the same causal graph. This is structurally identical to how proof-of-work consensus works.</p>
-<p>The detailed pages in this section cover the Wolfram Physics Project, computational irreducibility, causal invariance, and the Ruliad.</p>`,
-connection: "Computational irreducibility is why there's no shortcut to finding a valid hash — the only proof you did the work is the work itself. Causal invariance is why independent miners converge on one chain without central coordination. These aren't analogies; they're the same mathematical properties appearing in different systems."
-},
-
-// -------- SYNTHESIS & QUAI --------
-{
-slug: "synthesis", section: "synthesis", title: "Synthesis",
-body: `<p>The six foundational traditions — information theory, proof of work, Wolfram physics, computational mechanics, Terrence Deacon, and active inference — each developed independently. Together they form a coherent picture: <strong>economic value is grounded in physical law.</strong></p>
-<p>This section is where the traditions converge into a unified framework. The individual threads come together in two key works:</p>
-<p><strong>The Thermoeconomic Operator</strong> — The formal framework. Connects IID hash-based Bernoulli trials to the Maximum Entropy Principle and the Generalized Boltzmann Distribution. The blockchain as an operator converting physical work into informational order.</p>
-<p><strong>From Big Bang to Blockchain</strong> — The full arc from cosmological entropy production through biological computation to blockchain consensus.</p>
-<p>And the system that takes the thesis furthest:</p>
-<p><strong>Quai Network</strong> — Proof of Entropy Minima consensus, dual-token architecture (Qi/Quai), and energy-based money. Designed from the ground up with the thermoeconomic understanding.</p>`
-},
-{
-slug: "operator", section: "synthesis", title: "The Thermoeconomic Operator",
-meta: "Steph Macurdy · Wolfram Research · December 2025",
-body: `<blockquote><strong>Paper:</strong> Steph Macurdy, "A Thermoeconomic Operator," Wolfram Research, December 2025.<br><a href="https://thermoeconomics.info/Thermodyanmic_Operator_V5.pdf" target="_blank">Read Full Paper (PDF) →</a></blockquote>
-<h2>Summary</h2>
-<p>All Proof-of-Work protocols anchor to the same physical phenomenon: repeated hash-based Bernoulli trials whose outcomes are IID (independent and identically distributed). This paper connects the IID process to the Maximum Entropy Principle (Jaynes, 1957) and to the <strong>Generalized Boltzmann Distribution</strong> — the only distribution where Gibbs-Shannon entropy equals thermodynamic entropy.</p>
-<p>The blockchain is treated not as a ledger, but as a <strong>Thermoeconomic Operator</strong>: a system that converts physical work into informational order.</p>
-<h2>Key Results</h2>
-<p><strong>Information as Rank</strong> — Threshold methods (Bitcoin-style difficulty) are lossy compression — they discard surplus entropy reduction. PoEM ranks outputs by absolute value, extracting maximum information from the state space.</p>
-<p><strong>Market-Induced Hamiltonian</strong> — The Hamiltonian is the price of the token. The market retroactively imposes an energy function on hash space, establishing a formal isomorphism between hash-market systems and thermodynamics.</p>
-<p><strong>Information as Value</strong> — Qi emission is strictly proportional to hash rate (Watts). Cumulative entropy reduction is a lossless proxy for work, making Qi a direct representation of free energy supplied to the system.</p>`,
-connection: "This is the formal core of thermoeconomics. It proves that the connection between proof of work and thermodynamics is not analogy — it is mathematical isomorphism. The IID property of hash outputs, combined with the MaxEnt principle, yields the Boltzmann distribution. The market price acts as a Hamiltonian. Qi is energy money in the precise thermodynamic sense.",
-notes: [{ date: "2025-12", text: "The key insight is that PoEM hits the physical limit of information extraction. Threshold PoW throws away information (lossy compression). PoEM counts every bit of entropy reduction (lossless). This is why Qi can be proportional to hash rate — PoEM ensures no work is wasted." }]
-},
-{
-slug: "quai", section: "synthesis", title: "Quai Network",
-body: `<p>Quai Network is the proof-of-work blockchain that most fully embodies the thermoeconomic thesis. It was designed from the ground up with the understanding that proof of work is a thermodynamic process.</p>
-<h2>Three Features</h2>
-<p><strong>Proof of Entropy Minima (PoEM)</strong> — A consensus mechanism that ranks every hash output by absolute value. Lower hash = greater entropy reduction = more information extracted per computation. No threshold, no wasted work.</p>
-<p><strong>Dual Currency (Qi + Quai)</strong> — Two tokens representing two sides of value. Qi is proportional to hash rate (energy money). Quai is supply-constrained (scarcity money). Together they express the energy/entropy duality at the heart of thermoeconomics.</p>
-<p><strong>Hierarchical Architecture</strong> — Prime → Region → Zone. Three levels of merged mining that scale throughput while preserving thermodynamic security.</p>`,
-connection: "Quai is the implementation of the thesis. PoEM is MaxEnt applied to consensus. Qi is Landauer's principle made economic. The dual currency is the energy/entropy duality given token form. Every design decision traces back to the physics."
-},
-{
-slug: "poem", section: "synthesis", title: "Proof of Entropy Minima (PoEM)",
-meta: "Karl Kreder · 2023",
-body: `<blockquote><strong>Paper:</strong> Karl Kreder, "Proof of Entropy Minima," 2023.<br><a href="https://arxiv.org/pdf/2303.04305" target="_blank">arXiv →</a></blockquote>
-<h2>The Problem with Threshold Difficulty</h2>
-<p>In Bitcoin, a miner finds a valid block by discovering a hash below a target threshold. Any hash below the threshold counts equally — whether it's 1% below or 99% below. This is <strong>lossy compression</strong>: the system discards information about how far below the threshold the hash fell.</p>
-<h2>The PoEM Solution</h2>
-<p>Proof of Entropy Minima ranks every hash output by its absolute distance from zero. Lower hash values represent greater entropy reduction. The block with the lowest hash wins. Always. No threshold.</p>
-<table>
-<tr><th>Property</th><th>Bitcoin (Threshold)</th><th>Quai (PoEM)</th></tr>
-<tr><td>Information per hash</td><td>Binary (pass/fail)</td><td>Continuous (ranked)</td></tr>
-<tr><td>Surplus work</td><td>Discarded</td><td>Counted</td></tr>
-<tr><td>Finality</td><td>Probabilistic (6 blocks)</td><td>Intrinsic (lower = more final)</td></tr>
-<tr><td>Forks</td><td>Common</td><td>Rare (ties nearly impossible)</td></tr>
-</table>
-<p>PoEM achieves <strong>instant finality in the information-theoretic limit</strong>: the probability that a competing block has a lower hash decreases exponentially with the magnitude of the hash value.</p>`,
-connection: "PoEM is the MaxEnt principle applied to consensus. The difficulty adjustment constrains the rate of entropy reduction. Within that constraint, PoEM selects the block that reduced entropy the most — maximum information extraction per unit of computation. This is why Qi emission can be strictly proportional to hash rate."
-},
-
-// -------- REFERENCE --------
-{
-slug: "glossary", section: "reference", title: "Glossary",
-body: `<p>Key terms organized by tradition. Click any term in other pages to jump here.</p>
-<h2>Information Theory</h2>
-<p><strong>Bit</strong> — The fundamental unit of information. One bit is the information gained from a single fair coin flip.</p>
-<p><strong>Entropy (Shannon)</strong> — H(X) = −Σ p(x) log₂ p(x). Average information content of a random variable. Maximum at uniform distribution. Zero when outcome is certain.</p>
-<p><strong>Mutual Information</strong> — I(X;Y) = H(X) − H(X|Y). Information shared between two variables.</p>
-<p><strong>KL Divergence</strong> — D(P‖Q). Information cost of approximating P with Q. Not symmetric.</p>
-<h2>Thermodynamics</h2>
-<p><strong>Boltzmann Distribution</strong> — P(state) ∝ exp(−E/kT). MaxEnt distribution subject to an energy constraint.</p>
-<p><strong>Free Energy</strong> — F = E − TS. Energy available to do work.</p>
-<p><strong>Landauer's Principle</strong> — Erasing one bit costs ≥ k<sub>B</sub>T ln 2 energy.</p>
-<p><strong>Maximum Entropy Principle</strong> — Assign probabilities that maximize entropy subject to known constraints (Jaynes).</p>
-<h2>Proof of Work & Blockchain</h2>
-<p><strong>Difficulty Adjustment</strong> — The mechanism adjusting computational cost to maintain target block rate.</p>
-<p><strong>Hash Rate</strong> — Number of hash operations per second. Directly proportional to energy expenditure.</p>
-<p><strong>Nonce</strong> — Number varied by miners to change the block header's hash.</p>
-<p><strong>PoEM</strong> — Proof of Entropy Minima. Quai's consensus mechanism ranking hashes by absolute value.</p>
-<p><strong>Qi</strong> — Quai's energy token. Emission proportional to hash rate.</p>
-<p><strong>Quai</strong> — Quai's scarcity token. Supply-constrained.</p>
-<p><strong>Thermoeconomic Operator</strong> — Formal framework treating the blockchain as an operator converting physical work into informational order.</p>
-<p><strong>Unforgeable Costliness</strong> — The property that producing value requires expenditure that cannot be faked or reversed.</p>`
-},
-{
-slug: "equations", section: "reference", title: "Key Equations",
-body: `<h2>Information Theory</h2>
-<div class="equation">H(X) = −Σ p(x<sub>i</sub>) log₂ p(x<sub>i</sub>)</div>
-<p>Shannon entropy. Average information content in bits. Maximum when uniform, zero when certain.</p>
-<div class="equation">I(X;Y) = H(X) − H(X|Y) = H(X) + H(Y) − H(X,Y)</div>
-<p>Mutual information. How much knowing one variable tells you about another.</p>
-<h2>Thermodynamics</h2>
-<div class="equation">E<sub>erase</sub> ≥ k<sub>B</sub>T ln 2</div>
-<p>Landauer's limit. At room temperature (300K): ~2.85 × 10⁻²¹ joules per bit erased.</p>
-<div class="equation">P(state) = (1/Z) exp(−E / k<sub>B</sub>T)</div>
-<p>Boltzmann distribution. MaxEnt distribution subject to average energy constraint.</p>
-<div class="equation">F = E − TS</div>
-<p>Helmholtz free energy. Energy available to do work. Qi represents free energy supplied to the system.</p>
-<h2>Proof of Work</h2>
-<div class="equation">P(valid hash) = 1 / 2<sup>d</sup></div>
-<p>Mining as Bernoulli trial. Each hash attempt succeeds with probability 1/2^d at difficulty d.</p>
-<div class="equation">I(block) ≈ log₂(D) bits</div>
-<p>Information content of a valid block at difficulty D.</p>
-<h2>Computational Mechanics</h2>
-<div class="equation">C<sub>μ</sub> = H(causal states) = −Σ p(s) log₂ p(s)</div>
-<p>Statistical complexity. Memory used by the system. Zero for random and periodic; maximized at the edge of chaos.</p>`
-},
-{
-slug: "ai-prompt", section: "reference", title: "AI Instructor Prompt",
-body: `<p>Copy the text below into a new conversation with Claude, ChatGPT, or any AI assistant. Tell the AI your background. Let it teach you thermoeconomics interactively.</p>
-<div style="background:var(--text-primary);color:rgba(255,255,255,0.85);padding:28px;border-radius:10px;font-size:13px;line-height:1.8;margin:20px 0;max-height:500px;overflow-y:auto;white-space:pre-wrap;">You are a tutor for Computational Thermoeconomics — the emerging science connecting energy, entropy, information theory, and proof-of-work blockchain systems to the foundations of economic value.
-
-THE CENTRAL THESIS: Proof of work is irreversible computation. SHA-256 maps many inputs to one output, erasing information. By Landauer's principle, each bit erased dissipates ≥ kBT ln 2 energy as heat. This gives PoW money its economic properties: unforgeable costliness (thermodynamic irreversibility), objective measurability (computational irreducibility), and scarcity (emission schedule backed by physical cost).
-
-SIX TRADITIONS:
-1. Information Theory (Shannon → Jaynes → Landauer → Bennett)
-2. Wolfram Physics (computational irreducibility, causal invariance)
-3. Computational Mechanics (Crutchfield — epsilon machines, statistical complexity)
-4. Terrence Deacon (constraint as cause, autogenic systems)
-5. Active Inference (Friston — free energy principle, surprise minimization)
-6. Proof of Work (Dwork & Naor → Back → Finney → Nakamoto)
-
-TEACHING APPROACH:
-- Start by asking the student their background
-- Sequence topics: Shannon → Jaynes → Landauer → Bennett → PoW lineage → deeper frameworks → synthesis
-- Connect every abstraction to a concrete blockchain example
-- If an explanation isn't working, try a different tradition's framing
-- Use code (Wolfram or Python) when helpful
-
-KEY EQUATIONS:
-H(X) = −Σ p(x) log₂ p(x)     — Shannon entropy
-E_erase ≥ kBT ln 2             — Landauer's limit
-P(valid) = 1/2^d               — PoW Bernoulli trial
-I(block) ≈ log₂(D) bits        — Information content at difficulty D
-P(state) ∝ exp(−E/kT)         — Boltzmann distribution
-
-Source: thermoeconomics.info/study</div>
-<p>After pasting, tell the AI something like: <em>"I'm a Bitcoin miner with no physics background. Teach me why my mining rig is a thermodynamic engine."</em></p>`
-}
-];
-
-// ============================================================
-// BUILD SIDEBAR
-// ============================================================
-function buildSidebar() {
-    const sb = document.getElementById('sidebar');
-    let html = '';
-    SECTIONS.forEach(sec => {
-        const pages = PAGES.filter(p => p.section === sec.id);
-        html += `<div class="sb-section" data-section="${sec.id}">
-            <div class="sb-header" data-section="${sec.id}">
-                <span class="sb-arrow">▶</span> ${sec.label}
+        <div class="container">
+            <div class="hero-content">
+                <p class="hero-overline">A New Science Is Emerging</p>
+                <h1 class="hero-title">Thermoeconomics<span class="dot">.</span></h1>
+                <p class="hero-subtitle">Where physics meets money. A computational framework connecting energy, entropy, and proof of work to the foundations of economic value.</p>
+                <div class="hero-ctas">
+                    <a href="https://www.wolfram.com/wolfram-u/" target="_blank" rel="noopener" class="btn btn-primary">Start the Course →</a>
+                    <a href="study.html" class="btn btn-secondary">Open Knowledge Base</a>
+                </div>
+                <div class="hero-author">
+                    <span class="hero-author-line"></span>
+                    By Steph Macurdy · Wolfram Blockchain Labs · UTXO Alliance
+                </div>
             </div>
-            <div class="sb-pages">
-                ${pages.map(p => `<div class="sb-link" data-slug="${p.slug}">${p.title}</div>`).join('')}
+        </div>
+    </section>
+
+    <!-- ============================================
+         WHAT IS THERMOECONOMICS
+         ============================================ -->
+    <section class="what-section section" id="what">
+        <div class="container">
+            <div class="what-grid">
+                <div class="what-text">
+                    <p class="overline animate">Science</p>
+                    <h2 class="section-title animate animate-delay-1">What is thermoeconomics?</h2>
+                    <p class="animate animate-delay-2">Thermoeconomics sits at the intersection of <strong>physics, information theory, computation, and economics</strong>. It treats economic value not as an abstraction, but as something grounded in physical reality — energy expended, entropy produced, work performed.</p>
+                    <p class="animate animate-delay-3">The field draws on Shannon's information theory (1948), Jaynes' maximum entropy principle (1957), Wolfram's computational universe, and the living mathematics of blockchain proof-of-work systems.</p>
+                    <p class="animate animate-delay-4">This isn't speculative philosophy. It's <strong>a framework you can compute</strong> — and this course teaches you how, step by step, in both Wolfram Language and Python.</p>
+                </div>
+                <div class="what-pillars animate animate-delay-2">
+                    <div class="pillar">
+                        <span class="pillar-icon"></span>
+                        <div class="pillar-label">Entropy</div>
+                        <div class="pillar-desc">Information theory and thermodynamic irreversibility. The arrow of time embedded in every block.</div>
+                        <div class="pillar-papers">
+                            <a href="https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf" target="_blank">Shannon (1948)</a>
+                            <a href="https://bayes.wustl.edu/etj/articles/theory.1.pdf" target="_blank">Jaynes (1957)</a>
+                        </div>
+                    </div>
+                    <div class="pillar">
+                        <span class="pillar-icon"></span>
+                        <div class="pillar-label">Energy</div>
+                        <div class="pillar-desc">The physical cost of computation. Proof of work converts electricity into verifiable truth.</div>
+                        <div class="pillar-papers">
+                            <a href="https://worrydream.com/refs/Landauer_1961_-_Irreversibility_and_Heat_Generation_in_the_Computing_Process.pdf" target="_blank">Landauer (1961)</a>
+                            <a href="https://mathweb.ucsd.edu/~sbuss/CourseWeb/Math268_2013W/Bennett_Reversibiity.pdf" target="_blank">Bennett (1973)</a>
+                        </div>
+                    </div>
+                    <div class="pillar">
+                        <span class="pillar-icon"></span>
+                        <div class="pillar-label">Proof of Work</div>
+                        <div class="pillar-desc">The bridge between physical and digital scarcity. Consensus through computational expenditure.</div>
+                        <div class="pillar-papers">
+                            <a href="https://bitcoin.org/bitcoin.pdf" target="_blank">Nakamoto (2008)</a>
+                            <a href="https://arxiv.org/pdf/2303.04305" target="_blank">Kreder (2023)</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>`;
-    });
-    sb.innerHTML = html;
+        </div>
+    </section>
 
-    // Section toggle
-    sb.querySelectorAll('.sb-header').forEach(h => {
-        h.addEventListener('click', () => {
-            h.parentElement.classList.toggle('open');
+    <!-- ============================================
+         LATEST RESEARCH
+         ============================================ -->
+    <section class="research-section section" id="research">
+        <div class="container">
+            <p class="overline animate">Latest Research</p>
+            <h2 class="section-title animate animate-delay-1" style="margin-bottom: 48px;">New work in thermoeconomics</h2>
+
+            <div class="research-grid">
+
+                <!-- REPORT 1: From Big Bang to Blockchain -->
+                <div class="research-card animate animate-delay-2">
+                    <div>
+                        <div class="research-meta">
+                            <span class="research-badge">Essay + Conversations</span>
+                            January 2026
+                        </div>
+                        <div class="research-title">From Big Bang to Blockchain</div>
+                        <div class="research-authors">Steph Macurdy</div>
+
+                        <div class="research-summary">
+                            Two conversations exploring the deep arc from physics to proof of work — with <strong>DrK</strong> and <strong>Jordan Hall</strong>. How does the universe's thermodynamic arrow connect to the emergence of digital economic systems? These dialogues trace the thread from cosmological entropy production through biological computation to blockchain consensus.
+                        </div>
+
+                        <div class="research-topics">
+                            <span class="research-topic">Thermodynamics</span>
+                            <span class="research-topic">Emergence</span>
+                            <span class="research-topic">Consensus</span>
+                            <span class="research-topic">Entropy</span>
+                            <span class="research-topic">Cosmology</span>
+                        </div>
+
+                        <div class="research-cta" style="flex-wrap: wrap;">
+                            <a href="#" class="btn-pdf" style="opacity: 0.5; pointer-events: none;">Read Essay → (coming soon)</a>
+                        </div>
+
+                        <div class="research-transcript-links" style="margin-top: 16px;">
+                            <a href="drk-transcript.pdf" target="_blank" rel="noopener" class="transcript-link">↓ Transcript - Part 1</a>
+                            <a href="jordan-hall-transcript.pdf" target="_blank" rel="noopener" class="transcript-link">↓ Transcript - Part 2</a>
+                        </div>
+                    </div>
+
+                    <div class="research-videos-stack">
+                        <div>
+                            <div class="research-video-label">Part 1</div>
+                            <div class="research-video-wrap">
+                                <iframe
+                                    src="https://www.youtube.com/embed/1KTpKUHAtIE"
+                                    title="From Big Bang to Blockchain — Part 1"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen
+                                    loading="lazy"
+                                ></iframe>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="research-video-label">Part 2</div>
+                            <div class="research-video-wrap">
+                                <iframe
+                                    src="https://www.youtube.com/embed/uw2sHodvoII"
+                                    title="From Big Bang to Blockchain — Part 2"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen
+                                    loading="lazy"
+                                ></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- REPORT 2: Thermoeconomic Operator -->
+                <div class="research-card animate">
+                    <div>
+                        <div class="research-meta">
+                            <span class="research-badge">Paper</span>
+                            December 2025 · 11 pages
+                        </div>
+                        <div class="research-title">A Thermoeconomic Operator</div>
+                        <div class="research-authors">Steph Macurdy, Wolfram Research</div>
+
+                        <div class="research-summary">
+                            All Proof-of-Work protocols anchor to the same physical phenomenon: repeated hash-based Bernoulli trials whose outcomes are IID. This paper connects the IID process to the <strong>Maximum Entropy Principle</strong> (Jaynes, 1957) and to the <strong>Generalized Boltzmann Distribution</strong> — the only distribution where Gibbs-Shannon entropy equals thermodynamic entropy. The blockchain is treated not as a ledger, but as a <strong>Thermoeconomic Operator</strong>: a system that converts physical work into informational order, creating a deterministic mapping between the physical and digital economic worlds.
+                        </div>
+
+                        <div class="research-topics">
+                            <span class="research-topic">Maximum Entropy</span>
+                            <span class="research-topic">Boltzmann Distribution</span>
+                            <span class="research-topic">SHA-256</span>
+                            <span class="research-topic">PoEM Consensus</span>
+                            <span class="research-topic">Qi Emission</span>
+                            <span class="research-topic">Formal Isomorphism</span>
+                            <span class="research-topic">Free Energy</span>
+                        </div>
+
+                        <div class="research-cta">
+                            <a href="Thermodyanmic_Operator_V5.pdf" target="_blank" rel="noopener" class="btn-pdf">Read Full Paper →</a>
+                        </div>
+                    </div>
+
+                    <div class="research-findings">
+                        <div class="research-finding">
+                            <div class="research-finding-label">Information as Rank</div>
+                            <div class="research-finding-text">Threshold methods are lossy compression — they discard surplus entropy reduction. PoEM ranks outputs by absolute value, extracting maximum information from the state space and hitting the physical limit of finality.</div>
+                        </div>
+                        <div class="research-finding">
+                            <div class="research-finding-label">Market-Induced Hamiltonian</div>
+                            <div class="research-finding-text">The Hamiltonian is the price of the token. The market retroactively imposes an energy function on hash space, establishing a formal isomorphism — not physical identity — between hash-market systems and thermodynamics.</div>
+                        </div>
+                        <div class="research-finding">
+                            <div class="research-finding-label">Information as Value</div>
+                            <div class="research-finding-text">Qi emission is strictly proportional to hash rate (Watts). Because cumulative entropy reduction is a lossless proxy for work, Qi becomes a direct representation of the free energy supplied to the system — a unit of account for computational work.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- REPORT 3: Qi Quai Report -->
+                <div class="research-card animate">
+                    <div>
+                        <div class="research-meta">
+                            <span class="research-badge">Report</span>
+                            November 2025 · 24 pages
+                        </div>
+                        <div class="research-title">Qi Quai - Controller Report</div>
+                        <div class="research-authors">Andrius Kulikauskas for Steph Macurdy</div>
+
+                        <div class="research-summary">
+                            Can Active Inference or thermodynamics offer insight into the relationship between Qi and Quai? This report investigates the Quai Network's dual currency system through the lens of <strong>energy, entropy, and free energy</strong> — mapping the protocol's control mechanism, analyzing miner incentives, and building a conceptual bridge between cryptocurrency economics and the Free Energy Principle.
+                        </div>
+
+                        <div class="research-topics">
+                            <span class="research-topic">Active Inference</span>
+                            <span class="research-topic">Dual Currency</span>
+                            <span class="research-topic">Free Energy Principle</span>
+                            <span class="research-topic">Proof of Work</span>
+                            <span class="research-topic">Game Theory</span>
+                            <span class="research-topic">Gresham's Law</span>
+                        </div>
+
+                        <div class="research-cta">
+                            <a href="qi_quai_report.pdf" target="_blank" rel="noopener" class="btn-pdf">Read Full Report →</a>
+                        </div>
+                    </div>
+
+                    <div class="research-findings">
+                        <div class="research-finding">
+                            <div class="research-finding-label">Protocol Analysis</div>
+                            <div class="research-finding-text">The kQuai controller balances demand by increasing kQuai when miners prefer Qi and decreasing it when they prefer Quai. Distilled to kQuai(i) = kQuai(i−1)[1 ± r].</div>
+                        </div>
+                        <div class="research-finding">
+                            <div class="research-finding-label">Economics of Maintenance</div>
+                            <div class="research-finding-text">Bitcoin's mining cost to market cap ratio (~1% annually) reveals undervaluation signals — a metric extensible to dual currency systems.</div>
+                        </div>
+                        <div class="research-finding">
+                            <div class="research-finding-label">Thermodynamic Bridge</div>
+                            <div class="research-finding-text">Qi maps to belief in the system (energy); Quai maps to belief in belief in the system (entropy). The equation is interpreted as a dialogue between P(x,y) and Q(x).</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         COURSE
+         ============================================ -->
+    <section class="course-section section" id="course">
+        <div class="container">
+            <div class="course-header">
+                <p class="overline animate">The Curriculum</p>
+                <h2 class="section-title animate animate-delay-1">Learn by computing</h2>
+                <p class="section-subtitle animate animate-delay-2">Five modules take you from blockchain fundamentals through cryptography to the thermoeconomic thesis. Every concept comes with runnable code.</p>
+                <p class="course-note animate animate-delay-3">Primary track: Wolfram Language on Wolfram U · Open-source track: Python in the Study</p>
+            </div>
+
+            <div class="modules-grid">
+                <a href="https://www.wolfram.com/wolfram-u/courses/finance/blockchain-foundations-fin040/" target="_blank" rel="noopener" class="module-card animate" style="text-decoration:none;color:inherit;">
+                    <div class="module-number">Module 01</div>
+                    <div class="module-title">Introduction to Blockchain</div>
+                    <div class="module-desc">Coordination systems, the trilemma, six core ingredients, Byzantine fault tolerance, and the design space of blockchains.</div>
+                </a>
+                <a href="https://www.bigmarker.com/wolfram-u/dsg26-cryptography-and-the-internet?show_live_page=true" target="_blank" rel="noopener" class="module-card animate animate-delay-1" style="text-decoration:none;color:inherit;">
+                    <div class="module-number">Module 02</div>
+                    <div class="module-title">Blockchain Programming</div>
+                    <div class="module-desc">Reading blocks, transactions, and addresses. Writing and signing transactions. Hands-on with real blockchain data.</div>
+                </a>
+                <a href="https://www.wolfram.com/wolfram-u/courses/mathematics/introduction-to-cryptography/" target="_blank" rel="noopener" class="module-card animate animate-delay-2" style="text-decoration:none;color:inherit;">
+                    <div class="module-number">Module 03</div>
+                    <div class="module-title">Cryptography</div>
+                    <div class="module-desc">Hash functions, public/private keys, digital signatures, and how cryptographic primitives secure the chain.</div>
+                </a>
+                <a href="https://www.wolfram.com/wolfram-u/courses/finance/overview-of-blockchain-design-fin041/" target="_blank" rel="noopener" class="module-card animate animate-delay-3" style="text-decoration:none;color:inherit;">
+                    <div class="module-number">Module 04</div>
+                    <div class="module-title">Blockchain Architecture</div>
+                    <div class="module-desc">Fault tolerance, replicated state machines, consensus mechanisms, and the architectural choices that define each network.</div>
+                </a>
+                <a href="https://andersbrownworth.com/blockchain/" target="_blank" rel="noopener" class="module-card animate animate-delay-4" style="text-decoration:none;color:inherit;">
+                    <div class="module-number">Module 05</div>
+                    <div class="module-title">Core Ingredients</div>
+                    <div class="module-desc">Encryption, UTXO models, transaction structures, network designs, and blockchain specifications in detail.</div>
+                </a>
+                <div class="module-card coming-soon animate animate-delay-5">
+                    <div class="module-number">Coming Soon</div>
+                    <div class="module-title">Thermoeconomics</div>
+                    <div class="module-desc">Energy, entropy, and value. Proof of work as thermodynamic process. Active inference. Causal invariance and consensus.</div>
+                </div>
+            </div>
+
+
+            <div class="course-cta-row animate">
+                <a href="https://www.wolfram.com/wolfram-u/" target="_blank" rel="noopener" class="btn btn-primary">Start on Wolfram U →</a>
+                <span class="course-cta-note">Free course · Wolfram Language · Interactive notebooks</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         UTXO ARCHITECTURES
+         ============================================ -->
+    <section class="utxo-section section" id="utxo">
+        <div class="container">
+            <p class="overline animate">Blockchain Architectures</p>
+            <h2 class="section-title animate animate-delay-1">UTXO Ledger Model</h2>
+            <p class="section-subtitle animate animate-delay-2" style="margin-bottom: 60px;">From Bitcoin's original design to the exotic variants powering modern chains — the UTXO Alliance maps the entire landscape.</p>
+
+            <!-- Handbook images -->
+            <div class="utxo-images animate animate-delay-3">
+                <div class="utxo-image-card">
+                    <img src="https://raw.githubusercontent.com/UTXO-Alliance/handbooks/main/utxo-model-flavors-handbook/readme-assets/README-high-level-blockchain.png" alt="High-level blockchain architecture — UTXO Alliance Handbook" loading="lazy">
+                    <div class="utxo-image-caption">High-level blockchain architecture — how transactions flow from creation to consensus</div>
+                </div>
+                <div class="utxo-image-card">
+                    <img src="https://raw.githubusercontent.com/UTXO-Alliance/handbooks/main/utxo-model-flavors-handbook/readme-assets/README-simple-blockchain.png" alt="Simple blockchain structure — UTXO Alliance Handbook" loading="lazy">
+                    <div class="utxo-image-caption">The building blocks — transactions, blocks, and the chain that connects them</div>
+                </div>
+            </div>
+
+            <!-- Text + chain tags -->
+            <div class="utxo-bottom animate animate-delay-4">
+                <div class="utxo-text-bottom">
+                    <p>Bitcoin introduced the <strong>Unspent Transaction Output (UTXO)</strong> model — a fundamentally different way of tracking value on a blockchain. Instead of accounts with balances, the system tracks individual outputs waiting to be spent.</p>
+                    <p>Since Bitcoin, dozens of chains have taken this foundation and built on it — adding smart contracts, sharding, merged mining, and more. The <strong>UTXO Alliance</strong> brings these projects together to advance the model. The knowledge base includes a comprehensive visual guide to every major UTXO variant, adapted from the Alliance's official handbook.</p>
+                    <a href="study.html#quai" class="btn btn-secondary" style="margin-top: 16px;">Explore in the Study →</a>
+                </div>
+                <div class="chain-right-col">
+                    <div class="chain-tags-bottom">
+                        <span class="chain-tag" data-chain="bitcoin" data-img="Bitcoin.png" data-name="Bitcoin" data-desc="The original UTXO model — basic script locking, Proof of Work consensus, and the foundation every other variant builds on.">Bitcoin</span>
+                        <span class="chain-tag" data-chain="cardano" data-img="Cardano.png" data-name="Cardano" data-desc="Extended UTXO with datum and redeemer fields, enabling on-chain smart contracts via Ouroboros Proof of Stake.">Cardano</span>
+                        <span class="chain-tag" data-chain="ergo" data-img="Ergo.png" data-name="Ergo" data-desc="Extended UTXO with registers for rich data storage, powered by Non-Interactive Proof of Proof of Work (NiPoPoW).">Ergo</span>
+                        <span class="chain-tag" data-chain="nervos" data-img="Nervos.png" data-name="Nervos" data-desc="Cell model — smart contracts implemented as type scripts attached to cells, with Proof of Work consensus.">Nervos</span>
+                        <span class="chain-tag" data-chain="alephium" data-img="Alephium.png" data-name="Alephium" data-desc="Stateful UTXO with sharding across multiple groups, smart contract logic via the Alphred VM, and contract UTXOs.">Alephium</span>
+                        <span class="chain-tag" data-chain="quai" data-img="Quai.png" data-name="Quai Network" data-desc="Hierarchical UTXO across Prime, Paxos, and Cyprus chains — merged mining with Proof of Entropy Minima consensus.">Quai Network</span>
+                        <span class="chain-tag" data-chain="digibyte" data-img="Digibyte.png" data-name="DigiByte" data-desc="Classic UTXO with basic script support, Proof of Work consensus using five mining algorithms for decentralization.">DigiByte</span>
+                        <span class="chain-tag" data-chain="hathor" data-img="Hathor.png" data-name="Hathor" data-desc="UTXO model with a DAG-based ledger structure, Proof of Work consensus, and nano contracts for lightweight scripting.">Hathor</span>
+                    </div>
+                    <div class="chain-preview" id="chainPreview">
+                        <div class="chain-preview-inner" id="chainPreviewInner">
+                            <img class="chain-preview-img" id="chainPreviewImg" src="" alt="">
+                            <div class="chain-preview-info">
+                                <div class="chain-preview-name" id="chainPreviewName"></div>
+                                <div class="chain-preview-desc" id="chainPreviewDesc"></div>
+                                <div class="chain-preview-source">Diagram from the <a href="https://github.com/UTXO-Alliance/handbooks" target="_blank" rel="noopener">UTXO Alliance Handbook</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         TOOLS
+         ============================================ -->
+    <section class="tools-section section" id="tools">
+        <div class="container">
+            <p class="overline animate">Interactive Tools</p>
+            <h2 class="section-title animate animate-delay-1" style="margin-bottom: 48px;">Compute, explore, verify</h2>
+            <div class="tools-grid">
+                <a href="https://americanenergymoney.com" target="_blank" rel="noopener" class="tool-card animate">
+                    <span class="tool-icon"></span>
+                    <div class="tool-title">Mining Calculator</div>
+                    <div class="tool-desc">Compare SHA-256 mining profitability across Bitcoin, Quai Network, and other proof-of-work chains. Model difficulty growth and ROI over time.</div>
+                    <span class="tool-link">Open calculator →</span>
+                </a>
+                <a href="https://www.youtube.com/@wolframblockchainlabs" target="_blank" rel="noopener" class="tool-card animate animate-delay-1">
+                    <span class="tool-icon"></span>
+                    <div class="tool-title">Video Library</div>
+                    <div class="tool-desc">Full lecture series from Wolfram Blockchain Labs covering every module of the thermoeconomics curriculum.</div>
+                    <span class="tool-link">Watch on YouTube →</span>
+                </a>
+                <a href="https://www.wolfram.com/cloud/" target="_blank" rel="noopener" class="tool-card animate animate-delay-2">
+                    <span class="tool-icon"></span>
+                    <div class="tool-title">Wolfram Notebooks</div>
+                    <div class="tool-desc">Interactive computational notebooks. Run blockchain queries, hash functions, and cryptographic operations live in Wolfram Cloud.</div>
+                    <span class="tool-link">Open notebooks →</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div>
+                    <div class="footer-brand-name">thermoeconomics<span>.info</span></div>
+                    <p class="footer-brand-desc">A computational framework connecting energy, entropy, and proof of work to the foundations of economic value. An emerging science at the intersection of physics and money.</p>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-col-title">Learn</div>
+                    <ul>
+                        <li><a href="https://www.wolfram.com/wolfram-u/" target="_blank" rel="noopener">Wolfram U Course</a></li>
+                        <li><a href="study.html">The Study</a></li>
+                        <li><a href="https://www.youtube.com/@wolframblockchainlabs" target="_blank" rel="noopener">Video Library</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-col-title">Ecosystem</div>
+                    <ul>
+                        <li><a href="https://www.utxoa.org/" target="_blank" rel="noopener">UTXO Alliance</a></li>
+                        <li><a href="https://wolframblockchainlabs.github.io/wbl-landing/" target="_blank" rel="noopener">Wolfram Blockchain Labs</a></li>
+                        <li><a href="https://qu.ai/" target="_blank" rel="noopener">Quai Network</a></li>
+                        <li><a href="https://americanenergymoney.com" target="_blank" rel="noopener">American Energy Money</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-col-title">Reference</div>
+                    <ul>
+                        <li><a href="https://github.com/UTXO-Alliance/handbooks" target="_blank" rel="noopener">UTXO Handbook</a></li>
+                        <li><a href="https://www.wolframphysics.org/" target="_blank" rel="noopener">Wolfram Physics</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="footer-copy">© 2026 thermoeconomics.info</span>
+                <span class="footer-author">
+                    <span class="footer-author-line"></span>
+                    Steph Macurdy · Wolfram Blockchain Labs · UTXO Alliance
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+        // Nav scroll effect
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 20);
         });
-    });
 
-    // Page click
-    sb.querySelectorAll('.sb-link').forEach(link => {
-        link.addEventListener('click', () => {
-            location.hash = link.dataset.slug;
-            document.getElementById('sidebar').classList.remove('open');
+        // Mobile nav toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
         });
-    });
-}
 
-// ============================================================
-// RENDER PAGE
-// ============================================================
-function renderPage(slug) {
-    const page = PAGES.find(p => p.slug === slug);
-    if (!page) { location.hash = 'welcome'; return; }
-
-    const idx = PAGES.indexOf(page);
-    const prev = idx > 0 ? PAGES[idx - 1] : null;
-    const next = idx < PAGES.length - 1 ? PAGES[idx + 1] : null;
-    const sec = SECTIONS.find(s => s.id === page.section);
-
-    let html = `<div class="page-section-tag">${sec ? sec.label : ''}</div>`;
-    html += `<h1 class="page-title">${page.title}</h1>`;
-    if (page.meta) html += `<div class="page-meta">${page.meta}</div>`;
-    html += `<div class="page-body">${page.body}</div>`;
-
-    // Connection box
-    if (page.connection) {
-        html += `<div class="connection-box">
-            <div class="connection-box-label">Connection to Thermoeconomics</div>
-            <div class="connection-box-text">${page.connection}</div>
-        </div>`;
-    }
-
-    // Author's notes
-    if (page.notes && page.notes.length) {
-        page.notes.forEach(n => {
-            html += `<div class="notes-box">
-                <button class="notes-toggle" onclick="this.parentElement.classList.toggle('open')">
-                    📝 Author's Notes <span style="font-weight:300;color:var(--text-muted);margin-left:8px;">${n.date || ''}</span>
-                </button>
-                <div class="notes-body">${n.text}</div>
-            </div>`;
+        // Close mobile nav on link click
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+            });
         });
-    }
 
-    // Prev / Next
-    html += `<div class="page-nav">`;
-    if (prev) {
-        html += `<div class="page-nav-btn prev" onclick="location.hash='${prev.slug}'">
-            <span class="page-nav-dir">← Previous</span>
-            <span class="page-nav-title">${prev.title}</span>
-        </div>`;
-    } else {
-        html += `<div class="page-nav-placeholder"></div>`;
-    }
-    html += `<div class="page-nav-map" onclick="openMap()" title="Map">⊞</div>`;
-    if (next) {
-        html += `<div class="page-nav-btn next" onclick="location.hash='${next.slug}'">
-            <span class="page-nav-dir">Next →</span>
-            <span class="page-nav-title">${next.title}</span>
-        </div>`;
-    } else {
-        html += `<div class="page-nav-placeholder"></div>`;
-    }
-    html += `</div>`;
-
-    document.getElementById('mainContent').innerHTML = html;
-    document.getElementById('mainContent').scrollTop = 0;
-    window.scrollTo(0, 0);
-
-    // Update sidebar active state
-    document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
-    const activeLink = document.querySelector(`.sb-link[data-slug="${slug}"]`);
-    if (activeLink) {
-        activeLink.classList.add('active');
-        const secEl = activeLink.closest('.sb-section');
-        if (secEl && !secEl.classList.contains('open')) secEl.classList.add('open');
-    }
-
-    // Wire up internal links
-    document.querySelectorAll('[data-goto]').forEach(a => {
-        a.style.cursor = 'pointer';
-        a.addEventListener('click', (e) => { e.preventDefault(); location.hash = a.dataset.goto; });
-    });
-
-    // Render KaTeX if loaded
-    if (typeof renderMathInElement === 'function') {
-        renderMathInElement(document.getElementById('mainContent'), {
-            delimiters: [
-                { left: '$$', right: '$$', display: true },
-                { left: '$', right: '$', display: false }
-            ]
+        // Scroll-triggered animations
+        const animateElements = document.querySelectorAll('.animate');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -40px 0px'
         });
-    }
-}
 
-// ============================================================
-// MAP
-// ============================================================
-function openMap() {
-    const overlay = document.getElementById('mapOverlay');
-    const modal = document.getElementById('mapModal');
-    const currentSlug = (location.hash || '#welcome').slice(1);
-    let html = '<h2>The Study — Map</h2>';
-    SECTIONS.forEach(sec => {
-        const pages = PAGES.filter(p => p.section === sec.id);
-        html += `<div class="map-section-title">${sec.label}</div><div class="map-grid">`;
-        pages.forEach(p => {
-            html += `<div class="map-node ${p.slug === currentSlug ? 'active' : ''}" onclick="location.hash='${p.slug}';document.getElementById('mapOverlay').classList.remove('open');">${p.title}</div>`;
+        animateElements.forEach(el => observer.observe(el));
+
+        // Chain tag click → thumbnail preview
+        const chainTags = document.querySelectorAll('.chain-tag[data-chain]');
+        const previewInner = document.getElementById('chainPreviewInner');
+        const previewImg = document.getElementById('chainPreviewImg');
+        const previewName = document.getElementById('chainPreviewName');
+        const previewDesc = document.getElementById('chainPreviewDesc');
+        let activeChain = null;
+
+        chainTags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                const chain = tag.dataset.chain;
+
+                // Toggle off if clicking same chain
+                if (activeChain === chain) {
+                    previewInner.classList.remove('visible');
+                    tag.classList.remove('active');
+                    activeChain = null;
+                    return;
+                }
+
+                // Remove active from all tags
+                chainTags.forEach(t => t.classList.remove('active'));
+                tag.classList.add('active');
+
+                // Fade out, swap, fade in
+                previewInner.classList.remove('visible');
+                setTimeout(() => {
+                    previewImg.src = tag.dataset.img;
+                    previewImg.alt = tag.dataset.name + ' UTXO architecture';
+                    previewName.textContent = tag.dataset.name;
+                    previewDesc.textContent = tag.dataset.desc;
+                    previewInner.classList.add('visible');
+                }, previewInner.classList.contains('visible') ? 200 : 50);
+
+                activeChain = chain;
+            });
         });
-        html += '</div>';
-    });
-    modal.innerHTML = html;
-    overlay.classList.add('open');
-}
 
-document.getElementById('mapOverlay').addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('open');
-});
+        // Auto-display first chain (Bitcoin) on load so users know tags are clickable
+        const firstTag = chainTags[0];
+        if (firstTag) {
+            previewImg.src = firstTag.dataset.img;
+            previewImg.alt = firstTag.dataset.name + ' UTXO architecture';
+            previewName.textContent = firstTag.dataset.name;
+            previewDesc.textContent = firstTag.dataset.desc;
+            previewInner.classList.add('visible');
+            firstTag.classList.add('active');
+            activeChain = firstTag.dataset.chain;
+        }
 
-// ============================================================
-// SEARCH
-// ============================================================
-const searchInput = document.getElementById('searchInput');
-const searchResults = document.getElementById('searchResults');
 
-searchInput.addEventListener('input', () => {
-    const q = searchInput.value.toLowerCase().trim();
-    if (q.length < 2) { searchResults.classList.remove('open'); return; }
-    const matches = PAGES.filter(p =>
-        p.title.toLowerCase().includes(q) ||
-        p.body.toLowerCase().includes(q) ||
-        (p.connection && p.connection.toLowerCase().includes(q))
-    ).slice(0, 8);
-    if (!matches.length) { searchResults.classList.remove('open'); return; }
-    const sec = (id) => { const s = SECTIONS.find(s => s.id === id); return s ? s.label : ''; };
-    searchResults.innerHTML = matches.map(p =>
-        `<div class="search-result" onclick="location.hash='${p.slug}';searchInput.value='';searchResults.classList.remove('open');">
-            <div class="search-result-title">${p.title}</div>
-            <div class="search-result-section">${sec(p.section)}</div>
-        </div>`
-    ).join('');
-    searchResults.classList.add('open');
-});
+    </script>
 
-document.addEventListener('click', (e) => {
-    if (!searchResults.contains(e.target) && e.target !== searchInput) searchResults.classList.remove('open');
-});
-
-// ============================================================
-// ROUTING
-// ============================================================
-function route() {
-    const slug = (location.hash || '#welcome').slice(1) || 'welcome';
-    renderPage(slug);
-}
-window.addEventListener('hashchange', route);
-
-// ============================================================
-// SIDEBAR MOBILE
-// ============================================================
-document.getElementById('sidebarToggle').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.toggle('open');
-});
-document.getElementById('sidebarOverlay').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.remove('open');
-});
-
-// ============================================================
-// INIT
-// ============================================================
-buildSidebar();
-route();
-</script>
 </body>
 </html>
