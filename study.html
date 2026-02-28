@@ -962,7 +962,6 @@ connection: "This report provides the first formal analysis of Quai's dual curre
 },
 
 // -------- REFERENCE --------
-,
 {
 slug: "quai-call-1", section: "quai-uni", title: "Call #1 — Crypto vs. Fiat",
 meta: "DrK (Karl Kreder) · February 6, 2023",
@@ -1059,103 +1058,31 @@ body: `<p style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:20px;"><span 
 <p>Deeper technical treatment expanding on Call #9. How Proof-of-Work is used to structurally eliminate MEV — not merely reduce it — making Quai's transaction environment fundamentally fairer.</p>
 <p style="margin-top:20px;"><a href="https://www.youtube.com/playlist?list=PLSGKRp6O6_8M1S2kjk9OS22kTpGN0RwUr" target="_blank">Full Playlist on YouTube →</a></p>`
 },
-
-// -------- MISSION: CAUSAL INVARIANCE --------
 {
-slug: "causal-invariance-mission", section: "causal-invariance", title: "Mission: Prove Causal Invariance",
-meta: "Open Bounty · Wolfram Blockchain Labs × Quai Network",
-body: `<p>Prove or disprove that Quai Network's <strong>PoEM fork-choice rule</strong> exhibits <strong>causal invariance</strong> — a foundational property from Wolfram Physics guaranteeing deterministic consensus across all execution paths.</p>
-
+slug: "ci-mission", section: "causal-invariance", title: "Mission: Prove Causal Invariance",
+meta: "Open Bounty \u00b7 Wolfram Blockchain Labs \u00d7 Quai Network",
+body: `<p>Prove or disprove that Quai Network\u2019s <strong>PoEM fork-choice rule</strong> exhibits <strong>causal invariance</strong> \u2014 a foundational property from Wolfram Physics guaranteeing deterministic consensus across all execution paths.</p>
 <h2>What is Causal Invariance?</h2>
-<p>In Wolfram Physics, <strong>causal invariance</strong> means that no matter the order in which a system's updates are applied, the resulting causal structure is always the same. Applied to blockchain consensus: regardless of the order nodes receive blocks over the network, all nodes must independently converge on a single, identical canonical chain.</p>
-
+<p>In Wolfram Physics, <strong>causal invariance</strong> means that no matter the order in which a system\u2019s updates are applied, the resulting causal structure is always the same. Applied to blockchain consensus: regardless of the order nodes receive blocks over the network, all nodes must independently converge on a single, identical canonical chain.</p>
 <h2>Video Resources</h2>
 <p>Foundational video content on causal invariance from Wolfram Physics and related research.</p>
-<div class="mission-video-grid">
-<div class="mission-video-card"><iframe src="https://www.youtube.com/embed/vB492QIxJ0g" title="Causal Invariance — Wolfram Physics" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
-<div class="mission-video-card"><iframe src="https://www.youtube.com/embed/BV3a0PzNNqE" title="Causal Invariance Discussion" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
-<div class="mission-video-card"><iframe src="https://www.youtube.com/embed/LYFzm_xSWXw" title="Causal Invariance Lecture" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
-<div class="mission-video-card"><iframe src="https://www.youtube.com/embed/Kx7mdrmTEYA" title="Wolfram Physics — Causal Invariance" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
-<div class="mission-video-card"><iframe src="https://www.youtube.com/embed/hPQy576zP6c" title="Causal Invariance & Physics" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
-<div class="mission-video-card"><iframe src="https://www.youtube.com/embed/rxaCCjY7IXk" title="Causal Invariance Exploration" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
-</div>
-
+<div class="mission-video-grid"><div class="mission-video-card"><iframe src="https://www.youtube.com/embed/vB492QIxJ0g" title="Video 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="mission-video-card"><iframe src="https://www.youtube.com/embed/BV3a0PzNNqE" title="Video 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="mission-video-card"><iframe src="https://www.youtube.com/embed/LYFzm_xSWXw" title="Video 3" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="mission-video-card"><iframe src="https://www.youtube.com/embed/Kx7mdrmTEYA" title="Video 4" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="mission-video-card"><iframe src="https://www.youtube.com/embed/hPQy576zP6c" title="Video 5" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="mission-video-card"><iframe src="https://www.youtube.com/embed/rxaCCjY7IXk" title="Video 6" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
 <h2>Bounty</h2>
-<div class="mission-bounty">
-<div class="mission-bounty-reward">
-<div class="mission-bounty-amount">250,000 QUAI</div>
-<div class="mission-bounty-label">Bounty Reward</div>
-<div class="mission-bounty-paid">50,000 QUAI paid out</div>
-</div>
-<div class="mission-bounty-divider"></div>
-<div class="mission-bounty-meta">
-<div class="mission-bounty-row"><span class="mdot g"></span>Individual & team submissions accepted</div>
-<div class="mission-bounty-row"><span class="mdot a"></span>Wolfram Notebook + Analysis + Visualization required</div>
-<div class="mission-bounty-row"><span class="mdot b"></span>Evaluated by Stephen Wolfram & Wolfram Institute</div>
-<div class="mission-bounty-row"><span class="mdot g"></span>Proof review team: <a href="https://quaivault.org" target="_blank">QuaiVault.org</a></div>
-</div>
-</div>
-
+<div class="mission-bounty"><div class="mission-bounty-reward"><div class="mission-bounty-amount">250,000 QUAI</div><div class="mission-bounty-label">Bounty Reward</div><div class="mission-bounty-paid">50,000 QUAI paid out</div></div><div class="mission-bounty-divider"></div><div class="mission-bounty-meta"><div class="mission-bounty-row"><span class="mdot g"></span>Individual &amp; team submissions accepted</div><div class="mission-bounty-row"><span class="mdot a"></span>Wolfram Notebook + Analysis + Visualization required</div><div class="mission-bounty-row"><span class="mdot b"></span>Evaluated by Stephen Wolfram &amp; Wolfram Institute</div><div class="mission-bounty-row"><span class="mdot g"></span>Proof review team: <a href="https://quaivault.org" target="_blank">QuaiVault.org</a></div></div></div>
 <h2>Participate</h2>
-<div class="mission-cards">
-<div class="mission-card">
-<h4>Submit a Proof</h4>
-<p>Original work from individuals or teams. Must include a Wolfram Notebook, written analysis, and compelling visualization.</p>
-<ul>
-<li><span class="cd g"></span>Wolfram Notebook demonstrating Quai blocks interpreted through Wolfram Physics rewriting rules</li>
-<li><span class="cd g"></span>Visualizations of causal structure convergence across block orderings</li>
-<li><span class="cd g"></span>Include a <a href="https://pelaguswallet.io/" target="_blank">Pelagus Wallet</a> address for token distribution</li>
-</ul>
-<a class="mission-btn green" href="mailto:smacurdy@wolfram.com?subject=Causal%20Invariance%20Bounty%20Submission">Submit via Email</a>
-</div>
-<div class="mission-card">
-<h4>Access Materials</h4>
-<p>Resources for understanding the bounty, Wolfram Physics foundations, and the Quai Network architecture.</p>
-<ul>
-<li><span class="cd b"></span><a href="https://stats.quai.network" target="_blank">Stats.quai.network</a> — Live network statistics</li>
-<li><span class="cd b"></span><a href="https://www.wolframcloud.com/obj/wolframblockchainlabs/Published/QuaiIntegration.nb" target="_blank">Wolfram Notebook: Quai Integration</a></li>
-<li><span class="cd b"></span><a href="https://www.wolframphysics.org/technical-introduction/the-updating-process-for-string-substitution-systems/causal-invariance/" target="_blank">Wolfram Physics: Causal Invariance</a></li>
-<li><span class="cd b"></span><a href="https://arxiv.org/pdf/2303.04305" target="_blank">PoEM Whitepaper (arXiv)</a></li>
-</ul>
-<a class="mission-btn blue" href="https://drive.google.com" target="_blank">Open Google Drive</a>
-</div>
-</div>`,
-connection: "Causal invariance is the Wolfram Physics property that guarantees observer-independent reality — regardless of the order updates are applied, the causal structure is identical. If PoEM is causally invariant, it means Quai's consensus is not merely probabilistically secure but <strong>structurally determined</strong> by the physics of computation itself. This is the deepest possible foundation for a proof-of-work protocol."
+<div class="mission-cards"><div class="mission-card"><h4>Submit a Proof</h4><p>Original work from individuals or teams. Must include a Wolfram Notebook, written analysis, and compelling visualization.</p><ul><li><span class="cd g"></span>Wolfram Notebook demonstrating Quai blocks interpreted through Wolfram Physics rewriting rules</li><li><span class="cd g"></span>Visualizations of causal structure convergence across block orderings</li><li><span class="cd g"></span>Include a <a href="https://pelaguswallet.io/" target="_blank">Pelagus Wallet</a> address for token distribution</li></ul><a class="mission-btn green" href="mailto:smacurdy@wolfram.com?subject=Causal%20Invariance%20Bounty%20Submission">Submit via Email</a></div><div class="mission-card"><h4>Access Materials</h4><p>Resources for understanding the bounty, Wolfram Physics foundations, and the Quai Network architecture.</p><ul><li><span class="cd b"></span><a href="https://stats.quai.network" target="_blank">Stats.quai.network</a> \u2014 Live network statistics</li><li><span class="cd b"></span><a href="https://www.wolframcloud.com/obj/wolframblockchainlabs/Published/QuaiIntegration.nb" target="_blank">Wolfram Notebook: Quai Integration</a></li><li><span class="cd b"></span><a href="https://www.wolframphysics.org/technical-introduction/the-updating-process-for-string-substitution-systems/causal-invariance/" target="_blank">Wolfram Physics: Causal Invariance</a></li><li><span class="cd b"></span><a href="https://arxiv.org/pdf/2303.04305" target="_blank">PoEM Whitepaper (arXiv)</a></li></ul><a class="mission-btn blue" href="https://drive.google.com" target="_blank">Open Google Drive</a></div></div>`,
+connection: "Causal invariance is the Wolfram Physics property that guarantees observer-independent reality \u2014 regardless of the order updates are applied, the causal structure is identical. If PoEM is causally invariant, it means Quai\u2019s consensus is not merely probabilistically secure but <strong>structurally determined</strong> by the physics of computation itself. This is the deepest possible foundation for a proof-of-work protocol."
 },
 {
-slug: "causal-invariance-submissions", section: "causal-invariance", title: "Submissions & Verification",
-meta: "1 submission received · Peer review in progress",
+slug: "ci-submissions", section: "causal-invariance", title: "Submissions & Verification",
+meta: "1 submission received \u00b7 Peer review in progress",
 body: `<p>Track the status of proof submissions and the formal verification pipeline.</p>
-
 <h2>Current Submissions</h2>
-<div style="background:var(--bg-white);border:1px solid var(--border-light);border-radius:10px;padding:20px;margin:20px 0;">
-<div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:8px;display:flex;align-items:center;gap:6px;"><span style="width:6px;height:6px;border-radius:50%;background:var(--green);"></span>Proof Submitted — July 11, 2025</div>
-<div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text-primary);line-height:1.4;">Formal Verification of Causal Invariance in the Quai Network PoEM Fork-Choice Rule</div>
-<div style="font-size:12px;color:var(--text-muted);margin-top:8px;">Z3 SMT Solver · Proof by Contradiction · Cyprus-1 Mainnet Data</div>
-</div>
-
+<div style="background:var(--bg-white);border:1px solid var(--border-light);border-radius:10px;padding:20px;margin:20px 0;"><div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:8px;display:flex;align-items:center;gap:6px;"><span style="width:6px;height:6px;border-radius:50%;background:var(--green);"></span>Proof Submitted \u2014 July 11, 2025</div><div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text-primary);line-height:1.4;">Formal Verification of Causal Invariance in the Quai Network PoEM Fork-Choice Rule</div><div style="font-size:12px;color:var(--text-muted);margin-top:8px;">Z3 SMT Solver \u00b7 Proof by Contradiction \u00b7 Cyprus-1 Mainnet Data</div></div>
 <h2>Verification Pipeline</h2>
-<div class="mission-pipeline">
-<div class="mission-stage">
-<div class="mission-stage-name">Submission</div>
-<div class="mission-stage-desc">Proof + code + report delivered via bounty channel</div>
-<span class="mission-stage-badge done">Complete</span>
-</div>
-<div class="mission-stage">
-<div class="mission-stage-name">Peer Review</div>
-<div class="mission-stage-desc">Independent reproduction & validation of Z3 proof</div>
-<span class="mission-stage-badge active">In Progress</span>
-</div>
-<div class="mission-stage">
-<div class="mission-stage-name dim">Expert Verification</div>
-<div class="mission-stage-desc">Review by Stephen Wolfram, Wolfram Institute & Quai engineers</div>
-<span class="mission-stage-badge pending">Pending</span>
-</div>
-</div>
-
+<div class="mission-pipeline"><div class="mission-stage"><div class="mission-stage-name">Submission</div><div class="mission-stage-desc">Proof + code + report delivered via bounty channel</div><span class="mission-stage-badge done">Complete</span></div><div class="mission-stage"><div class="mission-stage-name">Peer Review</div><div class="mission-stage-desc">Independent reproduction &amp; validation of Z3 proof</div><span class="mission-stage-badge active">In Progress</span></div><div class="mission-stage"><div class="mission-stage-name dim">Expert Verification</div><div class="mission-stage-desc">Review by Stephen Wolfram, Wolfram Institute &amp; Quai engineers</div><span class="mission-stage-badge pending">Pending</span></div></div>
 <p style="margin-top:24px;">The peer review process is managed by <a href="https://quaivault.org" target="_blank">QuaiVault.org</a>. Once peer review concludes, the submission advances to expert verification by Stephen Wolfram, Wolfram Institute advisors, and Quai Network engineers.</p>`
 },
-
 {
 slug: "glossary", section: "reference", title: "Glossary",
 body: `<p>Key terms organized by tradition.</p>
