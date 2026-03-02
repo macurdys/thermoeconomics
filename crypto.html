@@ -1,0 +1,1990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Crypto Works — The Study — Thermoeconomics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-card: rgba(255,255,255,0.03);
+    --bg-card-hover: rgba(255,255,255,0.055);
+    --bg-elevated: rgba(255,255,255,0.06);
+    --bg-input: rgba(255,255,255,0.04);
+    --bg-input-focus: rgba(255,255,255,0.07);
+    --border: rgba(255,255,255,0.08);
+    --border-bright: rgba(255,255,255,0.12);
+    --green: #39FF14;
+    --green-dim: rgba(57,255,20,0.10);
+    --green-glow: rgba(57,255,20,0.25);
+    --red: #ff3b3b;
+    --red-dim: rgba(255,59,59,0.10);
+    --cyan: #00f0ff;
+    --cyan-dim: rgba(0,240,255,0.08);
+    --amber: #f0a030;
+    --amber-dim: rgba(240,160,48,0.10);
+    --purple: #a855f7;
+    --purple-dim: rgba(168,85,247,0.10);
+    --text: #e8e8e8;
+    --text-secondary: #999;
+    --text-dim: #555;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'Outfit', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.65; min-height: 100vh; overflow-x: hidden; }
+
+  /* ===== TOP NAV ===== */
+  .topnav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(10,10,10,0.88); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border); height: 52px; display: flex; align-items: center; padding: 0 20px; gap: 16px;
+  }
+  .topnav-brand { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); letter-spacing: 1.5px; text-decoration: none; transition: color 0.2s; }
+  .topnav-brand:hover { color: var(--text-secondary); }
+  .topnav-sep { color: var(--text-dim); font-size: 14px; opacity: 0.4; }
+  .topnav-title { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--green); letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 20px var(--green-dim); }
+  .topnav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+  .topnav-link { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px; color: var(--text-dim); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+  .topnav-link:hover { color: var(--green); }
+  .topnav-link.active { color: var(--green); }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar {
+    position: fixed; top: 52px; left: 0; bottom: 0; width: 280px;
+    background: rgba(10,10,10,0.6); backdrop-filter: blur(12px);
+    border-right: 1px solid var(--border); overflow-y: auto; z-index: 100; padding: 16px 0; transition: transform 0.3s ease;
+  }
+  .sidebar::-webkit-scrollbar { width: 3px; }
+  .sidebar::-webkit-scrollbar-track { background: transparent; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .sidebar-section { margin-bottom: 4px; }
+  .sidebar-section-header { display: flex; align-items: center; padding: 10px 20px; cursor: pointer; user-select: none; transition: background 0.15s; }
+  .sidebar-section-header:hover { background: rgba(255,255,255,0.02); }
+  .sidebar-section-arrow { font-size: 8px; color: var(--text-dim); margin-right: 10px; transition: transform 0.2s; width: 10px; text-align: center; }
+  .sidebar-section.expanded .sidebar-section-arrow { transform: rotate(90deg); }
+  .sidebar-section-label { font-family: var(--font-display); font-size: 10px; font-weight: 700; color: var(--text-secondary); letter-spacing: 2px; text-transform: uppercase; }
+  .sidebar-section-num { font-family: var(--font-mono); font-size: 9px; color: var(--text-dim); margin-left: auto; }
+  .sidebar-pages { display: none; }
+  .sidebar-section.expanded .sidebar-pages { display: block; }
+  .sidebar-page { display: flex; align-items: center; padding: 7px 20px 7px 40px; cursor: pointer; transition: all 0.15s; text-decoration: none; position: relative; }
+  .sidebar-page:hover { background: rgba(255,255,255,0.025); }
+  .sidebar-page.active { background: var(--green-dim); }
+  .sidebar-page.active::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--green); box-shadow: 0 0 8px var(--green-glow); }
+  .sidebar-page-num { font-family: var(--font-mono); font-size: 9px; color: var(--text-dim); width: 28px; flex-shrink: 0; }
+  .sidebar-page.active .sidebar-page-num { color: var(--green); }
+  .sidebar-page-label { font-family: var(--font-body); font-size: 12.5px; color: var(--text-secondary); line-height: 1.3; }
+  .sidebar-page.active .sidebar-page-label { color: var(--text); }
+  .sidebar-page.disabled { opacity: 0.28; cursor: default; pointer-events: none; }
+  .sidebar-tag { font-family: var(--font-mono); font-size: 8px; color: var(--text-dim); background: rgba(255,255,255,0.04); padding: 1px 5px; border-radius: 2px; margin-left: auto; letter-spacing: 0.5px; }
+
+  /* ===== MAIN ===== */
+  .main { margin-left: 280px; margin-top: 52px; padding: 40px 48px 80px; min-height: calc(100vh - 52px); position: relative; }
+  .main-inner { max-width: 780px; }
+  .main-wide { max-width: 100%; } /* for chain pages */
+  .page { display: none; animation: pageFade 0.2s ease; }
+  .page.active { display: block; }
+  @keyframes pageFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ===== PAGE TEMPLATE ===== */
+  .page-section-tag { font-family: var(--font-display); font-size: 10px; font-weight: 700; color: var(--green); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; text-shadow: 0 0 16px var(--green-dim); }
+  .page-title { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--text); line-height: 1.25; margin-bottom: 10px; }
+  .page-subtitle { font-family: var(--font-body); font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 32px; max-width: 620px; }
+
+  /* ===== CARDS ===== */
+  .def-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; backdrop-filter: blur(8px); }
+  .def-card-label { font-family: var(--font-mono); font-size: 9px; font-weight: 600; color: var(--cyan); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+  .def-math { font-family: var(--font-body); font-size: 15px; color: var(--text); line-height: 2; }
+  .def-math .fn { color: var(--green); font-weight: 600; }
+  .def-math .var { color: var(--cyan); font-style: italic; }
+  .def-math .op { color: var(--text-dim); padding: 0 2px; }
+
+  .callout { background: var(--green-dim); border: 1px solid rgba(57,255,20,0.15); border-radius: 8px; padding: 16px 20px; margin-top: 24px; }
+  .callout-header { font-family: var(--font-display); font-size: 10px; font-weight: 700; color: var(--green); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+  .callout p { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
+  .callout strong { color: var(--green); font-weight: 500; }
+
+  /* ===== WELL ===== */
+  .well { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 28px; margin-bottom: 20px; backdrop-filter: blur(8px); transition: border-color 0.3s, box-shadow 0.3s; }
+  .well.valid { border-color: rgba(57,255,20,0.3); box-shadow: 0 0 30px rgba(57,255,20,0.04), inset 0 0 30px rgba(57,255,20,0.02); }
+  .well.invalid { border-color: rgba(255,59,59,0.25); box-shadow: inset 0 0 30px rgba(255,59,59,0.02); }
+
+  /* ===== FIELDS ===== */
+  .field { margin-bottom: 16px; }
+  .field-label { font-family: var(--font-mono); font-size: 10px; font-weight: 500; color: var(--text-secondary); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .field-label .mv { font-family: var(--font-body); font-style: italic; font-size: 14px; color: var(--cyan); text-transform: none; letter-spacing: 0; }
+  textarea.inp, input.inp { width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: var(--font-mono); font-size: 13px; padding: 12px 14px; outline: none; transition: border-color 0.2s, box-shadow 0.2s, background 0.2s; resize: vertical; }
+  textarea.inp:focus, input.inp:focus { border-color: rgba(57,255,20,0.4); box-shadow: 0 0 0 2px var(--green-dim); background: var(--bg-input-focus); }
+  input.inp[disabled] { background: rgba(255,255,255,0.015); cursor: default; }
+  input.inp.ho { font-size: 12px; letter-spacing: 0.03em; color: var(--green); text-shadow: 0 0 12px var(--green-dim); }
+  input.inp.hv { color: var(--green); border-color: rgba(57,255,20,0.35); }
+  input.inp.hi { color: var(--red); border-color: rgba(255,59,59,0.3); }
+  input.inp.narrow { width: 140px; }
+  .row { display: flex; gap: 16px; align-items: flex-end; }
+  .row .field { margin-bottom: 0; }
+
+  /* ===== BUTTONS ===== */
+  .btn-mine { display: inline-flex; align-items: center; gap: 8px; background: var(--green-dim); border: 1px solid rgba(57,255,20,0.3); border-radius: 5px; padding: 10px 24px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--green); cursor: pointer; letter-spacing: 1.5px; text-transform: uppercase; transition: all 0.2s; }
+  .btn-mine:hover { background: rgba(57,255,20,0.16); box-shadow: 0 0 24px var(--green-dim); }
+  .btn-mine:active { transform: scale(0.97); }
+  .btn-mine.mining { animation: pm 0.5s ease-in-out infinite alternate; }
+  @keyframes pm { from{box-shadow:0 0 8px var(--green-dim)}to{box-shadow:0 0 28px var(--green-glow)} }
+  .btn-mine-sm { padding: 6px 14px; font-size: 10px; letter-spacing: 1px; }
+
+  /* ===== STATUS ===== */
+  .st { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 9px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 12px; border-radius: 4px; }
+  .st.valid { color: var(--green); background: var(--green-dim); border: 1px solid rgba(57,255,20,0.18); }
+  .st.invalid { color: var(--red); background: var(--red-dim); border: 1px solid rgba(255,59,59,0.18); }
+  .sd { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+  /* ===== DIFFICULTY (Block page) ===== */
+  .drow { display: flex; align-items: center; gap: 12px; margin-top: 16px; padding: 12px 16px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 6px; }
+  .dl { font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
+  .dd { display: flex; gap: 2px; }
+  .db { width: 6px; height: 14px; border-radius: 1px; background: rgba(255,255,255,0.06); transition: background 0.15s; }
+  .db.on { background: var(--amber); }
+  input[type="range"] { accent-color: var(--amber); width: 100px; margin-left: auto; }
+  .ms { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); margin-top: 10px; }
+
+  /* ===== CHAIN LAYOUT (Phase 2) ===== */
+  .chain-scroll { overflow-x: auto; padding-bottom: 12px; margin: 0 -12px; }
+  .chain-scroll::-webkit-scrollbar { height: 4px; }
+  .chain-scroll::-webkit-scrollbar-track { background: transparent; }
+  .chain-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .chain-row { display: flex; gap: 0; align-items: stretch; min-width: min-content; padding: 0 12px; }
+
+  .chain-connector {
+    display: flex; align-items: center; justify-content: center;
+    width: 32px; flex-shrink: 0; color: var(--text-dim); font-size: 18px;
+    position: relative;
+  }
+  .chain-connector::before {
+    content: ''; position: absolute; top: 50%; left: 0; right: 0;
+    height: 1px; background: var(--border);
+  }
+  .chain-connector span { position: relative; z-index: 1; background: var(--bg); padding: 0 2px; }
+
+  .chain-block {
+    width: 280px; min-width: 280px; flex-shrink: 0;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px; backdrop-filter: blur(8px);
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .chain-block.valid {
+    border-color: rgba(57,255,20,0.25);
+    box-shadow: inset 0 0 24px rgba(57,255,20,0.02);
+  }
+  .chain-block.invalid {
+    border-color: rgba(255,59,59,0.2);
+    box-shadow: inset 0 0 24px rgba(255,59,59,0.02);
+  }
+
+  .cb-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  }
+  .cb-num { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text); }
+  .cb-status { width: 7px; height: 7px; border-radius: 50%; transition: background 0.3s; }
+  .cb-status.valid { background: var(--green); box-shadow: 0 0 6px var(--green-glow); }
+  .cb-status.invalid { background: var(--red); box-shadow: 0 0 6px rgba(255,59,59,0.4); }
+
+  .cb-field { margin-bottom: 8px; }
+  .cb-label {
+    font-family: var(--font-mono); font-size: 8px; font-weight: 600;
+    color: var(--text-dim); letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 3px; display: flex; align-items: center; gap: 5px;
+  }
+  .cb-label .mv { font-family: var(--font-body); font-style: italic; font-size: 11px; color: var(--cyan); text-transform: none; letter-spacing: 0; }
+
+  .cb-input {
+    width: 100%; background: var(--bg-input); border: 1px solid var(--border);
+    border-radius: 4px; color: var(--text); font-family: var(--font-mono);
+    font-size: 11px; padding: 6px 8px; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .cb-input:focus { border-color: rgba(57,255,20,0.4); box-shadow: 0 0 0 1px var(--green-dim); }
+  .cb-input[disabled] { background: rgba(255,255,255,0.01); cursor: default; color: var(--text-dim); }
+  textarea.cb-input { resize: vertical; min-height: 48px; }
+  .cb-input.hash-out { font-size: 9px; color: var(--green); letter-spacing: 0.02em; word-break: break-all; }
+  .cb-input.prev-hash { font-size: 9px; color: var(--text-dim); word-break: break-all; }
+  .cb-input.hash-valid { color: var(--green); }
+  .cb-input.hash-invalid { color: var(--red); }
+  .cb-input.narrow { width: 70px; }
+
+  .cb-row { display: flex; gap: 8px; }
+  .cb-row .cb-field { flex: 1; }
+
+  .cb-mine-row { margin-top: 8px; }
+
+  /* ===== CRYPTO KEYS & SIGNATURES (Phase 4) ===== */
+  .key-display {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 20px; margin-bottom: 16px;
+    backdrop-filter: blur(8px);
+  }
+  .key-row { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+  .key-col { flex: 1; min-width: 260px; }
+  .key-label {
+    font-family: var(--font-mono); font-size: 9px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .key-label.private { color: var(--red); }
+  .key-label.public { color: var(--cyan); }
+  .key-label.sig { color: var(--purple); }
+  .key-lock { font-size: 11px; }
+  .key-val {
+    width: 100%; background: var(--bg-input); border: 1px solid var(--border);
+    border-radius: 6px; padding: 10px 12px; font-family: var(--font-mono);
+    font-size: 10px; word-break: break-all; line-height: 1.5;
+    min-height: 40px; color: var(--text-secondary);
+  }
+  .key-val.private-val { color: var(--red); border-color: rgba(255,59,59,0.2); }
+  .key-val.public-val { color: var(--cyan); border-color: rgba(0,240,255,0.15); }
+  .key-val.sig-val { color: var(--purple); border-color: rgba(168,85,247,0.2); }
+  .btn-gen {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--cyan-dim); border: 1px solid rgba(0,240,255,0.25);
+    border-radius: 5px; padding: 10px 24px;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+    color: var(--cyan); cursor: pointer; letter-spacing: 1.5px;
+    text-transform: uppercase; transition: all 0.2s;
+  }
+  .btn-gen:hover { background: rgba(0,240,255,0.12); box-shadow: 0 0 20px rgba(0,240,255,0.1); }
+  .btn-gen:active { transform: scale(0.97); }
+  .btn-sign {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--purple-dim); border: 1px solid rgba(168,85,247,0.25);
+    border-radius: 5px; padding: 10px 24px;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+    color: var(--purple); cursor: pointer; letter-spacing: 1.5px;
+    text-transform: uppercase; transition: all 0.2s;
+  }
+  .btn-sign:hover { background: rgba(168,85,247,0.14); box-shadow: 0 0 20px rgba(168,85,247,0.1); }
+  .btn-sign:active { transform: scale(0.97); }
+  .verify-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 5px; margin-top: 12px;
+  }
+  .verify-badge.verified { color: var(--green); background: var(--green-dim); border: 1px solid rgba(57,255,20,0.2); }
+  .verify-badge.failed { color: var(--red); background: var(--red-dim); border: 1px solid rgba(255,59,59,0.2); }
+  .verify-badge.none { color: var(--text-dim); background: rgba(255,255,255,0.02); border: 1px solid var(--border); }
+  .btn-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
+
+  /* Signed TX block additions */
+  .stx-sig-row {
+    margin-top: 4px; padding: 4px 6px;
+    background: var(--purple-dim); border: 1px solid rgba(168,85,247,0.15);
+    border-radius: 4px; display: flex; align-items: center; gap: 4px;
+    font-family: var(--font-mono); font-size: 8px; color: var(--purple);
+    word-break: break-all; line-height: 1.4;
+  }
+  .stx-sig-label { font-weight: 600; letter-spacing: 1px; text-transform: uppercase; flex-shrink: 0; }
+
+  /* Transaction rows inside blocks */
+  .tx-list { margin-bottom: 6px; }
+  .tx-row {
+    display: flex; align-items: center; gap: 4px;
+    padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-family: var(--font-mono); font-size: 10px;
+  }
+  .tx-row:last-child { border-bottom: none; }
+  .tx-from, .tx-to {
+    background: var(--bg-input); border: 1px solid var(--border); border-radius: 3px;
+    color: var(--text); font-family: var(--font-mono); font-size: 10px;
+    padding: 3px 6px; outline: none; width: 70px;
+    transition: border-color 0.2s;
+  }
+  .tx-from:focus, .tx-to:focus { border-color: rgba(57,255,20,0.4); }
+  .tx-arrow { color: var(--text-dim); font-size: 10px; flex-shrink: 0; }
+  .tx-amt {
+    background: var(--bg-input); border: 1px solid var(--border); border-radius: 3px;
+    color: var(--amber); font-family: var(--font-mono); font-size: 10px;
+    padding: 3px 6px; outline: none; width: 55px; text-align: right;
+    transition: border-color 0.2s;
+  }
+  .tx-amt:focus { border-color: rgba(240,160,48,0.5); }
+  .tx-unit { color: var(--text-dim); font-size: 8px; letter-spacing: 0.5px; }
+  .tx-del {
+    background: none; border: none; color: var(--text-dim); cursor: pointer;
+    font-size: 12px; padding: 0 2px; transition: color 0.15s; flex-shrink: 0;
+  }
+  .tx-del:hover { color: var(--red); }
+  .tx-add {
+    background: none; border: 1px dashed var(--border); border-radius: 3px;
+    color: var(--text-dim); font-family: var(--font-mono); font-size: 9px;
+    padding: 3px 8px; cursor: pointer; transition: all 0.15s; margin-top: 4px;
+    letter-spacing: 0.5px;
+  }
+  .tx-add:hover { border-color: var(--green); color: var(--green); }
+  .tx-coinbase {
+    background: var(--amber-dim); border: 1px solid rgba(240,160,48,0.2);
+    border-radius: 4px; padding: 4px 6px; margin-bottom: 4px;
+    display: flex; align-items: center; gap: 4px;
+    font-family: var(--font-mono); font-size: 10px;
+  }
+  .tx-cb-label { color: var(--amber); font-weight: 600; font-size: 8px; letter-spacing: 1px; text-transform: uppercase; }
+  .tx-cb-to {
+    background: var(--bg-input); border: 1px solid var(--border); border-radius: 3px;
+    color: var(--text); font-family: var(--font-mono); font-size: 10px;
+    padding: 3px 6px; outline: none; width: 70px;
+  }
+  .tx-cb-amt { color: var(--amber); font-weight: 600; }
+
+  /* Peer label */
+  .peer-label {
+    font-family: var(--font-display); font-size: 13px; font-weight: 700;
+    color: var(--text-secondary); letter-spacing: 2px; text-transform: uppercase;
+    margin: 24px 0 12px 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .peer-label:first-child { margin-top: 0; }
+  .peer-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); }
+
+  /* ===== PAGE NAV ===== */
+  .pn { display: flex; justify-content: space-between; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .pn a { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); text-decoration: none; letter-spacing: 1px; transition: color 0.2s; }
+  .pn a:hover { color: var(--green); }
+  .pn .nx { margin-left: auto; }
+
+  /* ===== SHA-256 EXPLORER (Phase 6) ===== */
+  .sha-section { margin-bottom: 32px; }
+  .sha-section-tag {
+    font-family: var(--font-display); font-size: 10px; font-weight: 700;
+    color: var(--amber); letter-spacing: 2.5px; text-transform: uppercase;
+    margin-bottom: 12px; text-shadow: 0 0 12px var(--amber-dim);
+  }
+
+  /* Padding grid */
+  .sha-pad-grid {
+    display: grid; grid-template-columns: repeat(16, 1fr); gap: 2px;
+    font-family: var(--font-mono); font-size: 10px; max-height: 220px; overflow-y: auto;
+  }
+  .sha-pad-cell {
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 2px; padding: 5px 2px; text-align: center;
+    font-size: 9px; color: var(--text-dim); transition: all 0.15s; line-height: 1.2;
+  }
+  .sha-pad-cell.msg { color: var(--cyan); background: var(--cyan-dim); border-color: rgba(0,240,255,0.12); }
+  .sha-pad-cell.pad { color: var(--amber); background: var(--amber-dim); border-color: rgba(240,160,48,0.12); }
+  .sha-pad-cell.len { color: var(--purple); background: var(--purple-dim); border-color: rgba(168,85,247,0.12); }
+
+  /* Hash value grid (init + final) */
+  .sha-hv-grid {
+    display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px;
+  }
+  .sha-hv-box {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 6px; padding: 10px 6px; text-align: center;
+  }
+  .sha-hv-box.final { background: var(--green-dim); border-color: rgba(57,255,20,0.2); }
+  .sha-hv-label {
+    font-family: var(--font-body); font-style: italic; font-size: 12px;
+    margin-bottom: 4px;
+  }
+  .sha-hv-box .sha-hv-label { color: var(--cyan); }
+  .sha-hv-box.final .sha-hv-label { color: var(--green); }
+  .sha-hv-val {
+    font-family: var(--font-mono); font-size: 10px; color: var(--text); letter-spacing: 0.02em;
+  }
+
+  /* Message schedule grid */
+  .sha-sched-grid {
+    display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px;
+  }
+  .sha-sched-word {
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 4px; padding: 6px 4px; text-align: center;
+    font-family: var(--font-mono); font-size: 9px; color: var(--text-secondary);
+    transition: all 0.2s; position: relative;
+  }
+  .sha-sched-word .wi {
+    display: block; font-size: 7px; color: var(--text-dim);
+    margin-bottom: 2px; letter-spacing: 0.5px;
+  }
+  .sha-sched-word.from-msg { color: var(--cyan); border-color: rgba(0,240,255,0.12); background: rgba(0,240,255,0.03); }
+  .sha-sched-word.expanded { color: var(--text-secondary); }
+  .sha-sched-word.active { color: var(--green); border-color: rgba(57,255,20,0.3); background: var(--green-dim); box-shadow: 0 0 8px rgba(57,255,20,0.08); }
+
+  /* Round controls */
+  .sha-round-ctrl {
+    display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+    background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+    border-radius: 6px; margin-bottom: 16px; flex-wrap: wrap;
+  }
+  .sha-round-info { font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary); white-space: nowrap; }
+  .sha-round-num { color: var(--green); font-weight: 700; font-size: 15px; }
+  .sha-round-slider { flex: 1; min-width: 100px; accent-color: var(--green); }
+  .sha-round-btns { display: flex; gap: 3px; }
+  .sha-rbtn {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 3px;
+    color: var(--text-secondary); font-family: var(--font-mono); font-size: 11px;
+    padding: 5px 10px; cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  }
+  .sha-rbtn:hover { border-color: var(--green); color: var(--green); }
+  .sha-play-btn.playing { background: var(--green-dim); border-color: rgba(57,255,20,0.3); color: var(--green); }
+
+  /* Working variables a-h */
+  .sha-vars-grid { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 16px; }
+  .sha-var-box {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 6px; padding: 8px 10px; text-align: center; min-width: 80px;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .sha-var-box.changed { border-color: rgba(57,255,20,0.3); box-shadow: 0 0 10px rgba(57,255,20,0.06); }
+  .sha-var-lbl { font-family: var(--font-body); font-style: italic; font-size: 14px; color: var(--cyan); margin-bottom: 3px; }
+  .sha-var-val { font-family: var(--font-mono); font-size: 10px; color: var(--text); letter-spacing: 0.02em; }
+
+  /* Round detail card */
+  .sha-round-detail {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px 20px; backdrop-filter: blur(8px);
+  }
+  .sha-rd-title {
+    font-family: var(--font-mono); font-size: 9px; font-weight: 600;
+    color: var(--amber); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .sha-rd-row {
+    display: flex; align-items: baseline; gap: 8px; padding: 4px 0;
+    font-family: var(--font-mono); font-size: 11px; flex-wrap: wrap;
+  }
+  .sha-rd-row .lbl { color: var(--cyan); font-style: italic; font-weight: 600; min-width: 28px; }
+  .sha-rd-row .eq { color: var(--text-dim); }
+  .sha-rd-row .val { color: var(--text-secondary); word-break: break-all; }
+  .sha-rd-row .res { color: var(--green); font-weight: 500; }
+
+  /* Reference cards */
+  .sha-ref-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 14px 18px; margin-bottom: 12px;
+  }
+  .sha-ref-title {
+    font-family: var(--font-mono); font-size: 9px; font-weight: 600;
+    color: var(--amber); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px;
+  }
+  .sha-ref-row {
+    display: flex; align-items: baseline; gap: 8px; padding: 3px 0;
+    font-family: var(--font-mono); font-size: 11px; flex-wrap: wrap;
+  }
+  .sha-ref-fn { color: var(--cyan); font-weight: 600; min-width: 70px; }
+  .sha-ref-eq { color: var(--text-dim); }
+  .sha-ref-def { color: var(--text-secondary); }
+  .sha-ref-note { color: var(--text-dim); font-size: 9px; margin-left: 6px; }
+
+  /* ===== MOBILE ===== */
+  .mt { display: none; position: fixed; top: 10px; left: 10px; z-index: 1100; background: rgba(10,10,10,0.9); border: 1px solid var(--border); border-radius: 4px; padding: 6px 10px; color: var(--text); font-size: 16px; cursor: pointer; }
+  @media (max-width: 840px) {
+    .sidebar { transform: translateX(-100%); width: 260px; }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; padding: 32px 20px 60px; }
+    .mt { display: block; }
+    .topnav { padding-left: 48px; }
+    .chain-block { width: 240px; min-width: 240px; }
+    .sha-pad-grid { grid-template-columns: repeat(8, 1fr); }
+    .sha-sched-grid { grid-template-columns: repeat(4, 1fr); }
+    .sha-hv-grid { grid-template-columns: repeat(4, 1fr); }
+    .sha-var-box { min-width: 65px; padding: 6px; }
+    .sha-var-val { font-size: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<button class="mt" onclick="document.querySelector('.sidebar').classList.toggle('open')">&#9776;</button>
+
+<nav class="topnav">
+  <a href="/" class="topnav-brand">thermoeconomics.info</a>
+  <span class="topnav-sep">/</span>
+  <span class="topnav-title">The Study</span>
+  <div class="topnav-right">
+    <a href="/study.html" class="topnav-link">Thermoeconomics</a>
+    <a href="/crypto.html" class="topnav-link active">How Crypto Works</a>
+  </div>
+</nav>
+
+<aside class="sidebar">
+  <div class="sidebar-section expanded" data-section="hashing">
+    <div class="sidebar-section-header" onclick="toggleSection(this)">
+      <span class="sidebar-section-arrow">&#9654;</span>
+      <span class="sidebar-section-label">Hash Functions</span>
+      <span class="sidebar-section-num">I</span>
+    </div>
+    <div class="sidebar-pages">
+      <div class="sidebar-page active" data-page="hash" onclick="go('hash')"><span class="sidebar-page-num">1.1</span><span class="sidebar-page-label">SHA-256 Hash</span></div>
+      <div class="sidebar-page" data-page="block" onclick="go('block')"><span class="sidebar-page-num">1.2</span><span class="sidebar-page-label">Block & Proof-of-Work</span></div>
+    </div>
+  </div>
+  <div class="sidebar-section" data-section="chains">
+    <div class="sidebar-section-header" onclick="toggleSection(this)">
+      <span class="sidebar-section-arrow">&#9654;</span>
+      <span class="sidebar-section-label">Chain Structure</span>
+      <span class="sidebar-section-num">II</span>
+    </div>
+    <div class="sidebar-pages">
+      <div class="sidebar-page" data-page="blockchain" onclick="go('blockchain')"><span class="sidebar-page-num">2.1</span><span class="sidebar-page-label">Blockchain</span></div>
+      <div class="sidebar-page" data-page="distributed" onclick="go('distributed')"><span class="sidebar-page-num">2.2</span><span class="sidebar-page-label">Distributed</span></div>
+    </div>
+  </div>
+  <div class="sidebar-section" data-section="transactions">
+    <div class="sidebar-section-header" onclick="toggleSection(this)">
+      <span class="sidebar-section-arrow">&#9654;</span>
+      <span class="sidebar-section-label">Transactions</span>
+      <span class="sidebar-section-num">III</span>
+    </div>
+    <div class="sidebar-pages">
+      <div class="sidebar-page" data-page="tokens" onclick="go('tokens')"><span class="sidebar-page-num">3.1</span><span class="sidebar-page-label">Tokens</span></div>
+      <div class="sidebar-page" data-page="coinbase" onclick="go('coinbase')"><span class="sidebar-page-num">3.2</span><span class="sidebar-page-label">Coinbase Tx</span></div>
+    </div>
+  </div>
+  <div class="sidebar-section" data-section="crypto">
+    <div class="sidebar-section-header" onclick="toggleSection(this)">
+      <span class="sidebar-section-arrow">&#9654;</span>
+      <span class="sidebar-section-label">Asymmetric Crypto</span>
+      <span class="sidebar-section-num">IV</span>
+    </div>
+    <div class="sidebar-pages">
+      <div class="sidebar-page" data-page="keys" onclick="go('keys')"><span class="sidebar-page-num">4.1</span><span class="sidebar-page-label">Key Pairs</span></div>
+      <div class="sidebar-page" data-page="signatures" onclick="go('signatures')"><span class="sidebar-page-num">4.2</span><span class="sidebar-page-label">Signatures</span></div>
+      <div class="sidebar-page" data-page="transaction" onclick="go('transaction')"><span class="sidebar-page-num">4.3</span><span class="sidebar-page-label">Signed Tx</span></div>
+    </div>
+  </div>
+  <div class="sidebar-section" data-section="protocol">
+    <div class="sidebar-section-header" onclick="toggleSection(this)">
+      <span class="sidebar-section-arrow">&#9654;</span>
+      <span class="sidebar-section-label">Full Protocol</span>
+      <span class="sidebar-section-num">V</span>
+    </div>
+    <div class="sidebar-pages">
+      <div class="sidebar-page" data-page="signedchain" onclick="go('signedchain')"><span class="sidebar-page-num">5.1</span><span class="sidebar-page-label">Signed Blockchain</span></div>
+    </div>
+  </div>
+  <div class="sidebar-section" data-section="internals">
+    <div class="sidebar-section-header" onclick="toggleSection(this)">
+      <span class="sidebar-section-arrow">&#9654;</span>
+      <span class="sidebar-section-label">Algorithm Internals</span>
+      <span class="sidebar-section-num">VI</span>
+    </div>
+    <div class="sidebar-pages">
+      <div class="sidebar-page" data-page="sha256deep" onclick="go('sha256deep')"><span class="sidebar-page-num">6.1</span><span class="sidebar-page-label">SHA-256 Explorer</span></div>
+    </div>
+  </div>
+</aside>
+
+<div class="main"><div class="main-inner">
+
+  <!-- ===== PAGE: HASH ===== -->
+  <div class="page active" id="page-hash">
+    <div class="page-section-tag">I &middot; Hash Functions</div>
+    <h1 class="page-title">SHA-256 Cryptographic Hash</h1>
+    <p class="page-subtitle">A deterministic function mapping arbitrary-length input to a fixed 256-bit digest. Any change to the input produces an entirely different output.</p>
+    <div class="def-card">
+      <div class="def-card-label">Definition</div>
+      <div class="def-math"><span class="fn">H</span> : {0, 1}* &rarr; {0, 1}<sup>256</sup><br><span class="fn">SHA-256</span>(<span class="var">m</span>) <span class="op">=</span> <span class="var">h</span> <span class="op">&isin;</span> {0, 1}<sup>256</sup><span class="op">,</span> |<span class="var">h</span>| = 256 bits = 64 hex characters</div>
+    </div>
+    <div class="well">
+      <div class="field"><div class="field-label"><span class="mv">m</span> Input Data</div><textarea class="inp" id="hashData" rows="5" placeholder="Type anything here..."></textarea></div>
+      <div class="field"><div class="field-label"><span class="mv">H(m)</span> SHA-256 Digest</div><input class="inp ho" id="hashOutput" type="text" disabled></div>
+    </div>
+    <div class="callout"><div class="callout-header">Connection to Thermoeconomics</div><p><strong>Preimage resistance</strong> is the computational one-way-ness that makes proof-of-work possible. Given <em>h</em>, finding any <em>m</em> such that H(<em>m</em>) = <em>h</em> requires brute-force search over 2<sup>256</sup> &asymp; 1.16 &times; 10<sup>77</sup> possibilities. Each trial dissipates energy irreversibly &mdash; the thermodynamic anchor binding hash computation to physical work.</p></div>
+    <div class="pn"><span></span><a href="#block" class="nx" onclick="go('block')">Block & Proof-of-Work &rarr;</a></div>
+  </div>
+
+  <!-- ===== PAGE: BLOCK ===== -->
+  <div class="page" id="page-block">
+    <div class="page-section-tag">I &middot; Hash Functions</div>
+    <h1 class="page-title">Block Structure & Proof-of-Work</h1>
+    <p class="page-subtitle">A block bundles data with a nonce. Mining searches for a nonce satisfying a difficulty target &mdash; the core of proof-of-work consensus.</p>
+    <div class="def-card"><div class="def-card-label">Definition &mdash; Block Hash</div><div class="def-math"><span class="fn">B</span> <span class="op">=</span> (<span class="var">n</span><sub>block</sub><span class="op">,</span> <span class="var">&eta;</span><span class="op">,</span> <span class="var">d</span>)<br><span class="fn">H</span>(<span class="fn">B</span>) <span class="op">=</span> <span class="fn">SHA-256</span>(<span class="var">n</span><sub>block</sub> <span class="op">&#8741;</span> <span class="var">&eta;</span> <span class="op">&#8741;</span> <span class="var">d</span>)</div></div>
+    <div class="def-card"><div class="def-card-label">Definition &mdash; Mining</div><div class="def-math">Find <span class="var">&eta;</span> <span class="op">&isin;</span> &#8469; such that <span class="fn">H</span>(<span class="fn">B</span>) <span class="op">&lt;</span> <span class="var">T</span><br>where <span class="var">T</span> <span class="op">=</span> 2<sup>256 &minus; <span class="var">&kappa;</span></sup>, <span class="var">&kappa;</span> = difficulty (leading zero hex digits)</div></div>
+    <div class="well" id="bW">
+      <div class="row"><div class="field"><div class="field-label"><span class="mv">n</span> Block #</div><input class="inp narrow" id="bNum" type="number" value="1" min="1"></div><div class="field"><div class="field-label"><span class="mv">&eta;</span> Nonce</div><input class="inp" id="bNon" type="text" value="0" style="width:180px;"></div></div>
+      <div class="field" style="margin-top:16px;"><div class="field-label"><span class="mv">d</span> Data</div><textarea class="inp" id="bDat" rows="5" placeholder="Block payload..."></textarea></div>
+      <div class="field"><div class="field-label"><span class="mv">H(B)</span> Block Hash</div><input class="inp ho" id="bHsh" type="text" disabled></div>
+      <div class="drow"><div class="dl">Target &kappa; = <span id="dV">4</span> hex zeros</div><div class="dd" id="dD"></div><input type="range" id="dS" min="1" max="6" value="4"></div>
+      <div style="display:flex;align-items:center;gap:16px;margin-top:16px;flex-wrap:wrap;"><button class="btn-mine" id="mB" onclick="singleMine()">&#9935; Mine</button><div class="st invalid" id="bSt"><span class="sd"></span><span id="bStT">Does not satisfy target</span></div></div>
+      <div class="ms" id="mSt"></div>
+    </div>
+    <div class="callout"><div class="callout-header">Connection to Thermoeconomics</div><p><strong>Proof-of-work is a thermodynamic process.</strong> Each nonce trial dissipates energy as heat per Landauer's principle (<em>E</em> &ge; <em>kT</em> ln 2 per bit erasure). The cumulative work is physically embedded in the chain &mdash; thermodynamic proof of expended energy.</p></div>
+    <div class="pn"><a href="#hash" onclick="go('hash')">&larr; SHA-256 Hash</a><a href="#blockchain" class="nx" onclick="go('blockchain')">Blockchain &rarr;</a></div>
+  </div>
+
+  <!-- ===== PAGE: BLOCKCHAIN ===== -->
+  <div class="page" id="page-blockchain">
+    <div class="page-section-tag">II &middot; Chain Structure</div>
+    <h1 class="page-title">Blockchain</h1>
+    <p class="page-subtitle">Blocks are linked by including the previous block's hash. Changing any block invalidates all subsequent blocks, making the history tamper-evident. Scroll right to see the full chain.</p>
+    <div class="def-card"><div class="def-card-label">Definition &mdash; Chain Integrity</div><div class="def-math"><span class="fn">B</span><sub><span class="var">i</span></sub> <span class="op">=</span> (<span class="var">i</span><span class="op">,</span> <span class="var">&eta;</span><sub><span class="var">i</span></sub><span class="op">,</span> <span class="var">d</span><sub><span class="var">i</span></sub><span class="op">,</span> <span class="fn">H</span>(<span class="fn">B</span><sub><span class="var">i</span>&minus;1</sub>))<br><span class="fn">H</span>(<span class="fn">B</span><sub><span class="var">i</span></sub>) <span class="op">=</span> <span class="fn">SHA-256</span>(<span class="var">i</span> <span class="op">&#8741;</span> <span class="var">&eta;</span><sub><span class="var">i</span></sub> <span class="op">&#8741;</span> <span class="var">d</span><sub><span class="var">i</span></sub> <span class="op">&#8741;</span> <span class="fn">H</span>(<span class="fn">B</span><sub><span class="var">i</span>&minus;1</sub>))</div></div>
+
+    <div class="chain-scroll"><div class="chain-row" id="chain-bc"></div></div>
+
+    <div class="callout"><div class="callout-header">Connection to Thermoeconomics</div><p><strong>Hash chaining creates a thermodynamic arrow of time.</strong> Each block's hash depends on all preceding computation. Altering a historical block requires re-mining every subsequent block &mdash; an exponentially growing energy cost that makes the chain's history practically irreversible, mirroring entropy's irreversibility in physics.</p></div>
+    <div class="pn"><a href="#block" onclick="go('block')">&larr; Block & PoW</a><a href="#distributed" class="nx" onclick="go('distributed')">Distributed &rarr;</a></div>
+  </div>
+
+  <!-- ===== PAGE: DISTRIBUTED ===== -->
+  <div class="page" id="page-distributed">
+    <div class="page-section-tag">II &middot; Chain Structure</div>
+    <h1 class="page-title">Distributed Blockchain</h1>
+    <p class="page-subtitle">Multiple peers each maintain their own copy of the chain. Consensus emerges because honest peers accept the longest valid chain. Try tampering with one peer's data &mdash; the other copies reveal the forgery.</p>
+    <div class="def-card"><div class="def-card-label">Definition &mdash; Consensus</div><div class="def-math">Each peer <span class="var">P</span><sub><span class="var">k</span></sub> stores chain <span class="fn">C</span><sub><span class="var">k</span></sub> <span class="op">=</span> (<span class="fn">B</span><sub>1</sub><span class="op">,</span> ...<span class="op">,</span> <span class="fn">B</span><sub><span class="var">n</span></sub>)<br>Accept <span class="fn">C</span><sub><span class="var">k</span></sub> iff &forall;<span class="var">i</span> : <span class="fn">H</span>(<span class="fn">B</span><sub><span class="var">i</span></sub>) <span class="op">&lt;</span> <span class="var">T</span> &and; <span class="fn">B</span><sub><span class="var">i</span></sub>.prev <span class="op">=</span> <span class="fn">H</span>(<span class="fn">B</span><sub><span class="var">i</span>&minus;1</sub>)</div></div>
+
+    <div id="dist-peers"></div>
+
+    <div class="callout"><div class="callout-header">Connection to Thermoeconomics</div><p><strong>Distributed consensus is an entropy-minimizing protocol.</strong> The honest chain represents the state with the most cumulative work (lowest entropy path through computation space). A malicious peer would need to expend more energy than all honest peers combined &mdash; a thermodynamic impossibility at scale, securing the network through physics rather than trust.</p></div>
+    <div class="pn"><a href="#blockchain" onclick="go('blockchain')">&larr; Blockchain</a><a href="#tokens" class="nx" onclick="go('tokens')">Tokens &rarr;</a></div>
+  </div>
+
+  <!-- ===== PAGE: TOKENS ===== -->
+  <div class="page" id="page-tokens">
+    <div class="page-section-tag">III &middot; Transactions</div>
+    <h1 class="page-title">Token Transfers</h1>
+    <p class="page-subtitle">Replace free-text data with structured transactions. Each block records a set of value transfers between addresses. The hash commits to the exact transaction set &mdash; any alteration breaks the chain.</p>
+
+    <div class="def-card"><div class="def-card-label">Definition &mdash; Transaction</div><div class="def-math">
+      <span class="var">tx</span><sub><span class="var">j</span></sub> <span class="op">=</span> (<span class="var">from</span><sub><span class="var">j</span></sub><span class="op">,</span> <span class="var">to</span><sub><span class="var">j</span></sub><span class="op">,</span> <span class="var">v</span><sub><span class="var">j</span></sub>)<br>
+      <span class="fn">B</span><sub><span class="var">i</span></sub>.<span class="var">data</span> <span class="op">=</span> {<span class="var">tx</span><sub>1</sub><span class="op">,</span> ...<span class="op">,</span> <span class="var">tx</span><sub><span class="var">k</span></sub>}<br>
+      <span class="fn">H</span>(<span class="fn">B</span><sub><span class="var">i</span></sub>) <span class="op">=</span> <span class="fn">SHA-256</span>(<span class="var">i</span> <span class="op">&#8741;</span> <span class="var">&eta;</span><sub><span class="var">i</span></sub> <span class="op">&#8741;</span> serialize(<span class="var">txs</span>) <span class="op">&#8741;</span> <span class="fn">H</span>(<span class="fn">B</span><sub><span class="var">i</span>&minus;1</sub>))
+    </div></div>
+
+    <div class="chain-scroll"><div class="chain-row" id="chain-tok"></div></div>
+
+    <div class="callout"><div class="callout-header">Connection to Thermoeconomics</div><p><strong>Transactions encode economic state transitions.</strong> Each transfer is a reallocation of value between agents. The hash function binds these state transitions to irreversible computation, creating a thermodynamic record of economic activity. The energy cost of mining secures not just data, but economic history itself.</p></div>
+    <div class="pn"><a href="#distributed" onclick="go('distributed')">&larr; Distributed</a><a href="#coinbase" class="nx" onclick="go('coinbase')">Coinbase Tx &rarr;</a></div>
+  </div>
+
+  <!-- ===== PAGE: COINBASE ===== -->
+  <div class="page" id="page-coinbase">
+    <div class="page-section-tag">III &middot; Transactions</div>
+    <h1 class="page-title">Coinbase Transaction</h1>
+    <p class="page-subtitle">Every block begins with a special coinbase transaction &mdash; new tokens created from nothing, paid to the miner as a reward. This is the only mechanism for new currency to enter circulation, directly linking money creation to proof-of-work.</p>
+
+    <div class="def-card"><div class="def-card-label">Definition &mdash; Coinbase</div><div class="def-math">
+      <span class="var">tx</span><sub>0</sub> <span class="op">=</span> (<span class="op">&empty;</span><span class="op">,</span> <span class="var">miner</span><span class="op">,</span> <span class="var">R</span>)<span class="op">,</span> <span class="var">R</span> = block reward<br>
+      <span class="var">tx</span><sub>0</sub> has no sender &mdash; tokens are <em>created</em>, not transferred<br>
+      &forall;<span class="var">j</span> &gt; 0 : <span class="var">tx</span><sub><span class="var">j</span></sub> <span class="op">=</span> (<span class="var">from</span><sub><span class="var">j</span></sub><span class="op">,</span> <span class="var">to</span><sub><span class="var">j</span></sub><span class="op">,</span> <span class="var">v</span><sub><span class="var">j</span></sub>) &mdash; standard transfers
+    </div></div>
+
+    <div class="chain-scroll"><div class="chain-row" id="chain-cb"></div></div>
+
+    <div class="callout"><div class="callout-header">Connection to Thermoeconomics</div><p><strong>The coinbase transaction is where energy becomes money.</strong> The miner expends physical energy (electricity &rarr; heat) performing proof-of-work, and in return receives newly minted tokens. This is the thermodynamic anchor of the entire monetary system &mdash; currency is literally created through entropy production. Every token in circulation traces back to a coinbase transaction, and therefore to a specific quantity of dissipated energy.</p></div>
+    <div class="pn"><a href="#tokens" onclick="go('tokens')">&larr; Tokens</a><a href="#keys" class="nx" onclick="go('keys')">Key Pairs &rarr;</a></div>
+  </div>
+
+  <!-- ===== PAGE: KEY PAIRS ===== -->
+  <div class="page" id="page-keys">
+    <div class="page-section-tag">IV &middot; Asymmetric Cryptography</div>
+    <h1 class="page-title">Key Pairs</h1>
+    <p class="page-subtitle">Asymmetric cryptography generates a mathematically linked pair: a private key (secret) and a public key (shared). The private key can produce signatures that only the public key can verify &mdash; without ever revealing the secret.</p>
+
+    <div class="def-card"><div class="def-card-label">Definition &mdash; Key Generation</div><div class="def-math">
+      (<span class="var">sk</span><span class="op">,</span> <span class="var">pk</span>) <span class="op">&larr;</span> <span class="fn">KeyGen</span>(1<sup><span class="var">&lambda;</span></sup>)<br>
+      <span class="var">sk</span> <span class="op">&isin;</span> &#8484;<sub><span class="var">n</span></sub> (private key &mdash; random scalar)<br>
+      <span class="var">pk</span> <span class="op">=</span> <span class="var">sk</span> &middot; <span class="var">G</span> (public key &mdash; elliptic curve point)
+    </div></div>
+
+    <div class="well">
+      <div class="btn-row" style="margin-top:0;margin-bottom:16px;">
+        <button class="btn-gen" onclick="generateKeyPair()">&#9883; Generate Random Key Pair</button>
+      </div>
+      <div class="key-row">
+        <div class="key-col">
+          <div class="key-label private"><span class="key-lock">&#128274;</span> Private Key <span style="font-size:7px;color:var(--text-dim)">(ECDSA P-256)</span></div>
+          <div class="key-val private-val" id="privKey">Click "Generate" to create a key pair...</div>
+        </div>
+        <div class="key-col">
+          <div class="key-label public"><span class="key-lock">&#128275;</span> Public Key</div>
+          <div class="key-val public-val" id="pubKey">&mdash;</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout"><div class="callout-header">Connection to Thermoeconomics</div><p><strong>Asymmetric cryptography enables trustless ownership.</strong> In a proof-of-work system, the coinbase reward is paid to a public key. Only the holder of the corresponding private key can spend those tokens. This creates a direct link: physical energy (mining) &rarr; token creation (coinbase) &rarr; cryptographic ownership (key pair). No trusted third party is needed &mdash; ownership is enforced by mathematics.</p></div>
+    <div class="pn"><a href="#coinbase" onclick="go('coinbase')">&larr; Coinbase Tx</a><a href="#signatures" class="nx" onclick="go('signatures')">Signatures &rarr;</a></div>
+  </div>
+
+  <!-- ===== PAGE: SIGNATURES ===== -->
+  <div class="page" id="page-signatures">
+    <div class="page-section-tag">IV &middot; Asymmetric Cryptography</div>
+    <h1 class="page-title">Digital Signatures</h1>
+    <p class="page-subtitle">A digital signature proves that the holder of a private key authorized a specific message, without revealing the key itself. Anyone with the public key can verify authenticity. Try signing a message, then changing it to see verification fail.</p>
+
+    <div class="def-card"><div class="def-card-label">Definition &mdash; Sign & Verify</div><div class="def-math">
+      <span class="var">&sigma;</span> <span class="op">&larr;</span> <span class="fn">Sign</span>(<span class="var">sk</span><span class="op">,</span> <span class="var">m</span>)<br>
+      <span class="fn">Verify</span>(<span class="var">pk</span><span class="op">,</span> <span class="var">m</span><span class="op">,</span> <span class="var">&sigma;</span>) <span class="op">&isin;</span> {<span style="color:var(--green)">&#10003;</span><span class="op">,</span> <span style="color:var(--red)">&times;</span>}<br>
+      Existential unforgeability: cannot produce valid <span class="var">&sigma;</span> without <span class="var">sk</span>
+    </div></div>
+
+    <div class="well">
+      <div class="key-row">
+        <div class="key-col">
+          <div class="key-label private"><span class="key-lock">&#128274;</span> Private Key</div>
+          <div class="key-val private-val" id="sigPrivKey">Generate a key pair first...</div>
+        </div>
+        <div class="key-col">
+          <div class="key-label public"><span class="key-lock">&#128275;</span> Public Key</div>
+          <div class="key-val public-val" id="sigPubKey">&mdash;</div>
+        </div>
+      </div>
+      <div class="btn-row" style="margin-bottom:16px;">
+        <button class="btn-gen" onclick="sigGenKeys()">&#9883; Generate Keys</button>
+      </div>
+
+      <div class="field">
+        <div class="field-label"><span class="mv">m</span> Message</div>
+        <textarea class="inp" id="sigMsg" rows="3" placeholder="Type a message to sign..."></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-sign" id="sigSignBtn" onclick="signMessage()">&#9998; Sign</button>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div class="key-label sig"><span class="key-lock">&#9998;</span> Signature <span class="mv">&sigma;</span></div>
+        <div class="key-val sig-val" id="sigOutput">&mdash;</div>
+      </div>
+
+      <div id="sigVerifyBadge" class="verify-badge none" style="margin-top:12px;">
+        <span class="sd"></span> <span id="sigVerifyText">Awaiting signature</span>
+      </div>
+    </div>
+
+    <div class="callout"><div class="callout-header">Connection to Thermoeconomics</div><p><strong>Signatures enable authorization without trust.</strong> In the token system, a signature proves the sender authorized a transfer. Combined with proof-of-work, this creates a fully trustless economy: energy secures the ledger (mining), cryptography secures ownership (keys), and signatures authorize transfers &mdash; all grounded in mathematics and physics rather than institutional authority.</p></div>
+    <div class="pn"><a href="#keys" onclick="go('keys')">&larr; Key Pairs</a><a href="#transaction" class="nx" onclick="go('transaction')">Signed Tx &rarr;</a></div>
+  </div>
+
+  <!-- ===== PAGE: SIGNED TX ===== -->
+  <div class="page" id="page-transaction">
+    <div class="page-section-tag">IV &middot; Asymmetric Cryptography</div>
+    <h1 class="page-title">Signed Transactions</h1>
+    <p class="page-subtitle">Every transaction must now be signed by the sender's private key. Nodes verify each signature using the sender's public key before accepting the block. This prevents forgery &mdash; you can only spend tokens you own.</p>
+
+    <div class="def-card"><div class="def-card-label">Definition &mdash; Signed Transaction</div><div class="def-math">
+      <span class="var">tx</span><sub><span class="var">j</span></sub> <span class="op">=</span> (<span class="var">from</span><sub><span class="var">j</span></sub><span class="op">,</span> <span class="var">to</span><sub><span class="var">j</span></sub><span class="op">,</span> <span class="var">v</span><sub><span class="var">j</span></sub><span class="op">,</span> <span class="var">&sigma;</span><sub><span class="var">j</span></sub>)<br>
+      <span class="fn">Valid</span>(<span class="var">tx</span><sub><span class="var">j</span></sub>) <span class="op">&#8660;</span> <span class="fn">Verify</span>(<span class="var">pk</span><sub><span class="var">from</span></sub><span class="op">,</span> (<span class="var">to</span> <span class="op">&#8741;</span> <span class="var">v</span>)<span class="op">,</span> <span class="var">&sigma;</span><sub><span class="var">j</span></sub>) <span class="op">=</span> <span style="color:var(--green)">&#10003;</span>
+    </div></div>
+
+    <div class="well" id="stxWell">
+      <div class="key-row">
+        <div class="key-col">
+          <div class="key-label private"><span class="key-lock">&#128274;</span> Your Private Key</div>
+          <div class="key-val private-val" id="stxPriv" style="font-size:9px;">Generate keys to start...</div>
+        </div>
+        <div class="key-col">
+          <div class="key-label public"><span class="key-lock">&#128275;</span> Your Public Key (= your address)</div>
+          <div class="key-val public-val" id="stxPub" style="font-size:9px;">&mdash;</div>
+        </div>
+      </div>
+      <div class="btn-row" style="margin-bottom:16px;">
+        <button class="btn-gen" onclick="stxGenKeys()">&#9883; Generate Keys</button>
+      </div>
+
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px;">
+        <div class="cb-label" style="margin-bottom:12px;color:var(--amber);">Compose Transaction</div>
+        <div class="cb-row">
+          <div class="cb-field"><div class="cb-label">From (your pubkey)</div><input class="cb-input" id="stxFrom" type="text" disabled value="..." style="font-size:8px;color:var(--cyan);"></div>
+        </div>
+        <div class="cb-row" style="margin-top:8px;">
+          <div class="cb-field"><div class="cb-label">To</div><input class="cb-input" id="stxTo" type="text" value="Bob" placeholder="Recipient address"></div>
+          <div class="cb-field"><div class="cb-label">Amount</div><input class="cb-input" id="stxAmt" type="text" value="25.00" style="width:80px;color:var(--amber);"></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-sign" onclick="stxSign()">&#9998; Sign Transaction</button>
+        </div>
+        <div class="stx-sig-row" id="stxSigRow" style="display:none;margin-top:12px;">
+          <span class="stx-sig-label">Sig &sigma;:</span>
+          <span id="stxSigVal"></span>
+        </div>
+        <div id="stxVerify" class="verify-badge none" style="margin-top:8px;">
+          <span class="sd"></span> <span id="stxVerifyText">Awaiting signature</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout"><div class="callout-header">Connection to Thermoeconomics</div><p><strong>Signed transactions complete the thermodynamic economy.</strong> The full loop: energy &rarr; proof-of-work &rarr; coinbase reward &rarr; cryptographic ownership &rarr; signed transfers. Each step is grounded in either physics (energy dissipation) or mathematics (hash functions, elliptic curves). No trust, no intermediary, no institution &mdash; just thermodynamics and information theory.</p></div>
+    <div class="pn"><a href="#signatures" onclick="go('signatures')">&larr; Signatures</a><a href="#signedchain" class="nx" onclick="go('signedchain')">Signed Blockchain &rarr;</a></div>
+  </div>
+
+  <!-- ===== PAGE: SIGNED BLOCKCHAIN ===== -->
+  <div class="page" id="page-signedchain">
+    <div class="page-section-tag">V &middot; Full Protocol</div>
+    <h1 class="page-title">Signed Blockchain</h1>
+    <p class="page-subtitle">The complete protocol: a chain of blocks containing coinbase rewards and signed transactions. Each block is mined with proof-of-work, linked by previous hashes, and every transaction carries a cryptographic signature. This is how a blockchain actually works.</p>
+
+    <div class="def-card"><div class="def-card-label">Definition &mdash; Full Block</div><div class="def-math">
+      <span class="fn">B</span><sub><span class="var">i</span></sub> <span class="op">=</span> (<span class="var">i</span><span class="op">,</span> <span class="var">&eta;</span><sub><span class="var">i</span></sub><span class="op">,</span> [<span class="var">tx</span><sub>0</sub><span class="op">,</span> <span class="var">tx</span><sub>1</sub><span class="op">,</span> ...<span class="op">,</span> <span class="var">tx</span><sub><span class="var">k</span></sub>]<span class="op">,</span> <span class="fn">H</span>(<span class="fn">B</span><sub><span class="var">i</span>&minus;1</sub>))<br>
+      <span class="var">tx</span><sub>0</sub> <span class="op">=</span> (<span class="op">&empty;</span> <span class="op">&rarr;</span> <span class="var">miner</span><span class="op">,</span> <span class="var">R</span>) &mdash; coinbase<br>
+      <span class="var">tx</span><sub><span class="var">j</span>&gt;0</sub> <span class="op">=</span> (<span class="var">from</span><span class="op">,</span> <span class="var">to</span><span class="op">,</span> <span class="var">v</span><span class="op">,</span> <span class="var">&sigma;</span>) where <span class="fn">Verify</span>(<span class="var">pk</span><sub><span class="var">from</span></sub><span class="op">,</span> <span class="var">m</span><span class="op">,</span> <span class="var">&sigma;</span>) <span class="op">=</span> <span style="color:var(--green)">&#10003;</span>
+    </div></div>
+
+    <div class="well" style="padding:16px;">
+      <div class="key-row" style="margin-bottom:12px;">
+        <div class="key-col">
+          <div class="key-label private"><span class="key-lock">&#128274;</span> Miner Private Key</div>
+          <div class="key-val private-val" id="scPriv" style="font-size:8px;min-height:28px;">Generate keys to start...</div>
+        </div>
+        <div class="key-col">
+          <div class="key-label public"><span class="key-lock">&#128275;</span> Miner Public Key (address)</div>
+          <div class="key-val public-val" id="scPub" style="font-size:8px;min-height:28px;">&mdash;</div>
+        </div>
+      </div>
+      <div class="btn-row" style="margin-top:0;margin-bottom:0;">
+        <button class="btn-gen" onclick="scGenKeys()">&#9883; Generate Miner Keys</button>
+        <span style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);">Coinbase rewards &amp; tx signatures use this key</span>
+      </div>
+    </div>
+
+    <div class="chain-scroll"><div class="chain-row" id="chain-sc"></div></div>
+
+    <div class="callout"><div class="callout-header">Connection to Thermoeconomics</div><p><strong>This is the complete thermodynamic economy.</strong> Every element converges: irreversible computation (proof-of-work) secures the chain, energy expenditure creates new money (coinbase), elliptic curve cryptography establishes ownership (key pairs), and digital signatures authorize transfers. The result is a monetary system whose integrity is guaranteed by physics and mathematics alone &mdash; the foundational insight of thermoeconomics.</p></div>
+    <div class="pn"><a href="#transaction" onclick="go('transaction')">&larr; Signed Tx</a><a href="#sha256deep" class="nx" onclick="go('sha256deep')">SHA-256 Explorer &rarr;</a></div>
+  </div>
+
+  <!-- ===== PAGE: SHA-256 EXPLORER ===== -->
+  <div class="page" id="page-sha256deep">
+    <div class="page-section-tag">VI &middot; Algorithm Internals</div>
+    <h1 class="page-title">SHA-256 Deep Dive</h1>
+    <p class="page-subtitle">Step inside the SHA-256 algorithm. Watch message padding, schedule expansion, and all 64 compression rounds operate on your input in real time. Every hash you've seen in this toolkit was computed by exactly these operations.</p>
+
+    <div class="def-card"><div class="def-card-label">FIPS 180-4 &mdash; Secure Hash Algorithm 256</div><div class="def-math">
+      <span class="fn">SHA-256</span> : {0,1}* &rarr; {0,1}<sup>256</sup><br>
+      Steps: pad(<span class="var">m</span>) &rarr; parse into 512-bit blocks &rarr; expand to 64 words &rarr; 64 compression rounds &rarr; digest
+    </div></div>
+
+    <div class="well" style="padding:20px;">
+      <div class="field">
+        <div class="field-label"><span class="mv">m</span> Input Message</div>
+        <textarea class="inp" id="shaInput" rows="2" placeholder="Type to explore SHA-256 internals...">abc</textarea>
+      </div>
+      <div class="field">
+        <div class="field-label"><span class="mv">H(m)</span> Final Digest</div>
+        <input class="inp ho" id="shaDigest" type="text" disabled>
+      </div>
+    </div>
+
+    <!-- Step 1: Padding -->
+    <div class="sha-section">
+      <div class="sha-section-tag">Step 1 &mdash; Pre-Processing (Padding)</div>
+      <div class="def-card" style="margin-bottom:12px;"><div class="def-card-label">Operation</div><div class="def-math" style="font-size:13px;">
+        <span class="var">m</span> <span class="op">&#8741;</span> 1 <span class="op">&#8741;</span> 0<sup><span class="var">k</span></sup> <span class="op">&#8741;</span> &#10216;len&#10217;<sub>64</sub><br>
+        where <span class="var">k</span> is smallest non-negative integer such that len + 1 + <span class="var">k</span> &equiv; 448 (mod 512)
+      </div></div>
+      <div id="shaPadGrid" class="sha-pad-grid"></div>
+      <div style="margin-top:8px;display:flex;gap:16px;font-family:var(--font-mono);font-size:9px;">
+        <span><span style="color:var(--cyan);">&#9632;</span> message bytes</span>
+        <span><span style="color:var(--amber);">&#9632;</span> padding (0x80 + zeros)</span>
+        <span><span style="color:var(--purple);">&#9632;</span> length (64-bit big-endian)</span>
+      </div>
+    </div>
+
+    <!-- Step 2: Initial Hash Values -->
+    <div class="sha-section">
+      <div class="sha-section-tag">Step 2 &mdash; Initial Hash Values H<sup>(0)</sup></div>
+      <div class="def-card" style="margin-bottom:12px;"><div class="def-card-label">Definition</div><div class="def-math" style="font-size:13px;">
+        First 32 bits of the fractional parts of the square roots of the first 8 primes:<br>
+        &radic;2, &radic;3, &radic;5, &radic;7, &radic;11, &radic;13, &radic;17, &radic;19
+      </div></div>
+      <div class="sha-hv-grid" id="shaInitGrid"></div>
+    </div>
+
+    <!-- Step 3: Message Schedule -->
+    <div class="sha-section">
+      <div class="sha-section-tag">Step 3 &mdash; Message Schedule W<sub>t</sub></div>
+      <div class="def-card" style="margin-bottom:12px;"><div class="def-card-label">Expansion</div><div class="def-math" style="font-size:13px;">
+        <span class="var">W</span><sub><span class="var">t</span></sub> <span class="op">=</span>
+        <span class="var">M</span><sub><span class="var">t</span></sub><sup>(i)</sup> for 0 &le; <span class="var">t</span> &le; 15<br>
+        <span class="var">W</span><sub><span class="var">t</span></sub> <span class="op">=</span>
+        <span class="fn">&sigma;</span><sub>1</sub>(<span class="var">W</span><sub><span class="var">t</span>&minus;2</sub>) <span class="op">+</span>
+        <span class="var">W</span><sub><span class="var">t</span>&minus;7</sub> <span class="op">+</span>
+        <span class="fn">&sigma;</span><sub>0</sub>(<span class="var">W</span><sub><span class="var">t</span>&minus;15</sub>) <span class="op">+</span>
+        <span class="var">W</span><sub><span class="var">t</span>&minus;16</sub> for 16 &le; <span class="var">t</span> &le; 63
+      </div></div>
+      <div class="sha-sched-grid" id="shaSchedGrid"></div>
+    </div>
+
+    <!-- Step 4: Compression Rounds -->
+    <div class="sha-section">
+      <div class="sha-section-tag">Step 4 &mdash; Compression Function (64 Rounds)</div>
+      <div class="def-card" style="margin-bottom:12px;"><div class="def-card-label">Round Function</div><div class="def-math" style="font-size:13px;">
+        <span class="var">T</span><sub>1</sub> <span class="op">=</span> <span class="var">h</span> <span class="op">+</span> <span class="fn">&Sigma;</span><sub>1</sub>(<span class="var">e</span>) <span class="op">+</span> <span class="fn">Ch</span>(<span class="var">e</span>,<span class="var">f</span>,<span class="var">g</span>) <span class="op">+</span> <span class="var">K</span><sub><span class="var">t</span></sub> <span class="op">+</span> <span class="var">W</span><sub><span class="var">t</span></sub><br>
+        <span class="var">T</span><sub>2</sub> <span class="op">=</span> <span class="fn">&Sigma;</span><sub>0</sub>(<span class="var">a</span>) <span class="op">+</span> <span class="fn">Maj</span>(<span class="var">a</span>,<span class="var">b</span>,<span class="var">c</span>)<br>
+        Shift: <span class="var">h</span>&larr;<span class="var">g</span>, <span class="var">g</span>&larr;<span class="var">f</span>, <span class="var">f</span>&larr;<span class="var">e</span>, <span class="var">e</span>&larr;<span class="var">d</span>+<span class="var">T</span><sub>1</sub>, <span class="var">d</span>&larr;<span class="var">c</span>, <span class="var">c</span>&larr;<span class="var">b</span>, <span class="var">b</span>&larr;<span class="var">a</span>, <span class="var">a</span>&larr;<span class="var">T</span><sub>1</sub>+<span class="var">T</span><sub>2</sub>
+      </div></div>
+
+      <div class="sha-round-ctrl">
+        <div class="sha-round-info">Round <span class="sha-round-num" id="shaRoundNum">0</span><span style="color:var(--text-dim);"> / 63</span></div>
+        <input type="range" class="sha-round-slider" id="shaRoundSlider" min="0" max="63" value="0">
+        <div class="sha-round-btns">
+          <button class="sha-rbtn" onclick="shaSetRound(0)" title="First">&#9664;&#9664;</button>
+          <button class="sha-rbtn" onclick="shaStepRound(-1)" title="Prev">&#9664;</button>
+          <button class="sha-rbtn" onclick="shaStepRound(1)" title="Next">&#9654;</button>
+          <button class="sha-rbtn" onclick="shaSetRound(63)" title="Last">&#9654;&#9654;</button>
+          <button class="sha-rbtn sha-play-btn" id="shaPlayBtn" onclick="shaTogglePlay()">&#9654; Play</button>
+        </div>
+      </div>
+
+      <!-- Working variables a-h -->
+      <div class="sha-vars-grid" id="shaVarsGrid"></div>
+
+      <!-- Round computation detail -->
+      <div id="shaRoundDetail" class="sha-round-detail"></div>
+    </div>
+
+    <!-- Step 5: Final Hash -->
+    <div class="sha-section">
+      <div class="sha-section-tag">Step 5 &mdash; Final Addition</div>
+      <div class="def-card" style="margin-bottom:12px;"><div class="def-card-label">Output</div><div class="def-math" style="font-size:13px;">
+        <span class="var">H</span><sub><span class="var">i</span></sub><sup>(1)</sup> <span class="op">=</span> <span class="var">H</span><sub><span class="var">i</span></sub><sup>(0)</sup> <span class="op">+</span> {<span class="var">a,b,c,d,e,f,g,h</span>} after round 63<br>
+        digest <span class="op">=</span> <span class="var">H</span><sub>0</sub> <span class="op">&#8741;</span> <span class="var">H</span><sub>1</sub> <span class="op">&#8741;</span> ... <span class="op">&#8741;</span> <span class="var">H</span><sub>7</sub>
+      </div></div>
+      <div class="sha-hv-grid" id="shaFinalGrid"></div>
+    </div>
+
+    <!-- Reference -->
+    <div class="sha-section">
+      <div class="sha-section-tag">Reference &mdash; Bitwise Operations</div>
+      <div class="sha-ref-card">
+        <div class="sha-ref-title">Logical Functions</div>
+        <div class="sha-ref-row"><span class="sha-ref-fn">Ch(e,f,g)</span><span class="sha-ref-eq">=</span><span class="sha-ref-def">(e AND f) XOR (NOT e AND g)</span><span class="sha-ref-note">"e chooses f or g per bit"</span></div>
+        <div class="sha-ref-row"><span class="sha-ref-fn">Maj(a,b,c)</span><span class="sha-ref-eq">=</span><span class="sha-ref-def">(a AND b) XOR (a AND c) XOR (b AND c)</span><span class="sha-ref-note">"majority vote per bit"</span></div>
+      </div>
+      <div class="sha-ref-card">
+        <div class="sha-ref-title">Rotation &amp; Shift Functions</div>
+        <div class="sha-ref-row"><span class="sha-ref-fn">&Sigma;<sub>0</sub>(a)</span><span class="sha-ref-eq">=</span><span class="sha-ref-def">ROTR<sup>2</sup> XOR ROTR<sup>13</sup> XOR ROTR<sup>22</sup></span></div>
+        <div class="sha-ref-row"><span class="sha-ref-fn">&Sigma;<sub>1</sub>(e)</span><span class="sha-ref-eq">=</span><span class="sha-ref-def">ROTR<sup>6</sup> XOR ROTR<sup>11</sup> XOR ROTR<sup>25</sup></span></div>
+        <div class="sha-ref-row"><span class="sha-ref-fn">&sigma;<sub>0</sub>(x)</span><span class="sha-ref-eq">=</span><span class="sha-ref-def">ROTR<sup>7</sup> XOR ROTR<sup>18</sup> XOR SHR<sup>3</sup></span><span class="sha-ref-note">schedule expansion</span></div>
+        <div class="sha-ref-row"><span class="sha-ref-fn">&sigma;<sub>1</sub>(x)</span><span class="sha-ref-eq">=</span><span class="sha-ref-def">ROTR<sup>17</sup> XOR ROTR<sup>19</sup> XOR SHR<sup>10</sup></span><span class="sha-ref-note">schedule expansion</span></div>
+      </div>
+    </div>
+
+    <div class="callout"><div class="callout-header">Connection to Thermoeconomics</div><p><strong>This is the engine of proof-of-work.</strong> Every mining trial executes these exact 64 rounds, each performing irreversible bit operations that dissipate energy per Landauer's principle. The avalanche effect (one input bit &rarr; ~50% output bits flip) is what makes brute-force the only viable strategy, ensuring that the energy cost of mining is real and cannot be shortcut. The thermodynamic cost of each hash is the physical foundation of blockchain security.</p></div>
+    <div class="pn"><a href="#signedchain" onclick="go('signedchain')">&larr; Signed Blockchain</a><span class="nx" style="color:var(--green);cursor:default;">&#10003; Toolkit Complete</span></div>
+  </div>
+
+</div></div>
+
+<script>
+// ===== SHA-256 (FIPS 180-4) =====
+const SHA256=(()=>{
+  const K=new Uint32Array([0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2]);
+  const r=(x,n)=>(x>>>n)|(x<<(32-n));
+  return{hash(m){
+    const e=new TextEncoder(),mb=e.encode(m),bl=mb.length*8,pl=(((mb.length+9)>>6)+1)<<6,pd=new Uint8Array(pl);
+    pd.set(mb);pd[mb.length]=0x80;const dv=new DataView(pd.buffer);dv.setUint32(pl-4,bl,false);
+    let h0=0x6a09e667,h1=0xbb67ae85,h2=0x3c6ef372,h3=0xa54ff53a,h4=0x510e527f,h5=0x9b05688c,h6=0x1f83d9ab,h7=0x5be0cd19;const W=new Uint32Array(64);
+    for(let o=0;o<pl;o+=64){for(let i=0;i<16;i++)W[i]=dv.getUint32(o+i*4,false);for(let i=16;i<64;i++){W[i]=(W[i-16]+(r(W[i-15],7)^r(W[i-15],18)^(W[i-15]>>>3))+W[i-7]+(r(W[i-2],17)^r(W[i-2],19)^(W[i-2]>>>10)))|0;}
+    let a=h0,b=h1,c=h2,d=h3,e=h4,f=h5,g=h6,h=h7;for(let i=0;i<64;i++){const t1=(h+(r(e,6)^r(e,11)^r(e,25))+((e&f)^(~e&g))+K[i]+W[i])|0,t2=((r(a,2)^r(a,13)^r(a,22))+((a&b)^(a&c)^(b&c)))|0;h=g;g=f;f=e;e=(d+t1)|0;d=c;c=b;b=a;a=(t1+t2)|0;}
+    h0=(h0+a)|0;h1=(h1+b)|0;h2=(h2+c)|0;h3=(h3+d)|0;h4=(h4+e)|0;h5=(h5+f)|0;h6=(h6+g)|0;h7=(h7+h)|0;}
+    const x=n=>('00000000'+(n>>>0).toString(16)).slice(-8);return x(h0)+x(h1)+x(h2)+x(h3)+x(h4)+x(h5)+x(h6)+x(h7);
+  }};
+})();
+
+const DIFF=4, ZEROS='0000', MAX_NONCE=8*Math.pow(16,DIFF);
+const q=id=>document.getElementById(id);
+
+// ===== NAV =====
+function go(p){location.hash=p;}
+function nav(s){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const el=q('page-'+s);if(el)el.classList.add('active');
+  document.querySelectorAll('.sidebar-page').forEach(p=>p.classList.toggle('active',p.dataset.page===s));
+  document.querySelectorAll('.sidebar-section').forEach(x=>{if(x.querySelector(`.sidebar-page[data-page="${s}"]`))x.classList.add('expanded');});
+  document.querySelector('.sidebar').classList.remove('open');
+  // Lazy-init chains on first visit
+  if(s==='blockchain'&&!chainInited.bc){initChain('bc',1);chainInited.bc=true;}
+  if(s==='distributed'&&!chainInited.dist){initDistributed();chainInited.dist=true;}
+  if(s==='tokens'&&!chainInited.tok){initTokenChain();chainInited.tok=true;}
+  if(s==='coinbase'&&!chainInited.cb){initCoinbaseChain();chainInited.cb=true;}
+  if(s==='signedchain'&&!chainInited.sc){initSignedChain();chainInited.sc=true;}
+  if(s==='sha256deep'&&!chainInited.sha){initShaExplorer();chainInited.sha=true;}
+}
+function toggleSection(h){h.parentElement.classList.toggle('expanded');}
+window.addEventListener('hashchange',()=>nav(location.hash.slice(1)||'hash'));
+window.addEventListener('DOMContentLoaded',()=>nav(location.hash.slice(1)||'hash'));
+
+// ===== TOOL 01: HASH =====
+const hD=q('hashData'),hO=q('hashOutput');
+hD.addEventListener('input',()=>{hO.value=SHA256.hash(hD.value);});hO.value=SHA256.hash('');
+
+// ===== TOOL 02: SINGLE BLOCK =====
+let df=4,mx=8*Math.pow(16,4);
+function bT(){return q('bNum').value+q('bNon').value+q('bDat').value;}
+function uB(){
+  const h=SHA256.hash(bT());q('bHsh').value=h;
+  const ok=h.substring(0,df)==='0'.repeat(df);
+  q('bHsh').classList.toggle('hv',ok);q('bHsh').classList.toggle('hi',!ok);
+  q('bW').classList.toggle('valid',ok);q('bW').classList.toggle('invalid',!ok);
+  q('bSt').classList.toggle('valid',ok);q('bSt').classList.toggle('invalid',!ok);
+  q('bStT').textContent=ok?`Satisfies target: ${df} leading zeros`:'Does not satisfy target';
+}
+function uDD(){let h='';for(let i=0;i<16;i++)h+=`<div class="db ${i<df?'on':''}"></div>`;q('dD').innerHTML=h;}
+function singleMine(){
+  q('mB').classList.add('mining');q('mSt').innerHTML='<span style="color:var(--amber)">Mining...</span>';
+  const t0=performance.now();let n=0;const tg='0'.repeat(df);
+  !function s(){for(let i=0;i<5000&&n<=mx;i++,n++){q('bNon').value=n;const h=SHA256.hash(bT());
+    if(h.substring(0,df)===tg){const t=((performance.now()-t0)/1000).toFixed(2);q('bHsh').value=h;uB();q('mB').classList.remove('mining');
+      q('mSt').innerHTML=`Found <span style="color:var(--purple)">&eta;=${n}</span> after <span style="color:var(--cyan)">${n.toLocaleString()}</span> trials in <span style="color:var(--amber)">${t}s</span>`;return;}}
+  if(n<=mx){q('mSt').innerHTML=`<span style="color:var(--amber)">Mining... &eta;=${n.toLocaleString()}</span>`;requestAnimationFrame(s);}
+  else{q('mB').classList.remove('mining');q('mSt').innerHTML=`<span style="color:var(--red)">No valid nonce in ${mx.toLocaleString()} trials.</span>`;uB();}}();
+}
+q('bNum').addEventListener('input',uB);q('bNon').addEventListener('input',uB);q('bDat').addEventListener('input',uB);
+q('dS').addEventListener('input',()=>{df=parseInt(q('dS').value);mx=8*Math.pow(16,df);q('dV').textContent=df;uDD();uB();});
+uDD();uB();
+
+// ================================================================
+// CHAIN ENGINE (Phase 2)
+// ================================================================
+const chainInited={bc:false,dist:false,tok:false,cb:false,sc:false,sha:false};
+
+// Preset nonces that produce valid hashes for empty data with difficulty 4
+const PRESET_NONCES=[11316,35230,12937,35990,56265];
+const GENESIS_PREV='0000000000000000000000000000000000000000000000000000000000000000';
+
+// Build a single block card HTML
+function blockHTML(cid,b){
+  const id=cid+'_'+b;
+  return `
+  <div class="chain-block" id="well_${id}">
+    <div class="cb-header">
+      <span class="cb-num">Block #${b}</span>
+      <span class="cb-status" id="dot_${id}"></span>
+    </div>
+    <div class="cb-row">
+      <div class="cb-field"><div class="cb-label"><span class="mv">n</span> Block</div><input class="cb-input narrow" id="num_${id}" type="number" value="${b}" min="1"></div>
+      <div class="cb-field"><div class="cb-label"><span class="mv">&eta;</span> Nonce</div><input class="cb-input" id="non_${id}" type="text" value="${PRESET_NONCES[b-1]}"></div>
+    </div>
+    <div class="cb-field"><div class="cb-label"><span class="mv">d</span> Data</div><textarea class="cb-input" id="dat_${id}" rows="2" placeholder=""></textarea></div>
+    <div class="cb-field"><div class="cb-label">Prev</div><input class="cb-input prev-hash" id="prev_${id}" type="text" disabled value="${b===1?GENESIS_PREV:''}"></div>
+    <div class="cb-field"><div class="cb-label"><span class="mv">H</span> Hash</div><input class="cb-input hash-out" id="hash_${id}" type="text" disabled></div>
+    <div class="cb-mine-row"><button class="btn-mine btn-mine-sm" id="mbtn_${id}" onclick="chainMine('${cid}',${b})">&#9935; Mine</button></div>
+  </div>`;
+}
+
+// Build a full chain row into a container
+function buildChainRow(containerId, cid, numBlocks){
+  const el=q(containerId);
+  let html='';
+  for(let b=1;b<=numBlocks;b++){
+    if(b>1)html+='<div class="chain-connector"><span>&rarr;</span></div>';
+    html+=blockHTML(cid,b);
+  }
+  el.innerHTML=html;
+}
+
+// Get concatenated text for a chain block
+function chainText(cid,b){
+  const id=cid+'_'+b;
+  return q('num_'+id).value + q('non_'+id).value + q('dat_'+id).value + q('prev_'+id).value;
+}
+
+// Update hash and visual state for one block
+function chainUpdateHash(cid,b){
+  const id=cid+'_'+b;
+  const h=SHA256.hash(chainText(cid,b));
+  q('hash_'+id).value=h;
+  const ok=h.substring(0,DIFF)===ZEROS;
+  q('hash_'+id).classList.toggle('hash-valid',ok);
+  q('hash_'+id).classList.toggle('hash-invalid',!ok);
+  q('well_'+id).classList.toggle('valid',ok);
+  q('well_'+id).classList.toggle('invalid',!ok);
+  q('dot_'+id).classList.toggle('valid',ok);
+  q('dot_'+id).classList.toggle('invalid',!ok);
+  return h;
+}
+
+// Propagate from block b to end of chain
+function chainUpdate(cid,fromBlock,numBlocks){
+  for(let b=fromBlock;b<=numBlocks;b++){
+    if(b>1){
+      q('prev_'+cid+'_'+b).value=q('hash_'+cid+'_'+(b-1)).value;
+    }
+    chainUpdateHash(cid,b);
+  }
+}
+
+// Bind events for all blocks in a chain
+function chainBind(cid,numBlocks){
+  for(let b=1;b<=numBlocks;b++){
+    const id=cid+'_'+b;
+    const handler=()=>chainUpdate(cid,b,numBlocks);
+    q('num_'+id).addEventListener('input',handler);
+    q('non_'+id).addEventListener('input',handler);
+    q('dat_'+id).addEventListener('input',handler);
+  }
+}
+
+// Mine a specific block in a chain
+function chainMine(cid,b){
+  const id=cid+'_'+b;
+  const btn=q('mbtn_'+id);
+  btn.classList.add('mining');
+  const numBlocks=5;
+  let n=0;
+  !function step(){
+    for(let i=0;i<5000&&n<=MAX_NONCE;i++,n++){
+      q('non_'+id).value=n;
+      const h=SHA256.hash(chainText(cid,b));
+      if(h.substring(0,DIFF)===ZEROS){
+        q('hash_'+id).value=h;
+        chainUpdate(cid,b,numBlocks);
+        btn.classList.remove('mining');
+        return;
+      }
+    }
+    if(n<=MAX_NONCE)requestAnimationFrame(step);
+    else{btn.classList.remove('mining');chainUpdate(cid,b,numBlocks);}
+  }();
+}
+
+// ===== TOOL 03: BLOCKCHAIN =====
+function initChain(pageCid,chainNum){
+  const cid='c'+chainNum;
+  buildChainRow('chain-bc',cid,5);
+  chainUpdate(cid,1,5);
+  chainBind(cid,5);
+}
+
+// ===== TOOL 04: DISTRIBUTED =====
+function initDistributed(){
+  const peers=['A','B','C'];
+  const container=q('dist-peers');
+  let html='';
+  peers.forEach((p,i)=>{
+    const cid='d'+(i+1);
+    html+=`<div class="peer-label"><span class="peer-dot"></span>Peer ${p}</div>`;
+    html+=`<div class="chain-scroll"><div class="chain-row" id="chain-${cid}"></div></div>`;
+  });
+  container.innerHTML=html;
+  peers.forEach((p,i)=>{
+    const cid='d'+(i+1);
+    buildChainRow('chain-'+cid,cid,5);
+    chainUpdate(cid,1,5);
+    chainBind(cid,5);
+  });
+}
+
+// ================================================================
+// TX CHAIN ENGINE (Phase 3)
+// ================================================================
+
+// Default transactions per block
+const DEFAULT_TXS = [
+  [{f:'Alice',t:'Bob',v:'25.00'},{f:'Bob',t:'Charlie',v:'10.00'}],
+  [{f:'Charlie',t:'Diana',v:'15.00'}],
+  [{f:'Diana',t:'Alice',v:'5.00'},{f:'Bob',t:'Eve',v:'8.00'}],
+  [{f:'Eve',t:'Alice',v:'3.00'}],
+  [{f:'Alice',t:'Charlie',v:'12.00'},{f:'Diana',t:'Bob',v:'7.00'}]
+];
+const MINER_ADDR = 'Miner';
+const REWARD = '50.00';
+
+// Build TX block HTML (hasCoinbase differentiates Tool 05 vs 06)
+function txBlockHTML(cid,b,hasCoinbase){
+  const id=cid+'_'+b;
+  let cbHTML='';
+  if(hasCoinbase){
+    cbHTML=`
+    <div class="tx-coinbase" id="txcb_${id}">
+      <span class="tx-cb-label">Coinbase</span>
+      <span class="tx-arrow">&rarr;</span>
+      <input class="tx-cb-to" id="cbto_${id}" type="text" value="${MINER_ADDR}" placeholder="Miner">
+      <span class="tx-cb-amt">${REWARD}</span>
+      <span class="tx-unit">tokens</span>
+    </div>`;
+  }
+  return `
+  <div class="chain-block" id="well_${id}">
+    <div class="cb-header">
+      <span class="cb-num">Block #${b}</span>
+      <span class="cb-status" id="dot_${id}"></span>
+    </div>
+    <div class="cb-row">
+      <div class="cb-field"><div class="cb-label"><span class="mv">n</span> Block</div><input class="cb-input narrow" id="num_${id}" type="number" value="${b}" min="1"></div>
+      <div class="cb-field"><div class="cb-label"><span class="mv">&eta;</span> Nonce</div><input class="cb-input" id="non_${id}" type="text" value="0"></div>
+    </div>
+    <div class="cb-field">
+      <div class="cb-label">Transactions</div>
+      ${cbHTML}
+      <div class="tx-list" id="txlist_${id}"></div>
+      <button class="tx-add" onclick="addTx('${cid}',${b})">+ Add Tx</button>
+    </div>
+    <div class="cb-field"><div class="cb-label">Prev</div><input class="cb-input prev-hash" id="prev_${id}" type="text" disabled value="${b===1?GENESIS_PREV:''}"></div>
+    <div class="cb-field"><div class="cb-label"><span class="mv">H</span> Hash</div><input class="cb-input hash-out" id="hash_${id}" type="text" disabled></div>
+    <div class="cb-mine-row"><button class="btn-mine btn-mine-sm" id="mbtn_${id}" onclick="txChainMine('${cid}',${b})">&#9935; Mine</button></div>
+  </div>`;
+}
+
+// Serialize transactions for a block into a string for hashing
+function serializeTxs(cid,b){
+  const id=cid+'_'+b;
+  let s='';
+  // Coinbase
+  const cbTo=document.getElementById('cbto_'+id);
+  if(cbTo) s+='COINBASE>'+cbTo.value+':'+REWARD+'|';
+  // Regular txs
+  const list=q('txlist_'+id);
+  if(list){
+    list.querySelectorAll('.tx-row').forEach(row=>{
+      const f=row.querySelector('.tx-from').value;
+      const t=row.querySelector('.tx-to').value;
+      const v=row.querySelector('.tx-amt').value;
+      s+=f+'>'+t+':'+v+'|';
+    });
+  }
+  return s;
+}
+
+// Get full text for tx chain block
+function txChainText(cid,b){
+  const id=cid+'_'+b;
+  return q('num_'+id).value + q('non_'+id).value + serializeTxs(cid,b) + q('prev_'+id).value;
+}
+
+// Update hash + visual for one tx block
+function txChainUpdateHash(cid,b){
+  const id=cid+'_'+b;
+  const h=SHA256.hash(txChainText(cid,b));
+  q('hash_'+id).value=h;
+  const ok=h.substring(0,DIFF)===ZEROS;
+  q('hash_'+id).classList.toggle('hash-valid',ok);
+  q('hash_'+id).classList.toggle('hash-invalid',!ok);
+  q('well_'+id).classList.toggle('valid',ok);
+  q('well_'+id).classList.toggle('invalid',!ok);
+  q('dot_'+id).classList.toggle('valid',ok);
+  q('dot_'+id).classList.toggle('invalid',!ok);
+  return h;
+}
+
+// Propagate from block b to end
+function txChainUpdate(cid,fromBlock,numBlocks){
+  for(let b=fromBlock;b<=numBlocks;b++){
+    if(b>1) q('prev_'+cid+'_'+b).value=q('hash_'+cid+'_'+(b-1)).value;
+    txChainUpdateHash(cid,b);
+  }
+}
+
+// Create a single TX row DOM element
+function createTxRow(cid,b,f,t,v){
+  const row=document.createElement('div');
+  row.className='tx-row';
+  row.innerHTML=`
+    <input class="tx-from" type="text" value="${f}" placeholder="From">
+    <span class="tx-arrow">&rarr;</span>
+    <input class="tx-to" type="text" value="${t}" placeholder="To">
+    <input class="tx-amt" type="text" value="${v}" placeholder="0.00">
+    <span class="tx-unit">tokens</span>
+    <button class="tx-del" title="Remove">&times;</button>
+  `;
+  const handler=()=>txChainUpdate(cid,b,5);
+  row.querySelector('.tx-from').addEventListener('input',handler);
+  row.querySelector('.tx-to').addEventListener('input',handler);
+  row.querySelector('.tx-amt').addEventListener('input',handler);
+  row.querySelector('.tx-del').addEventListener('click',()=>{row.remove();handler();});
+  return row;
+}
+
+// Add a new empty TX row
+function addTx(cid,b){
+  const id=cid+'_'+b;
+  const list=q('txlist_'+id);
+  list.appendChild(createTxRow(cid,b,'','','0.00'));
+  txChainUpdate(cid,b,5);
+}
+
+// Bind non-tx fields for tx chain blocks
+function txChainBind(cid,numBlocks){
+  for(let b=1;b<=numBlocks;b++){
+    const id=cid+'_'+b;
+    const handler=()=>txChainUpdate(cid,b,numBlocks);
+    q('num_'+id).addEventListener('input',handler);
+    q('non_'+id).addEventListener('input',handler);
+    // Coinbase to field
+    const cbTo=document.getElementById('cbto_'+id);
+    if(cbTo) cbTo.addEventListener('input',handler);
+  }
+}
+
+// Mine a tx chain block
+function txChainMine(cid,b){
+  const id=cid+'_'+b;
+  const btn=q('mbtn_'+id);
+  btn.classList.add('mining');
+  let n=0;
+  !function step(){
+    for(let i=0;i<5000&&n<=MAX_NONCE;i++,n++){
+      q('non_'+id).value=n;
+      const h=SHA256.hash(txChainText(cid,b));
+      if(h.substring(0,DIFF)===ZEROS){
+        q('hash_'+id).value=h;
+        txChainUpdate(cid,b,5);
+        btn.classList.remove('mining');
+        return;
+      }
+    }
+    if(n<=MAX_NONCE)requestAnimationFrame(step);
+    else{btn.classList.remove('mining');txChainUpdate(cid,b,5);}
+  }();
+}
+
+// Build a tx chain row
+function buildTxChainRow(containerId,cid,numBlocks,hasCoinbase){
+  const el=q(containerId);
+  let html='';
+  for(let b=1;b<=numBlocks;b++){
+    if(b>1)html+='<div class="chain-connector"><span>&rarr;</span></div>';
+    html+=txBlockHTML(cid,b,hasCoinbase);
+  }
+  el.innerHTML=html;
+  // Populate default transactions
+  for(let b=1;b<=numBlocks;b++){
+    const id=cid+'_'+b;
+    const list=q('txlist_'+id);
+    const txs=DEFAULT_TXS[b-1]||[];
+    txs.forEach(tx=>{
+      list.appendChild(createTxRow(cid,b,tx.f,tx.t,tx.v));
+    });
+  }
+}
+
+// ===== TOOL 05: TOKEN CHAIN =====
+function initTokenChain(){
+  buildTxChainRow('chain-tok','tok',5,false);
+  txChainBind('tok',5);
+  // Mine all blocks to get valid initial state
+  autoMineAll('tok',5);
+}
+
+// ===== TOOL 06: COINBASE CHAIN =====
+function initCoinbaseChain(){
+  buildTxChainRow('chain-cb','cob',5,true);
+  txChainBind('cob',5);
+  autoMineAll('cob',5);
+}
+
+// Sequential auto-mine: mine block 1, then 2, etc.
+function autoMineAll(cid,numBlocks){
+  let b=1;
+  function mineNext(){
+    if(b>numBlocks)return;
+    const id=cid+'_'+b;
+    let n=0;
+    !function step(){
+      for(let i=0;i<8000&&n<=MAX_NONCE;i++,n++){
+        q('non_'+id).value=n;
+        const h=SHA256.hash(txChainText(cid,b));
+        if(h.substring(0,DIFF)===ZEROS){
+          q('hash_'+id).value=h;
+          txChainUpdate(cid,b,numBlocks);
+          b++;
+          requestAnimationFrame(mineNext);
+          return;
+        }
+      }
+      if(n<=MAX_NONCE)requestAnimationFrame(step);
+      else{txChainUpdate(cid,b,numBlocks);b++;requestAnimationFrame(mineNext);}
+    }();
+  }
+  // First compute prev hashes so block 1 has genesis
+  txChainUpdate(cid,1,numBlocks);
+  mineNext();
+}
+
+// ================================================================
+// CRYPTO ENGINE (Phase 4) — ECDSA P-256 via Web Crypto API
+// ================================================================
+
+// Utility: ArrayBuffer to hex
+function bufToHex(buf){return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');}
+function hexToBuf(hex){const a=new Uint8Array(hex.length/2);for(let i=0;i<hex.length;i+=2)a[i/2]=parseInt(hex.substr(i,2),16);return a.buffer;}
+
+// Store key objects (not exportable as raw private in webcrypto, so we track JWK)
+let currentKeyPair=null, sigKeyPair=null, stxKeyPair=null;
+
+async function ecGenKey(){
+  const kp=await crypto.subtle.generateKey({name:'ECDSA',namedCurve:'P-256'},true,['sign','verify']);
+  const privJwk=await crypto.subtle.exportKey('jwk',kp.privateKey);
+  const pubRaw=await crypto.subtle.exportKey('raw',kp.publicKey);
+  const privHex=bufToHex(hexToBuf(btoa(privJwk.d).replace(/[^A-Za-z0-9]/g,'').split('').map(c=>c.charCodeAt(0).toString(16).padStart(2,'0')).join(''))).slice(0,64);
+  // Simpler: just use the d parameter directly
+  const dBytes=Uint8Array.from(atob(privJwk.d.replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));
+  const privDisplay=bufToHex(dBytes.buffer);
+  const pubDisplay=bufToHex(pubRaw);
+  return {keyPair:kp, privHex:privDisplay, pubHex:pubDisplay, privJwk};
+}
+
+async function ecSign(privateKey, message){
+  const enc=new TextEncoder();
+  const sig=await crypto.subtle.sign({name:'ECDSA',hash:'SHA-256'},privateKey,enc.encode(message));
+  return bufToHex(sig);
+}
+
+async function ecVerify(publicKey, message, sigHex){
+  const enc=new TextEncoder();
+  try{
+    return await crypto.subtle.verify({name:'ECDSA',hash:'SHA-256'},publicKey,hexToBuf(sigHex),enc.encode(message));
+  }catch(e){return false;}
+}
+
+// ===== TOOL 07: KEY PAIRS =====
+async function generateKeyPair(){
+  const k=await ecGenKey();
+  currentKeyPair=k;
+  q('privKey').textContent=k.privHex;
+  q('pubKey').textContent=k.pubHex;
+}
+
+// ===== TOOL 08: SIGNATURES =====
+let sigCurrentSig=null, sigCurrentMsg=null;
+
+async function sigGenKeys(){
+  const k=await ecGenKey();
+  sigKeyPair=k;
+  q('sigPrivKey').textContent=k.privHex;
+  q('sigPubKey').textContent=k.pubHex;
+  q('sigOutput').textContent='\u2014';
+  sigCurrentSig=null;
+  updateSigVerify();
+}
+
+async function signMessage(){
+  if(!sigKeyPair){alert('Generate keys first');return;}
+  const msg=q('sigMsg').value;
+  sigCurrentMsg=msg;
+  sigCurrentSig=await ecSign(sigKeyPair.keyPair.privateKey,msg);
+  q('sigOutput').textContent=sigCurrentSig;
+  updateSigVerify();
+}
+
+async function updateSigVerify(){
+  const badge=q('sigVerifyBadge');
+  const txt=q('sigVerifyText');
+  if(!sigCurrentSig||!sigKeyPair){
+    badge.className='verify-badge none';txt.textContent='Awaiting signature';return;
+  }
+  const msg=q('sigMsg').value;
+  const ok=await ecVerify(sigKeyPair.keyPair.publicKey,msg,sigCurrentSig);
+  badge.className='verify-badge '+(ok?'verified':'failed');
+  txt.textContent=ok?'Signature valid \u2713':'Signature invalid \u2717 (message changed)';
+}
+
+// Live verify on message edit
+q('sigMsg').addEventListener('input',()=>{if(sigCurrentSig)updateSigVerify();});
+
+// ===== TOOL 09: SIGNED TX =====
+let stxSig=null;
+
+async function stxGenKeys(){
+  const k=await ecGenKey();
+  stxKeyPair=k;
+  q('stxPriv').textContent=k.privHex;
+  q('stxPub').textContent=k.pubHex.slice(0,24)+'...';
+  q('stxFrom').value=k.pubHex.slice(0,24)+'...';
+  q('stxSigRow').style.display='none';
+  stxSig=null;
+  updateStxVerify();
+}
+
+async function stxSign(){
+  if(!stxKeyPair){alert('Generate keys first');return;}
+  const msg=q('stxTo').value+'|'+q('stxAmt').value;
+  stxSig=await ecSign(stxKeyPair.keyPair.privateKey,msg);
+  q('stxSigRow').style.display='flex';
+  q('stxSigVal').textContent=stxSig.slice(0,48)+'...';
+  updateStxVerify();
+}
+
+async function updateStxVerify(){
+  const badge=q('stxVerify');
+  const txt=q('stxVerifyText');
+  if(!stxSig||!stxKeyPair){
+    badge.className='verify-badge none';txt.textContent='Awaiting signature';return;
+  }
+  const msg=q('stxTo').value+'|'+q('stxAmt').value;
+  const ok=await ecVerify(stxKeyPair.keyPair.publicKey,msg,stxSig);
+  badge.className='verify-badge '+(ok?'verified':'failed');
+  txt.textContent=ok?'Transaction signature valid \u2713':'Signature invalid \u2717 (tx modified)';
+}
+
+q('stxTo').addEventListener('input',()=>{if(stxSig)updateStxVerify();});
+q('stxAmt').addEventListener('input',()=>{if(stxSig)updateStxVerify();});
+
+// ================================================================
+// SIGNED BLOCKCHAIN ENGINE (Phase 5)
+// ================================================================
+
+let scKeyPair=null;
+const SC_BLOCKS=5;
+const SC_CID='sc';
+const SC_REWARD='50.00';
+const SC_DEFAULT_TXS=[
+  [],
+  [{t:'Bob',v:'10.00'}],
+  [{t:'Charlie',v:'5.00'}],
+  [{t:'Diana',v:'15.00'},{t:'Eve',v:'3.00'}],
+  [{t:'Alice',v:'7.00'}]
+];
+
+// Track per-tx signatures: scSigs[blockNum][txIndex] = {sigHex, signedMsg}
+const scSigs={};
+
+async function scGenKeys(){
+  const k=await ecGenKey();
+  scKeyPair=k;
+  q('scPriv').textContent=k.privHex;
+  q('scPub').textContent=k.pubHex;
+  // Rebuild chain with new miner address
+  if(chainInited.sc) buildSignedChain();
+}
+
+function scBlockHTML(b){
+  const id=SC_CID+'_'+b;
+  const minerAddr=scKeyPair?scKeyPair.pubHex.slice(0,16)+'...':'(no key)';
+  // Coinbase
+  let cbHTML=`
+  <div class="tx-coinbase" id="txcb_${id}">
+    <span class="tx-cb-label">Coinbase</span>
+    <span class="tx-arrow">&rarr;</span>
+    <span style="font-family:var(--font-mono);font-size:9px;color:var(--cyan);" id="cbaddr_${id}">${minerAddr}</span>
+    <span class="tx-cb-amt">${SC_REWARD}</span>
+    <span class="tx-unit">tokens</span>
+  </div>`;
+
+  // Tx slots
+  const txs=SC_DEFAULT_TXS[b-1]||[];
+  let txHTML='';
+  txs.forEach((tx,j)=>{
+    txHTML+=scTxRowHTML(id,j,tx.t,tx.v);
+  });
+
+  return `
+  <div class="chain-block" id="well_${id}">
+    <div class="cb-header">
+      <span class="cb-num">Block #${b}</span>
+      <span class="cb-status" id="dot_${id}"></span>
+    </div>
+    <div class="cb-row">
+      <div class="cb-field"><div class="cb-label"><span class="mv">n</span> Block</div><input class="cb-input narrow" id="num_${id}" type="number" value="${b}" min="1"></div>
+      <div class="cb-field"><div class="cb-label"><span class="mv">&eta;</span> Nonce</div><input class="cb-input" id="non_${id}" type="text" value="0"></div>
+    </div>
+    <div class="cb-field">
+      <div class="cb-label">Transactions</div>
+      ${cbHTML}
+      <div class="tx-list" id="txlist_${id}">${txHTML}</div>
+      <button class="tx-add" onclick="scAddTx(${b})">+ Add Tx</button>
+    </div>
+    <div class="cb-field"><div class="cb-label">Prev</div><input class="cb-input prev-hash" id="prev_${id}" type="text" disabled value="${b===1?GENESIS_PREV:''}"></div>
+    <div class="cb-field"><div class="cb-label"><span class="mv">H</span> Hash</div><input class="cb-input hash-out" id="hash_${id}" type="text" disabled></div>
+    <div class="cb-mine-row">
+      <button class="btn-mine btn-mine-sm" id="mbtn_${id}" onclick="scMine(${b})">&#9935; Mine</button>
+      <button class="btn-sign btn-mine-sm" style="font-size:9px;padding:6px 10px;" onclick="scSignAll(${b})">&#9998; Sign All Txs</button>
+    </div>
+  </div>`;
+}
+
+function scTxRowHTML(blockId,j,toVal,amtVal){
+  const fromAddr=scKeyPair?scKeyPair.pubHex.slice(0,12)+'..':'(no key)';
+  return `
+  <div class="tx-row" data-txj="${j}">
+    <span style="font-family:var(--font-mono);font-size:8px;color:var(--cyan);max-width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${scKeyPair?scKeyPair.pubHex:''}">${fromAddr}</span>
+    <span class="tx-arrow">&rarr;</span>
+    <input class="tx-to" type="text" value="${toVal}" placeholder="To">
+    <input class="tx-amt" type="text" value="${amtVal}" placeholder="0.00">
+    <span class="tx-unit">tok</span>
+    <button class="tx-del" onclick="this.closest('.tx-row').remove();scUpdate(1);">&times;</button>
+  </div>
+  <div class="stx-sig-row" data-sigj="${j}" style="display:none;font-size:7px;">
+    <span class="stx-sig-label">&sigma;:</span>
+    <span class="stx-sig-text"></span>
+    <span class="sd" style="margin-left:auto;width:5px;height:5px;border-radius:50;"></span>
+  </div>`;
+}
+
+function scAddTx(b){
+  const id=SC_CID+'_'+b;
+  const list=q('txlist_'+id);
+  const j=list.querySelectorAll('.tx-row').length;
+  const d=document.createElement('div');
+  d.innerHTML=scTxRowHTML(id,j,'','0.00');
+  while(d.firstChild)list.appendChild(d.firstChild);
+  // Bind input handlers
+  const rows=list.querySelectorAll('.tx-row');
+  const lastRow=rows[rows.length-1];
+  lastRow.querySelector('.tx-to').addEventListener('input',()=>scUpdate(b));
+  lastRow.querySelector('.tx-amt').addEventListener('input',()=>scUpdate(b));
+  scUpdate(b);
+}
+
+// Serialize all txs in a signed chain block
+function scSerialize(b){
+  const id=SC_CID+'_'+b;
+  let s='';
+  const minerAddr=scKeyPair?scKeyPair.pubHex.slice(0,16)+'...':'(no key)';
+  s+='COINBASE>'+minerAddr+':'+SC_REWARD+'|';
+  const list=q('txlist_'+id);
+  if(list){
+    const rows=list.querySelectorAll('.tx-row');
+    rows.forEach((row,j)=>{
+      const t=row.querySelector('.tx-to').value;
+      const v=row.querySelector('.tx-amt').value;
+      const fromAddr=scKeyPair?scKeyPair.pubHex.slice(0,12)+'..':'';
+      // Include signature in hash if exists
+      const sigRow=list.querySelector(`[data-sigj="${j}"]`);
+      const sigText=sigRow?sigRow.querySelector('.stx-sig-text').textContent:'';
+      s+=fromAddr+'>'+t+':'+v+'|'+sigText+'|';
+    });
+  }
+  return s;
+}
+
+function scChainText(b){
+  const id=SC_CID+'_'+b;
+  return q('num_'+id).value+q('non_'+id).value+scSerialize(b)+q('prev_'+id).value;
+}
+
+function scUpdateHash(b){
+  const id=SC_CID+'_'+b;
+  const h=SHA256.hash(scChainText(b));
+  q('hash_'+id).value=h;
+  const ok=h.substring(0,DIFF)===ZEROS;
+  q('hash_'+id).classList.toggle('hash-valid',ok);
+  q('hash_'+id).classList.toggle('hash-invalid',!ok);
+  q('well_'+id).classList.toggle('valid',ok);
+  q('well_'+id).classList.toggle('invalid',!ok);
+  q('dot_'+id).classList.toggle('valid',ok);
+  q('dot_'+id).classList.toggle('invalid',!ok);
+  return h;
+}
+
+function scUpdate(fromBlock){
+  for(let b=fromBlock;b<=SC_BLOCKS;b++){
+    if(b>1) q('prev_'+SC_CID+'_'+b).value=q('hash_'+SC_CID+'_'+(b-1)).value;
+    scUpdateHash(b);
+  }
+}
+
+async function scSignAll(b){
+  if(!scKeyPair){alert('Generate miner keys first');return;}
+  const id=SC_CID+'_'+b;
+  const list=q('txlist_'+id);
+  const rows=list.querySelectorAll('.tx-row');
+  for(let j=0;j<rows.length;j++){
+    const t=rows[j].querySelector('.tx-to').value;
+    const v=rows[j].querySelector('.tx-amt').value;
+    const msg=t+'|'+v;
+    const sig=await ecSign(scKeyPair.keyPair.privateKey,msg);
+    const sigRow=list.querySelector(`[data-sigj="${j}"]`);
+    if(sigRow){
+      sigRow.style.display='flex';
+      sigRow.querySelector('.stx-sig-text').textContent=sig.slice(0,40)+'...';
+      const dot=sigRow.querySelector('.sd');
+      if(dot){dot.style.background='var(--green)';dot.style.borderRadius='50%';}
+    }
+    if(!scSigs[b])scSigs[b]={};
+    scSigs[b][j]={sigHex:sig,signedMsg:msg};
+  }
+  scUpdate(b);
+}
+
+function scMine(b){
+  const id=SC_CID+'_'+b;
+  const btn=q('mbtn_'+id);
+  btn.classList.add('mining');
+  let n=0;
+  !function step(){
+    for(let i=0;i<5000&&n<=MAX_NONCE;i++,n++){
+      q('non_'+id).value=n;
+      const h=SHA256.hash(scChainText(b));
+      if(h.substring(0,DIFF)===ZEROS){
+        q('hash_'+id).value=h;
+        scUpdate(b);
+        btn.classList.remove('mining');
+        return;
+      }
+    }
+    if(n<=MAX_NONCE)requestAnimationFrame(step);
+    else{btn.classList.remove('mining');scUpdate(b);}
+  }();
+}
+
+function scBind(){
+  for(let b=1;b<=SC_BLOCKS;b++){
+    const id=SC_CID+'_'+b;
+    const handler=()=>scUpdate(b);
+    q('num_'+id).addEventListener('input',handler);
+    q('non_'+id).addEventListener('input',handler);
+    // Bind tx input handlers
+    const list=q('txlist_'+id);
+    if(list){
+      list.querySelectorAll('.tx-to').forEach(el=>el.addEventListener('input',handler));
+      list.querySelectorAll('.tx-amt').forEach(el=>el.addEventListener('input',handler));
+    }
+  }
+}
+
+function buildSignedChain(){
+  const el=q('chain-sc');
+  let html='';
+  for(let b=1;b<=SC_BLOCKS;b++){
+    if(b>1)html+='<div class="chain-connector"><span>&rarr;</span></div>';
+    html+=scBlockHTML(b);
+  }
+  el.innerHTML=html;
+  scBind();
+  scUpdate(1);
+  // Auto-mine sequentially
+  let mb=1;
+  function mineNext(){
+    if(mb>SC_BLOCKS)return;
+    const id=SC_CID+'_'+mb;
+    let n=0;
+    !function step(){
+      for(let i=0;i<8000&&n<=MAX_NONCE;i++,n++){
+        q('non_'+id).value=n;
+        const h=SHA256.hash(scChainText(mb));
+        if(h.substring(0,DIFF)===ZEROS){
+          q('hash_'+id).value=h;
+          scUpdate(mb);
+          mb++;
+          requestAnimationFrame(mineNext);
+          return;
+        }
+      }
+      if(n<=MAX_NONCE)requestAnimationFrame(step);
+      else{scUpdate(mb);mb++;requestAnimationFrame(mineNext);}
+    }();
+  }
+  mineNext();
+}
+
+function initSignedChain(){
+  if(!scKeyPair){
+    // Auto-generate keys on first visit
+    ecGenKey().then(k=>{
+      scKeyPair=k;
+      q('scPriv').textContent=k.privHex;
+      q('scPub').textContent=k.pubHex;
+      buildSignedChain();
+    });
+  } else {
+    buildSignedChain();
+  }
+}
+
+// ================================================================
+// SHA-256 EXPLORER ENGINE (Phase 6)
+// ================================================================
+
+const SHA_K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+const SHA_H0=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+const SHA_NAMES=['a','b','c','d','e','f','g','h'];
+
+function rotr(x,n){return((x>>>n)|(x<<(32-n)))>>>0;}
+function shr(x,n){return x>>>n;}
+function h32(n){return('00000000'+((n>>>0)).toString(16)).slice(-8);}
+
+// Instrumented SHA-256: returns all intermediate state for first 512-bit block
+function shaInstrument(msg){
+  const enc=new TextEncoder();
+  const mb=enc.encode(msg);
+  const bitLen=mb.length*8;
+
+  // Padding
+  const padLen=(((mb.length+9)>>6)+1)<<6;
+  const padded=new Uint8Array(padLen);
+  padded.set(mb);
+  padded[mb.length]=0x80;
+  const dv=new DataView(padded.buffer);
+  dv.setUint32(padLen-4,bitLen,false);
+
+  // Classify each byte
+  const byteTypes=[];
+  for(let i=0;i<padLen;i++){
+    if(i<mb.length)byteTypes.push('msg');
+    else if(i>=padLen-8)byteTypes.push('len');
+    else byteTypes.push('pad');
+  }
+
+  // Parse first 512-bit block into 16 words
+  const W=new Array(64);
+  for(let i=0;i<16;i++)W[i]=dv.getUint32(i*4,false)>>>0;
+
+  // Expand schedule
+  for(let t=16;t<64;t++){
+    const s0=(rotr(W[t-15],7)^rotr(W[t-15],18)^shr(W[t-15],3))>>>0;
+    const s1=(rotr(W[t-2],17)^rotr(W[t-2],19)^shr(W[t-2],10))>>>0;
+    W[t]=((W[t-16]+s0+W[t-7]+s1)&0xFFFFFFFF)>>>0;
+  }
+
+  // Compression: record state after each round
+  let va=SHA_H0[0],vb=SHA_H0[1],vc=SHA_H0[2],vd=SHA_H0[3];
+  let ve=SHA_H0[4],vf=SHA_H0[5],vg=SHA_H0[6],vh=SHA_H0[7];
+
+  const rounds=[];
+
+  for(let t=0;t<64;t++){
+    const before=[va,vb,vc,vd,ve,vf,vg,vh];
+    const Sig1=(rotr(ve,6)^rotr(ve,11)^rotr(ve,25))>>>0;
+    const Ch=((ve&vf)^((~ve)&vg))>>>0;
+    const T1=((vh+Sig1+Ch+SHA_K[t]+W[t])&0xFFFFFFFF)>>>0;
+    const Sig0=(rotr(va,2)^rotr(va,13)^rotr(va,22))>>>0;
+    const Maj=((va&vb)^(va&vc)^(vb&vc))>>>0;
+    const T2=((Sig0+Maj)&0xFFFFFFFF)>>>0;
+
+    vh=vg;vg=vf;vf=ve;ve=((vd+T1)&0xFFFFFFFF)>>>0;vd=vc;vc=vb;vb=va;va=((T1+T2)&0xFFFFFFFF)>>>0;
+
+    const after=[va,vb,vc,vd,ve,vf,vg,vh];
+    rounds.push({before,after,T1,T2,Sig1,Ch,Sig0,Maj,Kt:SHA_K[t],Wt:W[t]});
+  }
+
+  // Final hash
+  const finalH=[
+    ((SHA_H0[0]+va)&0xFFFFFFFF)>>>0,
+    ((SHA_H0[1]+vb)&0xFFFFFFFF)>>>0,
+    ((SHA_H0[2]+vc)&0xFFFFFFFF)>>>0,
+    ((SHA_H0[3]+vd)&0xFFFFFFFF)>>>0,
+    ((SHA_H0[4]+ve)&0xFFFFFFFF)>>>0,
+    ((SHA_H0[5]+vf)&0xFFFFFFFF)>>>0,
+    ((SHA_H0[6]+vg)&0xFFFFFFFF)>>>0,
+    ((SHA_H0[7]+vh)&0xFFFFFFFF)>>>0
+  ];
+  const digest=finalH.map(h32).join('');
+
+  return {padded,byteTypes,padLen,W,rounds,finalH,digest,msgLen:mb.length};
+}
+
+let shaState=null, shaRound=0, shaPlaying=false, shaPlayTimer=null;
+
+function renderPadGrid(st){
+  const el=q('shaPadGrid');
+  let html='';
+  for(let i=0;i<st.padLen;i++){
+    const v=('0'+st.padded[i].toString(16)).slice(-2);
+    html+=`<div class="sha-pad-cell ${st.byteTypes[i]}">${v}</div>`;
+  }
+  el.innerHTML=html;
+}
+
+function renderInitGrid(){
+  const el=q('shaInitGrid');
+  const labels=['\u2080','\u2081','\u2082','\u2083','\u2084','\u2085','\u2086','\u2087'];
+  let html='';
+  for(let i=0;i<8;i++){
+    html+=`<div class="sha-hv-box"><div class="sha-hv-label">H${labels[i]}</div><div class="sha-hv-val">${h32(SHA_H0[i])}</div></div>`;
+  }
+  el.innerHTML=html;
+}
+
+function renderSchedule(st,round){
+  const el=q('shaSchedGrid');
+  let html='';
+  for(let t=0;t<64;t++){
+    const cls=t<16?'from-msg':'expanded';
+    const act=t===round?' active':'';
+    html+=`<div class="sha-sched-word ${cls}${act}"><span class="wi">W${t}</span>${h32(st.W[t])}</div>`;
+  }
+  el.innerHTML=html;
+  // Scroll active word into view
+  const active=el.querySelector('.active');
+  if(active)active.scrollIntoView({block:'nearest',behavior:'smooth'});
+}
+
+function renderVars(st,round){
+  const el=q('shaVarsGrid');
+  const after=st.rounds[round].after;
+  const prev=round>0?st.rounds[round-1].after:SHA_H0;
+  let html='';
+  for(let i=0;i<8;i++){
+    const changed=after[i]!==prev[i];
+    html+=`<div class="sha-var-box${changed?' changed':''}"><div class="sha-var-lbl">${SHA_NAMES[i]}</div><div class="sha-var-val">${h32(after[i])}</div></div>`;
+  }
+  el.innerHTML=html;
+}
+
+function renderRoundDetail(st,round){
+  const el=q('shaRoundDetail');
+  const r=st.rounds[round];
+  el.innerHTML=`
+    <div class="sha-rd-title">Round ${round} &mdash; Computation Detail</div>
+    <div class="sha-rd-row"><span class="lbl">&Sigma;<sub>1</sub></span><span class="eq">=</span><span class="val">ROTR<sup>6</sup>(e) \u2295 ROTR<sup>11</sup>(e) \u2295 ROTR<sup>25</sup>(e)</span><span class="eq">=</span><span class="res">${h32(r.Sig1)}</span></div>
+    <div class="sha-rd-row"><span class="lbl">Ch</span><span class="eq">=</span><span class="val">(e \u2227 f) \u2295 (\u00ACe \u2227 g)</span><span class="eq">=</span><span class="res">${h32(r.Ch)}</span></div>
+    <div class="sha-rd-row"><span class="lbl">K<sub>${round}</sub></span><span class="eq">=</span><span class="res">${h32(r.Kt)}</span></div>
+    <div class="sha-rd-row"><span class="lbl">W<sub>${round}</sub></span><span class="eq">=</span><span class="res">${h32(r.Wt)}</span></div>
+    <div class="sha-rd-row" style="padding:6px 0;border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04);"><span class="lbl">T<sub>1</sub></span><span class="eq">=</span><span class="val">h + \u03A3<sub>1</sub> + Ch + K<sub>${round}</sub> + W<sub>${round}</sub></span><span class="eq">=</span><span class="res">${h32(r.T1)}</span></div>
+    <div class="sha-rd-row"><span class="lbl">&Sigma;<sub>0</sub></span><span class="eq">=</span><span class="val">ROTR<sup>2</sup>(a) \u2295 ROTR<sup>13</sup>(a) \u2295 ROTR<sup>22</sup>(a)</span><span class="eq">=</span><span class="res">${h32(r.Sig0)}</span></div>
+    <div class="sha-rd-row"><span class="lbl">Maj</span><span class="eq">=</span><span class="val">(a \u2227 b) \u2295 (a \u2227 c) \u2295 (b \u2227 c)</span><span class="eq">=</span><span class="res">${h32(r.Maj)}</span></div>
+    <div class="sha-rd-row" style="padding:6px 0;border-top:1px solid rgba(255,255,255,0.04);"><span class="lbl">T<sub>2</sub></span><span class="eq">=</span><span class="val">\u03A3<sub>0</sub> + Maj</span><span class="eq">=</span><span class="res">${h32(r.T2)}</span></div>
+    <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:10px;color:var(--text-dim);">
+      a \u2190 T<sub>1</sub>+T<sub>2</sub> = <span style="color:var(--green)">${h32(r.after[0])}</span> &nbsp;|&nbsp;
+      e \u2190 d+T<sub>1</sub> = <span style="color:var(--green)">${h32(r.after[4])}</span> &nbsp;|&nbsp;
+      b..d,f..h shift down
+    </div>
+  `;
+}
+
+function renderFinal(st){
+  const el=q('shaFinalGrid');
+  const labels=['\u2080','\u2081','\u2082','\u2083','\u2084','\u2085','\u2086','\u2087'];
+  let html='';
+  for(let i=0;i<8;i++){
+    html+=`<div class="sha-hv-box final"><div class="sha-hv-label">H${labels[i]}</div><div class="sha-hv-val">${h32(st.finalH[i])}</div></div>`;
+  }
+  el.innerHTML=html;
+}
+
+function shaRender(){
+  if(!shaState)return;
+  renderPadGrid(shaState);
+  renderSchedule(shaState,shaRound);
+  renderVars(shaState,shaRound);
+  renderRoundDetail(shaState,shaRound);
+  renderFinal(shaState);
+  q('shaRoundNum').textContent=shaRound;
+  q('shaRoundSlider').value=shaRound;
+  q('shaDigest').value=shaState.digest;
+}
+
+function shaCompute(){
+  const msg=q('shaInput').value;
+  shaState=shaInstrument(msg);
+  shaRender();
+}
+
+function shaSetRound(r){
+  shaRound=Math.max(0,Math.min(63,r));
+  shaRender();
+}
+function shaStepRound(d){shaSetRound(shaRound+d);}
+
+function shaTogglePlay(){
+  if(shaPlaying){
+    shaPlaying=false;
+    clearInterval(shaPlayTimer);
+    q('shaPlayBtn').textContent='\u25B6 Play';
+    q('shaPlayBtn').classList.remove('playing');
+  } else {
+    shaPlaying=true;
+    q('shaPlayBtn').textContent='\u25A0 Stop';
+    q('shaPlayBtn').classList.add('playing');
+    if(shaRound>=63)shaRound=0;
+    shaPlayTimer=setInterval(()=>{
+      if(shaRound>=63){shaTogglePlay();return;}
+      shaRound++;
+      shaRender();
+    },150);
+  }
+}
+
+function initShaExplorer(){
+  renderInitGrid();
+  q('shaInput').addEventListener('input',()=>{shaRound=0;shaCompute();});
+  q('shaRoundSlider').addEventListener('input',()=>{shaSetRound(parseInt(q('shaRoundSlider').value));});
+  shaCompute();
+}
+</script>
+</body>
+</html>
