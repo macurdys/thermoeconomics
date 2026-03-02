@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -448,6 +449,157 @@
             .rsidebar { display: none; }
             .main { padding: 32px 24px 100px; }
         }
+        /* ============ TOOLKIT SCOPED STYLES ============ */
+        .tk { --tkb: #0a0a0a; --tkt: #e0e0e0; --tkt2: #aaa; --tkd: #666; --tkc: #00f0ff; --tka: #f0a030; --tkp: #a855f7; --tkr: #ff3b3b; --tkg: #39FF14; --tkbr: rgba(255,255,255,0.06); --tkcard: rgba(255,255,255,0.03); --tkmono: 'JetBrains Mono','Fira Code',monospace; background: var(--tkb); color: var(--tkt); padding: 24px; border-radius: 12px; margin: -4px -8px 0; }
+        .tk h2 { color: #fff; font-family: var(--font-display); font-size: 18px; margin: 28px 0 12px; }
+        .tk p { color: var(--tkt2); font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
+        .tk .tk-def { background: var(--tkcard); border: 1px solid var(--tkbr); border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; }
+        .tk .tk-def-label { font-family: var(--font-display); font-size: 9px; font-weight: 700; color: var(--tka); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        .tk .tk-def-math { font-family: var(--tkmono); font-size: 13px; color: var(--tkt); line-height: 1.8; }
+        .tk .tk-def-math .fn { color: var(--tkg); font-weight: 600; }
+        .tk .tk-def-math .var { color: var(--tkc); font-style: italic; }
+        .tk .tk-def-math .op { color: var(--tkd); }
+        .tk .tk-well { background: var(--tkcard); border: 1px solid var(--tkbr); border-radius: 10px; padding: 24px; margin-bottom: 20px; }
+        .tk .tk-field { margin-bottom: 14px; }
+        .tk .tk-label { font-family: var(--font-display); font-size: 10px; font-weight: 700; color: var(--tka); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+        .tk .tk-label .mv { font-style: italic; color: var(--tkc); margin-right: 4px; font-family: var(--tkmono); }
+        .tk .tk-inp { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--tkbr); border-radius: 4px; padding: 10px 12px; color: var(--tkt); font-family: var(--tkmono); font-size: 13px; outline: none; resize: vertical; transition: border-color 0.2s; }
+        .tk .tk-inp:focus { border-color: rgba(57,255,20,0.3); }
+        .tk .tk-inp[disabled] { background: rgba(255,255,255,0.015); cursor: default; }
+        .tk .tk-ho { font-size: 12px; letter-spacing: 0.04em; color: var(--tkg); }
+        .tk .tk-ho.hash-valid { color: var(--tkg); }
+        .tk .tk-ho.hash-invalid { color: var(--tkr); }
+        .tk .tk-btn-row { display: flex; gap: 10px; align-items: center; margin-top: 12px; flex-wrap: wrap; }
+        .tk .tk-btn { background: rgba(57,255,20,0.08); border: 1px solid rgba(57,255,20,0.2); border-radius: 6px; color: var(--tkg); font-family: var(--tkmono); font-size: 12px; padding: 10px 20px; cursor: pointer; transition: all 0.2s; font-weight: 600; }
+        .tk .tk-btn:hover { background: rgba(57,255,20,0.15); box-shadow: 0 0 12px rgba(57,255,20,0.1); }
+        .tk .tk-btn.mining { animation: tk-pulse 0.5s infinite alternate; }
+        @keyframes tk-pulse { from { box-shadow: 0 0 4px rgba(57,255,20,0.2); } to { box-shadow: 0 0 16px rgba(57,255,20,0.4); } }
+        .tk .tk-diff { font-family: var(--tkmono); font-size: 11px; color: var(--tka); }
+        .tk .tk-callout { background: rgba(57,255,20,0.03); border: 1px solid rgba(57,255,20,0.12); border-radius: 8px; padding: 16px 20px; margin: 24px 0; }
+        .tk .tk-callout-header { font-family: var(--font-display); font-size: 11px; font-weight: 700; color: var(--tkg); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        .tk .tk-callout p { color: var(--tkt2); font-size: 13px; margin: 0; }
+
+        /* Chain blocks */
+        .tk .chain-scroll { overflow-x: auto; padding: 8px 0 16px; margin: 0 -8px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent; }
+        .tk .chain-row { display: flex; align-items: flex-start; gap: 0; min-width: max-content; padding: 0 8px; }
+        .tk .chain-connector { display: flex; align-items: center; justify-content: center; width: 32px; min-width: 32px; padding-top: 20px; color: var(--tkd); font-size: 16px; }
+        .tk .chain-block { width: 260px; min-width: 260px; background: var(--tkcard); border: 1px solid var(--tkbr); border-radius: 8px; padding: 12px; transition: border-color 0.3s, box-shadow 0.3s; }
+        .tk .chain-block.valid { border-color: rgba(57,255,20,0.2); }
+        .tk .chain-block.invalid { border-color: rgba(255,59,59,0.25); }
+        .tk .cb-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .tk .cb-num { font-family: var(--font-display); font-size: 11px; font-weight: 700; color: #fff; letter-spacing: 1px; }
+        .tk .cb-status { width: 8px; height: 8px; border-radius: 50%; background: var(--tkd); }
+        .tk .cb-status.valid { background: var(--tkg); box-shadow: 0 0 6px rgba(57,255,20,0.4); }
+        .tk .cb-status.invalid { background: var(--tkr); }
+        .tk .cb-row { display: flex; gap: 6px; }
+        .tk .cb-row .cb-field { flex: 1; }
+        .tk .cb-field { margin-bottom: 6px; }
+        .tk .cb-label { font-size: 8px; font-weight: 600; color: var(--tkd); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; font-family: var(--tkmono); }
+        .tk .cb-label .mv { color: var(--tkc); font-style: italic; }
+        .tk .cb-input { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 3px; padding: 5px 6px; color: var(--tkt); font-family: var(--tkmono); font-size: 10px; outline: none; }
+        .tk .cb-input[disabled] { background: rgba(255,255,255,0.01); cursor: default; color: var(--tkd); }
+        .tk .cb-input.narrow { width: 50px; }
+        .tk .cb-input.hash-valid { color: var(--tkg); }
+        .tk .cb-input.hash-invalid { color: var(--tkr); }
+        .tk .cb-input.prev-hash { font-size: 8px; color: var(--tkd); }
+        .tk .cb-mine-row { text-align: right; margin-top: 6px; }
+        .tk .btn-mine-sm { background: rgba(57,255,20,0.08); border: 1px solid rgba(57,255,20,0.2); border-radius: 4px; color: var(--tkg); font-family: var(--tkmono); font-size: 10px; padding: 6px 12px; cursor: pointer; }
+        .tk .btn-mine-sm:hover { background: rgba(57,255,20,0.15); }
+        .tk .peer-label { font-family: var(--font-display); font-size: 12px; font-weight: 700; color: var(--tkc); letter-spacing: 2px; margin: 16px 0 6px; }
+
+        /* Transactions */
+        .tk .tx-list { margin-bottom: 6px; }
+        .tk .tx-row { display: flex; align-items: center; gap: 4px; padding: 3px 0; font-family: var(--tkmono); font-size: 10px; }
+        .tk .tx-from, .tk .tx-to { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 3px; padding: 4px 5px; color: var(--tkt); font-family: var(--tkmono); font-size: 10px; outline: none; width: 60px; }
+        .tk .tx-amt { width: 48px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 3px; padding: 4px 5px; color: var(--tka); font-family: var(--tkmono); font-size: 10px; outline: none; text-align: right; }
+        .tk .tx-arrow { color: var(--tkd); font-size: 10px; }
+        .tk .tx-unit { color: var(--tkd); font-size: 8px; }
+        .tk .tx-del { background: none; border: none; color: var(--tkr); cursor: pointer; font-size: 12px; padding: 2px 4px; opacity: 0.5; }
+        .tk .tx-del:hover { opacity: 1; }
+        .tk .tx-add { display: block; width: 100%; background: none; border: 1px dashed rgba(255,255,255,0.08); border-radius: 4px; color: var(--tkd); font-size: 9px; padding: 4px; cursor: pointer; margin-top: 4px; }
+        .tk .tx-add:hover { border-color: rgba(57,255,20,0.2); color: var(--tkg); }
+        .tk .tx-coinbase { display: flex; align-items: center; gap: 6px; padding: 5px 8px; background: rgba(240,160,48,0.06); border: 1px solid rgba(240,160,48,0.15); border-radius: 4px; margin-bottom: 6px; font-family: var(--tkmono); font-size: 10px; }
+        .tk .tx-cb-label { color: var(--tka); font-weight: 700; font-size: 9px; }
+        .tk .tx-cb-amt { color: var(--tka); font-weight: 600; margin-left: auto; }
+
+        /* Keys & signatures */
+        .tk .key-display { margin-bottom: 16px; }
+        .tk .key-row { display: flex; gap: 12px; flex-wrap: wrap; }
+        .tk .key-col { flex: 1; min-width: 200px; }
+        .tk .key-label { font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+        .tk .key-label.private { color: var(--tkr); }
+        .tk .key-label.public { color: var(--tkc); }
+        .tk .key-label.sig { color: var(--tkp); }
+        .tk .key-val { background: rgba(255,255,255,0.03); border: 1px solid var(--tkbr); border-radius: 4px; padding: 8px 10px; font-family: var(--tkmono); font-size: 9px; color: var(--tkt2); word-break: break-all; min-height: 32px; line-height: 1.4; }
+        .tk .key-val.private-val { border-color: rgba(255,59,59,0.15); }
+        .tk .key-val.public-val { border-color: rgba(0,240,255,0.15); }
+        .tk .key-val.sig-val { border-color: rgba(168,85,247,0.15); }
+        .tk .btn-gen { background: rgba(0,240,255,0.08); border: 1px solid rgba(0,240,255,0.2); border-radius: 6px; color: var(--tkc); font-family: var(--tkmono); font-size: 12px; padding: 10px 20px; cursor: pointer; font-weight: 600; }
+        .tk .btn-gen:hover { background: rgba(0,240,255,0.15); }
+        .tk .btn-sign { background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.2); border-radius: 6px; color: var(--tkp); font-family: var(--tkmono); font-size: 12px; padding: 10px 20px; cursor: pointer; font-weight: 600; }
+        .tk .btn-sign:hover { background: rgba(168,85,247,0.15); }
+        .tk .verify-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 4px; font-family: var(--tkmono); font-size: 11px; font-weight: 600; }
+        .tk .verify-badge.verified { background: rgba(57,255,20,0.1); border: 1px solid rgba(57,255,20,0.25); color: var(--tkg); }
+        .tk .verify-badge.failed { background: rgba(255,59,59,0.1); border: 1px solid rgba(255,59,59,0.25); color: var(--tkr); }
+        .tk .verify-badge.none { background: rgba(255,255,255,0.03); border: 1px solid var(--tkbr); color: var(--tkd); }
+        .tk .stx-sig-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; padding: 4px 8px; background: rgba(168,85,247,0.04); border: 1px solid rgba(168,85,247,0.12); border-radius: 4px; }
+        .tk .stx-sig-label { color: var(--tkp); font-family: var(--tkmono); font-size: 9px; font-weight: 700; }
+
+        /* SHA-256 Explorer */
+        .tk .sha-section { margin-bottom: 28px; }
+        .tk .sha-tag { font-family: var(--font-display); font-size: 10px; font-weight: 700; color: var(--tka); letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 10px; }
+        .tk .sha-pad-grid { display: grid; grid-template-columns: repeat(16, 1fr); gap: 2px; font-family: var(--tkmono); font-size: 10px; max-height: 220px; overflow-y: auto; }
+        .tk .sha-pad-cell { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 2px; padding: 5px 2px; text-align: center; font-size: 9px; color: var(--tkd); line-height: 1.2; }
+        .tk .sha-pad-cell.msg { color: var(--tkc); background: rgba(0,240,255,0.04); }
+        .tk .sha-pad-cell.pad { color: var(--tka); background: rgba(240,160,48,0.04); }
+        .tk .sha-pad-cell.len { color: var(--tkp); background: rgba(168,85,247,0.04); }
+        .tk .sha-hv-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; }
+        .tk .sha-hv-box { background: var(--tkcard); border: 1px solid var(--tkbr); border-radius: 6px; padding: 10px 6px; text-align: center; }
+        .tk .sha-hv-box.final { background: rgba(57,255,20,0.03); border-color: rgba(57,255,20,0.2); }
+        .tk .sha-hv-label { font-style: italic; font-size: 12px; color: var(--tkc); margin-bottom: 4px; }
+        .tk .sha-hv-box.final .sha-hv-label { color: var(--tkg); }
+        .tk .sha-hv-val { font-family: var(--tkmono); font-size: 10px; color: var(--tkt); }
+        .tk .sha-sched-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; }
+        .tk .sha-sched-word { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 4px; padding: 6px 4px; text-align: center; font-family: var(--tkmono); font-size: 9px; color: var(--tkt2); transition: all 0.2s; }
+        .tk .sha-sched-word .wi { display: block; font-size: 7px; color: var(--tkd); margin-bottom: 2px; }
+        .tk .sha-sched-word.from-msg { color: var(--tkc); border-color: rgba(0,240,255,0.12); }
+        .tk .sha-sched-word.active { color: var(--tkg); border-color: rgba(57,255,20,0.3); background: rgba(57,255,20,0.05); }
+        .tk .sha-round-ctrl { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: rgba(255,255,255,0.02); border: 1px solid var(--tkbr); border-radius: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+        .tk .sha-round-info { font-family: var(--tkmono); font-size: 11px; color: var(--tkt2); white-space: nowrap; }
+        .tk .sha-round-num { color: var(--tkg); font-weight: 700; font-size: 15px; }
+        .tk .sha-round-slider { flex: 1; min-width: 100px; accent-color: var(--tkg); }
+        .tk .sha-round-btns { display: flex; gap: 3px; }
+        .tk .sha-rbtn { background: var(--tkcard); border: 1px solid var(--tkbr); border-radius: 3px; color: var(--tkt2); font-family: var(--tkmono); font-size: 11px; padding: 5px 10px; cursor: pointer; }
+        .tk .sha-rbtn:hover { border-color: var(--tkg); color: var(--tkg); }
+        .tk .sha-play-btn.playing { background: rgba(57,255,20,0.05); border-color: rgba(57,255,20,0.3); color: var(--tkg); }
+        .tk .sha-vars-grid { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 16px; }
+        .tk .sha-var-box { background: var(--tkcard); border: 1px solid var(--tkbr); border-radius: 6px; padding: 8px 10px; text-align: center; min-width: 80px; transition: all 0.2s; }
+        .tk .sha-var-box.changed { border-color: rgba(57,255,20,0.3); box-shadow: 0 0 10px rgba(57,255,20,0.06); }
+        .tk .sha-var-lbl { font-style: italic; font-size: 14px; color: var(--tkc); margin-bottom: 3px; }
+        .tk .sha-var-val { font-family: var(--tkmono); font-size: 10px; color: var(--tkt); }
+        .tk .sha-round-detail { background: var(--tkcard); border: 1px solid var(--tkbr); border-radius: 8px; padding: 16px 20px; }
+        .tk .sha-rd-title { font-family: var(--tkmono); font-size: 9px; font-weight: 600; color: var(--tka); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .tk .sha-rd-row { display: flex; align-items: baseline; gap: 8px; padding: 4px 0; font-family: var(--tkmono); font-size: 11px; flex-wrap: wrap; }
+        .tk .sha-rd-row .lbl { color: var(--tkc); font-style: italic; font-weight: 600; min-width: 28px; }
+        .tk .sha-rd-row .eq { color: var(--tkd); }
+        .tk .sha-rd-row .val { color: var(--tkt2); word-break: break-all; }
+        .tk .sha-rd-row .res { color: var(--tkg); font-weight: 500; }
+        .tk .sha-ref-card { background: var(--tkcard); border: 1px solid var(--tkbr); border-radius: 8px; padding: 14px 18px; margin-bottom: 12px; }
+        .tk .sha-ref-title { font-family: var(--tkmono); font-size: 9px; font-weight: 600; color: var(--tka); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+        .tk .sha-ref-row { display: flex; align-items: baseline; gap: 8px; padding: 3px 0; font-family: var(--tkmono); font-size: 11px; flex-wrap: wrap; }
+        .tk .sha-ref-fn { color: var(--tkc); font-weight: 600; min-width: 70px; }
+        .tk .sha-ref-eq { color: var(--tkd); }
+        .tk .sha-ref-def { color: var(--tkt2); }
+        .tk .sha-ref-note { color: var(--tkd); font-size: 9px; margin-left: 6px; }
+
+        @media (max-width: 840px) {
+            .tk .chain-block { width: 220px; min-width: 220px; }
+            .tk .sha-pad-grid { grid-template-columns: repeat(8, 1fr); }
+            .tk .sha-sched-grid { grid-template-columns: repeat(4, 1fr); }
+            .tk .sha-hv-grid { grid-template-columns: repeat(4, 1fr); }
+            .tk .sha-var-box { min-width: 65px; }
+            .tk .key-col { min-width: 100%; }
+        }
     </style>
 </head>
 <body>
@@ -488,6 +640,10 @@
         <button class="rsidebar-btn" id="modeAlt" data-mode="alt" title="How Crypto Works">
             <span class="rs-tooltip">How Crypto Works</span>
             ₿
+        </button>
+        <button class="rsidebar-btn" id="modeTk" data-mode="toolkit" title="Interactive Toolkit">
+            <span class="rs-tooltip">Interactive Toolkit</span>
+            ⚒
         </button>
         <div class="rsidebar-divider"></div>
         <div class="rsidebar-label">STUDY</div>
@@ -3610,19 +3766,171 @@ body: `<p>The breakthrough success of prediction markets during 2024 has catalyz
 ];
 
 
+
+// ============================================================
+// TOOLKIT DATA (Interactive Blockchain Cryptography)
+// ============================================================
+const TOOLKIT_SECTIONS = [
+    { id: "tk-hashing", label: "I · Hashing" },
+    { id: "tk-chain", label: "II · Chain Structure" },
+    { id: "tk-tx", label: "III · Transactions" },
+    { id: "tk-asym", label: "IV · Asymmetric Crypto" },
+    { id: "tk-protocol", label: "V · Full Protocol" },
+    { id: "tk-internals", label: "VI · Algorithm Internals" }
+];
+
+const TOOLKIT_PAGES = [
+{
+slug: "tk-hash", section: "tk-hashing", title: "SHA-256 Hash",
+body: `<div class="tk"><div class="tk-def"><div class="tk-def-label">Definition — Cryptographic Hash</div><div class="tk-def-math"><span class="fn">H</span> : {0,1}* → {0,1}<sup>256</sup>  —  deterministic, one-way, collision-resistant</div></div>
+<div class="tk-well">
+  <div class="tk-field"><div class="tk-label"><span class="mv">m</span> Input Message</div><textarea class="tk-inp" id="tkHashIn" rows="2" placeholder="Type anything...">thermoeconomics</textarea></div>
+  <div class="tk-field"><div class="tk-label"><span class="mv">H(m)</span> SHA-256 Digest</div><input class="tk-inp tk-ho" id="tkHashOut" type="text" disabled></div>
+</div>
+<div class="tk-callout"><div class="tk-callout-header">Connection to Thermoeconomics</div><p>Each hash is an irreversible computation — energy is dissipated per Landauer's principle. This thermodynamic one-way function is why proof-of-work has real physical cost.</p></div></div>`
+},
+{
+slug: "tk-block", section: "tk-hashing", title: "Block & Proof of Work",
+body: `<div class="tk"><div class="tk-def"><div class="tk-def-label">Definition — Valid Block</div><div class="tk-def-math"><span class="fn">H</span>(<span class="var">n</span> ∥ <span class="var">data</span>) <span class="op">&lt;</span> <span class="var">target</span>  ⟺  first <span class="var">d</span> hex digits <span class="op">=</span> 0</div></div>
+<div class="tk-well">
+  <div class="tk-field"><div class="tk-label"><span class="mv">d</span> Difficulty</div><div class="tk-diff" id="tkBlkDiff">4 leading zeros (0000...)</div></div>
+  <div class="tk-field"><div class="tk-label"><span class="mv">n</span> Block #</div><input class="tk-inp" id="tkBlkNum" type="number" value="1" min="1"></div>
+  <div class="tk-field"><div class="tk-label"><span class="mv">η</span> Nonce</div><input class="tk-inp" id="tkBlkNonce" type="text" value="0"></div>
+  <div class="tk-field"><div class="tk-label"><span class="mv">D</span> Data</div><textarea class="tk-inp" id="tkBlkData" rows="2" placeholder="Block data..."></textarea></div>
+  <div class="tk-field"><div class="tk-label"><span class="mv">H(B)</span> Block Hash</div><input class="tk-inp tk-ho" id="tkBlkHash" type="text" disabled></div>
+  <div class="tk-btn-row"><button class="tk-btn" id="tkBlkMine" onclick="tkMineBlock()">⛏ Mine</button></div>
+</div>
+<div class="tk-callout"><div class="tk-callout-header">Connection to Thermoeconomics</div><p>Mining is a Bernoulli trial with probability P(valid) = 1/16<sup>d</sup>. Each attempt dissipates energy. The expected number of trials is 16<sup>d</sup> — making the energy cost predictable and measurable.</p></div></div>`
+},
+{
+slug: "tk-blockchain", section: "tk-chain", title: "Blockchain",
+body: `<div class="tk"><div class="tk-def"><div class="tk-def-label">Definition — Blockchain</div><div class="tk-def-math"><span class="fn">B</span><sub><span class="var">i</span></sub> <span class="op">=</span> (<span class="var">i</span>, <span class="var">η</span>, <span class="var">data</span>, <span class="fn">H</span>(<span class="fn">B</span><sub><span class="var">i</span>−1</sub>)) where <span class="fn">H</span>(<span class="fn">B</span><sub><span class="var">i</span></sub>)[0..<span class="var">d</span>] <span class="op">=</span> 0</div></div>
+<p>Five blocks linked by previous hashes. Edit any block's data and watch the chain break forward — every subsequent block becomes invalid because its stored previous hash no longer matches.</p>
+<div class="chain-scroll"><div class="chain-row" id="tkChain-bc"></div></div>
+<div class="tk-callout"><div class="tk-callout-header">Connection to Thermoeconomics</div><p>Tamper-evidence through hash chaining means rewriting history requires re-doing all the proof-of-work from the tampered block onward. The energy cost of attack scales linearly with chain depth.</p></div></div>`
+},
+{
+slug: "tk-distributed", section: "tk-chain", title: "Distributed Ledger",
+body: `<div class="tk"><div class="tk-def"><div class="tk-def-label">Definition — Consensus</div><div class="tk-def-math">Peer <span class="var">A</span>, <span class="var">B</span>, <span class="var">C</span> each maintain independent copies. Tamper with one — the others remain valid. The majority chain wins.</div></div>
+<p>Three independent peers each running the same 5-block chain. Modify data on one peer and it goes red while the others stay green — demonstrating Byzantine fault tolerance.</p>
+<div id="tkDistContainer"></div>
+<div class="tk-callout"><div class="tk-callout-header">Connection to Thermoeconomics</div><p>Distributed consensus converts local energy expenditure into global agreement. No single point of failure — the network's security is the sum of all miners' thermodynamic work.</p></div></div>`
+},
+{
+slug: "tk-tokens", section: "tk-tx", title: "Token Transfers",
+body: `<div class="tk"><div class="tk-def"><div class="tk-def-label">Definition — Transaction</div><div class="tk-def-math"><span class="var">tx</span> <span class="op">=</span> (<span class="var">from</span> <span class="op">→</span> <span class="var">to</span>, <span class="var">value</span>) serialized into block data</div></div>
+<p>Blocks now contain structured transactions instead of free text. Each block holds one or more transfers that are serialized into the hash input.</p>
+<div class="chain-scroll"><div class="chain-row" id="tkChain-tok"></div></div></div>`
+},
+{
+slug: "tk-coinbase", section: "tk-tx", title: "Coinbase Rewards",
+body: `<div class="tk"><div class="tk-def"><div class="tk-def-label">Definition — Coinbase Transaction</div><div class="tk-def-math"><span class="var">tx</span><sub>0</sub> <span class="op">=</span> (∅ <span class="op">→</span> <span class="var">miner</span>, <span class="var">R</span>) — new tokens created from proof-of-work</div></div>
+<p>Each block's first transaction is the coinbase — creating new tokens as a reward for the miner. This is how money enters the system: through irreversible computation.</p>
+<div class="chain-scroll"><div class="chain-row" id="tkChain-cb"></div></div>
+<div class="tk-callout"><div class="tk-callout-header">Connection to Thermoeconomics</div><p>The coinbase transaction is the energy-to-money conversion. Real thermodynamic work (mining) creates new monetary units — establishing unforgeable costliness as the basis of value.</p></div></div>`
+},
+{
+slug: "tk-keys", section: "tk-asym", title: "Key Pairs",
+body: `<div class="tk"><div class="tk-def"><div class="tk-def-label">Definition — ECDSA Key Generation</div><div class="tk-def-math"><span class="var">d</span> ∈ [1, <span class="var">n</span>−1] → <span class="var">Q</span> = <span class="var">d</span> × <span class="var">G</span>  on curve P-256</div></div>
+<div class="tk-well">
+  <div class="key-display">
+    <div class="key-row">
+      <div class="key-col"><div class="key-label private">🔒 Private Key</div><div class="key-val private-val" id="tkKeyPriv">Click generate...</div></div>
+      <div class="key-col"><div class="key-label public">🔓 Public Key</div><div class="key-val public-val" id="tkKeyPub">—</div></div>
+    </div>
+  </div>
+  <div class="tk-btn-row"><button class="btn-gen" onclick="tkGenKeys()">⚙ Generate Key Pair</button><span style="font-family:var(--tkmono);font-size:10px;color:var(--tkd);">Real ECDSA P-256 via Web Crypto API</span></div>
+</div>
+<div class="tk-callout"><div class="tk-callout-header">Connection to Thermoeconomics</div><p>Elliptic curve multiplication is a computational one-way function — easy to compute Q from d, computationally infeasible to reverse. This asymmetry establishes digital ownership without a central authority.</p></div></div>`
+},
+{
+slug: "tk-signatures", section: "tk-asym", title: "Digital Signatures",
+body: `<div class="tk"><div class="tk-def"><div class="tk-def-label">Definition — Sign & Verify</div><div class="tk-def-math"><span class="fn">Sign</span>(<span class="var">sk</span>, <span class="var">m</span>) → <span class="var">σ</span>  |  <span class="fn">Verify</span>(<span class="var">pk</span>, <span class="var">m</span>, <span class="var">σ</span>) → {✓, ✗}</div></div>
+<div class="tk-well">
+  <div class="key-row" style="margin-bottom:12px;">
+    <div class="key-col"><div class="key-label private">🔒 Private Key</div><div class="key-val private-val" id="tkSigPriv" style="font-size:8px;">Generate keys first...</div></div>
+    <div class="key-col"><div class="key-label public">🔓 Public Key</div><div class="key-val public-val" id="tkSigPub" style="font-size:8px;">—</div></div>
+  </div>
+  <div class="tk-btn-row" style="margin-bottom:16px;margin-top:0;"><button class="btn-gen" onclick="tkSigGenKeys()">⚙ Generate Keys</button></div>
+  <div class="tk-field"><div class="tk-label"><span class="mv">m</span> Message</div><textarea class="tk-inp" id="tkSigMsg" rows="2" placeholder="Message to sign...">Hello blockchain</textarea></div>
+  <div class="tk-btn-row" style="margin-bottom:12px;"><button class="btn-sign" onclick="tkSignMsg()">✍ Sign Message</button><span class="verify-badge none" id="tkSigBadge">not signed</span></div>
+  <div class="tk-field"><div class="key-label sig">σ Signature</div><div class="key-val sig-val" id="tkSigVal">—</div></div>
+</div></div>`
+},
+{
+slug: "tk-signedtx", section: "tk-asym", title: "Signed Transaction",
+body: `<div class="tk"><div class="tk-def"><div class="tk-def-label">Definition — Signed Transaction</div><div class="tk-def-math"><span class="var">tx</span> <span class="op">=</span> (<span class="var">to</span>, <span class="var">value</span>, <span class="fn">Sign</span>(<span class="var">sk</span>, <span class="var">to</span> ∥ <span class="var">value</span>))</div></div>
+<div class="tk-well">
+  <div class="key-row" style="margin-bottom:12px;">
+    <div class="key-col"><div class="key-label private">🔒 Private Key</div><div class="key-val private-val" id="tkStxPriv" style="font-size:8px;">Generate keys first...</div></div>
+    <div class="key-col"><div class="key-label public">🔓 Public Key</div><div class="key-val public-val" id="tkStxPub" style="font-size:8px;">—</div></div>
+  </div>
+  <div class="tk-btn-row" style="margin-bottom:16px;margin-top:0;"><button class="btn-gen" onclick="tkStxGenKeys()">⚙ Generate Keys</button></div>
+  <div style="display:flex;gap:10px;margin-bottom:12px;">
+    <div class="tk-field" style="flex:1;"><div class="tk-label">To</div><input class="tk-inp" id="tkStxTo" type="text" value="Bob" placeholder="Recipient"></div>
+    <div class="tk-field" style="width:120px;"><div class="tk-label">Amount</div><input class="tk-inp" id="tkStxAmt" type="text" value="25.00" placeholder="0.00"></div>
+  </div>
+  <div class="tk-btn-row" style="margin-bottom:12px;"><button class="btn-sign" onclick="tkSignTx()">✍ Sign Transaction</button><span class="verify-badge none" id="tkStxBadge">not signed</span></div>
+  <div class="tk-field"><div class="key-label sig">σ Signature</div><div class="key-val sig-val" id="tkStxSigVal">—</div></div>
+</div></div>`
+},
+{
+slug: "tk-signedchain", section: "tk-protocol", title: "Signed Blockchain",
+body: `<div class="tk"><div class="tk-def"><div class="tk-def-label">Definition — Full Block</div><div class="tk-def-math"><span class="fn">B</span><sub><span class="var">i</span></sub> <span class="op">=</span> (<span class="var">i</span>, <span class="var">η</span>, [<span class="var">tx</span><sub>0</sub>...<span class="var">tx</span><sub>k</sub>], <span class="fn">H</span>(<span class="fn">B</span><sub><span class="var">i</span>−1</sub>)) where <span class="var">tx</span><sub>0</sub> = coinbase, each <span class="var">tx</span> is signed</div></div>
+<p>The complete protocol: coinbase rewards, signed transactions, proof-of-work mining, and hash-linked chain. This is how a blockchain actually works.</p>
+<div class="tk-well" style="padding:14px;">
+  <div class="key-row" style="margin-bottom:10px;">
+    <div class="key-col"><div class="key-label private">🔒 Miner Private Key</div><div class="key-val private-val" id="tkScPriv" style="font-size:8px;min-height:24px;">Generating...</div></div>
+    <div class="key-col"><div class="key-label public">🔓 Miner Public Key</div><div class="key-val public-val" id="tkScPub" style="font-size:8px;min-height:24px;">—</div></div>
+  </div>
+  <div class="tk-btn-row" style="margin:0;"><button class="btn-gen" onclick="tkScGenKeys()">⚙ Generate Miner Keys</button></div>
+</div>
+<div class="chain-scroll"><div class="chain-row" id="tkChain-sc"></div></div>
+<div class="tk-callout"><div class="tk-callout-header">Connection to Thermoeconomics</div><p><strong>This is the complete thermodynamic economy.</strong> Irreversible computation (PoW) secures the chain, energy creates money (coinbase), elliptic curves establish ownership (keys), and signatures authorize transfers. Integrity guaranteed by physics and mathematics alone.</p></div></div>`
+},
+{
+slug: "tk-sha256deep", section: "tk-internals", title: "SHA-256 Deep Dive",
+body: `<div class="tk"><div class="tk-def"><div class="tk-def-label">FIPS 180-4 — Secure Hash Algorithm 256</div><div class="tk-def-math"><span class="fn">SHA-256</span> : {0,1}* → {0,1}<sup>256</sup><br>Steps: pad(<span class="var">m</span>) → parse into 512-bit blocks → expand to 64 words → 64 compression rounds → digest</div></div>
+<div class="tk-well">
+  <div class="tk-field"><div class="tk-label"><span class="mv">m</span> Input Message</div><textarea class="tk-inp" id="tkShaInput" rows="2" placeholder="Type to explore SHA-256 internals...">abc</textarea></div>
+  <div class="tk-field"><div class="tk-label"><span class="mv">H(m)</span> Final Digest</div><input class="tk-inp tk-ho" id="tkShaDigest" type="text" disabled></div>
+</div>
+<div class="sha-section"><div class="sha-tag">Step 1 — Pre-Processing (Padding)</div><div id="tkShaPadGrid" class="sha-pad-grid"></div>
+<div style="margin-top:8px;display:flex;gap:14px;font-family:var(--tkmono);font-size:9px;"><span style="color:var(--tkc);">■</span> message <span style="color:var(--tka);">■</span> padding <span style="color:var(--tkp);">■</span> length</div></div>
+<div class="sha-section"><div class="sha-tag">Step 2 — Initial Hash Values H<sup>(0)</sup></div><div class="sha-hv-grid" id="tkShaInitGrid"></div></div>
+<div class="sha-section"><div class="sha-tag">Step 3 — Message Schedule W<sub>t</sub></div><div class="sha-sched-grid" id="tkShaSchedGrid"></div></div>
+<div class="sha-section"><div class="sha-tag">Step 4 — Compression (64 Rounds)</div>
+<div class="sha-round-ctrl"><div class="sha-round-info">Round <span class="sha-round-num" id="tkShaRoundNum">0</span><span style="color:var(--tkd);"> / 63</span></div>
+<input type="range" class="sha-round-slider" id="tkShaSlider" min="0" max="63" value="0">
+<div class="sha-round-btns"><button class="sha-rbtn" onclick="tkShaSetRound(0)">◀◀</button><button class="sha-rbtn" onclick="tkShaStep(-1)">◀</button><button class="sha-rbtn" onclick="tkShaStep(1)">▶</button><button class="sha-rbtn" onclick="tkShaSetRound(63)">▶▶</button><button class="sha-rbtn sha-play-btn" id="tkShaPlayBtn" onclick="tkShaTogglePlay()">▶ Play</button></div></div>
+<div class="sha-vars-grid" id="tkShaVarsGrid"></div>
+<div id="tkShaRoundDetail" class="sha-round-detail"></div></div>
+<div class="sha-section"><div class="sha-tag">Step 5 — Final Addition</div><div class="sha-hv-grid" id="tkShaFinalGrid"></div></div>
+<div class="sha-section"><div class="sha-tag">Reference — Bitwise Operations</div>
+<div class="sha-ref-card"><div class="sha-ref-title">Logical Functions</div>
+<div class="sha-ref-row"><span class="sha-ref-fn">Ch(e,f,g)</span><span class="sha-ref-eq">=</span><span class="sha-ref-def">(e AND f) XOR (NOT e AND g)</span></div>
+<div class="sha-ref-row"><span class="sha-ref-fn">Maj(a,b,c)</span><span class="sha-ref-eq">=</span><span class="sha-ref-def">(a AND b) XOR (a AND c) XOR (b AND c)</span></div></div>
+<div class="sha-ref-card"><div class="sha-ref-title">Rotation Functions</div>
+<div class="sha-ref-row"><span class="sha-ref-fn">Σ₀(a)</span><span class="sha-ref-eq">=</span><span class="sha-ref-def">ROTR² ⊕ ROTR¹³ ⊕ ROTR²²</span></div>
+<div class="sha-ref-row"><span class="sha-ref-fn">Σ₁(e)</span><span class="sha-ref-eq">=</span><span class="sha-ref-def">ROTR⁶ ⊕ ROTR¹¹ ⊕ ROTR²⁵</span></div>
+<div class="sha-ref-row"><span class="sha-ref-fn">σ₀(x)</span><span class="sha-ref-eq">=</span><span class="sha-ref-def">ROTR⁷ ⊕ ROTR¹⁸ ⊕ SHR³</span><span class="sha-ref-note">schedule</span></div>
+<div class="sha-ref-row"><span class="sha-ref-fn">σ₁(x)</span><span class="sha-ref-eq">=</span><span class="sha-ref-def">ROTR¹⁷ ⊕ ROTR¹⁹ ⊕ SHR¹⁰</span><span class="sha-ref-note">schedule</span></div></div></div>
+<div class="tk-callout"><div class="tk-callout-header">Connection to Thermoeconomics</div><p><strong>This is the engine of proof-of-work.</strong> Every mining trial executes these 64 rounds, each performing irreversible bit operations that dissipate energy per Landauer's principle. The avalanche effect is what makes brute-force the only viable strategy.</p></div></div>`
+}
+];
 // ============================================================
 // MODE STATE
 // ============================================================
-let currentMode = 'study'; // 'study' or 'alt'
+let currentMode = 'study'; // 'study', 'alt', or 'toolkit'
 
 function getActiveSections() {
-    return currentMode === 'study' ? SECTIONS : ALT_SECTIONS;
+    return currentMode === 'study' ? SECTIONS : currentMode === 'alt' ? ALT_SECTIONS : TOOLKIT_SECTIONS;
 }
 function getActivePages() {
-    return currentMode === 'study' ? PAGES : ALT_PAGES;
+    return currentMode === 'study' ? PAGES : currentMode === 'alt' ? ALT_PAGES : TOOLKIT_PAGES;
 }
 function getDefaultSlug() {
-    return currentMode === 'study' ? 'welcome' : 'alt-welcome';
+    return currentMode === 'study' ? 'welcome' : currentMode === 'alt' ? 'alt-welcome' : 'tk-hash';
 }
 
 // ============================================================
@@ -3750,6 +4058,11 @@ function renderPage(slug) {
             ]
         });
     }
+
+    // Initialize toolkit interactive elements
+    if (slug.startsWith('tk-') && typeof tkInitPage === 'function') {
+        setTimeout(() => tkInitPage(slug), 50);
+    }
 }
 
 // ============================================================
@@ -3761,7 +4074,7 @@ function openMap() {
     const currentSlug = (location.hash || '#' + getDefaultSlug()).slice(1);
     const sections = getActiveSections();
     const pages = getActivePages();
-    const modeLabel = currentMode === 'study' ? 'The Study — Map' : 'How Crypto Works — Map';
+    const modeLabel = currentMode === 'study' ? 'The Study — Map' : currentMode === 'alt' ? 'How Crypto Works — Map' : 'Interactive Toolkit — Map';
     let html = '<h2>' + modeLabel + '</h2>';
     sections.forEach(sec => {
         const secPages = pages.filter(p => p.section === sec.id);
@@ -3822,7 +4135,7 @@ function switchMode(mode) {
     document.querySelector(`.rsidebar-btn[data-mode="${mode}"]`).classList.add('active');
 
     // Update topbar label
-    document.getElementById('topbarLabel').textContent = mode === 'study' ? 'The Study' : 'How Crypto Works';
+    document.getElementById('topbarLabel').textContent = mode === 'study' ? 'The Study' : mode === 'alt' ? 'How Crypto Works' : 'Interactive Toolkit';
 
     // Rebuild left sidebar
     buildSidebar();
@@ -3844,13 +4157,19 @@ function route() {
     let slug = (location.hash || '#' + getDefaultSlug()).slice(1) || getDefaultSlug();
 
     // Auto-detect mode from slug
-    if (slug.startsWith('alt-') && currentMode !== 'alt') {
+    if (slug.startsWith('tk-') && currentMode !== 'toolkit') {
+        currentMode = 'toolkit';
+        document.querySelectorAll('.rsidebar-btn').forEach(b => b.classList.remove('active'));
+        document.querySelector('.rsidebar-btn[data-mode="toolkit"]').classList.add('active');
+        document.getElementById('topbarLabel').textContent = 'Interactive Toolkit';
+        buildSidebar();
+    } else if (slug.startsWith('alt-') && currentMode !== 'alt') {
         currentMode = 'alt';
         document.querySelectorAll('.rsidebar-btn').forEach(b => b.classList.remove('active'));
         document.querySelector('.rsidebar-btn[data-mode="alt"]').classList.add('active');
         document.getElementById('topbarLabel').textContent = 'How Crypto Works';
         buildSidebar();
-    } else if (!slug.startsWith('alt-') && currentMode !== 'study') {
+    } else if (!slug.startsWith('alt-') && !slug.startsWith('tk-') && currentMode !== 'study') {
         currentMode = 'study';
         document.querySelectorAll('.rsidebar-btn').forEach(b => b.classList.remove('active'));
         document.querySelector('.rsidebar-btn[data-mode="study"]').classList.add('active');
@@ -3878,6 +4197,499 @@ document.getElementById('sidebarOverlay').addEventListener('click', () => {
 buildSidebar();
 route();
 
+
+// ============================================================
+// TOOLKIT ENGINE — Interactive Blockchain Cryptography
+// ============================================================
+const SHA256=(()=>{
+  const K=new Uint32Array([0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2]);
+  const r=(x,n)=>(x>>>n)|(x<<(32-n));
+  return{
+    hash(m){
+      const e=new TextEncoder(),mb=e.encode(m),bl=mb.length*8,pl=(((mb.length+9)>>6)+1)<<6,pd=new Uint8Array(pl);
+      pd.set(mb);pd[mb.length]=0x80;const dv=new DataView(pd.buffer);dv.setUint32(pl-4,bl,false);
+      let h0=0x6a09e667,h1=0xbb67ae85,h2=0x3c6ef372,h3=0xa54ff53a,h4=0x510e527f,h5=0x9b05688c,h6=0x1f83d9ab,h7=0x5be0cd19;const W=new Uint32Array(64);
+      for(let o=0;o<pl;o+=64){for(let i=0;i<16;i++)W[i]=dv.getUint32(o+i*4,false);for(let i=16;i<64;i++){W[i]=(W[i-16]+(r(W[i-15],7)^r(W[i-15],18)^(W[i-15]>>>3))+W[i-7]+(r(W[i-2],17)^r(W[i-2],19)^(W[i-2]>>>10)))|0;}
+      let a=h0,b=h1,c=h2,d=h3,e2=h4,f=h5,g=h6,h=h7;for(let i=0;i<64;i++){const t1=(h+(r(e2,6)^r(e2,11)^r(e2,25))+((e2&f)^(~e2&g))+K[i]+W[i])|0,t2=((r(a,2)^r(a,13)^r(a,22))+((a&b)^(a&c)^(b&c)))|0;h=g;g=f;f=e2;e2=(d+t1)|0;d=c;c=b;b=a;a=(t1+t2)|0;}
+      h0=(h0+a)|0;h1=(h1+b)|0;h2=(h2+c)|0;h3=(h3+d)|0;h4=(h4+e2)|0;h5=(h5+f)|0;h6=(h6+g)|0;h7=(h7+h)|0;}
+      const x=n=>('00000000'+(n>>>0).toString(16)).slice(-8);return x(h0)+x(h1)+x(h2)+x(h3)+x(h4)+x(h5)+x(h6)+x(h7);
+    },
+    // Full internals for SHA-256 explorer
+    internals(m){
+      const enc=new TextEncoder(),mb=enc.encode(m),bl=mb.length*8,pl=(((mb.length+9)>>6)+1)<<6,pd=new Uint8Array(pl);
+      pd.set(mb);pd[mb.length]=0x80;const dv=new DataView(pd.buffer);dv.setUint32(pl-4,bl,false);
+      const initH=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+      let H=[...initH];const allRounds=[];const W=new Uint32Array(64);
+      for(let o=0;o<pl;o+=64){
+        for(let i=0;i<16;i++)W[i]=dv.getUint32(o+i*4,false);
+        for(let i=16;i<64;i++){W[i]=(W[i-16]+(r(W[i-15],7)^r(W[i-15],18)^(W[i-15]>>>3))+W[i-7]+(r(W[i-2],17)^r(W[i-2],19)^(W[i-2]>>>10)))|0;}
+        let a=H[0],b=H[1],c=H[2],d=H[3],e2=H[4],f=H[5],g=H[6],h=H[7];
+        for(let i=0;i<64;i++){
+          const ch=((e2&f)^(~e2&g))>>>0,maj=((a&b)^(a&c)^(b&c))>>>0;
+          const s1=(r(e2,6)^r(e2,11)^r(e2,25))>>>0,s0=(r(a,2)^r(a,13)^r(a,22))>>>0;
+          const t1=(h+s1+ch+K[i]+W[i])|0,t2=(s0+maj)|0;
+          allRounds.push({i,a:a>>>0,b:b>>>0,c:c>>>0,d:d>>>0,e:e2>>>0,f:f>>>0,g:g>>>0,h:h>>>0,Wt:W[i]>>>0,Kt:K[i]>>>0,ch:ch,maj:maj,S0:s0,S1:s1,T1:t1>>>0,T2:t2>>>0});
+          h=g;g=f;f=e2;e2=(d+t1)|0;d=c;c=b;b=a;a=(t1+t2)|0;
+        }
+        H[0]=(H[0]+a)|0;H[1]=(H[1]+b)|0;H[2]=(H[2]+c)|0;H[3]=(H[3]+d)|0;H[4]=(H[4]+e2)|0;H[5]=(H[5]+f)|0;H[6]=(H[6]+g)|0;H[7]=(H[7]+h)|0;
+      }
+      return{padded:pd,W:Array.from(W),initH,finalH:H.map(v=>v>>>0),rounds:allRounds,digest:H.map(v=>('00000000'+(v>>>0).toString(16)).slice(-8)).join('')};
+    },
+    K
+  };
+})();
+
+const TK_DIFF=4, TK_ZEROS='0000', TK_MAX_NONCE=8*Math.pow(16,TK_DIFF);
+
+// Shared chain state
+const tkChains={};
+const tkTxChains={};
+let tkScKeys=null;
+let tkScBlocks=[];
+
+// ===== TOOL 01: HASH =====
+function tkInitHash(){
+  const inp=document.getElementById('tkHashIn');
+  const out=document.getElementById('tkHashOut');
+  if(!inp||!out) return;
+  function update(){out.value=SHA256.hash(inp.value);out.className='tk-inp tk-ho hash-valid';}
+  inp.addEventListener('input',update);
+  update();
+}
+
+// ===== TOOL 02: SINGLE BLOCK =====
+function tkBlockText(){
+  const n=document.getElementById('tkBlkNum'), nc=document.getElementById('tkBlkNonce'), d=document.getElementById('tkBlkData');
+  return (n?n.value:'')+(nc?nc.value:'')+(d?d.value:'');
+}
+function tkUpdateBlock(){
+  const h=SHA256.hash(tkBlockText()), out=document.getElementById('tkBlkHash');
+  if(!out)return;out.value=h;
+  out.className=h.startsWith(TK_ZEROS)?'tk-inp tk-ho hash-valid':'tk-inp tk-ho hash-invalid';
+}
+function tkMineBlock(){
+  const btn=document.getElementById('tkBlkMine'),nc=document.getElementById('tkBlkNonce');
+  if(!btn||!nc)return;let n=0;btn.classList.add('mining');btn.textContent='Mining...';
+  !function step(){for(let i=0;i<5000&&n<=TK_MAX_NONCE;i++,n++){nc.value=n;const h=SHA256.hash(tkBlockText());
+    if(h.startsWith(TK_ZEROS)){tkUpdateBlock();btn.classList.remove('mining');btn.textContent='⛏ Mine';return;}}
+    if(n<TK_MAX_NONCE){tkUpdateBlock();requestAnimationFrame(step);}else{btn.classList.remove('mining');btn.textContent='⛏ Mine';}
+  }();
+}
+function tkInitBlock(){
+  const fields=['tkBlkNum','tkBlkNonce','tkBlkData'];
+  fields.forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('input',tkUpdateBlock);});
+  tkUpdateBlock();
+}
+
+// ===== CHAIN ENGINE =====
+function tkChainBlockHTML(cid,b){
+  const st=tkChains[cid];if(!st)return'';const blk=st[b];
+  let h=`<div class="chain-block" id="cb-${cid}-${b}"><div class="cb-header"><span class="cb-num">BLOCK ${b+1}</span><span class="cb-status" id="cbs-${cid}-${b}"></span></div>`;
+  h+=`<div class="cb-field"><div class="cb-label"><span class="mv">η</span> NONCE</div><input class="cb-input narrow" id="cn-${cid}-${b}" type="text" value="${blk.nonce}"></div>`;
+  h+=`<div class="cb-field"><div class="cb-label"><span class="mv">D</span> DATA</div><textarea class="cb-input" id="cd-${cid}-${b}" rows="2">${blk.data}</textarea></div>`;
+  h+=`<div class="cb-field"><div class="cb-label">PREV HASH</div><input class="cb-input prev-hash" id="cp-${cid}-${b}" disabled value="${blk.prev}"></div>`;
+  h+=`<div class="cb-field"><div class="cb-label"><span class="mv">H(B)</span> HASH</div><input class="cb-input" id="ch-${cid}-${b}" disabled></div>`;
+  h+=`<div class="cb-mine-row"><button class="btn-mine-sm" onclick="tkChainMine('${cid}',${b})">⛏ Mine</button></div></div>`;
+  return h;
+}
+function tkChainText(cid,b){const s=tkChains[cid][b];return `${b}${s.nonce}${s.data}${s.prev}`;}
+function tkChainUpdateHash(cid,b){
+  const s=tkChains[cid],h=SHA256.hash(tkChainText(cid,b));s[b].hash=h;
+  const hel=document.getElementById(`ch-${cid}-${b}`),sel=document.getElementById(`cbs-${cid}-${b}`),bel=document.getElementById(`cb-${cid}-${b}`);
+  if(hel){hel.value=h;const v=h.startsWith(TK_ZEROS);hel.className=v?'cb-input hash-valid':'cb-input hash-invalid';if(sel)sel.className=v?'cb-status valid':'cb-status invalid';if(bel)bel.className=v?'chain-block valid':'chain-block invalid';}
+}
+function tkChainUpdate(cid,from,num){
+  for(let b=from;b<num;b++){
+    if(b>0){const prev=tkChains[cid][b-1].hash;tkChains[cid][b].prev=prev;const p=document.getElementById(`cp-${cid}-${b}`);if(p)p.value=prev;}
+    tkChainUpdateHash(cid,b);
+  }
+}
+function tkChainBind(cid,num){
+  for(let b=0;b<num;b++){
+    ['cn','cd'].forEach(pre=>{const el=document.getElementById(`${pre}-${cid}-${b}`);if(el)el.addEventListener('input',()=>{
+      const s=tkChains[cid][b];if(pre==='cn')s.nonce=el.value;else s.data=el.value;tkChainUpdate(cid,b,num);
+    });});
+  }
+}
+function tkChainMine(cid,b){
+  const s=tkChains[cid],nel=document.getElementById(`cn-${cid}-${b}`),num=s.length;
+  let n=0;
+  !function step(){for(let i=0;i<5000&&n<=TK_MAX_NONCE;i++,n++){s[b].nonce=String(n);nel.value=n;const h=SHA256.hash(tkChainText(cid,b));
+    if(h.startsWith(TK_ZEROS)){tkChainUpdate(cid,b,num);return;}}
+    if(n<TK_MAX_NONCE){tkChainUpdate(cid,b,num);requestAnimationFrame(step);}
+  }();
+}
+function tkBuildChain(containerId,cid,num){
+  tkChains[cid]=[];
+  for(let b=0;b<num;b++)tkChains[cid].push({nonce:'0',data:'',prev:b===0?'0'.repeat(64):'',hash:''});
+  const row=document.getElementById(containerId);if(!row)return;
+  let html='';for(let b=0;b<num;b++){if(b>0)html+='<div class="chain-connector">→</div>';html+=tkChainBlockHTML(cid,b);}
+  row.innerHTML=html;
+  tkChainUpdate(cid,0,num);tkChainBind(cid,num);
+}
+
+// ===== TOOL 03: BLOCKCHAIN =====
+function tkInitBlockchain(){tkBuildChain('tkChain-bc','bc',5);}
+
+// ===== TOOL 04: DISTRIBUTED =====
+function tkInitDistributed(){
+  const c=document.getElementById('tkDistContainer');if(!c)return;
+  let h='';['A','B','C'].forEach(p=>{
+    h+=`<div class="peer-label">PEER ${p}</div><div class="chain-scroll"><div class="chain-row" id="tkChain-dist${p}"></div></div>`;
+  });
+  c.innerHTML=h;
+  ['A','B','C'].forEach(p=>tkBuildChain(`tkChain-dist${p}`,`dist${p}`,5));
+  // Auto-mine all peers
+  ['A','B','C'].forEach(p=>tkAutoMine(`dist${p}`,5));
+}
+
+// ===== TX CHAIN ENGINE =====
+function tkTxBlockHTML(cid,b,hasCoinbase){
+  const st=tkTxChains[cid];if(!st)return'';const blk=st[b];
+  let h=`<div class="chain-block" id="txb-${cid}-${b}"><div class="cb-header"><span class="cb-num">BLOCK ${b+1}</span><span class="cb-status" id="txs-${cid}-${b}"></span></div>`;
+  h+=`<div class="cb-field"><div class="cb-label"><span class="mv">η</span> NONCE</div><input class="cb-input narrow" id="txn-${cid}-${b}" type="text" value="${blk.nonce}"></div>`;
+  if(hasCoinbase){h+=`<div class="tx-coinbase"><span class="tx-cb-label">COINBASE</span> ∅ → <input class="cb-input" style="width:50px;display:inline;padding:2px 4px;" id="txm-${cid}-${b}" value="${blk.miner||'Miner'}"> <span class="tx-cb-amt">50 tokens</span></div>`;}
+  h+=`<div class="cb-field"><div class="cb-label">TRANSACTIONS</div><div class="tx-list" id="txl-${cid}-${b}"></div>`;
+  h+=`<button class="tx-add" onclick="tkAddTx('${cid}',${b})">+ Add Transaction</button></div>`;
+  h+=`<div class="cb-field"><div class="cb-label">PREV HASH</div><input class="cb-input prev-hash" id="txp-${cid}-${b}" disabled value="${blk.prev}"></div>`;
+  h+=`<div class="cb-field"><div class="cb-label"><span class="mv">H(B)</span> HASH</div><input class="cb-input" id="txh-${cid}-${b}" disabled></div>`;
+  h+=`<div class="cb-mine-row"><button class="btn-mine-sm" onclick="tkTxChainMine('${cid}',${b})">⛏ Mine</button></div></div>`;
+  return h;
+}
+function tkSerializeTxs(cid,b){
+  const blk=tkTxChains[cid][b];let s='';
+  if(blk.miner)s+=`COINBASE:${blk.miner}:50|`;
+  blk.txs.forEach(t=>s+=`${t.from}>${t.to}:${t.amt}|`);
+  return s;
+}
+function tkTxChainText(cid,b){const s=tkTxChains[cid][b];return `${b}${s.nonce}${tkSerializeTxs(cid,b)}${s.prev}`;}
+function tkTxChainUpdateHash(cid,b){
+  const s=tkTxChains[cid],h=SHA256.hash(tkTxChainText(cid,b));s[b].hash=h;
+  const hel=document.getElementById(`txh-${cid}-${b}`),sel=document.getElementById(`txs-${cid}-${b}`),bel=document.getElementById(`txb-${cid}-${b}`);
+  if(hel){hel.value=h;const v=h.startsWith(TK_ZEROS);hel.className=v?'cb-input hash-valid':'cb-input hash-invalid';if(sel)sel.className=v?'cb-status valid':'cb-status invalid';if(bel)bel.className=v?'chain-block valid':'chain-block invalid';}
+}
+function tkTxChainUpdate(cid,from,num){
+  for(let b=from;b<num;b++){
+    if(b>0){const prev=tkTxChains[cid][b-1].hash;tkTxChains[cid][b].prev=prev;const p=document.getElementById(`txp-${cid}-${b}`);if(p)p.value=prev;}
+    tkTxChainUpdateHash(cid,b);
+  }
+}
+function tkCreateTxRow(cid,b,f,t,v){
+  const d=document.createElement('div');d.className='tx-row';
+  d.innerHTML=`<input class="tx-from" value="${f}" placeholder="From"><span class="tx-arrow">→</span><input class="tx-to" value="${t}" placeholder="To"><input class="tx-amt" value="${v}" placeholder="Amt"><span class="tx-unit">tk</span><button class="tx-del" onclick="this.parentElement.remove();tkTxFieldChange('${cid}',${b});">×</button>`;
+  d.querySelectorAll('input').forEach(inp=>inp.addEventListener('input',()=>tkTxFieldChange(cid,b)));
+  return d;
+}
+function tkTxFieldChange(cid,b){
+  const list=document.getElementById(`txl-${cid}-${b}`);if(!list)return;
+  const txs=[];list.querySelectorAll('.tx-row').forEach(row=>{
+    const inputs=row.querySelectorAll('input');txs.push({from:inputs[0].value,to:inputs[1].value,amt:inputs[2].value});
+  });
+  tkTxChains[cid][b].txs=txs;
+  // Update miner if coinbase
+  const mel=document.getElementById(`txm-${cid}-${b}`);if(mel)tkTxChains[cid][b].miner=mel.value;
+  tkTxChainUpdate(cid,b,tkTxChains[cid].length);
+}
+function tkAddTx(cid,b){
+  const list=document.getElementById(`txl-${cid}-${b}`);if(!list)return;
+  list.appendChild(tkCreateTxRow(cid,b,'Alice','Bob','10'));
+  tkTxChains[cid][b].txs.push({from:'Alice',to:'Bob',amt:'10'});
+  tkTxChainUpdate(cid,b,tkTxChains[cid].length);
+}
+function tkTxChainMine(cid,b){
+  const s=tkTxChains[cid],nel=document.getElementById(`txn-${cid}-${b}`),num=s.length;let n=0;
+  !function step(){for(let i=0;i<5000&&n<=TK_MAX_NONCE;i++,n++){s[b].nonce=String(n);nel.value=n;const h=SHA256.hash(tkTxChainText(cid,b));
+    if(h.startsWith(TK_ZEROS)){tkTxChainUpdate(cid,b,num);return;}}
+    if(n<TK_MAX_NONCE){tkTxChainUpdate(cid,b,num);requestAnimationFrame(step);}
+  }();
+}
+function tkBuildTxChain(containerId,cid,num,hasCoinbase){
+  tkTxChains[cid]=[];
+  const defaultTxs=[[{from:'Alice',to:'Bob',amt:'10'}],[{from:'Bob',to:'Charlie',amt:'5'}],[{from:'Charlie',to:'Alice',amt:'3'}],[],[{from:'Alice',to:'Dave',amt:'7'}]];
+  for(let b=0;b<num;b++)tkTxChains[cid].push({nonce:'0',data:'',prev:b===0?'0'.repeat(64):'',hash:'',txs:defaultTxs[b]?[...defaultTxs[b]]:[],miner:hasCoinbase?'Miner':null});
+  const row=document.getElementById(containerId);if(!row)return;
+  let html='';for(let b=0;b<num;b++){if(b>0)html+='<div class="chain-connector">→</div>';html+=tkTxBlockHTML(cid,b,hasCoinbase);}
+  row.innerHTML=html;
+  // Populate tx rows
+  for(let b=0;b<num;b++){const list=document.getElementById(`txl-${cid}-${b}`);if(list)tkTxChains[cid][b].txs.forEach(t=>list.appendChild(tkCreateTxRow(cid,b,t.from,t.to,t.amt)));}
+  // Bind nonce & miner inputs
+  for(let b=0;b<num;b++){
+    const nel=document.getElementById(`txn-${cid}-${b}`);if(nel)nel.addEventListener('input',()=>{tkTxChains[cid][b].nonce=nel.value;tkTxChainUpdate(cid,b,num);});
+    const mel=document.getElementById(`txm-${cid}-${b}`);if(mel)mel.addEventListener('input',()=>{tkTxChains[cid][b].miner=mel.value;tkTxChainUpdate(cid,b,num);});
+  }
+  tkTxChainUpdate(cid,0,num);
+}
+
+// ===== TOOL 05: TOKEN CHAIN =====
+function tkInitTokenChain(){tkBuildTxChain('tkChain-tok','tok',5,false);}
+// ===== TOOL 06: COINBASE CHAIN =====
+function tkInitCoinbaseChain(){tkBuildTxChain('tkChain-cb','cb',5,true);}
+
+// ===== AUTO MINE =====
+function tkAutoMine(cid,num){
+  let b=0;
+  function mineNext(){
+    if(b>=num)return;const s=tkChains[cid]||tkTxChains[cid];if(!s)return;
+    const isChain=!!tkChains[cid];let n=0;
+    !function step(){for(let i=0;i<5000&&n<=TK_MAX_NONCE;i++,n++){
+      if(isChain){s[b].nonce=String(n);const nel=document.getElementById(`cn-${cid}-${b}`);if(nel)nel.value=n;const h=SHA256.hash(tkChainText(cid,b));
+        if(h.startsWith(TK_ZEROS)){tkChainUpdate(cid,b,num);b++;mineNext();return;}}
+      else{s[b].nonce=String(n);const nel=document.getElementById(`txn-${cid}-${b}`);if(nel)nel.value=n;const h=SHA256.hash(tkTxChainText(cid,b));
+        if(h.startsWith(TK_ZEROS)){tkTxChainUpdate(cid,b,num);b++;mineNext();return;}}
+    }if(n<TK_MAX_NONCE){if(isChain)tkChainUpdate(cid,b,num);else tkTxChainUpdate(cid,b,num);requestAnimationFrame(step);}
+    }();
+  }
+  mineNext();
+}
+
+// ===== ECDSA HELPERS =====
+function tkBufToHex(buf){return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');}
+function tkHexToBuf(hex){const a=new Uint8Array(hex.length/2);for(let i=0;i<hex.length;i+=2)a[i/2]=parseInt(hex.substr(i,2),16);return a.buffer;}
+async function tkEcGenKey(){
+  const kp=await crypto.subtle.generateKey({name:'ECDSA',namedCurve:'P-256'},true,['sign','verify']);
+  const priv=await crypto.subtle.exportKey('pkcs8',kp.privateKey),pub=await crypto.subtle.exportKey('spki',kp.publicKey);
+  return{privateKey:kp.privateKey,publicKey:kp.publicKey,privHex:tkBufToHex(priv),pubHex:tkBufToHex(pub)};
+}
+async function tkEcSign(privateKey,message){
+  const enc=new TextEncoder().encode(message);const sig=await crypto.subtle.sign({name:'ECDSA',hash:'SHA-256'},privateKey,enc);return tkBufToHex(sig);
+}
+async function tkEcVerify(publicKey,message,sigHex){
+  const enc=new TextEncoder().encode(message);try{return await crypto.subtle.verify({name:'ECDSA',hash:'SHA-256'},publicKey,tkHexToBuf(sigHex),enc);}catch(e){return false;}
+}
+
+// ===== TOOL 07: KEY PAIRS =====
+let tkKeyPairData=null;
+async function tkGenKeys(){
+  tkKeyPairData=await tkEcGenKey();
+  document.getElementById('tkKeyPriv').textContent=tkKeyPairData.privHex;
+  document.getElementById('tkKeyPub').textContent=tkKeyPairData.pubHex;
+}
+
+// ===== TOOL 08: SIGNATURES =====
+let tkSigKeyData=null;
+async function tkSigGenKeys(){
+  tkSigKeyData=await tkEcGenKey();
+  document.getElementById('tkSigPriv').textContent=tkSigKeyData.privHex;
+  document.getElementById('tkSigPub').textContent=tkSigKeyData.pubHex;
+}
+async function tkSignMsg(){
+  if(!tkSigKeyData){alert('Generate keys first!');return;}
+  const msg=document.getElementById('tkSigMsg').value;
+  const sig=await tkEcSign(tkSigKeyData.privateKey,msg);
+  document.getElementById('tkSigVal').textContent=sig;
+  const valid=await tkEcVerify(tkSigKeyData.publicKey,msg,sig);
+  const badge=document.getElementById('tkSigBadge');
+  badge.className=valid?'verify-badge verified':'verify-badge failed';badge.textContent=valid?'✓ Verified':'✗ Failed';
+  // Re-verify on message change
+  const msgEl=document.getElementById('tkSigMsg');
+  const handler=async()=>{const v2=await tkEcVerify(tkSigKeyData.publicKey,msgEl.value,sig);badge.className=v2?'verify-badge verified':'verify-badge failed';badge.textContent=v2?'✓ Verified':'✗ Invalid';};
+  msgEl.removeEventListener('input',msgEl._tkHandler||function(){});msgEl._tkHandler=handler;msgEl.addEventListener('input',handler);
+}
+
+// ===== TOOL 09: SIGNED TX =====
+let tkStxKeyData=null;
+async function tkStxGenKeys(){
+  tkStxKeyData=await tkEcGenKey();
+  document.getElementById('tkStxPriv').textContent=tkStxKeyData.privHex;
+  document.getElementById('tkStxPub').textContent=tkStxKeyData.pubHex;
+}
+async function tkSignTx(){
+  if(!tkStxKeyData){alert('Generate keys first!');return;}
+  const to=document.getElementById('tkStxTo').value,amt=document.getElementById('tkStxAmt').value;
+  const msg=`${to}:${amt}`;const sig=await tkEcSign(tkStxKeyData.privateKey,msg);
+  document.getElementById('tkStxSigVal').textContent=sig;
+  const valid=await tkEcVerify(tkStxKeyData.publicKey,msg,sig);
+  const badge=document.getElementById('tkStxBadge');
+  badge.className=valid?'verify-badge verified':'verify-badge failed';badge.textContent=valid?'✓ Verified':'✗ Failed';
+  // Re-verify on field change
+  const handler=async()=>{const m2=`${document.getElementById('tkStxTo').value}:${document.getElementById('tkStxAmt').value}`;const v2=await tkEcVerify(tkStxKeyData.publicKey,m2,sig);badge.className=v2?'verify-badge verified':'verify-badge failed';badge.textContent=v2?'✓ Verified':'✗ Invalid';};
+  ['tkStxTo','tkStxAmt'].forEach(id=>{const el=document.getElementById(id);el.removeEventListener('input',el._tkHandler||function(){});el._tkHandler=handler;el.addEventListener('input',handler);});
+}
+
+// ===== TOOL 10: SIGNED BLOCKCHAIN =====
+let tkScKeyData=null;
+async function tkScGenKeys(){
+  tkScKeyData=await tkEcGenKey();
+  const pe=document.getElementById('tkScPriv'),pu=document.getElementById('tkScPub');
+  if(pe)pe.textContent=tkScKeyData.privHex;if(pu)pu.textContent=tkScKeyData.pubHex;
+  tkInitSignedChain();
+}
+function tkScBlockHTML(b){
+  const blk=tkScBlocks[b];
+  let h=`<div class="chain-block" id="scb-${b}"><div class="cb-header"><span class="cb-num">BLOCK ${b+1}</span><span class="cb-status" id="scs-${b}"></span></div>`;
+  h+=`<div class="cb-field"><div class="cb-label"><span class="mv">η</span> NONCE</div><input class="cb-input narrow" id="scn-${b}" type="text" value="${blk.nonce}"></div>`;
+  h+=`<div class="tx-coinbase"><span class="tx-cb-label">COINBASE</span> ∅ → Miner <span class="tx-cb-amt">50 tk</span></div>`;
+  h+=`<div class="cb-field"><div class="cb-label">TRANSACTIONS</div><div class="tx-list" id="scl-${b}"></div>`;
+  h+=`<button class="tx-add" onclick="tkScAddTx(${b})">+ Add Transaction</button></div>`;
+  h+=`<div class="cb-field"><div class="cb-label">PREV HASH</div><input class="cb-input prev-hash" id="scp-${b}" disabled value="${blk.prev}"></div>`;
+  h+=`<div class="cb-field"><div class="cb-label"><span class="mv">H(B)</span> HASH</div><input class="cb-input" id="sch-${b}" disabled></div>`;
+  h+=`<div class="cb-mine-row"><button class="btn-mine-sm" onclick="tkScMine(${b})">⛏ Mine</button></div></div>`;
+  return h;
+}
+function tkScTxRowHTML(b,j,to,amt){
+  return `<div class="tx-row" id="sctx-${b}-${j}"><input class="tx-to" value="${to}" placeholder="To" onchange="tkScTxChange(${b})"><input class="tx-amt" value="${amt}" placeholder="Amt" onchange="tkScTxChange(${b})"><span class="tx-unit">tk</span><button class="tx-del" onclick="tkScRemoveTx(${b},${j})">×</button><div class="stx-sig-row"><span class="stx-sig-label">σ</span><span class="verify-badge none" id="scv-${b}-${j}" style="font-size:8px;">unsigned</span></div></div>`;
+}
+function tkScAddTx(b){
+  const list=document.getElementById(`scl-${b}`);if(!list)return;
+  const j=tkScBlocks[b].txs.length;
+  tkScBlocks[b].txs.push({to:'Bob',amt:'10',sig:null});
+  list.insertAdjacentHTML('beforeend',tkScTxRowHTML(b,j,'Bob','10'));
+  tkScUpdate(b);
+}
+function tkScRemoveTx(b,j){
+  tkScBlocks[b].txs.splice(j,1);tkScRebuildTxList(b);tkScUpdate(b);
+}
+function tkScTxChange(b){
+  const list=document.getElementById(`scl-${b}`);if(!list)return;
+  const rows=list.querySelectorAll('.tx-row');
+  rows.forEach((row,j)=>{
+    const inputs=row.querySelectorAll('input');
+    if(tkScBlocks[b].txs[j]){tkScBlocks[b].txs[j].to=inputs[0].value;tkScBlocks[b].txs[j].amt=inputs[1].value;tkScBlocks[b].txs[j].sig=null;}
+  });
+  tkScUpdate(b);
+}
+function tkScRebuildTxList(b){
+  const list=document.getElementById(`scl-${b}`);if(!list)return;
+  list.innerHTML='';tkScBlocks[b].txs.forEach((t,j)=>{list.insertAdjacentHTML('beforeend',tkScTxRowHTML(b,j,t.to,t.amt));});
+}
+function tkScSerialize(b){
+  const blk=tkScBlocks[b];let s=`COINBASE:Miner:50|`;
+  blk.txs.forEach(t=>s+=`${t.to}:${t.amt}:${t.sig||'unsigned'}|`);
+  return s;
+}
+function tkScChainText(b){return `${b}${tkScBlocks[b].nonce}${tkScSerialize(b)}${tkScBlocks[b].prev}`;}
+function tkScUpdateHash(b){
+  const h=SHA256.hash(tkScChainText(b));tkScBlocks[b].hash=h;
+  const hel=document.getElementById(`sch-${b}`),sel=document.getElementById(`scs-${b}`),bel=document.getElementById(`scb-${b}`);
+  if(hel){hel.value=h;const v=h.startsWith(TK_ZEROS);hel.className=v?'cb-input hash-valid':'cb-input hash-invalid';if(sel)sel.className=v?'cb-status valid':'cb-status invalid';if(bel)bel.className=v?'chain-block valid':'chain-block invalid';}
+}
+function tkScUpdate(fromBlock){
+  for(let b=fromBlock;b<tkScBlocks.length;b++){
+    if(b>0){const prev=tkScBlocks[b-1].hash;tkScBlocks[b].prev=prev;const p=document.getElementById(`scp-${b}`);if(p)p.value=prev;}
+    tkScUpdateHash(b);
+  }
+}
+async function tkScSignAll(b){
+  if(!tkScKeyData)return;
+  for(let j=0;j<tkScBlocks[b].txs.length;j++){
+    const t=tkScBlocks[b].txs[j],msg=`${t.to}:${t.amt}`;t.sig=await tkEcSign(tkScKeyData.privateKey,msg);
+    const badge=document.getElementById(`scv-${b}-${j}`);if(badge){badge.className='verify-badge verified';badge.textContent='✓';}
+  }
+  tkScUpdate(b);
+}
+function tkScMine(b){
+  tkScSignAll(b).then(()=>{
+    let n=0;const nel=document.getElementById(`scn-${b}`);
+    !function step(){for(let i=0;i<5000&&n<=TK_MAX_NONCE;i++,n++){tkScBlocks[b].nonce=String(n);nel.value=n;const h=SHA256.hash(tkScChainText(b));
+      if(h.startsWith(TK_ZEROS)){tkScUpdate(b);return;}}
+      if(n<TK_MAX_NONCE){tkScUpdate(b);requestAnimationFrame(step);}
+    }();
+  });
+}
+function tkInitSignedChain(){
+  const row=document.getElementById('tkChain-sc');if(!row)return;
+  tkScBlocks=[];
+  const defaultTxs=[[{to:'Bob',amt:'10',sig:null}],[{to:'Charlie',amt:'5',sig:null}],[{to:'Alice',amt:'3',sig:null}]];
+  for(let b=0;b<3;b++)tkScBlocks.push({nonce:'0',prev:b===0?'0'.repeat(64):'',hash:'',txs:defaultTxs[b]||[],miner:'Miner'});
+  let html='';for(let b=0;b<3;b++){if(b>0)html+='<div class="chain-connector">→</div>';html+=tkScBlockHTML(b);}
+  row.innerHTML=html;
+  tkScBlocks.forEach((blk,b)=>{tkScRebuildTxList(b);
+    const nel=document.getElementById(`scn-${b}`);if(nel)nel.addEventListener('input',()=>{tkScBlocks[b].nonce=nel.value;tkScUpdate(b);});
+  });
+  tkScUpdate(0);
+}
+
+// ===== TOOL 11: SHA-256 DEEP DIVE =====
+let tkShaData=null, tkShaRound=0, tkShaPlayInterval=null;
+function tkShaHex(v){return('00000000'+((v>>>0)).toString(16)).slice(-8);}
+function tkShaCompute(){
+  const inp=document.getElementById('tkShaInput');if(!inp)return;
+  const msg=inp.value;tkShaData=SHA256.internals(msg);
+  document.getElementById('tkShaDigest').value=tkShaData.digest;
+  document.getElementById('tkShaDigest').className='tk-inp tk-ho hash-valid';
+  // Padding grid
+  const pg=document.getElementById('tkShaPadGrid');if(pg){
+    const pd=tkShaData.padded;let h='';const msgLen=new TextEncoder().encode(msg).length;
+    for(let i=0;i<pd.length;i++){
+      let cls='sha-pad-cell';if(i<msgLen)cls+=' msg';else if(i===msgLen||i<pd.length-8)cls+=' pad';else cls+=' len';
+      h+=`<div class="${cls}"><div style="font-size:7px;color:inherit;opacity:0.5;">${i}</div>${('00'+(pd[i]).toString(16)).slice(-2)}</div>`;
+    }
+    pg.innerHTML=h;
+  }
+  // Initial hash values
+  const ig=document.getElementById('tkShaInitGrid');if(ig){
+    const labels=['h₀','h₁','h₂','h₃','h₄','h₅','h₆','h₇'];
+    ig.innerHTML=tkShaData.initH.map((v,i)=>`<div class="sha-hv-box"><div class="sha-hv-label">${labels[i]}</div><div class="sha-hv-val">${tkShaHex(v)}</div></div>`).join('');
+  }
+  // Message schedule
+  const sg=document.getElementById('tkShaSchedGrid');if(sg){
+    sg.innerHTML=tkShaData.W.map((v,i)=>`<div class="sha-sched-word ${i<16?'from-msg':''}" id="tkSw-${i}"><span class="wi">W${i}</span>${tkShaHex(v)}</div>`).join('');
+  }
+  // Final hash
+  const fg=document.getElementById('tkShaFinalGrid');if(fg){
+    const labels=['H₀','H₁','H₂','H₃','H₄','H₅','H₆','H₇'];
+    fg.innerHTML=tkShaData.finalH.map((v,i)=>`<div class="sha-hv-box final"><div class="sha-hv-label">${labels[i]}</div><div class="sha-hv-val">${tkShaHex(v)}</div></div>`).join('');
+  }
+  tkShaRound=0;tkShaRenderRound();
+}
+function tkShaRenderRound(){
+  if(!tkShaData)return;const rd=tkShaData.rounds[tkShaRound];if(!rd)return;
+  document.getElementById('tkShaRoundNum').textContent=tkShaRound;
+  const slider=document.getElementById('tkShaSlider');if(slider)slider.value=tkShaRound;
+  // Highlight active W
+  document.querySelectorAll('.sha-sched-word').forEach((el,i)=>{el.classList.toggle('active',i===tkShaRound);});
+  // Working variables
+  const vg=document.getElementById('tkShaVarsGrid');if(vg){
+    const labels=['a','b','c','d','e','f','g','h'];const vals=[rd.a,rd.b,rd.c,rd.d,rd.e,rd.f,rd.g,rd.h];
+    let prev=tkShaRound>0?tkShaData.rounds[tkShaRound-1]:null;
+    vg.innerHTML=labels.map((l,i)=>{const changed=prev&&vals[i]!==([prev.a,prev.b,prev.c,prev.d,prev.e,prev.f,prev.g,prev.h][i]);
+      return`<div class="sha-var-box ${changed?'changed':''}"><div class="sha-var-lbl">${l}</div><div class="sha-var-val">${tkShaHex(vals[i])}</div></div>`;}).join('');
+  }
+  // Round detail
+  const det=document.getElementById('tkShaRoundDetail');if(det){
+    det.innerHTML=`<div class="sha-rd-title">Round ${tkShaRound} Computation</div>
+    <div class="sha-rd-row"><span class="lbl">W<sub>${tkShaRound}</sub></span><span class="eq">=</span><span class="val">${tkShaHex(rd.Wt)}</span></div>
+    <div class="sha-rd-row"><span class="lbl">K<sub>${tkShaRound}</sub></span><span class="eq">=</span><span class="val">${tkShaHex(rd.Kt)}</span></div>
+    <div class="sha-rd-row"><span class="lbl">Ch</span><span class="eq">=</span><span class="val">${tkShaHex(rd.ch)}</span></div>
+    <div class="sha-rd-row"><span class="lbl">Maj</span><span class="eq">=</span><span class="val">${tkShaHex(rd.maj)}</span></div>
+    <div class="sha-rd-row"><span class="lbl">Σ₁</span><span class="eq">=</span><span class="val">${tkShaHex(rd.S1)}</span></div>
+    <div class="sha-rd-row"><span class="lbl">Σ₀</span><span class="eq">=</span><span class="val">${tkShaHex(rd.S0)}</span></div>
+    <div class="sha-rd-row"><span class="lbl">T₁</span><span class="eq">= h + Σ₁ + Ch + K + W =</span><span class="res">${tkShaHex(rd.T1)}</span></div>
+    <div class="sha-rd-row"><span class="lbl">T₂</span><span class="eq">= Σ₀ + Maj =</span><span class="res">${tkShaHex(rd.T2)}</span></div>`;
+  }
+}
+function tkShaSetRound(r){tkShaRound=Math.max(0,Math.min(63,r));tkShaRenderRound();}
+function tkShaStep(d){tkShaSetRound(tkShaRound+d);}
+function tkShaTogglePlay(){
+  const btn=document.getElementById('tkShaPlayBtn');if(!btn)return;
+  if(tkShaPlayInterval){clearInterval(tkShaPlayInterval);tkShaPlayInterval=null;btn.textContent='▶ Play';btn.classList.remove('playing');return;}
+  btn.textContent='⏸ Pause';btn.classList.add('playing');
+  tkShaPlayInterval=setInterval(()=>{if(tkShaRound>=63){clearInterval(tkShaPlayInterval);tkShaPlayInterval=null;btn.textContent='▶ Play';btn.classList.remove('playing');return;}tkShaStep(1);},150);
+}
+function tkInitSha256Deep(){
+  const inp=document.getElementById('tkShaInput');if(!inp)return;
+  const slider=document.getElementById('tkShaSlider');
+  inp.addEventListener('input',()=>{if(tkShaPlayInterval){clearInterval(tkShaPlayInterval);tkShaPlayInterval=null;}tkShaCompute();});
+  if(slider)slider.addEventListener('input',()=>tkShaSetRound(parseInt(slider.value)));
+  tkShaCompute();
+}
+
+// ===== TOOLKIT PAGE INIT DISPATCHER =====
+function tkInitPage(slug){
+  switch(slug){
+    case 'tk-hash': tkInitHash(); break;
+    case 'tk-block': tkInitBlock(); break;
+    case 'tk-blockchain': tkInitBlockchain(); break;
+    case 'tk-distributed': tkInitDistributed(); break;
+    case 'tk-tokens': tkInitTokenChain(); break;
+    case 'tk-coinbase': tkInitCoinbaseChain(); break;
+    case 'tk-keys': break; // Button-driven
+    case 'tk-signatures': break; // Button-driven
+    case 'tk-signedtx': break; // Button-driven
+    case 'tk-signedchain': if(!tkScKeyData)tkScGenKeys(); else tkInitSignedChain(); break;
+    case 'tk-sha256deep': tkInitSha256Deep(); break;
+  }
+}
 </script>
 </body>
 </html>
