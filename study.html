@@ -592,8 +592,45 @@
         .tk .sha-ref-def { color: var(--tkt2); }
         .tk .sha-ref-note { color: var(--tkd); font-size: 9px; margin-left: 6px; }
 
+        /* Merkle Tree */
+        .tk .merkle-wrap { position: relative; margin: 24px 0; }
+        .tk .merkle-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .tk .merkle-svg line { stroke-width: 1.5; stroke: rgba(57,255,20,0.25); transition: stroke 0.3s; }
+        .tk .merkle-level { display: flex; justify-content: center; gap: 12px; position: relative; z-index: 1; margin-bottom: 20px; }
+        .tk .merkle-level:last-child { margin-bottom: 0; }
+        .tk .merkle-node { background: var(--tkcard); border: 1px solid var(--tkbr); border-radius: 8px; padding: 10px 14px; text-align: center; transition: border-color 0.3s, box-shadow 0.3s; position: relative; }
+        .tk .merkle-node.mk-root { border-color: rgba(57,255,20,0.25); background: rgba(57,255,20,0.02); min-width: 240px; }
+        .tk .merkle-node.mk-branch { min-width: 180px; }
+        .tk .merkle-node.mk-leaf { min-width: 160px; }
+        .tk .mk-tag { font-family: var(--font-display); font-size: 8px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+        .tk .mk-tag-tx { color: var(--tkc); }
+        .tk .mk-tag-hash { color: var(--tka); }
+        .tk .mk-tag-branch { color: var(--tkp); }
+        .tk .mk-tag-root { color: var(--tkg); }
+        .tk .mk-label { font-family: var(--tkmono); font-size: 9px; color: var(--tkd); margin-bottom: 3px; }
+        .tk .mk-hash { font-family: var(--tkmono); font-size: 8px; word-break: break-all; line-height: 1.3; padding: 5px 6px; border-radius: 3px; margin-top: 4px; transition: color 0.3s, background 0.3s; }
+        .tk .mk-hash-leaf { color: var(--tkc); background: rgba(0,240,255,0.03); border: 1px solid rgba(0,240,255,0.08); }
+        .tk .mk-hash-branch { color: var(--tkp); background: rgba(168,85,247,0.03); border: 1px solid rgba(168,85,247,0.08); }
+        .tk .mk-hash-root { color: var(--tkg); background: rgba(57,255,20,0.04); border: 1px solid rgba(57,255,20,0.12); font-size: 9px; }
+        .tk .mk-concat { font-family: var(--tkmono); font-size: 7px; color: var(--tkd); margin-top: 3px; word-break: break-all; max-height: 24px; overflow: hidden; opacity: 0.6; }
+        .tk .mk-concat .mk-plus { color: var(--tka); font-weight: 700; margin: 0 2px; }
+        .tk .merkle-op-row { display: flex; justify-content: center; gap: 12px; margin-bottom: 14px; position: relative; z-index: 1; }
+        .tk .mk-op-badge { font-family: var(--tkmono); font-size: 8px; color: var(--tkd); background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 3px; padding: 2px 8px; }
+        .tk .mk-op-badge .fn { color: var(--tkg); font-weight: 600; }
+        .tk .mk-tx-row { display: flex; align-items: center; gap: 3px; margin-top: 4px; }
+        .tk .mk-tx-field { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 3px; padding: 4px 5px; color: var(--tkt); font-family: var(--tkmono); font-size: 10px; outline: none; transition: border-color 0.2s; text-align: center; }
+        .tk .mk-tx-field:focus { border-color: rgba(0,240,255,0.3); }
+        .tk .mk-tx-from, .tk .mk-tx-to { width: 52px; }
+        .tk .mk-tx-amt { width: 40px; color: var(--tka); text-align: right; }
+        .tk .mk-tx-arrow { color: var(--tkd); font-size: 9px; }
+        .tk .mk-tx-unit { color: var(--tkd); font-size: 7px; font-family: var(--tkmono); }
+        .tk .merkle-node.mk-fresh { animation: mk-glow 0.6s ease-out; }
+        @keyframes mk-glow { 0% { box-shadow: 0 0 24px rgba(57,255,20,0.3); } 100% { box-shadow: none; } }
+
         @media (max-width: 840px) {
             .tk .chain-block { width: 220px; min-width: 220px; }
+            .tk .merkle-level { flex-wrap: wrap; gap: 8px; }
+            .tk .merkle-node.mk-leaf, .tk .merkle-node.mk-branch, .tk .merkle-node.mk-root { min-width: 140px; flex: 1 1 140px; }
             .tk .sha-pad-grid { grid-template-columns: repeat(8, 1fr); }
             .tk .sha-sched-grid { grid-template-columns: repeat(4, 1fr); }
             .tk .sha-hv-grid { grid-template-columns: repeat(4, 1fr); }
@@ -3817,6 +3854,55 @@ body: `<div class="tk"><div class="tk-def"><div class="tk-def-label">Definition 
 <div class="tk-callout"><div class="tk-callout-header">Connection to Thermoeconomics</div><p>Distributed consensus converts local energy expenditure into global agreement. No single point of failure — the network's security is the sum of all miners' thermodynamic work.</p></div></div>`
 },
 {
+slug: "tk-merkle", section: "tk-tx", title: "Merkle Tree",
+body: `<div class="tk"><div class="tk-def"><div class="tk-def-label">Definition — Merkle Root</div><div class="tk-def-math"><span class="fn">H</span><sub>root</sub> <span class="op">=</span> <span class="fn">H</span>(<span class="fn">H</span>(<span class="var">tx₀</span> ∥ <span class="var">tx₁</span>) ∥ <span class="fn">H</span>(<span class="var">tx₂</span> ∥ <span class="var">tx₃</span>))<br>Change any transaction → every hash above it changes → the root changes</div></div>
+<p>Four transactions are hashed individually, then paired and hashed together, building upward until a single <strong style="color:#fff;">Merkle root</strong> captures the integrity of all transactions in one 256-bit digest. Edit any transaction below to see the avalanche propagate.</p>
+<div class="merkle-wrap" id="tkMerkleWrap">
+<svg class="merkle-svg" id="tkMerkleSvg"></svg>
+<!-- Level 0: Root -->
+<div class="merkle-level" id="tkMkLvl0">
+<div class="merkle-node mk-root" id="tkMkRoot">
+<div class="mk-tag mk-tag-root">Merkle Root</div>
+<div class="mk-concat" id="tkMkConcatRoot"></div>
+<div class="mk-hash mk-hash-root" id="tkMkHashRoot">—</div>
+</div>
+</div>
+<div class="merkle-op-row"><div class="mk-op-badge"><span class="fn">H</span>(H₀₁ ∥ H₂₃)</div></div>
+<!-- Level 1: Branches -->
+<div class="merkle-level" id="tkMkLvl1">
+<div class="merkle-node mk-branch" id="tkMkBranch01">
+<div class="mk-tag mk-tag-branch">H₀₁</div>
+<div class="mk-label">Hash(Tx₀ ∥ Tx₁)</div>
+<div class="mk-concat" id="tkMkConcat01"></div>
+<div class="mk-hash mk-hash-branch" id="tkMkHashBranch01">—</div>
+</div>
+<div class="merkle-node mk-branch" id="tkMkBranch23">
+<div class="mk-tag mk-tag-branch">H₂₃</div>
+<div class="mk-label">Hash(Tx₂ ∥ Tx₃)</div>
+<div class="mk-concat" id="tkMkConcat23"></div>
+<div class="mk-hash mk-hash-branch" id="tkMkHashBranch23">—</div>
+</div>
+</div>
+<div class="merkle-op-row"><div class="mk-op-badge"><span class="fn">H</span>(tx₀ ∥ tx₁)</div><div class="mk-op-badge"><span class="fn">H</span>(tx₂ ∥ tx₃)</div></div>
+<!-- Level 2: Leaf hashes -->
+<div class="merkle-level" id="tkMkLvl2">
+<div class="merkle-node mk-leaf" id="tkMkLeaf0"><div class="mk-tag mk-tag-hash">H(Tx₀)</div><div class="mk-hash mk-hash-leaf" id="tkMkHashLeaf0">—</div></div>
+<div class="merkle-node mk-leaf" id="tkMkLeaf1"><div class="mk-tag mk-tag-hash">H(Tx₁)</div><div class="mk-hash mk-hash-leaf" id="tkMkHashLeaf1">—</div></div>
+<div class="merkle-node mk-leaf" id="tkMkLeaf2"><div class="mk-tag mk-tag-hash">H(Tx₂)</div><div class="mk-hash mk-hash-leaf" id="tkMkHashLeaf2">—</div></div>
+<div class="merkle-node mk-leaf" id="tkMkLeaf3"><div class="mk-tag mk-tag-hash">H(Tx₃)</div><div class="mk-hash mk-hash-leaf" id="tkMkHashLeaf3">—</div></div>
+</div>
+<div class="merkle-op-row"><div class="mk-op-badge"><span class="fn">SHA-256</span></div><div class="mk-op-badge"><span class="fn">SHA-256</span></div><div class="mk-op-badge"><span class="fn">SHA-256</span></div><div class="mk-op-badge"><span class="fn">SHA-256</span></div></div>
+<!-- Level 3: Editable transactions -->
+<div class="merkle-level" id="tkMkLvl3">
+<div class="merkle-node mk-leaf" id="tkMkTx0"><div class="mk-tag mk-tag-tx">Tx₀</div><div class="mk-tx-row"><input class="mk-tx-field mk-tx-from" data-mktx="0" data-mkf="from" value="Alice"><span class="mk-tx-arrow">→</span><input class="mk-tx-field mk-tx-to" data-mktx="0" data-mkf="to" value="Bob"><input class="mk-tx-field mk-tx-amt" data-mktx="0" data-mkf="amt" value="10"><span class="mk-tx-unit">tk</span></div></div>
+<div class="merkle-node mk-leaf" id="tkMkTx1"><div class="mk-tag mk-tag-tx">Tx₁</div><div class="mk-tx-row"><input class="mk-tx-field mk-tx-from" data-mktx="1" data-mkf="from" value="Bob"><span class="mk-tx-arrow">→</span><input class="mk-tx-field mk-tx-to" data-mktx="1" data-mkf="to" value="Charlie"><input class="mk-tx-field mk-tx-amt" data-mktx="1" data-mkf="amt" value="5"><span class="mk-tx-unit">tk</span></div></div>
+<div class="merkle-node mk-leaf" id="tkMkTx2"><div class="mk-tag mk-tag-tx">Tx₂</div><div class="mk-tx-row"><input class="mk-tx-field mk-tx-from" data-mktx="2" data-mkf="from" value="Charlie"><span class="mk-tx-arrow">→</span><input class="mk-tx-field mk-tx-to" data-mktx="2" data-mkf="to" value="Dave"><input class="mk-tx-field mk-tx-amt" data-mktx="2" data-mkf="amt" value="3"><span class="mk-tx-unit">tk</span></div></div>
+<div class="merkle-node mk-leaf" id="tkMkTx3"><div class="mk-tag mk-tag-tx">Tx₃</div><div class="mk-tx-row"><input class="mk-tx-field mk-tx-from" data-mktx="3" data-mkf="from" value="Dave"><span class="mk-tx-arrow">→</span><input class="mk-tx-field mk-tx-to" data-mktx="3" data-mkf="to" value="Alice"><input class="mk-tx-field mk-tx-amt" data-mktx="3" data-mkf="amt" value="7"><span class="mk-tx-unit">tk</span></div></div>
+</div>
+</div>
+<div class="tk-callout"><div class="tk-callout-header">Connection to Thermoeconomics</div><p>The Merkle tree compresses an arbitrary number of transactions into one hash — making verification O(log n) instead of O(n). A single changed byte in any transaction avalanches through every parent hash to the root. This is how a block header can commit to thousands of transactions with a single 256-bit value, and how lightweight clients can verify inclusion without downloading the full block.</p></div></div>`
+},
+{
 slug: "tk-tokens", section: "tk-tx", title: "Token Transfers",
 body: `<div class="tk"><div class="tk-def"><div class="tk-def-label">Definition — Transaction</div><div class="tk-def-math"><span class="var">tx</span> <span class="op">=</span> (<span class="var">from</span> <span class="op">→</span> <span class="var">to</span>, <span class="var">value</span>) serialized into block data</div></div>
 <p>Blocks now contain structured transactions instead of free text. Each block holds one or more transfers that are serialized into the hash input.</p>
@@ -4674,6 +4760,104 @@ function tkInitSha256Deep(){
   tkShaCompute();
 }
 
+// ===== MERKLE TREE ENGINE =====
+const tkMerkleTxs = [
+    { from: 'Alice', to: 'Bob', amt: '10' },
+    { from: 'Bob', to: 'Charlie', amt: '5' },
+    { from: 'Charlie', to: 'Dave', amt: '3' },
+    { from: 'Dave', to: 'Alice', amt: '7' }
+];
+let tkMerklePrev = { leaf: ['','','',''], branch: ['',''], root: '' };
+
+function tkMerkleSerialize(i) {
+    return `${tkMerkleTxs[i].from}>${tkMerkleTxs[i].to}:${tkMerkleTxs[i].amt}`;
+}
+function tkMerkleShort(h) { return h.slice(0,8) + '···' + h.slice(-8); }
+
+function tkMerkleFlash(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.remove('mk-fresh');
+    void el.offsetWidth;
+    el.classList.add('mk-fresh');
+    setTimeout(() => el.classList.remove('mk-fresh'), 600);
+}
+
+function tkMerkleCompute() {
+    const leafH = tkMerkleTxs.map((_, i) => tkSHA256(tkMerkleSerialize(i)));
+    const branchH01 = tkSHA256(leafH[0] + leafH[1]);
+    const branchH23 = tkSHA256(leafH[2] + leafH[3]);
+    const rootH = tkSHA256(branchH01 + branchH23);
+
+    for (let i = 0; i < 4; i++) {
+        const el = document.getElementById(`tkMkHashLeaf${i}`);
+        if (el) { el.textContent = leafH[i]; if (tkMerklePrev.leaf[i] && tkMerklePrev.leaf[i] !== leafH[i]) tkMerkleFlash(`tkMkLeaf${i}`); }
+    }
+
+    const h01El = document.getElementById('tkMkHashBranch01');
+    if (h01El) {
+        h01El.textContent = branchH01;
+        document.getElementById('tkMkConcat01').innerHTML = `<span style="color:var(--tkc);">${tkMerkleShort(leafH[0])}</span><span class="mk-plus">∥</span><span style="color:var(--tkc);">${tkMerkleShort(leafH[1])}</span>`;
+        if (tkMerklePrev.branch[0] && tkMerklePrev.branch[0] !== branchH01) tkMerkleFlash('tkMkBranch01');
+    }
+    const h23El = document.getElementById('tkMkHashBranch23');
+    if (h23El) {
+        h23El.textContent = branchH23;
+        document.getElementById('tkMkConcat23').innerHTML = `<span style="color:var(--tkc);">${tkMerkleShort(leafH[2])}</span><span class="mk-plus">∥</span><span style="color:var(--tkc);">${tkMerkleShort(leafH[3])}</span>`;
+        if (tkMerklePrev.branch[1] && tkMerklePrev.branch[1] !== branchH23) tkMerkleFlash('tkMkBranch23');
+    }
+
+    const rootEl = document.getElementById('tkMkHashRoot');
+    if (rootEl) {
+        rootEl.textContent = rootH;
+        document.getElementById('tkMkConcatRoot').innerHTML = `<span style="color:var(--tkp);">${tkMerkleShort(branchH01)}</span><span class="mk-plus">∥</span><span style="color:var(--tkp);">${tkMerkleShort(branchH23)}</span>`;
+        if (tkMerklePrev.root && tkMerklePrev.root !== rootH) tkMerkleFlash('tkMkRoot');
+    }
+
+    tkMerklePrev = { leaf: [...leafH], branch: [branchH01, branchH23], root: rootH };
+    tkMerkleDrawLines();
+}
+
+function tkMerkleDrawLines() {
+    const svg = document.getElementById('tkMerkleSvg');
+    const wrap = document.getElementById('tkMerkleWrap');
+    if (!svg || !wrap) return;
+    const wR = wrap.getBoundingClientRect();
+    svg.setAttribute('width', wR.width);
+    svg.setAttribute('height', wR.height);
+    svg.setAttribute('viewBox', `0 0 ${wR.width} ${wR.height}`);
+
+    function top(id) { const el = document.getElementById(id); if (!el) return {x:0,y:0}; const r = el.getBoundingClientRect(); return { x: r.left + r.width/2 - wR.left, y: r.top - wR.top }; }
+    function bot(id) { const el = document.getElementById(id); if (!el) return {x:0,y:0}; const r = el.getBoundingClientRect(); return { x: r.left + r.width/2 - wR.left, y: r.bottom - wR.top }; }
+
+    let lines = '';
+    for (let i = 0; i < 4; i++) { const f = top(`tkMkTx${i}`), t = bot(`tkMkLeaf${i}`); lines += `<line x1="${f.x}" y1="${f.y}" x2="${t.x}" y2="${t.y}"/>`; }
+    const l0=top('tkMkLeaf0'),l1=top('tkMkLeaf1'),b01=bot('tkMkBranch01');
+    lines += `<line x1="${l0.x}" y1="${l0.y}" x2="${b01.x}" y2="${b01.y}"/>`;
+    lines += `<line x1="${l1.x}" y1="${l1.y}" x2="${b01.x}" y2="${b01.y}"/>`;
+    const l2=top('tkMkLeaf2'),l3=top('tkMkLeaf3'),b23=bot('tkMkBranch23');
+    lines += `<line x1="${l2.x}" y1="${l2.y}" x2="${b23.x}" y2="${b23.y}"/>`;
+    lines += `<line x1="${l3.x}" y1="${l3.y}" x2="${b23.x}" y2="${b23.y}"/>`;
+    const br01=top('tkMkBranch01'),br23=top('tkMkBranch23'),rt=bot('tkMkRoot');
+    lines += `<line x1="${br01.x}" y1="${br01.y}" x2="${rt.x}" y2="${rt.y}"/>`;
+    lines += `<line x1="${br23.x}" y1="${br23.y}" x2="${rt.x}" y2="${rt.y}"/>`;
+    svg.innerHTML = lines;
+}
+
+function tkInitMerkle() {
+    tkMerklePrev = { leaf: ['','','',''], branch: ['',''], root: '' };
+    document.querySelectorAll('.mk-tx-field').forEach(inp => {
+        inp.addEventListener('input', () => {
+            const i = parseInt(inp.dataset.mktx);
+            const f = inp.dataset.mkf;
+            tkMerkleTxs[i][f] = inp.value;
+            tkMerkleCompute();
+        });
+    });
+    tkMerkleCompute();
+    window.addEventListener('resize', tkMerkleDrawLines);
+}
+
 // ===== TOOLKIT PAGE INIT DISPATCHER =====
 function tkInitPage(slug){
   switch(slug){
@@ -4681,6 +4865,7 @@ function tkInitPage(slug){
     case 'tk-block': tkInitBlock(); break;
     case 'tk-blockchain': tkInitBlockchain(); break;
     case 'tk-distributed': tkInitDistributed(); break;
+    case 'tk-merkle': tkInitMerkle(); break;
     case 'tk-tokens': tkInitTokenChain(); break;
     case 'tk-coinbase': tkInitCoinbaseChain(); break;
     case 'tk-keys': break; // Button-driven
