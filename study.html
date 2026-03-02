@@ -4784,10 +4784,10 @@ function tkMerkleFlash(id) {
 }
 
 function tkMerkleCompute() {
-    const leafH = tkMerkleTxs.map((_, i) => tkSHA256(tkMerkleSerialize(i)));
-    const branchH01 = tkSHA256(leafH[0] + leafH[1]);
-    const branchH23 = tkSHA256(leafH[2] + leafH[3]);
-    const rootH = tkSHA256(branchH01 + branchH23);
+    const leafH = tkMerkleTxs.map((_, i) => SHA256.hash(tkMerkleSerialize(i)));
+    const branchH01 = SHA256.hash(leafH[0] + leafH[1]);
+    const branchH23 = SHA256.hash(leafH[2] + leafH[3]);
+    const rootH = SHA256.hash(branchH01 + branchH23);
 
     for (let i = 0; i < 4; i++) {
         const el = document.getElementById(`tkMkHashLeaf${i}`);
