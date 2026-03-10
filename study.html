@@ -3809,6 +3809,7 @@ body: `<p>The breakthrough success of prediction markets during 2024 has catalyz
 // TOOLKIT DATA (Interactive Blockchain Cryptography)
 // ============================================================
 const TOOLKIT_SECTIONS = [
+    { id: "tk-welcome", label: "About" },
     { id: "tk-hashing", label: "I · Hashing" },
     { id: "tk-chain", label: "II · Chain Structure" },
     { id: "tk-tx", label: "III · Transactions" },
@@ -3818,6 +3819,10 @@ const TOOLKIT_SECTIONS = [
 ];
 
 const TOOLKIT_PAGES = [
+{
+slug: "tk-welcome", section: "tk-welcome", title: "Interactive Blockchain Toolkit",
+body: `<div style="max-width:560px;margin:0 auto;padding:1rem 0;"><p style="font-size:16px;line-height:1.85;color:var(--text-secondary);">A hands-on cryptographic learning environment covering hashing, block structure, transactions, asymmetric cryptography, and full protocol simulation.</p><p style="font-size:16px;line-height:1.85;color:var(--text-secondary);">Use the <strong>sidebar</strong> to jump to any module, or the <strong>← →</strong> buttons to step through sequentially. Each tool is interactive — type inputs and watch outputs update in real time.</p><div style="margin-top:2.5rem;padding:1.25rem 1.5rem;border:1px solid rgba(255,180,0,0.25);border-radius:8px;background:rgba(255,180,0,0.04);font-family:var(--font-mono);font-size:13px;line-height:2.1;color:var(--text-secondary);"><div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.6rem;">Attribution</div><div style="margin-bottom:0.5rem;">by <a href="https://andersbrownworth.com/" target="_blank" style="color:var(--accent);text-decoration:none;font-weight:600;">Anders Brownworth</a><span style="color:var(--text-muted);margin-left:6px;font-size:12px;">andersbrownworth.com</span></div><div style="margin-top:0.75rem;"><span style="color:var(--text-muted);font-size:11px;letter-spacing:1px;text-transform:uppercase;">BTC</span><br><span style="color:var(--text-primary);word-break:break-all;">1K3NvcuZzVTueHW1qhkG2Cm3viRkh2EXJp</span></div><div style="margin-top:0.5rem;"><span style="color:var(--text-muted);font-size:11px;letter-spacing:1px;text-transform:uppercase;">ETH</span><br><span style="color:var(--text-primary);word-break:break-all;">0x84a90e21d9d02e30ddcea56d618aa75ba90331ff</span></div></div></div>`
+},
 {
 slug: "tk-hash", section: "tk-hashing", title: "SHA-256 Hash",
 body: `<div class="tk"><div class="tk-def"><div class="tk-def-label">Definition — Cryptographic Hash</div><div class="tk-def-math"><span class="fn">H</span> : {0,1}* → {0,1}<sup>256</sup>  —  deterministic, one-way, collision-resistant</div></div>
