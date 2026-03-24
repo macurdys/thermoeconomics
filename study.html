@@ -2,6 +2,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -709,6 +710,7 @@ const SECTIONS = [
     { id: "synthesis", label: "Synthesis & Quai" },
     { id: "quai-uni", label: "Quai University" },
     { id: "causal-invariance", label: "Mission: Causal Invariance" },
+    { id: "bitcoin-script", label: "Bitcoin Script" },
     { id: "reference", label: "Reference" }
 ];
 
@@ -1601,6 +1603,112 @@ body: `<h2>Information Theory</h2>
 <div class="equation">C<sub>μ</sub> = H(causal states) = −Σ p(s) log₂ p(s)</div>
 <p>Statistical complexity. Memory used by the system. Zero for random and periodic; maximized at the edge of chaos.</p>`
 },
+// -------- BITCOIN SCRIPT --------
+{
+slug: "bitcoin-script", section: "bitcoin-script", title: "Bitcoin Script",
+body: `<p>Bitcoin Script is the stack-based programming language that governs every transaction on every Bitcoin-derived chain. It defines the conditions under which coins can be spent — locking them with a puzzle, and unlocking them with a solution.</p>
+<p>Understanding Script is essential to understanding thermoeconomics: every UTXO is a frozen piece of energy-backed value whose release conditions are written in Script. The cryptographic puzzle that locks a coin is the enforcement mechanism for proof-of-work money.</p>
+<h2>The Stack Machine</h2>
+<p>Bitcoin Script is intentionally simple: a <strong>stack-based, non-Turing-complete language</strong> that executes left to right. Instructions (opcodes) either push data onto the stack or consume items from the top of the stack to perform operations. If the top of the stack is non-zero (TRUE) at the end of execution, the transaction is valid.</p>
+<p>Two scripts work together: the <strong>scriptPubKey</strong> (the lock, set by the sender, stored on the UTXO) and the <strong>scriptSig</strong> (the key, provided by the spender in their transaction input). The scripts are concatenated and run together — if the combined execution returns TRUE, the coins move.</p>
+<h2>Script vs. EVM</h2>
+<p>Bitcoin Script is deliberately restricted. It has no loops, no persistent state, and no recursion. This makes it predictable, auditable, and safe — but less expressive than Ethereum's EVM. Quai Network uses the EVM for its zone smart contracts, giving it Turing-complete expressiveness while still grounding its security in proof-of-work through PoEM.</p>
+<h2>This Section Covers</h2>
+<p><strong>Transaction Formats</strong> — How transactions are serialized on the wire. Legacy, SegWit, Taproot, coinbase, and CashTokens formats.</p>
+<p><strong>Opcodes</strong> — The complete instruction set. Constants, stack manipulation, flow control, arithmetic, and cryptographic operations. Which opcodes exist in BTC, BCH, and which are relevant to Quai's EVM.</p>
+<p><strong>Script Patterns</strong> — The standard scripts used in practice: P2PKH, P2SH, HTLC. Full stack-trace walkthroughs.</p>
+<p><strong>BTC vs. BCH vs. Quai</strong> — How the three chains differ in scripting capability, with implications for oracle design and SOAP Marathon merge-mining.</p>`,
+connection: "Bitcoin Script is the enforcement layer of proof-of-work money. Every UTXO is a thermodynamic receipt — energy was dissipated to create it, and the Script conditions define who can spend that accumulated cost. The cryptographic operations in Script (CHECKSIG, HASH160) are the bridge between computational irreversibility (Landauer) and economic finality. When you understand Script, you understand exactly how energy-backed value is locked and transferred."
+},
+{
+slug: "btc-tx-formats", section: "bitcoin-script", title: "Transaction Formats",
+body: `<p>A Bitcoin transaction is the fundamental unit of value transfer. It consumes one or more UTXOs (Unspent Transaction Outputs) as inputs and creates new UTXOs as outputs. Each UTXO carries a locking script; each input provides an unlocking script.</p>
+<p>Different transaction formats are different ways of serializing this information on the wire. The format has evolved from Satoshi's original design through SegWit, Taproot, and chain-specific extensions.</p>
+<h2>Legacy Format (v1) — The Original Satoshi Wire Format</h2>
+<p>The original format, unchanged from Bitcoin v0.1.0. Every byte — including signatures — is part of the transaction ID (txid). The structure is: <strong>version (4B) → input count (varint) → inputs[] → output count (varint) → outputs[] → locktime (4B)</strong>. Each input contains: txid of the UTXO being spent (32B), output index (4B), scriptSig (unlocking script), and sequence number. Each output contains: value in satoshis (8B) and scriptPubKey (locking script).</p>
+<p>This is the format used for every standard P2PKH transaction — by far the most common Bitcoin transaction type ever. Addresses starting with <strong>1</strong> use legacy format.</p>
+<h2>SegWit Format (BIP 141) — Signatures Separated</h2>
+<p>Activated on BTC in August 2017. Two new bytes appear after the version: <strong>marker (0x00)</strong> and <strong>flag (0x01)</strong>, signalling that witness data follows. The witness data — signatures and scripts — is placed in a separate section after the outputs, before locktime. Critically, the txid is computed <em>without</em> the witness section, producing a stable txid that cannot be malleated by third parties altering signature encoding.</p>
+<p>This creates two identifiers: the <strong>txid</strong> (without witness, backwards-compatible) and the <strong>wtxid</strong> (with witness, unique). The SegWit discount — witness data counts as one quarter for block weight — incentivizes adoption. P2WPKH addresses start with <strong>bc1q</strong>.</p>
+<h2>Taproot / P2TR (BIP 341) — Merkle Trees of Scripts</h2>
+<p>Activated on BTC in November 2021. Taproot outputs commit to both an internal public key and a <strong>Merkle tree of scripts (MAST)</strong>. Spending can happen via two paths: the <strong>key path</strong> (a Schnorr signature that looks identical to a simple payment — cheap and private) or the <strong>script path</strong> (reveal one leaf of the Merkle tree plus a Merkle proof). Complex multisig, timelocked vaults, and DLCs become indistinguishable from simple payments on-chain when using the key path. Addresses start with <strong>bc1p</strong>. BTC-only; not adopted by BCH or Quai.</p>
+<h2>Coinbase Transaction — Where New Coins Are Born</h2>
+<p>The first transaction in every block is the coinbase. It has no inputs in the conventional sense — the input txid is all zeros, the vout index is 0xFFFFFFFF. The <strong>coinbase scriptSig</strong> is a free-form field (2–100 bytes) that miners use for: block height (required since BIP 34), extra nonce space, pool tags, and arbitrary data. The outputs pay the block reward plus fees to the miner's address.</p>
+<p>The coinbase scriptSig is the canonical surface for merge-mining commitments. Satoshi used it in the Genesis Block to embed <em>"The Times 03/Jan/2009 Chancellor on brink of second bailout for banks."</em> Miners today use it for pool identifiers. For SOAP Marathon, it would carry Quai block hashes, enabling SHA-256 miners to simultaneously mine Quai blocks.</p>
+<h2>CashTokens (BCH 2023) — Native Tokens in Outputs</h2>
+<p>BCH's CHIP-2022-02, activated May 2023. Appends a <strong>token_data</strong> field to transaction outputs. A single output can carry fungible tokens (FTs), non-fungible tokens (NFTs), or both, alongside satoshis. Token category IDs are derived from the UTXO being spent at token genesis, making them globally unique without a registry. This is a native protocol-level token system, in contrast to BTC's application-layer tokens (Ordinals, Runes).`,
+connection: "Transaction formats are the physical encoding of thermodynamic receipts. The coinbase transaction format is particularly important: it is where proof-of-work consensus meets economic output. The coinbase scriptSig encodes the miner's proof that they extended the chain, and the coinbase outputs encode how that proof is monetized. For merge-mining (SOAP Marathon), understanding the coinbase format precisely is required — the Quai block hash commitment lives in the scriptSig, and the buyback routing lives in the output scriptPubKey."
+},
+{
+slug: "btc-opcodes", section: "bitcoin-script", title: "Opcodes Reference",
+body: `<p>Bitcoin Script opcodes are the instruction set of the stack machine. They were defined in Bitcoin v0.1.0 by Satoshi Nakamoto. The original set was more expressive than what BTC uses today — many opcodes were disabled in August 2010, and different chains have made different choices about which to restore.</p>
+<h2>Cryptographic Opcodes — The Core</h2>
+<p><strong>OP_CHECKSIG (0xac)</strong> — The most important opcode. Pops a public key and signature from the stack, verifies the signature against the transaction hash, pushes 1 if valid. This single opcode validates every standard Bitcoin payment.</p>
+<p><strong>OP_CHECKMULTISIG (0xae)</strong> — M-of-N signature verification. Takes N public keys and M signatures, verifies M of the N keys produced valid signatures. Used for multisig wallets — 2-of-3 corporate treasuries, exchange cold storage, DAO governance. Note: a well-known bug in the implementation consumes an extra stack item (OP_0 is used as a workaround).</p>
+<p><strong>OP_HASH160 (0xa9)</strong> — Computes RIPEMD160(SHA256(data)) on the top stack item. This is how Bitcoin addresses are derived from public keys: compress the public key → SHA256 → RIPEMD160 → 20-byte address hash.</p>
+<p><strong>OP_SHA256 (0xa8)</strong> — Computes SHA256 of the top stack item. Used in HTLCs for hash-preimage conditions: lock coins with a hash, reveal the preimage to unlock.</p>
+<p><strong>OP_CHECKDATASIG (BCH only)</strong> — Verifies a signature against arbitrary external data (not the transaction hash). This enables oracle-driven contracts: a trusted oracle signs a price feed or external event, and the signature can authorize on-chain spending. Essential to the Wolfram Mega Oracle architecture on BCH.</p>
+<h2>Stack Opcodes — Plumbing</h2>
+<p><strong>OP_DUP (0x76)</strong> — Duplicates the top stack item. Foundational: in P2PKH, the public key must be used both for address verification (hash it) and signature verification (check against it), so it must be duplicated first.</p>
+<p><strong>OP_EQUALVERIFY (0x88)</strong> — Checks that the top two stack items are equal; fails the transaction if not. Used in P2PKH to assert that the hash of the provided public key matches the expected address hash.</p>
+<p><strong>OP_OVER (0x78)</strong> — Copies the second-to-top item to the top. <strong>OP_SWAP (0x7c)</strong> — Swaps the top two items. <strong>OP_DROP (0x75)</strong> — Removes the top item. These are the basic plumbing of stack manipulation, used to arrange items for subsequent operations.</p>
+<p><strong>OP_WITHIN (0xa5)</strong> — Pops x, min, max; pushes 1 if min ≤ x < max, else 0. A single opcode for range enforcement. In the context of PoEM, this maps directly to entropy threshold enforcement: check whether a hash value falls within a valid difficulty band.</p>
+<h2>Flow Control</h2>
+<p><strong>OP_IF / OP_ELSE / OP_ENDIF (0x63/0x67/0x68)</strong> — Conditional execution. The entire HTLC pattern (Hash Time Lock Contract) relies on these: happy path (reveal hash preimage) vs. refund path (timelock expired). These opcodes enable the branching logic that makes atomic swaps and payment channels possible.</p>
+<p><strong>OP_CHECKLOCKTIMEVERIFY (BIP 65, 0xb1)</strong> — Checks that the transaction's locktime field is at least as large as the value on the stack. Used to create outputs that are unspendable before a future block height or UNIX timestamp. Renamed from OP_NOP2 via soft fork in 2015.</p>
+<p><strong>OP_RETURN (0x6a)</strong> — Immediately marks the output as unspendable and terminates execution. Any output whose scriptPubKey begins with OP_RETURN cannot be spent and costs no UTXO set space. Used for embedding arbitrary data: OP_RETURN outputs in BTC are limited to 80 bytes; BCH and BSV have no practical limit. Used for oracle data anchoring, timestamp proofs, and merge-mining receipts.</p>
+<h2>Disabled Opcodes in BTC — Restored in BCH/BSV</h2>
+<p>In August 2010, Satoshi Nakamoto disabled 18 opcodes in response to developer pressure about theoretical DoS risks. These included: <strong>OP_CAT</strong> (concatenate two stack items), <strong>OP_MUL / OP_DIV / OP_MOD</strong> (arithmetic), <strong>OP_AND / OP_OR / OP_XOR</strong> (bitwise logic), <strong>OP_LSHIFT / OP_RSHIFT</strong> (bit shifting), and string manipulation opcodes (OP_SUBSTR, OP_LEFT, OP_RIGHT).</p>
+<p>BCH re-enabled OP_CAT, OP_AND, OP_OR, OP_XOR, OP_DIV, OP_MOD in May 2018 and added new opcodes OP_SPLIT, OP_NUM2BIN, OP_BIN2NUM. OP_CHECKDATASIG was added in November 2018. BSV re-enabled additional opcodes including OP_MUL, OP_INVERT, OP_LSHIFT, OP_RSHIFT in November 2018. On BTC, BIP 347 proposes re-enabling OP_CAT specifically within Tapscript.</p>`,
+connection: "Opcodes are the mechanism by which thermodynamic value is locked and transferred. OP_CHECKSIG verifies that the claimant controls the private key corresponding to the public key hash — this is the cryptographic enforcement of ownership. OP_HASH160 is what makes an address a hash: the irreversibility of SHA256 and RIPEMD160 is the same computational irreversibility that makes proof-of-work secure. The disabled opcodes tell a political story: what was safe enough for Satoshi's original vision became 'dangerous' as commercial interests accumulated around simpler, more constrained contracts."
+},
+{
+slug: "btc-script-patterns", section: "bitcoin-script", title: "Standard Script Patterns",
+body: `<p>Scripts come in pairs: a <strong>locking script</strong> (scriptPubKey, on the UTXO) and an <strong>unlocking script</strong> (scriptSig, in the spending input). The two are concatenated and executed together. If the stack is non-zero at completion, the spend is valid.</p>
+<h2>P2PKH — Pay to Public Key Hash</h2>
+<p>The most common Bitcoin transaction type ever. Locks coins to a 20-byte hash of a public key. To spend, the owner provides their public key and a signature.</p>
+<blockquote><strong>scriptPubKey (locking):</strong> OP_DUP OP_HASH160 &lt;pubKeyHash&gt; OP_EQUALVERIFY OP_CHECKSIG<br><strong>scriptSig (unlocking):</strong> &lt;sig&gt; &lt;pubKey&gt;</blockquote>
+<p><strong>Execution walkthrough:</strong> Start with [sig, pubKey] on stack. OP_DUP → [sig, pubKey, pubKey]. OP_HASH160 → [sig, pubKey, HASH160(pubKey)]. PUSH &lt;expected hash&gt; → [sig, pubKey, HASH160(pubKey), &lt;expected&gt;]. OP_EQUALVERIFY → [sig, pubKey] (fails if hashes don't match). OP_CHECKSIG → [TRUE]. The address is the &lt;pubKeyHash&gt; — it's just a hash of your public key. The private key never appears on-chain; only the public key is revealed at spend time.</p>
+<h2>P2SH — Pay to Script Hash</h2>
+<p>Introduced in BIP 16 (2012). The locking script commits to just a hash of the spending conditions. The actual redeem script — which can be complex — is revealed only when spending. Addresses starting with <strong>3</strong> are P2SH.</p>
+<blockquote><strong>scriptPubKey:</strong> OP_HASH160 &lt;redeemScriptHash&gt; OP_EQUAL<br><strong>scriptSig:</strong> &lt;data satisfying redeemScript&gt; &lt;serialized redeemScript&gt;</blockquote>
+<p>This means the sender only needs to know the hash to pay — they don't need to understand the complexity of the conditions. The complexity (multisig, timelocks) is encapsulated in the redeemScript, which the spender reveals. Multisig wallets, exchange cold storage, and complex contracts are typically wrapped in P2SH.</p>
+<h2>HTLC — Hash Time Lock Contract</h2>
+<p>The atomic swap primitive. Enables trustless exchange between strangers: Alice locks coins that Bob can claim by revealing a secret hash preimage. If Bob doesn't claim within the timelock, Alice gets a refund. Two interlocking HTLCs across two chains achieve atomic swaps — both succeed or both fail.</p>
+<blockquote><strong>Locking script (simplified):</strong><br>
+OP_IF<br>
+&nbsp;&nbsp;OP_SHA256 &lt;secretHash&gt; OP_EQUALVERIFY OP_DUP OP_HASH160 &lt;recipientHash&gt;<br>
+OP_ELSE<br>
+&nbsp;&nbsp;&lt;timeout&gt; OP_CHECKLOCKTIMEVERIFY OP_DROP OP_DUP OP_HASH160 &lt;senderHash&gt;<br>
+OP_ENDIF<br>
+OP_EQUALVERIFY OP_CHECKSIG</blockquote>
+<p><strong>Happy path:</strong> Bob provides the secret preimage + his signature. OP_IF takes the true branch: SHA256(preimage) must equal secretHash, then OP_CHECKSIG verifies Bob's signature. Coins move to Bob. <strong>Refund path:</strong> If the timeout block passes, Alice takes the OP_ELSE branch: CHECKLOCKTIMEVERIFY ensures the timelock has expired, then OP_CHECKSIG verifies Alice's signature. Coins return to Alice. Lightning Network channels are built from chains of HTLCs. Cross-chain atomic swaps (BTC ↔ BCH, BTC ↔ QUAI) use two HTLCs with the same secretHash — Bob revealing the preimage on one chain simultaneously enables Alice to claim on the other.</p>
+<h2>P2WPKH / P2WSH — Native SegWit</h2>
+<p>The SegWit-native versions of P2PKH and P2SH. The scriptPubKey becomes a version byte plus a witness program: <code>OP_0 &lt;20-byte-hash&gt;</code> for P2WPKH or <code>OP_0 &lt;32-byte-hash&gt;</code> for P2WSH. The scriptSig is empty — the unlocking data lives entirely in the witness field. Cheaper to spend (witness data discounted by 75% for block weight), cheaper to relay, and immune to txid malleability.</p>`,
+connection: "Script patterns are the contractual layer of energy-backed money. Each pattern is a precisely defined set of conditions under which a thermodynamic receipt (UTXO) can be transferred. P2PKH is the base case: prove private key ownership. P2SH is the delegation case: commit to a hash of complex conditions, reveal when spending. HTLC is the cross-chain case: coordinate transfer of receipts across independent chains without a trusted third party. The HTLC is directly relevant to SOAP Marathon — the cross-chain coordination between SHA-256 mining rewards and QUAI buybacks is fundamentally an HTLC problem."
+},
+{
+slug: "btc-chain-compare", section: "bitcoin-script", title: "BTC vs. BCH vs. Quai",
+body: `<p>Bitcoin's three most relevant chains — BTC, BCH, and Quai — take fundamentally different approaches to scripting capability. Understanding these differences is essential for designing oracle infrastructure, merge-mining protocols, and cross-chain contracts.</p>
+<h2>Scripting Philosophy</h2>
+<p><strong>BTC</strong> has prioritized stability and security over expressiveness. Since 2010, the opcode set has been restricted to ~80 active opcodes with a 201-opcode-per-script limit. Protocol changes are slow and conservative. The addition of Taproot (2021) brought Schnorr signatures and MAST, but the core stack-machine design remains unchanged. BTC's OP_RETURN outputs are capped at 80 bytes.</p>
+<p><strong>BCH</strong> has prioritized restoring Satoshi's original opcode set and removing artificial restrictions. The May 2018 upgrade re-enabled OP_CAT, OP_AND/OR/XOR, OP_DIV/MOD, added OP_SPLIT and OP_NUM2BIN/BIN2NUM. November 2018 added OP_CHECKDATASIG — the oracle opcode. May 2020 added OP_REVERSEBYTES. May 2023 added CashTokens (native protocol-level tokens). OP_RETURN has no size cap. The 201-opcode limit remains.</p>
+<p><strong>Quai</strong> is architecturally different: it uses the <strong>EVM</strong> (Ethereum Virtual Machine) for smart contracts, not Bitcoin Script. Quai is a multi-chain proof-of-work network using PoEM (Proof of Entropy Minima) consensus across 13 chains (Prime → Region → Zone hierarchy). The EVM is Turing-complete, gas-bounded, and operates on 256-bit words. Bitcoin Script's restricted opcodes are not present; instead, Quai uses Solidity/EVM equivalents: ABI.encodePacked() for concatenation, native MUL/DIV/MOD opcodes, SHL/SHR/SAR for bit shifting, ecrecover() precompile for signature verification.</p>
+<h2>Key Opcode Differences</h2>
+<p><strong>OP_CAT</strong> — Disabled BTC, enabled BCH. Allows concatenating two stack items into one. Critical for building compound data structures in Script, covenant enforcement, and constructing hash preimages. BIP 347 proposes re-enabling it in BTC Tapscript. Quai equivalent: <code>abi.encodePacked()</code> in Solidity.</p>
+<p><strong>OP_CHECKDATASIG</strong> — BCH only. Verifies a Schnorr signature against arbitrary external data. Enables oracle-driven contracts where a trusted off-chain signer authorizes on-chain spending based on real-world events. Quai equivalent: <code>ecrecover()</code> precompile + Solidity oracle patterns.</p>
+<p><strong>OP_DIV / OP_MOD</strong> — Disabled BTC, enabled BCH and BSV. Arithmetic division and modulus. Quai: native EVM DIV/MOD opcodes, gas cost 5 each.</p>
+<p><strong>OP_LSHIFT / OP_RSHIFT</strong> — Disabled BTC and BCH, enabled BSV. Bit shifting. Quai: EVM SHL/SHR/SAR opcodes (EIP-145).</p>
+<p><strong>OP_WITHIN</strong> — All chains. Range check: is x between min and max? Maps directly to difficulty band enforcement in on-chain PoEM scripts.</p>
+<h2>Data Anchoring</h2>
+<p>BTC: OP_RETURN outputs are capped at 80 bytes. Sufficient for a single 32-byte hash plus metadata, but restrictive for complex oracle payloads. BCH and BSV: no practical OP_RETURN size cap. Quai: transaction calldata is unrestricted (limited by gas); event logs provide indexed, queryable on-chain data anchoring.</p>
+<h2>Implications for Oracle & Merge-Mining Design</h2>
+<p>For the <strong>Wolfram Mega Oracle</strong>: BCH's OP_CHECKDATASIG is the most expressive Bitcoin Script option for oracle-driven contracts. A trusted Wolfram oracle key signs data, and Script verifies the signature natively without a separate protocol layer. On the Quai side, EVM contracts handle oracle data via ecrecover and Solidity storage patterns. The oracle bridge between the two chains requires a relay: the oracle signs data readable by both Script (on BCH) and Solidity (on Quai).</p>
+<p>For <strong>SOAP Marathon</strong> merge-mining: BTC and BCH miners embed Quai block hashes in the coinbase scriptSig. BCH offers more flexibility than BTC (uncapped coinbase data field and uncapped OP_RETURN for receipts). On the Quai side, the coinbase transaction carries a manifest linking back to the merged SHA-256 block. The buyback routing — mined BTC/BCH rewards flowing back to QUAI — requires a cross-chain bridge or HTLC structure. P2SH on BCH with an OP_RETURN receipt provides the cleanest audit trail.`,
+connection: "The opcode divergence between BTC, BCH, and Quai is a direct consequence of different theories of what proof-of-work money should be able to express. BTC's conservatism reflects a thermoeconomic bet: the value of immutability outweighs the value of expressiveness. BCH's restoration of opcodes reflects a different bet: Satoshi's original Script was expressive enough for the design, and restricting it was a political rather than technical decision. Quai's EVM choice reflects a third bet: full Turing completeness is achievable in a PoW context, with PoEM providing the thermoeconomic grounding that PoS cannot. All three are coherent positions; understanding the differences is required for cross-chain architecture."
+},
+
+// -------- REFERENCE (continues) --------
 {
 slug: "ai-prompt", section: "reference", title: "AI Instructor Prompt",
 body: `<p>Copy the text below into a new conversation with Claude, ChatGPT, or any AI assistant. Tell the AI your background. Let it teach you thermoeconomics interactively.</p>
