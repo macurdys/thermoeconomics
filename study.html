@@ -3,6 +3,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -711,6 +712,7 @@ const SECTIONS = [
     { id: "quai-uni", label: "Quai University" },
     { id: "causal-invariance", label: "Mission: Causal Invariance" },
     { id: "bitcoin-script", label: "Bitcoin Script" },
+    { id: "zk-proofs", label: "ZK Proof Systems" },
     { id: "reference", label: "Reference" }
 ];
 
@@ -1740,6 +1742,50 @@ P(state) ∝ exp(−E/kT)         — Boltzmann distribution
 
 Source: thermoeconomics.info/study</div>
 <p>After pasting, tell the AI something like: <em>"I'm a Bitcoin miner with no physics background. Teach me why my mining rig is a thermodynamic engine."</em></p>`
+},
+// -------- ZK PROOF SYSTEMS --------
+{
+slug: "zk-proofs", section: "zk-proofs", title: "ZK Proof Systems",
+body: `<p>Zero-knowledge proofs are cryptographic protocols that allow one party (the <strong>prover</strong>) to convince another party (the <strong>verifier</strong>) that a statement is true — without revealing <em>why</em> it is true, or any information beyond the fact of its truth.</p>
+<p>The implications are profound: you can prove you know a secret without disclosing it, prove you are over 18 without revealing your birthdate, or prove a computation was executed correctly without re-running it. ZK proofs are the cryptographic foundation of modern privacy-preserving systems, Layer 2 scaling, and trustless computation.</p>
+<h2>About This Resource</h2>
+<div style="margin:28px 0;padding:24px 28px;border:1px solid var(--border-light);border-radius:12px;background:var(--bg-white);display:flex;gap:24px;align-items:flex-start;">
+  <div style="flex-shrink:0;width:48px;height:48px;background:var(--text-primary);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--green);">ZK</div>
+  <div>
+    <div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--text-primary);margin-bottom:4px;">The Seven-Layer Magic Trick</div>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px;letter-spacing:0.3px;">A Complete Guide to Zero-Knowledge Proof Systems</div>
+    <div style="font-size:14px;color:var(--text-secondary);line-height:1.7;">
+      <strong style="color:var(--text-primary);">Author:</strong> Charles Hoskinson<br>
+      <strong style="color:var(--text-primary);">Published:</strong> March 2026 &nbsp;&middot;&nbsp; First Edition<br>
+      <strong style="color:var(--text-primary);">Publisher:</strong> Midnight Network<br>
+      <strong style="color:var(--text-primary);">License:</strong> Creative Commons Attribution 4.0 (CC BY 4.0)<br>
+      <strong style="color:var(--text-primary);">Pages:</strong> 338
+    </div>
+    <div style="margin-top:14px;">
+      <a href="./the-seven-layer-magic-trick.pdf" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;background:var(--text-primary);color:var(--green);padding:8px 16px;border-radius:6px;">Download PDF &rarr;</a>
+    </div>
+  </div>
+</div>
+<h2>Why This Belongs Here</h2>
+<p>The thermoeconomic framework built throughout this study grounds value in physical irreversibility &mdash; in the thermodynamic cost of computation. ZK proofs extend that logic into privacy and verifiability: they let us compress proof of correct computation into a tiny, cheap-to-verify artifact, collapsing the computational cost asymmetry between proving and verifying.</p>
+<p>This maps directly onto Wolfram's computational irreducibility (you cannot shortcut knowing whether a computation was correct without running it &mdash; unless you have a proof), onto Landauer's principle (verification costs far less than computation, preserving the thermodynamic asymmetry), and onto the scaling architecture of next-generation proof-of-work and proof-of-stake chains alike.</p>
+<p>Hoskinson's treatment is unusually complete: it covers the mathematical foundations &mdash; polynomial commitment schemes, interactive oracle proofs, the Fiat-Shamir transform &mdash; and traces the full construction stack from arithmetic circuits up through SNARKs, STARKs, and recursive proof composition. The "seven layers" of the title are the seven abstraction layers that together make a ZK proof system, analogous to how the OSI model describes a network stack.</p>
+<h2>Structure of the Book</h2>
+<p>The text is organized as a complete bottom-up construction: from first principles of interactive proofs through polynomial encodings, commitment schemes, IOP-based proof systems, and finally practical deployment in blockchain contexts. The Midnight Network context grounds the material in a live system built by IOG (the Cardano/Midnight engineering team) with Hoskinson as its founder.</p>
+<p>Navigate to <strong>Read the Book</strong> in the sidebar to open the full text embedded in this window, or download the PDF directly above.</p>`
+},
+{
+slug: "zk-book", section: "zk-proofs", title: "Read: The Seven-Layer Magic Trick",
+body: `<blockquote><strong>Book:</strong> Charles Hoskinson, <em>The Seven-Layer Magic Trick: A Complete Guide to Zero-Knowledge Proof Systems</em>, Midnight Network, March 2026. &nbsp;<a href="./the-seven-layer-magic-trick.pdf" target="_blank">Download PDF &rarr;</a></blockquote>
+<p style="font-size:14px;color:var(--text-muted);margin-bottom:16px;">338 pages &nbsp;&middot;&nbsp; CC BY 4.0 &nbsp;&middot;&nbsp; Use your browser's native PDF controls to navigate, zoom, search, and download. If the embed does not load, use the download link above to open in your PDF reader.</p>
+<div style="width:100%;height:82vh;border:1px solid var(--border-light);border-radius:10px;overflow:hidden;margin-top:8px;">
+  <object data="./the-seven-layer-magic-trick.pdf" type="application/pdf" width="100%" height="100%" style="display:block;">
+    <div style="padding:40px;text-align:center;color:var(--text-muted);font-size:14px;">
+      <p>Your browser does not support inline PDF display.</p>
+      <p style="margin-top:12px;"><a href="./the-seven-layer-magic-trick.pdf" target="_blank" style="font-weight:600;color:var(--green);background:var(--text-primary);padding:8px 18px;border-radius:6px;">Open PDF &rarr;</a></p>
+    </div>
+  </object>
+</div>`
 }
 ];
 
