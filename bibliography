@@ -1,0 +1,40 @@
+Bibliography of Fundamental Distributed Systems & AI Literature
+Brown, T. B., et al. (2020). Language models are few-shot learners. Advances in Neural Information Processing Systems (NeurIPS), 33, 1877–1901.
+
+Castro, M., & Liskov, B. (1999). Practical Byzantine fault tolerance. Proceedings of the Third Symposium on Operating Systems Design and Implementation (OSDI), 173–186.
+
+Corbett, J. C., et al. (2012). Spanner: Google's globally-distributed database. Proceedings of the 10th USENIX Conference on Operating Systems Design and Implementation (OSDI), 251–264.
+
+Dean, J., & Ghemawat, S. (2004). MapReduce: Simplified data processing on large clusters. Proceedings of the 6th Conference on Symposium on Operating Systems Design & Implementation (OSDI), 137–150.
+
+DeCandia, G., et al. (2007). Dynamo: Amazon's highly available key-value store. Proceedings of the 21st ACM SIGOPS Symposium on Operating Systems Principles (SOSP), 205–220.
+
+Diffie, W., & Hellman, M. E. (1976). New directions in cryptography. IEEE Transactions on Information Theory, 22(6), 644–654.
+
+Dwork, C., Lynch, N., & Stockmeyer, L. (1988). Consensus in the presence of partial synchrony. Journal of the ACM (JACM), 35(2), 288–323.
+
+Fischer, M. J., Lynch, N. A., & Paterson, M. S. (1985). Impossibility of distributed consensus with one faulty process. Journal of the Association for Computing Machinery (JACM), 32(2), 374–382.
+
+Gilbert, S., & Lynch, N. (2002). Brewer's conjecture and the feasibility of consistent, available, partition-tolerant web services. ACM SIGACT News, 33(2), 51–59.
+
+Kokoris-Kogias, E., et al. (2018). OmniLedger: A secure, scale-out, decentralized ledger via sharding. IEEE Symposium on Security and Privacy (SP), 583–598.
+
+Kreeter, K., et al. (Contemporary). Thermoeconomics of computation and the proof of entropy minima. Manuscript/Thesis.
+
+Lamport, L. (1978). Time, clocks, and the ordering of events in a distributed system. Communications of the ACM, 21(7), 558–565.
+
+Lamport, L. (1998). The part-time parliament. ACM Transactions on Computer Systems (TOCS), 16(2), 133–169.
+
+Lamport, L., Shostak, R., & Pease, M. (1982). The Byzantine generals problem. ACM Transactions on Programming Languages and Systems (TOPLAS), 4(3), 382–401.
+
+Lepikhin, D., et al. (2020). GShard: Scaling giant models with conditional computation and automatic sharding. International Conference on Learning Representations (ICLR).
+
+Nakamoto, S. (2008). Bitcoin: A peer-to-peer electronic cash system. Decentralized Manuscript.
+
+Ongaro, D., & Ousterhout, J. (2014). In search of an understandable consensus algorithm. Proceedings of the 2014 USENIX Annual Technical Conference (USENIX ATC), 305–319.
+
+Sompolinsky, Y., & Zohar, A. (2015). Secure high-rate transaction processing in Bitcoin. Financial Cryptography and Data Security, 507–527.
+
+Vaswani, A., et al. (2017). Attention is all you need. Advances in Neural Information Processing Systems (NeurIPS), 30, 5998–6008.
+
+Wood, G. (2014). Ethereum: A secure decentralized generalized transaction ledger. Ethereum Project Yellow Paper, 151, 1–32.
