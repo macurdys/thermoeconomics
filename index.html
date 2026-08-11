@@ -722,6 +722,47 @@
             border: none;
         }
 
+        .research-video-thumb {
+            position: absolute;
+            inset: 0;
+            display: block;
+        }
+
+        .research-video-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .research-video-thumb::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 68px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(17, 17, 17, 0.78);
+            transition: background 0.2s ease;
+        }
+
+        .research-video-thumb:hover::before {
+            background: #ff0000;
+        }
+
+        .research-video-thumb::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-38%, -50%);
+            border-style: solid;
+            border-width: 11px 0 11px 19px;
+            border-color: transparent transparent transparent #fff;
+        }
+
         .research-video-label {
             font-size: 12px;
             font-weight: 500;
@@ -1916,6 +1957,19 @@
                     </div>
 
                     <div class="research-findings">
+                        <div>
+                            <div class="research-video-label">Watch the talk</div>
+                            <div class="research-video-wrap">
+                                <a href="https://youtu.be/04hgZYEnjQQ?t=2" target="_blank" rel="noopener" class="research-video-thumb" aria-label="Watch: Crypto Protocols — Ergodicity &amp; Consensus on YouTube">
+                                    <img
+                                        src="https://img.youtube.com/vi/04hgZYEnjQQ/maxresdefault.jpg"
+                                        onerror="this.onerror=null;this.src='https://img.youtube.com/vi/04hgZYEnjQQ/hqdefault.jpg';"
+                                        alt="Crypto Protocols: Ergodicity &amp; Consensus — video thumbnail"
+                                        loading="lazy"
+                                    >
+                                </a>
+                            </div>
+                        </div>
                         <div class="research-finding">
                             <div class="research-finding-label">Ensemble Averages</div>
                             <div class="research-finding-text">The same family of Poisson distributions plotted linear/linear, linear/log, log/linear, and log/log — a reminder that the scaling you choose decides which structure in the ensemble you are able to see at all.</div>
@@ -1923,10 +1977,6 @@
                         <div class="research-finding">
                             <div class="research-finding-label">Maximum Entropy Plus a Rule</div>
                             <div class="research-finding-text">SHA-256 outputs are uniform and equiprobable across a 2<sup>256</sup> state space. Counting consecutive leading zeros imposes a constraint on that space, and each zero is a bit of uncertainty removed.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">Hierarchical Sequences</div>
-                            <div class="research-finding-text">Thresholds drawn at workshares, zone, region, and prime slice one hash stream into nested tiers — the mechanism behind a sharded, scalable monetary system that stays programmable and mitigates Gresham's paradox.</div>
                         </div>
                     </div>
                 </div>
