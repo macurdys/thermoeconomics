@@ -729,27 +729,6 @@
             margin-bottom: 4px;
         }
 
-        .research-pdf-embed {
-            width: 100%;
-            height: 520px;
-            border-radius: 8px;
-            border: 1px solid var(--border-light);
-            overflow: hidden;
-            background: #fff;
-        }
-
-        .research-pdf-embed object,
-        .research-pdf-embed iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
-        }
-
-        @media (max-width: 768px) {
-            .research-pdf-embed { height: 380px; }
-        }
-
         .research-transcript-links {
             display: flex;
             flex-wrap: wrap;
@@ -1697,7 +1676,7 @@
                             January 2025 · 30 pages
                         </div>
                         <div class="research-title">Core Ingredients of Blockchains: UTXO Handbook</div>
-                        <div class="research-authors">UTXO Alliance · Wolfram Blockchain Labs</div>
+                        <div class="research-authors">Ignacio Calderon de la Barca &amp; Steph Macurdy · UTXO Alliance, Wolfram Blockchain Labs</div>
 
                         <div class="research-summary">
                             An open-source visual reference to the <strong>Unspent Transaction Output</strong> accounting model and the design variations built on top of it across UTXO Alliance member chains. Flowcharts and plain-language explanation make the mechanics legible to builders, commercial partners, and non-technical readers — a presentation card for the full range of UTXO designs rather than a single implementation.
@@ -1716,10 +1695,19 @@
                         </div>
                     </div>
 
-                    <div class="research-pdf-embed">
-                        <object data="UTXO-Model-Flavors-Menu-v2.2.pdf#view=FitH" type="application/pdf">
-                            <iframe src="UTXO-Model-Flavors-Menu-v2.2.pdf#view=FitH" title="Core Ingredients of Blockchains: UTXO Handbook" loading="lazy"></iframe>
-                        </object>
+                    <div class="research-findings">
+                        <div class="research-finding">
+                            <div class="research-finding-label">A Common Recipe</div>
+                            <div class="research-finding-text">Every blockchain reduces to the same short list of ingredients — hash functions and signatures (H, S), transactions (Tx), the UTXO set and ledger, blocks (B), protocol (Π), and network (N). Design variety comes from how they are combined, not from what they are.</div>
+                        </div>
+                        <div class="research-finding">
+                            <div class="research-finding-label">Flavors of UTXO</div>
+                            <div class="research-finding-text">Nine member chains diagrammed side by side — Bitcoin's vanilla model, DigiByte, Cardano and Ergo's eUTXO, Nervos CKB, Quai Network, Topl, Alephium, and Hathor — exposing where each departs from the base design.</div>
+                        </div>
+                        <div class="research-finding">
+                            <div class="research-finding-label">A Visual Language</div>
+                            <div class="research-finding-text">Chapter 1 builds the ingredients as a consistent visual notation; Chapter 2 assembles them into working chains. Supplementary material contrasts the account model with UTXO for readers coming from Ethereum.</div>
+                        </div>
                     </div>
                 </div>
             </div>
