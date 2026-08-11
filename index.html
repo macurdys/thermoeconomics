@@ -9,6 +9,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -726,6 +727,27 @@
             font-weight: 500;
             color: var(--text-muted);
             margin-bottom: 4px;
+        }
+
+        .research-pdf-embed {
+            width: 100%;
+            height: 520px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .research-pdf-embed object,
+        .research-pdf-embed iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .research-pdf-embed { height: 380px; }
         }
 
         .research-transcript-links {
@@ -1664,6 +1686,40 @@
                             <div class="research-finding-label">Thermodynamic Spectrum</div>
                             <div class="research-finding-text">All computational work spans a spectrum from pure entropy production (heat, randomness) to the extraction of free energy for structured, intelligent action on the physical world.</div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- UTXO Handbook -->
+                <div class="research-card animate">
+                    <div>
+                        <div class="research-meta">
+                            <span class="research-badge">Handbook</span>
+                            January 2025 · 30 pages
+                        </div>
+                        <div class="research-title">Core Ingredients of Blockchains: UTXO Handbook</div>
+                        <div class="research-authors">UTXO Alliance · Wolfram Blockchain Labs</div>
+
+                        <div class="research-summary">
+                            An open-source visual reference to the <strong>Unspent Transaction Output</strong> accounting model and the design variations built on top of it across UTXO Alliance member chains. Flowcharts and plain-language explanation make the mechanics legible to builders, commercial partners, and non-technical readers — a presentation card for the full range of UTXO designs rather than a single implementation.
+                        </div>
+
+                        <div class="research-topics">
+                            <span class="research-topic">UTXO Model</span>
+                            <span class="research-topic">eUTXO</span>
+                            <span class="research-topic">Interoperability</span>
+                            <span class="research-topic">Chain Design</span>
+                            <span class="research-topic">Education</span>
+                        </div>
+
+                        <div class="research-cta">
+                            <a href="UTXO-Model-Flavors-Menu-v2.2.pdf" target="_blank" rel="noopener" class="btn-pdf">Read the Handbook →</a>
+                        </div>
+                    </div>
+
+                    <div class="research-pdf-embed">
+                        <object data="UTXO-Model-Flavors-Menu-v2.2.pdf#view=FitH" type="application/pdf">
+                            <iframe src="UTXO-Model-Flavors-Menu-v2.2.pdf#view=FitH" title="Core Ingredients of Blockchains: UTXO Handbook" loading="lazy"></iframe>
+                        </object>
                     </div>
                 </div>
             </div>
