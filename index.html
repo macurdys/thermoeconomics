@@ -1159,6 +1159,77 @@
             gap: 10px;
         }
 
+
+        /* ============================================
+           TECH TREE (condensed)
+           ============================================ */
+        .tree-section {
+            background: var(--bg);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .tt-map {
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            background: var(--bg-white);
+            padding: 6px 24px 22px;
+            margin-bottom: 32px;
+        }
+
+        .tt-row {
+            display: grid;
+            grid-template-columns: 132px 1fr;
+            gap: 20px;
+            align-items: center;
+            padding: 11px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .tt-row:last-child { border-bottom: none; }
+
+        .tt-tier {
+            font-family: var(--font-body);
+            font-size: 10.5px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .tt-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tt-pill {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.2;
+            color: var(--text-primary);
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(31,191,0,0.4);
+            transition: transform 0.18s ease;
+        }
+
+        .tt-pill:hover { transform: translateY(-2px); }
+        .tt-pill[data-level="2"] { background: rgba(31,191,0,0.08); }
+        .tt-pill[data-level="3"] { background: rgba(31,191,0,0.18); }
+        .tt-pill[data-level="4"] { background: rgba(31,191,0,0.44); border-color: #1FBF00; }
+
+        .tt-row:first-child .tt-pill {
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 700;
+            padding: 9px 16px;
+        }
+
+        @media (max-width: 768px) {
+            .tt-row { grid-template-columns: 1fr; gap: 8px; }
+            .tt-map { padding: 6px 16px 18px; }
+        }
+
         /* ============================================
            FOOTER
            ============================================ */
@@ -1364,7 +1435,7 @@
                 <li><a href="#course">Course</a></li>
                 <li><a href="#utxo">Models</a></li>
                 <li><a href="#tools">Tools</a></li>
-                <li><a href="/tree.html">Tech Tree</a></li>
+                <li><a href="#tree">Tech Tree</a></li>
                 <li><a href="/study.html" class="nav-cta">The Study</a></li>
             </ul>
             <button class="nav-mobile-toggle" id="navToggle" aria-label="Toggle navigation">
@@ -2208,6 +2279,51 @@
                     <span class="tool-link">Open notebooks →</span>
                 </a>
             </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         TECH TREE (condensed)
+         ============================================ -->
+    <section class="tree-section section" id="tree">
+        <div class="container">
+            <p class="overline animate">Ontology</p>
+            <h2 class="section-title animate animate-delay-1">The tech tree</h2>
+            <p class="section-subtitle animate animate-delay-2" style="margin-bottom: 48px;">The claim sits at the top. Everything below it is what it had to stand on.</p>
+
+            <div class="tt-map animate animate-delay-2">
+                <div class="tt-row">
+                    <span class="tt-tier">6 &middot; Field</span>
+                    <div class="tt-pills"><span class="tt-pill" data-level="4">Computational Thermoeconomics</span></div>
+                </div>
+                <div class="tt-row">
+                    <span class="tt-tier">5 &middot; Application</span>
+                    <div class="tt-pills"><span class="tt-pill" data-level="4">Token &amp; Controller Design</span><span class="tt-pill" data-level="4">Mining Economics &amp; Difficulty</span><span class="tt-pill" data-level="2">Fat Tails, Options &amp; Portfolios</span><span class="tt-pill" data-level="3">AI Infrastructure &amp; Neuro-Symbolic Agents</span></div>
+                </div>
+                <div class="tt-row">
+                    <span class="tt-tier">4 &middot; Synthesis</span>
+                    <div class="tt-pills"><span class="tt-pill" data-level="4">Energy = Cross-Entropy</span><span class="tt-pill" data-level="4">Proof of Entropy Minima</span><span class="tt-pill" data-level="4">Thermoeconomic Geodesics</span><span class="tt-pill" data-level="4">Hash Possibility Space</span><span class="tt-pill" data-level="4">Holographic Sharding</span></div>
+                </div>
+                <div class="tt-row">
+                    <span class="tt-tier">3 &middot; Systems</span>
+                    <div class="tt-pills"><span class="tt-pill" data-level="4">Distributed Consensus</span><span class="tt-pill" data-level="3">Cryptography &amp; Hash Functions</span><span class="tt-pill" data-level="3">Wolfram Physics</span><span class="tt-pill" data-level="3">Active Inference &amp; Bayesian Mechanics</span></div>
+                </div>
+                <div class="tt-row">
+                    <span class="tt-tier">2 &middot; Inference</span>
+                    <div class="tt-pills"><span class="tt-pill" data-level="4">MaxEnt &amp; Bayesian Inference</span><span class="tt-pill" data-level="3">Information Geometry</span><span class="tt-pill" data-level="3">Fluctuation Theorems</span><span class="tt-pill" data-level="4">Thermodynamics of Computation</span></div>
+                </div>
+                <div class="tt-row">
+                    <span class="tt-tier">1 &middot; Foundations</span>
+                    <div class="tt-pills"><span class="tt-pill" data-level="3">Probability &amp; Statistics</span><span class="tt-pill" data-level="4">Shannon Information Theory</span><span class="tt-pill" data-level="4">Thermodynamics &amp; Statistical Mechanics</span><span class="tt-pill" data-level="3">Theory of Computation</span></div>
+                </div>
+                <div class="tt-row">
+                    <span class="tt-tier">0 &middot; Ground</span>
+                    <div class="tt-pills"><span class="tt-pill" data-level="3">Complex Systems &amp; Emergence</span></div>
+                </div>
+            </div>
+
+            <a href="/tree.html" class="btn btn-primary animate animate-delay-3">Open the tech tree →</a>
         </div>
     </section>
 
