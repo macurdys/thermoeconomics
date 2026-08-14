@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech Tree — Thermoeconomics</title>
+<meta name="description" content="A map of the domains behind computational thermoeconomics, sequenced from foundations to field.">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --green:#39FF14;
+  --green-glow:rgba(57,255,20,.15);
+  --green-subtle:rgba(57,255,20,.06);
+  --bg:#FAFAFA;
+  --bg-white:#FFFFFF;
+  --text-primary:#0A0A0A;
+  --text-secondary:#3A3A3A;
+  --text-muted:#6B6B6B;
+  --border:#E0E0E0;
+  --border-light:#F0F0F0;
+  --font-display:'Syne',sans-serif;
+  --font-body:'Outfit',sans-serif;
+  --max-width:1120px;
+
+  --t-formal:#1FBF00;
+  --t-formal-rgb:31,191,0;
+  --t-physical:#E58A00;
+  --t-physical-rgb:229,138,0;
+  --t-human:#4A6CF7;
+  --t-human-rgb:74,108,247;
+}
+
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text-secondary);line-height:1.6}
+a{text-decoration:none;color:inherit}
+.container{max-width:var(--max-width);margin:0 auto;padding:0 24px}
+
+/* NAV — matches index.html */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(250,250,250,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border-light);transition:box-shadow .3s ease}
+.nav.scrolled{box-shadow:0 1px 20px rgba(0,0,0,.06)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:-.5px}
+.nav-logo span{color:var(--green)}
+.nav-links{display:flex;align-items:center;gap:32px;list-style:none}
+.nav-links a{font-size:14px;color:var(--text-muted);transition:color .2s ease}
+.nav-links a:hover,.nav-links a.current{color:var(--text-primary)}
+.nav-cta{font-size:13px;font-weight:600;color:var(--text-primary)!important;background:var(--green);padding:8px 20px;border-radius:5px;transition:box-shadow .2s ease,transform .2s ease}
+.nav-cta:hover{box-shadow:0 0 20px var(--green-glow);transform:translateY(-1px)}
+.nav-mobile-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px}
+.nav-mobile-toggle span{display:block;width:22px;height:2px;background:var(--text-primary);margin:5px 0;transition:.3s}
+
+/* HEAD */
+.page-head{padding:128px 0 40px;background:var(--bg-white);border-bottom:1px solid var(--border-light);position:relative;overflow:hidden}
+.page-head::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(57,255,20,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,20,.05) 1px,transparent 1px);background-size:80px 80px;mask-image:linear-gradient(160deg,rgba(0,0,0,.5),transparent 70%);-webkit-mask-image:linear-gradient(160deg,rgba(0,0,0,.5),transparent 70%);pointer-events:none}
+.page-head .container{position:relative}
+.overline{font-family:var(--font-body);font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green);background:var(--text-primary);display:inline-block;padding:4px 10px;border-radius:4px;margin-bottom:20px}
+h1{font-family:var(--font-display);font-size:clamp(36px,6vw,52px);font-weight:700;letter-spacing:0;line-height:1.1;color:var(--text-primary);margin-bottom:28px}
+h1 .dot{color:var(--green)}
+.lede{max-width:620px;font-size:clamp(17px,2vw,21px);font-weight:300;line-height:1.7;color:var(--text-secondary)}
+
+#tipWrap{position:fixed;z-index:1300;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .16s ease,transform .16s ease;max-width:330px}
+#tipWrap.on{opacity:1;transform:none}
+.tip{background:var(--bg-white);border:1px solid var(--border);border-left:3px solid var(--tip-color,#1FBF00);border-radius:6px;box-shadow:0 12px 34px rgba(0,0,0,.10);padding:16px 18px}
+.tip h3{font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:0;line-height:1.25;color:var(--text-primary);margin-bottom:8px}
+.tip p{font-size:13.5px;font-weight:300;line-height:1.55;color:var(--text-secondary)}
+.tip .meta{font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;font-weight:600;color:var(--text-muted);margin-top:12px}
+
+/* TREE */
+.tree-wrap{padding:56px 0 96px;background:var(--bg)}
+.tree{position:relative}
+#edges{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:0}
+#edges path{fill:none;stroke:#CFCFCF;stroke-width:1.2;transition:stroke .25s ease,stroke-width .25s ease,opacity .25s ease}
+.tree.tracing #edges path{opacity:.18}
+.tree.tracing #edges path.lit{opacity:1;stroke-width:2;stroke:var(--trace-color,#1FBF00)}
+
+.tier{position:relative;z-index:1;display:grid;grid-template-columns:210px minmax(0,1fr) 210px;gap:20px;align-items:center;padding:22px 0}
+.tier-head{position:relative;z-index:1;padding-top:30px;border-top:1px solid var(--border-light)}
+.tier-head:first-of-type{border-top:none;padding-top:0}
+.tier-label{font-family:var(--font-body);font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green);background:var(--text-primary);display:inline-block;padding:4px 10px;border-radius:4px}
+.spine{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.rail{display:flex;flex-direction:column;gap:10px}
+.rail.left{align-items:flex-start}
+.rail.right{align-items:flex-end}
+
+.node{font-family:var(--font-body);font-size:13.5px;font-weight:500;line-height:1.3;text-align:center;padding:11px 16px;border-radius:6px;border:1.5px solid;background:var(--bg-white);color:var(--text-primary);cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,opacity .25s ease;max-width:230px}
+.node:hover{transform:translateY(-2px)}
+.node:focus-visible{outline:2px solid var(--text-primary);outline-offset:3px}
+.node.crown{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:0;padding:20px 34px;max-width:none}
+
+.node[data-track="formal"]{border-color:rgba(var(--t-formal-rgb),.55)}
+.node[data-track="physical"]{border-color:rgba(var(--t-physical-rgb),.55)}
+.node[data-track="human"]{border-color:rgba(var(--t-human-rgb),.55)}
+.node[data-track="formal"][data-level="2"]{background:rgba(var(--t-formal-rgb),.10)}
+.node[data-track="formal"][data-level="3"]{background:rgba(var(--t-formal-rgb),.26)}
+.node[data-track="formal"][data-level="4"]{background:rgba(var(--t-formal-rgb),.62);border-color:var(--t-formal)}
+.node[data-track="physical"][data-level="2"]{background:rgba(var(--t-physical-rgb),.10)}
+.node[data-track="physical"][data-level="3"]{background:rgba(var(--t-physical-rgb),.26)}
+.node[data-track="physical"][data-level="4"]{background:rgba(var(--t-physical-rgb),.60);border-color:var(--t-physical)}
+.node[data-track="human"][data-level="2"]{background:rgba(var(--t-human-rgb),.10)}
+.node[data-track="human"][data-level="3"]{background:rgba(var(--t-human-rgb),.22)}
+.node[data-track="human"][data-level="4"]{background:rgba(var(--t-human-rgb),.52);border-color:var(--t-human)}
+
+.tree.tracing .node{opacity:.22}
+.tree.tracing .node.lit{opacity:1}
+.tree.tracing .node.active{opacity:1;box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--trace-color,#1FBF00)}
+.node.filtered{display:none}
+
+
+
+footer{padding:48px 0;background:var(--bg);border-top:1px solid var(--border-light);font-size:13px;color:var(--text-muted)}
+.foot-inner{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+@media(max-width:1080px){
+  .tier{grid-template-columns:1fr;gap:12px}
+  .rail{flex-direction:row;flex-wrap:wrap;justify-content:center}
+  .rail.left,.rail.right{align-items:center}
+  #edges{display:none}
+  .tier{border-left:2px solid var(--border-light);padding-left:16px}
+}
+@media(max-width:760px){
+  .nav-links{position:fixed;top:64px;left:0;right:0;flex-direction:column;background:var(--bg-white);padding:24px;gap:20px;border-bottom:1px solid var(--border);display:none}
+  .nav-links.open{display:flex}
+  .nav-mobile-toggle{display:block}
+  .page-head{padding-top:104px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="/index.html#hero" class="nav-logo">thermoeconomics<span>.info</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/index.html#what">Science</a></li>
+      <li><a href="/index.html#research">Research</a></li>
+      <li><a href="/index.html#course">Course</a></li>
+      <li><a href="/tree.html" class="current">Tech Tree</a></li>
+      <li><a href="/study.html" class="nav-cta">The Study</a></li>
+    </ul>
+    <button class="nav-mobile-toggle" id="navToggle" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="container">
+    <p class="overline">Ontology</p>
+    <h1>The Tech Tree<span class="dot">.</span></h1>
+    <p class="lede">Read from the bottom. Hover for detail.</p>
+
+      </div>
+</header>
+
+<main class="tree-wrap">
+  <div class="container">
+    <div class="tree" id="tree">
+      <svg id="edges" aria-hidden="true"></svg>
+      <div id="tiers"></div>
+    </div>
+  </div>
+</main>
+
+
+<footer>
+  <div class="container foot-inner">
+    <span>Steph Macurdy — Computational Thermoeconomics</span>
+    <span>Depth reflects working use, not credentials.</span>
+  </div>
+</footer>
+
+<div id="tipWrap" aria-hidden="true"><div class="tip" id="tip"></div></div>
+
+<script>
+const TIERS = [
+  {n:0,name:'Ground',note:'Dispositions, not subjects. The way of looking that made everything above worth building.'},
+  {n:1,name:'Formal Foundations',note:'The four load-bearing formalisms. Entropy, energy, computation, and the statistics that connect them.'},
+  {n:2,name:'Inference & Geometry',note:'Turning the foundations into machinery for reasoning under uncertainty — and pricing the reasoning in joules.'},
+  {n:3,name:'Distributed Systems & Agency',note:'What happens when many computations, or many agents, have to agree without a global clock.'},
+  {n:4,name:'Synthesis',note:'Original constructs. This is where the tree stops being a reading list and starts being a claim.'},
+  {n:5,name:'Application',note:'The constructs pointed at live systems: a network, a mine, a portfolio, a farm, a classroom.'},
+  {n:6,name:'Field',note:'The whole thing, named and defensible as a discipline.'}
+];
+
+const NODES = [
+  {id:'emergence',t:0,c:'spine',track:'formal',lvl:3,label:'Complex Systems & Emergence',pre:[],
+   blurb:'Behavior that lives in the interactions rather than the parts. The habit of asking what a rule generates before asking what a variable predicts.'},
+  {id:'craft',t:0,c:'left',track:'physical',lvl:3,label:'Hands-On Systems Building',pre:[],
+   blurb:'Building and operating physical systems yourself — wiring, plumbing, racks, soil. The discipline of a thing that either runs or doesn\'t.'},
+  {id:'philosophy',t:0,c:'right',track:'human',lvl:3,label:'Economic Philosophy',pre:[],
+   blurb:'What value is before anyone measures it. Subjective preference, labor, and utility each smuggle in a physical assumption; finding it is the whole game.'},
+
+  {id:'stats',t:1,c:'spine',track:'formal',lvl:3,label:'Probability & Statistics',pre:['emergence'],
+   blurb:'Distributions, estimators, likelihood. The difference between noise you can average away and noise that owns the outcome.'},
+  {id:'shannon',t:1,c:'spine',track:'formal',lvl:4,label:'Shannon Information Theory',pre:['stats'],
+   blurb:'Entropy as a measure of surprise. Information carries the same mathematical structure as thermodynamic entropy — the bridge every upper tier crosses.'},
+  {id:'thermo',t:1,c:'spine',track:'formal',lvl:4,label:'Thermodynamics & Statistical Mechanics',pre:['emergence'],
+   blurb:'Energy, entropy, free energy, and the arrow of time. The Boltzmann distribution and U = F + TS are the load-bearing identities.'},
+  {id:'computation',t:1,c:'spine',track:'formal',lvl:3,label:'Theory of Computation',pre:['emergence'],
+   blurb:'Church–Turing, universality, undecidability, and computational irreducibility. Some outcomes can only be reached by running them.'},
+  {id:'energy',t:1,c:'left',track:'physical',lvl:3,label:'Energy Systems & Solar',pre:['craft'],
+   blurb:'Generation, storage, load, and interconnection — from energy advising at Tesla to running panels and batteries on a working site.'},
+  {id:'markets',t:1,c:'right',track:'human',lvl:3,label:'Capital Markets & Valuation',pre:['philosophy','stats'],
+   blurb:'Valuation, portfolio construction, and manager diligence, from institutional investment analysis and CFA Level I.'},
+
+  {id:'maxent',t:2,c:'spine',track:'formal',lvl:4,label:'MaxEnt & Bayesian Inference',pre:['shannon','stats'],
+   blurb:'Jaynes: given partial information, choose the distribution that assumes the least. Inference becomes constrained entropy maximization.'},
+  {id:'infogeo',t:2,c:'spine',track:'formal',lvl:3,label:'Information Geometry',pre:['shannon','stats'],
+   blurb:'Fisher → Cramér–Rao → Kullback–Leibler → Chentsov → Amari. Distributions as a curved manifold carrying one natural metric.'},
+  {id:'fluctuation',t:2,c:'spine',track:'formal',lvl:3,label:'Fluctuation Theorems',pre:['thermo'],
+   blurb:'Crooks and Jarzynski: irreversibility is quantified, not absolute. Work and entropy production obey exact distributional relations.'},
+  {id:'landauer',t:2,c:'spine',track:'formal',lvl:4,label:'Thermodynamics of Computation',pre:['thermo','computation'],
+   blurb:'Landauer and Bennett: erasing a bit dissipates kT ln 2 of heat. Computation is physically expensive and the price is calculable.'},
+  {id:'mining',t:2,c:'left',track:'physical',lvl:4,label:'Mining Hardware & Operations',pre:['energy','craft'],
+   blurb:'Running SHA-256 and GPU hardware for real — roughly 318 TH/s plus a six-card rig, with thermal limits, uptime, and cost per hash.'},
+  {id:'ergodicity',t:2,c:'right',track:'human',lvl:3,label:'Ergodicity & Thermoeconomic History',pre:['markets','philosophy'],
+   blurb:'Time averages against ensemble averages, plus the lineage — Soddy, Georgescu-Roegen, and the Ford–Edison energy currency proposals.'},
+
+  {id:'consensus',t:3,c:'spine',track:'formal',lvl:4,label:'Distributed Consensus',pre:['computation'],
+   blurb:'Lamport\'s logical clocks and the FLP impossibility result. Without a global clock, ordering is logical and guaranteed agreement is off the table.'},
+  {id:'crypto',t:3,c:'spine',track:'formal',lvl:3,label:'Cryptography & Hash Functions',pre:['computation','shannon'],
+   blurb:'Preimage resistance, digest structure, and leading-zero targets — the primitive that turns expended work into portable evidence.'},
+  {id:'wolfram',t:3,c:'spine',track:'formal',lvl:3,label:'Wolfram Physics',pre:['computation','emergence'],
+   blurb:'Causal invariance, multiway systems, and the ruliad. A rewriting substrate where space, time, and observers are all emergent.'},
+  {id:'active',t:3,c:'spine',track:'formal',lvl:3,label:'Active Inference & Bayesian Mechanics',pre:['maxent','infogeo'],
+   blurb:'The free energy principle: agents act to minimize expected surprise. A variational bound that mirrors thermodynamic free energy exactly.'},
+  {id:'site',t:3,c:'left',track:'physical',lvl:3,label:'Land, Water & Permitting',pre:['energy'],
+   blurb:'Where a system is allowed to exist: wetlands, Pinelands constraints, hydrology, and township zoning on three rural acres.'},
+  {id:'tooling',t:3,c:'right',track:'human',lvl:4,label:'Computational Tooling',pre:['computation'],
+   blurb:'Wolfram Language notebooks, Z3 SMT proofs, TypeScript audits, and self-contained HTML instruments that make an argument runnable.'},
+
+  {id:'crossentropy',t:4,c:'spine',track:'formal',lvl:4,label:'Energy = Cross-Entropy',pre:['maxent','thermo','active'],
+   blurb:'The identity E_Q[log 1/P]: a knowledge lens Q read against a world P, with ordinary entropy the degenerate case where the two agree.'},
+  {id:'poem',t:4,c:'spine',track:'formal',lvl:4,label:'Proof of Entropy Minima',pre:['consensus','crypto','landauer','maxent'],
+   blurb:'Fork choice by intrinsic work rather than block count — formalized with information-theoretic proofs and machine-checked causal invariance.'},
+  {id:'geodesics',t:4,c:'spine',track:'formal',lvl:4,label:'Thermoeconomic Geodesics',pre:['poem','wolfram','infogeo'],
+   blurb:'Fork choice as motion along geodesics in entropy-weighted causal spacetime, with Qi playing the invariant role that c plays in relativity.'},
+  {id:'hashspace',t:4,c:'spine',track:'formal',lvl:4,label:'Hash Possibility Space',pre:['crypto','fluctuation','tooling'],
+   blurb:'A catalog of the space a hash function opens, and what leading-zero structure reveals about the work standing behind a digest.'},
+  {id:'sharding',t:4,c:'spine',track:'formal',lvl:4,label:'Holographic Sharding',pre:['poem','consensus'],
+   blurb:'Independent work criteria per shard so security ceilings add rather than divide — work reapplied horizontally instead of sharing one target.'},
+  {id:'permaculture',t:4,c:'left',track:'physical',lvl:3,label:'Ecological Design & Permaculture',pre:['site'],
+   blurb:'Water, soil, and succession designed as one system: aquaponics, nutrient cycling, and closed loops that a compute load can sit inside.'},
+  {id:'grants',t:4,c:'right',track:'human',lvl:4,label:'Research Programs & Grant Architecture',pre:['tooling','markets'],
+   blurb:'Assembling multi-institution programs — federal proposals, treasury funding, budgets, and the partner coordination that holds them together.'},
+
+  {id:'controller',t:5,c:'spine',track:'formal',lvl:4,label:'Token & Controller Design',pre:['poem','crossentropy','mining'],
+   blurb:'Two-unit monetary architecture in practice: difficulty-linked issuance, exchange dynamics, and the arbitrage the pairing creates.'},
+  {id:'miningecon',t:5,c:'spine',track:'formal',lvl:4,label:'Mining Economics & Difficulty',pre:['mining','poem','ergodicity'],
+   blurb:'Difficulty adjustment, profitability under volatility, and hashprice as the market\'s live read on energy converted into security.'},
+  {id:'fattails',t:5,c:'spine',track:'formal',lvl:2,label:'Fat Tails, Options & Portfolios',pre:['ergodicity','stats','markets'],
+   blurb:'Taleb\'s statistical consequences of fat tails, then the structures that bound exposure — spreads and collars. The active build-order edge.'},
+  {id:'aiinfra',t:5,c:'spine',track:'formal',lvl:3,label:'AI Infrastructure & Neuro-Symbolic Agents',pre:['tooling','active','computation'],
+   blurb:'Symbolic reasoning wired to learned models, uncertainty modeling for large flexible loads, and compute as the substrate under all of it.'},
+  {id:'farm',t:5,c:'left',track:'physical',lvl:4,label:'Farm of Qi',pre:['permaculture','mining'],
+   blurb:'Permaculture, solar, and mining run as a single metabolism. The place where every layer below gets tested against physics instead of prose.'},
+  {id:'teaching',t:5,c:'right',track:'human',lvl:3,label:'Teaching & Team Systems',pre:['grants','tooling'],
+   blurb:'Curriculum, coaching, and tutor design — from a national soccer license to open-source AI math tutoring built on symbolic tools.'},
+
+  {id:'field',t:6,c:'spine',track:'formal',lvl:4,crown:true,label:'Computational Thermoeconomics',
+   pre:['controller','miningecon','fattails','aiinfra','geodesics','crossentropy','farm','teaching'],
+   blurb:'The claim the whole tree supports: economic value is grounded in energy expended, entropy produced, and work performed — and proof of work is the protocol where that becomes measurable.'}
+];
+
+const LEVELS={1:'Reading',2:'Applied',3:'Fluent',4:'Originated'};
+const TRACKS={formal:'Formal core',physical:'Physical inroad',human:'Human inroad'};
+const COLORS={formal:'#1FBF00',physical:'#E58A00',human:'#4A6CF7'};
+const byId=Object.fromEntries(NODES.map(n=>[n.id,n]));
+NODES.forEach(n=>n.post=NODES.filter(m=>(m.pre||[]).includes(n.id)).map(m=>m.id));
+
+/* ---------- build tree ---------- */
+const tiersEl=document.getElementById('tiers');
+[...TIERS].reverse().forEach(tier=>{
+  const head=document.createElement('div');
+  head.className='tier-head';
+  head.innerHTML=`<span class="tier-label">${tier.n} &middot; ${tier.name}</span>`;
+  tiersEl.appendChild(head);
+
+  const row=document.createElement('div');
+  row.className='tier';
+  ['left','spine','right'].forEach(col=>{
+    const box=document.createElement('div');
+    box.className = col==='spine' ? 'spine' : 'rail '+col;
+    NODES.filter(n=>n.t===tier.n && n.c===col).forEach(n=>{
+      const b=document.createElement('button');
+      b.className='node'+(n.crown?' crown':'');
+      b.id='n-'+n.id;
+      b.dataset.id=n.id;b.dataset.track=n.track;b.dataset.level=n.lvl;
+      b.textContent=n.label;
+      b.addEventListener('click',()=>toggle(n.id));
+      b.addEventListener('mouseenter',()=>showTip(n,b));
+      b.addEventListener('focus',()=>showTip(n,b));
+      b.addEventListener('mouseleave',hideTip);
+      b.addEventListener('blur',hideTip);
+      box.appendChild(b);
+    });
+    row.appendChild(box);
+  });
+  tiersEl.appendChild(row);
+});
+
+/* ---------- edges ---------- */
+const svg=document.getElementById('edges');
+const tree=document.getElementById('tree');
+function drawEdges(){
+  if(window.innerWidth<=1080){svg.innerHTML='';return;}
+  const box=tree.getBoundingClientRect();
+  svg.setAttribute('viewBox',`0 0 ${box.width} ${box.height}`);
+  svg.innerHTML='';
+  NODES.forEach(n=>{
+    const to=document.getElementById('n-'+n.id);
+    if(!to||to.classList.contains('filtered'))return;
+    const tb=to.getBoundingClientRect();
+    const x2=tb.left-box.left+tb.width/2, y2=tb.top-box.top+tb.height;
+    (n.pre||[]).forEach(p=>{
+      const from=document.getElementById('n-'+p);
+      if(!from||from.classList.contains('filtered'))return;
+      const fb=from.getBoundingClientRect();
+      const x1=fb.left-box.left+fb.width/2, y1=fb.top-box.top;
+      const dy=(y1-y2)*0.45;
+      const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('d',`M ${x1} ${y1} C ${x1} ${y1-dy}, ${x2} ${y2+dy}, ${x2} ${y2}`);
+      path.dataset.from=p;path.dataset.to=n.id;
+      svg.appendChild(path);
+    });
+  });
+}
+window.addEventListener('resize',()=>{clearTimeout(window._rd);window._rd=setTimeout(drawEdges,120)});
+window.addEventListener('load',drawEdges);
+setTimeout(drawEdges,300);
+
+/* ---------- hover detail ---------- */
+const tipWrap=document.getElementById('tipWrap'),tip=document.getElementById('tip');
+function showTip(n,el){
+  tip.innerHTML=`<h3>${n.label}</h3><p>${n.blurb}</p><div class="meta">${TRACKS[n.track]} &middot; ${LEVELS[n.lvl]}</div>`;
+  tipWrap.style.setProperty('--tip-color',COLORS[n.track]);
+  tipWrap.classList.add('on');
+  const r=el.getBoundingClientRect(),t=tipWrap.getBoundingClientRect();
+  let x=Math.max(14,Math.min(r.left+r.width/2-t.width/2,innerWidth-t.width-14));
+  let y=r.top-t.height-12;
+  if(y<78)y=r.bottom+12;
+  tipWrap.style.left=x+'px';tipWrap.style.top=y+'px';
+}
+function hideTip(){tipWrap.classList.remove('on')}
+
+/* ---------- trace lineage ---------- */
+function ancestors(id,acc=new Set()){(byId[id].pre||[]).forEach(p=>{if(!acc.has(p)){acc.add(p);ancestors(p,acc)}});return acc}
+function descendants(id,acc=new Set()){(byId[id].post||[]).forEach(p=>{if(!acc.has(p)){acc.add(p);descendants(p,acc)}});return acc}
+let traced=null;
+function toggle(id){traced===id?clearTrace():trace(id)}
+function trace(id){
+  const n=byId[id];
+  const lit=new Set([...descendants(id),...ancestors(id),id]);
+  traced=id;
+  tree.classList.add('tracing');
+  tree.style.setProperty('--trace-color',COLORS[n.track]);
+  document.querySelectorAll('.node').forEach(el=>{
+    el.classList.toggle('lit',lit.has(el.dataset.id));
+    el.classList.toggle('active',el.dataset.id===id);
+  });
+  svg.querySelectorAll('path').forEach(p=>p.classList.toggle('lit',lit.has(p.dataset.from)&&lit.has(p.dataset.to)));
+}
+function clearTrace(){
+  traced=null;
+  tree.classList.remove('tracing');
+  document.querySelectorAll('.node').forEach(el=>el.classList.remove('lit','active'));
+  svg.querySelectorAll('path').forEach(p=>p.classList.remove('lit'));
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')clearTrace()});
+document.addEventListener('click',e=>{if(!e.target.closest('.node'))clearTrace()});
+
+/* ---------- nav ---------- */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>10));
+document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+</script>
+</body>
+</html>
