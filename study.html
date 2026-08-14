@@ -1,698 +1,207 @@
 
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Study — Thermoeconomics</title>
-    <meta name="description" content="An open knowledge base for computational thermoeconomics. Explore the science connecting energy, entropy, and proof of work to economic value.">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-    <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Study — Thermoeconomics</title>
+<meta name="description" content="An open knowledge base for computational thermoeconomics. Foundations, synthesis, machinery, markets, and a hands-on workbench.">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
-        :root {
-            --green: #39FF14;
-            --green-glow: rgba(57, 255, 20, 0.15);
-            --green-subtle: rgba(57, 255, 20, 0.06);
-            --bg: #FAFAFA;
-            --bg-white: #FFFFFF;
-            --text-primary: #0A0A0A;
-            --text-secondary: #3A3A3A;
-            --text-muted: #6B6B6B;
-            --border: #E0E0E0;
-            --border-light: #F0F0F0;
-            --font-display: 'Syne', sans-serif;
-            --font-body: 'Outfit', sans-serif;
-            --sidebar-width: 280px;
-            --topbar-height: 56px;
-        }
+:root{
+  --green:#39FF14;
+  --green-ink:#1FBF00;
+  --green-glow:rgba(57,255,20,.15);
+  --green-subtle:rgba(57,255,20,.06);
+  --bg:#FAFAFA;
+  --bg-white:#FFFFFF;
+  --text-primary:#0A0A0A;
+  --text-secondary:#3A3A3A;
+  --text-muted:#6B6B6B;
+  --border:#E0E0E0;
+  --border-light:#F0F0F0;
+  --font-display:'Syne',sans-serif;
+  --font-body:'Outfit',sans-serif;
+  --font-mono:ui-monospace,'SF Mono',Menlo,monospace;
+  --sidebar:290px;
+  --toc:210px;
+  --topbar:56px;
+}
 
-        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
-        body { font-family: var(--font-body); background: var(--bg); color: var(--text-secondary); line-height: 1.6; overflow-x: hidden; }
-        a { text-decoration: none; color: inherit; }
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text-secondary);line-height:1.6}
+a{text-decoration:none;color:inherit}
 
-        /* ============ TOPBAR ============ */
-        .topbar {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            height: var(--topbar-height);
-            background: rgba(255,255,255,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-light);
-            display: flex; align-items: center; padding: 0 24px; gap: 16px;
-        }
-        .topbar-toggle {
-            display: none; background: none; border: none; cursor: pointer; padding: 6px;
-        }
-        .topbar-toggle span { display: block; width: 20px; height: 2px; background: var(--text-primary); margin: 4px 0; }
-        .topbar-logo {
-            font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--text-primary);
-        }
-        .topbar-logo span { color: var(--green); }
-        .topbar-sep { width: 1px; height: 24px; background: var(--border); }
-        .topbar-label { font-size: 14px; font-weight: 500; color: var(--text-muted); }
-        .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
-        .topbar-search {
-            font-family: var(--font-body); font-size: 13px; padding: 6px 14px; border-radius: 6px;
-            border: 1px solid var(--border); background: var(--bg); color: var(--text-primary);
-            width: 200px; outline: none; transition: border-color 0.2s;
-        }
-        .topbar-search:focus { border-color: var(--green); }
-        .topbar-home {
-            font-size: 13px; font-weight: 600; color: var(--text-primary);
-            background: var(--green); padding: 6px 16px; border-radius: 5px;
-            transition: box-shadow 0.2s;
-        }
-        .topbar-home:hover { box-shadow: 0 0 16px var(--green-glow); }
+/* ============ TOPBAR ============ */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--topbar);background:rgba(255,255,255,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:14px;padding:0 20px}
+.tb-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px}
+.tb-toggle span{display:block;width:20px;height:2px;background:var(--text-primary);margin:4px 0}
+.tb-logo{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text-primary);white-space:nowrap}
+.tb-logo span{color:var(--green)}
+.tb-atlas{font-family:var(--font-body);font-size:12px;font-weight:600;letter-spacing:.6px;padding:6px 13px;border-radius:5px;border:1px solid var(--border);background:var(--bg-white);color:var(--text-secondary);cursor:pointer;transition:.2s}
+.tb-atlas:hover{border-color:var(--text-muted);color:var(--text-primary)}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:10px;position:relative}
+.tb-search{font-family:var(--font-body);font-size:13px;padding:7px 14px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-primary);width:230px;outline:none;transition:border-color .2s,width .2s}
+.tb-search:focus{border-color:var(--green);width:290px}
+.tb-home{font-size:13px;font-weight:600;color:var(--text-primary);background:var(--green);padding:7px 16px;border-radius:5px;transition:box-shadow .2s}
+.tb-home:hover{box-shadow:0 0 16px var(--green-glow)}
+.results{position:absolute;top:44px;right:0;width:400px;max-height:60vh;overflow-y:auto;background:var(--bg-white);border:1px solid var(--border);border-radius:8px;box-shadow:0 16px 44px rgba(0,0,0,.10);display:none;z-index:300}
+.results.open{display:block}
+.result{padding:11px 16px;cursor:pointer;border-bottom:1px solid var(--border-light)}
+.result:last-child{border-bottom:none}
+.result:hover,.result.sel{background:var(--green-subtle)}
+.result-t{font-size:13.5px;font-weight:500;color:var(--text-primary);line-height:1.3}
+.result-s{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-muted);margin-top:3px}
 
-        /* ============ LAYOUT ============ */
-        .layout {
-            display: flex; min-height: 100vh; padding-top: var(--topbar-height);
-        }
+/* ============ LAYOUT ============ */
+.layout{display:flex;padding-top:var(--topbar);min-height:100vh}
 
-        /* ============ SIDEBAR ============ */
-        .sidebar {
-            width: var(--sidebar-width); min-width: var(--sidebar-width);
-            background: var(--bg-white); border-right: 1px solid var(--border-light);
-            height: calc(100vh - var(--topbar-height)); position: sticky; top: var(--topbar-height);
-            overflow-y: auto; padding: 20px 0;
-            scrollbar-width: thin; scrollbar-color: var(--border) transparent;
-        }
-        .sidebar::-webkit-scrollbar { width: 4px; }
-        .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+/* ============ SIDEBAR ============ */
+.sidebar{width:var(--sidebar);min-width:var(--sidebar);background:var(--bg-white);border-right:1px solid var(--border-light);height:calc(100vh - var(--topbar));position:sticky;top:var(--topbar);overflow-y:auto;padding:22px 0 60px;scrollbar-width:thin}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.stratum{margin-bottom:22px}
+.stratum-label{display:flex;align-items:baseline;gap:8px;padding:0 22px 8px;font-family:var(--font-body);font-size:10.5px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:var(--green-ink)}
+.stratum-label .n{color:var(--text-muted);font-weight:500;letter-spacing:1px}
+.sb-sec{margin-bottom:1px}
+.sb-head{display:flex;align-items:center;gap:8px;padding:7px 22px;cursor:pointer;font-size:13.5px;font-weight:500;color:var(--text-secondary);user-select:none;transition:color .15s,background .15s}
+.sb-head:hover{color:var(--text-primary);background:var(--green-subtle)}
+.sb-arrow{font-size:9px;width:10px;flex:none;color:var(--text-muted);transition:transform .2s}
+.sb-sec.open .sb-arrow{transform:rotate(90deg)}
+.sb-sec.here>.sb-head{color:var(--text-primary);font-weight:600}
+.sb-pages{display:none;padding-bottom:6px}
+.sb-sec.open .sb-pages{display:block}
+.sb-link{display:block;padding:5px 22px 5px 40px;font-size:12.5px;font-weight:400;color:var(--text-muted);cursor:pointer;line-height:1.45;border-left:2px solid transparent;transition:.15s}
+.sb-link:hover{color:var(--text-primary);background:var(--green-subtle)}
+.sb-link.active{color:var(--text-primary);font-weight:600;background:var(--green-subtle);border-left-color:var(--green)}
 
-        .sb-section { margin-bottom: 4px; }
-        .sb-header {
-            display: flex; align-items: center; gap: 8px; padding: 8px 20px; cursor: pointer;
-            font-family: var(--font-display); font-size: 12px; font-weight: 700;
-            letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted);
-            user-select: none; transition: color 0.2s;
-        }
-        .sb-header:hover { color: var(--text-primary); }
-        .sb-arrow {
-            font-size: 10px; transition: transform 0.2s; display: inline-block; width: 12px; flex-shrink: 0;
-        }
-        .sb-section.open .sb-arrow { transform: rotate(90deg); }
-        .sb-pages { display: none; padding: 0 0 8px 0; }
-        .sb-section.open .sb-pages { display: block; }
-        .sb-link {
-            display: block; padding: 5px 20px 5px 32px; font-size: 13px; font-weight: 400;
-            color: var(--text-muted); cursor: pointer; transition: color 0.15s, background 0.15s;
-            border-left: 2px solid transparent; line-height: 1.4;
-        }
-        .sb-link:hover { color: var(--text-primary); background: var(--green-subtle); }
-        .sb-link.active {
-            color: var(--text-primary); font-weight: 600; background: var(--green-subtle);
-            border-left-color: var(--green);
-        }
+/* ============ MAIN ============ */
+.main{flex:1;min-width:0;display:flex;justify-content:center;gap:40px;padding:44px 48px 120px}
+.article{flex:1;min-width:0;max-width:760px}
+.crumbs{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-size:11px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px}
+.crumbs .stratum-chip{color:var(--green);background:var(--text-primary);padding:4px 10px;border-radius:4px}
+.crumbs .sep{opacity:.4}
+.crumbs button{font:inherit;letter-spacing:inherit;text-transform:inherit;background:none;border:none;color:var(--text-muted);cursor:pointer;padding:0}
+.crumbs button:hover{color:var(--text-primary)}
+.page-title{font-family:var(--font-display);font-size:clamp(28px,4vw,40px);font-weight:700;line-height:1.14;color:var(--text-primary);margin-bottom:12px}
+.page-meta{font-size:13px;color:var(--text-muted);margin-bottom:28px;font-weight:300}
+.page-body{font-size:16px;line-height:1.78;color:var(--text-secondary)}
+.page-body h2{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--text-primary);margin:44px 0 14px;line-height:1.25;scroll-margin-top:80px}
+.page-body h3{font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--text-primary);margin:30px 0 10px;scroll-margin-top:80px}
+.page-body p{margin-bottom:16px}
+.page-body ul,.page-body ol{margin:0 0 18px 22px}
+.page-body li{margin-bottom:7px}
+.page-body strong{color:var(--text-primary);font-weight:600}
+.page-body a{color:var(--green-ink);font-weight:500;cursor:pointer;border-bottom:1px solid rgba(31,191,0,.3)}
+.page-body a:hover{border-bottom-color:var(--green-ink)}
+.page-body blockquote{border-left:3px solid var(--green);background:var(--green-subtle);padding:16px 20px;margin:22px 0;border-radius:0 6px 6px 0;font-size:15px}
+.page-body code{font-family:var(--font-mono);font-size:13.5px;background:var(--bg-white);border:1px solid var(--border-light);padding:2px 6px;border-radius:4px;color:var(--text-primary)}
+.page-body pre{background:var(--bg-white);border:1px solid var(--border-light);border-radius:8px;padding:18px;overflow-x:auto;margin:20px 0}
+.page-body pre code{border:none;padding:0;background:none;line-height:1.65}
+.page-body table{width:100%;border-collapse:collapse;margin:22px 0;font-size:14px}
+.page-body th,.page-body td{border:1px solid var(--border-light);padding:9px 12px;text-align:left}
+.page-body th{background:var(--bg-white);color:var(--text-primary);font-weight:600}
+.page-body img,.page-body iframe{max-width:100%;border-radius:8px}
+.page-body hr{border:none;border-top:1px solid var(--border-light);margin:32px 0}
 
-        /* ============ MAIN CONTENT ============ */
-        .main {
-            flex: 1; min-width: 0; padding: 48px 64px 120px; max-width: 820px;
-        }
+.connection-box{margin:40px 0 0;border:1px solid rgba(31,191,0,.35);background:var(--green-subtle);border-radius:8px;padding:22px 24px}
+.connection-box-label{font-size:10.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--green-ink);margin-bottom:9px}
+.connection-box-text{font-size:15px;line-height:1.7;color:var(--text-secondary)}
+.notes-box{margin-top:18px;border:1px solid var(--border-light);border-radius:8px;background:var(--bg-white);overflow:hidden}
+.notes-toggle{width:100%;text-align:left;font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--text-primary);background:none;border:none;padding:14px 20px;cursor:pointer}
+.notes-body{display:none;padding:0 20px 18px;font-size:14.5px;line-height:1.7}
+.notes-box.open .notes-body{display:block}
 
-        .page-section-tag {
-            font-family: var(--font-body); font-size: 11px; font-weight: 600;
-            letter-spacing: 2.5px; text-transform: uppercase; color: var(--green);
-            background: var(--text-primary); display: inline-block; padding: 4px 10px;
-            border-radius: 4px; margin-bottom: 20px;
-        }
-        .page-title {
-            font-family: var(--font-display); font-size: 36px; font-weight: 700;
-            color: var(--text-primary); line-height: 1.2; margin-bottom: 12px;
-        }
-        .page-meta {
-            font-size: 14px; color: var(--text-muted); margin-bottom: 32px;
-        }
-        .page-body { font-size: 16px; font-weight: 300; line-height: 1.85; color: var(--text-secondary); }
-        .page-body h2 {
-            font-family: var(--font-display); font-size: 22px; font-weight: 700;
-            color: var(--text-primary); margin: 40px 0 16px; line-height: 1.3;
-        }
-        .page-body h3 {
-            font-family: var(--font-display); font-size: 17px; font-weight: 700;
-            color: var(--text-primary); margin: 28px 0 12px;
-        }
-        .page-body p { margin-bottom: 16px; }
-        .page-body strong { font-weight: 600; color: var(--text-primary); }
-        .page-body a { color: var(--green); background: var(--text-primary); padding: 1px 6px; border-radius: 3px; font-size: 14px; font-weight: 500; }
-        .page-body a:hover { opacity: 0.85; }
-        .page-body blockquote {
-            border-left: 3px solid var(--green); padding: 16px 20px; margin: 20px 0;
-            background: var(--bg-white); border-radius: 0 8px 8px 0;
-            font-size: 14px; color: var(--text-muted); line-height: 1.7;
-        }
-        .page-body .equation {
-            background: var(--bg-white); border: 1px solid var(--border-light); border-radius: 8px;
-            padding: 20px 24px; margin: 24px 0; text-align: center;
-            font-size: 18px; color: var(--text-primary); overflow-x: auto;
-        }
-        .page-body table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
-        .page-body th {
-            font-weight: 600; color: var(--text-primary); text-align: left;
-            padding: 10px 14px; border-bottom: 2px solid var(--border); background: var(--bg-white);
-        }
-        .page-body td { padding: 10px 14px; border-bottom: 1px solid var(--border-light); color: var(--text-secondary); }
-        .page-body ul, .page-body ol { margin: 12px 0 16px 24px; }
-        .page-body li { margin-bottom: 6px; }
+.page-nav{display:flex;align-items:stretch;gap:12px;margin-top:56px;padding-top:28px;border-top:1px solid var(--border-light)}
+.page-nav-btn{flex:1;border:1px solid var(--border-light);border-radius:8px;background:var(--bg-white);padding:14px 18px;cursor:pointer;transition:.2s;min-width:0}
+.page-nav-btn:hover{border-color:var(--green);transform:translateY(-2px)}
+.page-nav-btn.next{text-align:right}
+.page-nav-dir{display:block;font-size:10.5px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px}
+.page-nav-title{display:block;font-size:13.5px;font-weight:500;color:var(--text-primary);line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.page-nav-placeholder{flex:1}
 
-        /* Connection callout */
-        .connection-box {
-            background: var(--text-primary); border-radius: 10px; padding: 24px 28px; margin: 32px 0;
-            border-left: 4px solid var(--green);
-        }
-        .connection-box-label {
-            font-family: var(--font-display); font-size: 11px; font-weight: 700;
-            letter-spacing: 2px; text-transform: uppercase; color: var(--green); margin-bottom: 10px;
-        }
-        .connection-box-text { font-size: 15px; font-weight: 300; line-height: 1.8; color: rgba(255,255,255,0.82); }
-        .connection-box-text strong { color: #fff; font-weight: 500; }
+/* ============ TOC RAIL ============ */
+.toc{width:var(--toc);min-width:var(--toc);position:sticky;top:calc(var(--topbar) + 44px);align-self:flex-start;max-height:calc(100vh - var(--topbar) - 80px);overflow-y:auto;padding-left:4px}
+.toc-label{font-size:10.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px}
+.toc a{display:block;font-size:12.5px;line-height:1.45;color:var(--text-muted);padding:5px 0 5px 12px;border-left:2px solid var(--border-light);cursor:pointer;transition:.15s}
+.toc a:hover{color:var(--text-primary)}
+.toc a.active{color:var(--text-primary);border-left-color:var(--green);font-weight:500}
+.toc a.h3{padding-left:24px;font-size:12px}
+.toc.empty{display:none}
 
-        /* Author's notes */
-        .notes-box {
-            background: var(--bg-white); border: 1px solid var(--border-light); border-left: 3px solid var(--green);
-            border-radius: 0 10px 10px 0; margin: 28px 0; overflow: hidden;
-        }
-        .notes-toggle {
-            display: flex; align-items: center; gap: 8px; padding: 14px 20px; cursor: pointer;
-            font-size: 13px; font-weight: 600; color: var(--text-muted); user-select: none;
-            background: none; border: none; width: 100%; text-align: left; font-family: var(--font-body);
-        }
-        .notes-toggle:hover { color: var(--text-primary); }
-        .notes-body { display: none; padding: 0 20px 16px; font-size: 14px; font-weight: 300; line-height: 1.8; color: var(--text-secondary); }
-        .notes-box.open .notes-body { display: block; }
-        .notes-date { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+/* ============ ATLAS ============ */
+.atlas-overlay{position:fixed;inset:0;background:rgba(10,10,10,.45);z-index:400;display:none;overflow-y:auto;padding:64px 24px}
+.atlas-overlay.open{display:block}
+.atlas{max-width:1080px;margin:0 auto;background:var(--bg-white);border-radius:14px;padding:44px 44px 52px;box-shadow:0 30px 90px rgba(0,0,0,.22)}
+.atlas-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:8px}
+.atlas h2{font-family:var(--font-display);font-size:32px;font-weight:700;letter-spacing:-.5px;color:var(--text-primary)}
+.atlas-sub{font-size:15px;font-weight:300;color:var(--text-secondary);max-width:560px;margin-bottom:36px}
+.atlas-close{background:none;border:1px solid var(--border);border-radius:5px;width:32px;height:32px;font-size:15px;cursor:pointer;color:var(--text-muted);flex:none}
+.atlas-close:hover{color:var(--text-primary)}
+.atlas-stratum{margin-bottom:34px;padding-bottom:30px;border-bottom:1px solid var(--border-light)}
+.atlas-stratum:last-child{border-bottom:none;padding-bottom:0}
+.atlas-stratum-head{display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
+.atlas-stratum-name{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--text-primary)}
+.atlas-stratum-count{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-muted)}
+.atlas-stratum-blurb{font-size:14px;font-weight:300;color:var(--text-muted);margin-bottom:18px;max-width:640px}
+.atlas-sec{margin-bottom:14px}
+.atlas-sec-name{font-size:11px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+.atlas-grid{display:flex;flex-wrap:wrap;gap:6px}
+.atlas-node{font-size:12.5px;font-weight:400;color:var(--text-secondary);background:var(--bg);border:1px solid var(--border-light);border-radius:5px;padding:6px 11px;cursor:pointer;transition:.15s}
+.atlas-node:hover{border-color:var(--green);color:var(--text-primary)}
+.atlas-node.active{background:var(--green-subtle);border-color:var(--green);color:var(--text-primary);font-weight:600}
 
-        /* Video embed */
-        .video-embed {
-            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
-            border-radius: 10px; border: 1px solid var(--border-light); background: #000; margin: 24px 0;
-        }
-        .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,10,.3);z-index:150}
+.sb-overlay.open{display:block}
 
-        /* Transcript */
-        .transcript-box {
-            background: var(--bg-white); border: 1px solid var(--border-light);
-            border-radius: 10px; margin: 24px 0; overflow: hidden;
-        }
-        .transcript-toggle {
-            display: flex; align-items: center; gap: 8px; padding: 14px 20px; cursor: pointer;
-            font-size: 13px; font-weight: 600; color: var(--text-muted); user-select: none;
-            background: none; border: none; width: 100%; text-align: left; font-family: var(--font-body);
-        }
-        .transcript-body { display: none; padding: 0 20px 16px; font-size: 13px; line-height: 1.8; color: var(--text-muted); max-height: 400px; overflow-y: auto; }
-        .transcript-box.open .transcript-body { display: block; }
-
-        /* Further reading links */
-        .further-reading { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border-light); }
-        .further-reading h3 { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--text-muted); margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase; }
-        .further-link {
-            display: inline-block; font-size: 13px; font-weight: 500; color: var(--green);
-            background: var(--text-primary); padding: 4px 12px; border-radius: 4px; margin: 0 6px 8px 0;
-            cursor: pointer; transition: opacity 0.2s;
-        }
-        .further-link:hover { opacity: 0.8; }
-
-        /* ============ PREV / NEXT NAV ============ */
-        .page-nav {
-            display: flex; justify-content: space-between; align-items: stretch; gap: 16px;
-            margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--border-light);
-        }
-        .page-nav-btn {
-            flex: 1; display: flex; flex-direction: column; gap: 4px; padding: 16px 20px;
-            border: 1px solid var(--border-light); border-radius: 10px; cursor: pointer;
-            transition: border-color 0.2s, transform 0.2s; background: var(--bg-white);
-        }
-        .page-nav-btn:hover { border-color: var(--green); transform: translateY(-2px); }
-        .page-nav-btn.next { text-align: right; }
-        .page-nav-dir { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); }
-        .page-nav-title { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--text-primary); line-height: 1.3; }
-        .page-nav-map {
-            display: flex; align-items: center; justify-content: center; padding: 16px; min-width: 52px;
-            border: 1px solid var(--border-light); border-radius: 10px; cursor: pointer;
-            font-size: 18px; transition: border-color 0.2s, transform 0.2s; background: var(--bg-white);
-        }
-        .page-nav-map:hover { border-color: var(--green); transform: translateY(-2px); }
-        .page-nav-placeholder { flex: 1; }
-
-        /* ============ MAP MODAL ============ */
-        .map-overlay {
-            display: none; position: fixed; inset: 0; z-index: 200;
-            background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
-        }
-        .map-overlay.open { display: flex; align-items: center; justify-content: center; }
-        .map-modal {
-            background: var(--bg-white); border-radius: 16px; padding: 36px; max-width: 900px;
-            width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-        }
-        .map-modal h2 { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 24px; }
-        .map-section-title {
-            font-family: var(--font-display); font-size: 11px; font-weight: 700;
-            letter-spacing: 2px; text-transform: uppercase; color: var(--green);
-            background: var(--text-primary); display: inline-block; padding: 3px 8px;
-            border-radius: 3px; margin: 16px 0 8px;
-        }
-        .map-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-        .map-node {
-            font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 6px;
-            border: 1px solid var(--border); color: var(--text-muted); background: var(--bg);
-            cursor: pointer; transition: all 0.15s;
-        }
-        .map-node:hover { border-color: var(--green); color: var(--text-primary); }
-        .map-node.active { border-color: var(--green); color: var(--text-primary); background: var(--green-subtle); font-weight: 700; }
-
-        /* ============ SEARCH ============ */
-        .search-results {
-            display: none; position: absolute; top: calc(var(--topbar-height) - 4px); right: 24px;
-            width: 320px; max-height: 400px; overflow-y: auto; background: var(--bg-white);
-            border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-            z-index: 150; padding: 8px;
-        }
-        .search-results.open { display: block; }
-        .search-result {
-            padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: background 0.15s;
-        }
-        .search-result:hover { background: var(--green-subtle); }
-        .search-result-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
-        .search-result-section { font-size: 11px; color: var(--text-muted); }
-
-        /* ============ MISSION PROOF ELEMENTS ============ */
-        .mission-bounty {
-            background: var(--text-primary); border-radius: 12px; padding: 28px 32px;
-            margin: 28px 0; display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
-        }
-        .mission-bounty-reward { text-align: center; }
-        .mission-bounty-amount {
-            font-family: var(--font-display); font-size: 32px; font-weight: 800; color: #fff;
-        }
-        .mission-bounty-label {
-            font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
-            color: rgba(255,255,255,0.35); margin-top: 2px;
-        }
-        .mission-bounty-paid {
-            font-size: 12px; font-weight: 600; color: var(--green); margin-top: 6px;
-        }
-        .mission-bounty-divider { width: 1px; height: 52px; background: rgba(255,255,255,0.08); flex-shrink: 0; }
-        .mission-bounty-meta { display: flex; flex-direction: column; gap: 6px; }
-        .mission-bounty-row {
-            font-size: 12px; font-weight: 400; color: rgba(255,255,255,0.5);
-            display: flex; align-items: center; gap: 8px;
-        }
-        .mission-bounty-row .mdot {
-            width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
-        }
-        .mission-bounty-row .mdot.g { background: var(--green); }
-        .mission-bounty-row .mdot.a { background: #fbbf24; }
-        .mission-bounty-row .mdot.b { background: #60a5fa; }
-        .mission-bounty-row a { color: var(--green); text-decoration: none; border-bottom: 1px solid rgba(57,255,20,0.3); }
-
-        .mission-video-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 24px 0;
-        }
-        .mission-video-card {
-            border-radius: 10px; overflow: hidden; background: #000; aspect-ratio: 16/9;
-        }
-        .mission-video-card iframe { width: 100%; height: 100%; border: 0; display: block; }
-
-        .mission-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0; }
-        .mission-card {
-            background: var(--bg-white); border: 1px solid var(--border-light); border-radius: 12px;
-            padding: 24px 20px;
-        }
-        .mission-card h4 {
-            font-family: var(--font-display); font-size: 16px; font-weight: 700;
-            color: var(--text-primary); margin-bottom: 8px;
-        }
-        .mission-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px; }
-        .mission-card ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-        .mission-card li {
-            font-size: 13px; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 8px; line-height: 1.5;
-        }
-        .mission-card li .cd { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
-        .mission-card li .cd.g { background: var(--green); }
-        .mission-card li .cd.b { background: #60a5fa; }
-        .mission-card li a { font-size: 13px; padding: 0; background: none; color: #60a5fa; }
-        .mission-card li a:hover { opacity: 0.8; }
-        .mission-btn {
-            display: inline-block; padding: 9px 22px; font-size: 12px; font-weight: 700;
-            border-radius: 100px; text-decoration: none; transition: opacity 0.15s; margin-top: 14px;
-        }
-        .mission-btn.green { background: var(--text-primary); color: var(--green); }
-        .mission-btn.blue { background: #60a5fa; color: #fff; }
-        .mission-btn:hover { opacity: 0.85; }
-
-        .mission-pipeline {
-            display: flex; gap: 0; margin: 24px 0; background: var(--bg-white);
-            border: 1px solid var(--border-light); border-radius: 12px; overflow: hidden;
-        }
-        .mission-stage {
-            flex: 1; padding: 20px 16px; text-align: center;
-            border-right: 1px solid var(--border-light); display: flex; flex-direction: column; align-items: center; gap: 8px;
-        }
-        .mission-stage:last-child { border-right: none; }
-        .mission-stage-name { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text-primary); }
-        .mission-stage-name.dim { color: var(--text-muted); }
-        .mission-stage-desc { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
-        .mission-stage-badge {
-            font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
-            padding: 3px 10px; border-radius: 100px;
-        }
-        .mission-stage-badge.done { background: rgba(57,255,20,0.1); color: var(--green); }
-        .mission-stage-badge.active { background: rgba(251,191,36,0.12); color: #fbbf24; }
-        .mission-stage-badge.pending { background: var(--bg); color: var(--text-muted); }
-
-        @media (max-width: 860px) {
-            .mission-bounty { flex-direction: column; gap: 16px; padding: 24px 20px; }
-            .mission-bounty-divider { width: 80px; height: 1px; }
-            .mission-video-grid { grid-template-columns: 1fr; }
-            .mission-cards { grid-template-columns: 1fr; }
-            .mission-pipeline { flex-direction: column; }
-            .mission-stage { border-right: none; border-bottom: 1px solid var(--border-light); }
-            .mission-stage:last-child { border-bottom: none; }
-        }
-
-        /* ============ MOBILE ============ */
-        @media (max-width: 860px) {
-            .topbar-toggle { display: block; }
-            .topbar-search { width: 140px; }
-            .sidebar {
-                position: fixed; left: -300px; top: var(--topbar-height); z-index: 90;
-                width: 280px; height: calc(100vh - var(--topbar-height));
-                transition: left 0.3s ease; box-shadow: none;
-            }
-            .sidebar.open { left: 0; box-shadow: 4px 0 20px rgba(0,0,0,0.1); }
-            .sidebar-overlay {
-                display: none; position: fixed; inset: 0; top: var(--topbar-height);
-                background: rgba(0,0,0,0.3); z-index: 89;
-            }
-            .sidebar.open ~ .sidebar-overlay { display: block; }
-            .main { padding: 32px 24px 100px; }
-            .page-title { font-size: 28px; }
-        }
-        @media (max-width: 500px) {
-            .topbar-search { display: none; }
-            .page-nav { flex-direction: column; }
-        }
-    
-        /* ============ RIGHT SIDEBAR (Mode Switcher) ============ */
-        :root {
-            --rsidebar-width: 52px;
-        }
-        .rsidebar {
-            width: var(--rsidebar-width); min-width: var(--rsidebar-width);
-            background: var(--bg-white); border-left: 1px solid var(--border-light);
-            height: calc(100vh - var(--topbar-height)); position: sticky; top: var(--topbar-height);
-            display: flex; flex-direction: column; align-items: center; padding: 16px 0; gap: 6px;
-            z-index: 10;
-        }
-        .rsidebar-btn {
-            width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--border-light);
-            background: var(--bg); display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.2s; position: relative;
-            font-size: 16px; color: var(--text-muted);
-        }
-        .rsidebar-btn:hover { border-color: var(--green); color: var(--text-primary); }
-        .rsidebar-btn.active {
-            background: var(--text-primary); border-color: var(--text-primary);
-            color: var(--green); box-shadow: 0 0 12px rgba(57, 255, 20, 0.15);
-        }
-        .rsidebar-btn .rs-tooltip {
-            display: none; position: absolute; right: calc(100% + 10px); top: 50%; transform: translateY(-50%);
-            background: var(--text-primary); color: #fff; font-size: 11px; font-weight: 600;
-            padding: 4px 10px; border-radius: 5px; white-space: nowrap;
-            letter-spacing: 0.5px;
-        }
-        .rsidebar-btn:hover .rs-tooltip { display: block; }
-        .rsidebar-divider {
-            width: 24px; height: 1px; background: var(--border-light); margin: 4px 0;
-        }
-        .rsidebar-label {
-            writing-mode: vertical-rl; text-orientation: mixed;
-            font-family: var(--font-display); font-size: 9px; font-weight: 700;
-            letter-spacing: 2px; text-transform: uppercase; color: var(--border);
-            margin-top: 8px; user-select: none;
-        }
-
-        /* Adjust main to account for right sidebar */
-        .main {
-            flex: 1; min-width: 0; padding: 48px 56px 120px; max-width: 820px;
-        }
-
-        /* Mobile: hide right sidebar */
-        @media (max-width: 860px) {
-            .rsidebar { display: none; }
-            .main { padding: 32px 24px 100px; }
-        }
-        /* ============ TOOLKIT SCOPED STYLES ============ */
-        .tk { --tkb: #ffffff; --tkt: #111111; --tkt2: #444444; --tkd: #999999; --tkc: #0099cc; --tka: #cc6600; --tkp: #7c3aed; --tkr: #cc2233; --tkg: #00994d; --tkbr: rgba(0,0,0,0.08); --tkcard: rgba(0,0,0,0.03); --tkmono: 'JetBrains Mono','Fira Code',monospace; background: var(--tkb); color: var(--tkt); padding: 24px; border-radius: 12px; margin: -4px -8px 0; font-weight: 500; }
-        .tk h2 { color: #111; font-family: var(--font-display); font-size: 18px; margin: 28px 0 12px; font-weight: 800; }
-        .tk p { color: var(--tkt2); font-size: 14px; line-height: 1.6; margin-bottom: 12px; font-weight: 500; }
-        .tk .tk-def { background: var(--tkcard); border: 1px solid var(--tkbr); border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; }
-        .tk .tk-def-label { font-family: var(--font-display); font-size: 9px; font-weight: 700; color: var(--tka); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
-        .tk .tk-def-math { font-family: var(--tkmono); font-size: 13px; color: var(--tkt); line-height: 1.8; font-weight: 600; }
-        .tk .tk-def-math .fn { color: var(--tkg); font-weight: 600; }
-        .tk .tk-def-math .var { color: var(--tkc); font-style: italic; }
-        .tk .tk-def-math .op { color: var(--tkd); }
-        .tk .tk-well { background: var(--tkcard); border: 1px solid var(--tkbr); border-radius: 10px; padding: 24px; margin-bottom: 20px; }
-        .tk .tk-field { margin-bottom: 14px; }
-        .tk .tk-label { font-family: var(--font-display); font-size: 10px; font-weight: 700; color: var(--tka); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
-        .tk .tk-label .mv { font-style: italic; color: var(--tkc); margin-right: 4px; font-family: var(--tkmono); }
-        .tk .tk-inp { width: 100%; background: rgba(0,0,0,0.04); border: 1px solid var(--tkbr); border-radius: 4px; padding: 10px 12px; color: var(--tkt); font-family: var(--tkmono); font-size: 13px; outline: none; resize: vertical; transition: border-color 0.2s; }
-        .tk .tk-inp:focus { border-color: rgba(0,153,77,0.3); }
-        .tk .tk-inp[disabled] { background: rgba(0,0,0,0.015); cursor: default; }
-        .tk .tk-ho { font-size: 12px; letter-spacing: 0.04em; color: var(--tkg); font-weight: 600; }
-        .tk .tk-ho.hash-valid { color: var(--tkg); }
-        .tk .tk-ho.hash-invalid { color: var(--tkr); }
-        .tk .tk-btn-row { display: flex; gap: 10px; align-items: center; margin-top: 12px; flex-wrap: wrap; }
-        .tk .tk-btn { background: rgba(0,153,77,0.08); border: 1px solid rgba(0,153,77,0.2); border-radius: 6px; color: var(--tkg); font-family: var(--tkmono); font-size: 12px; padding: 10px 20px; cursor: pointer; transition: all 0.2s; font-weight: 600; }
-        .tk .tk-btn:hover { background: rgba(0,153,77,0.15); box-shadow: 0 0 12px rgba(0,153,77,0.1); }
-        .tk .tk-btn.mining { animation: tk-pulse 0.5s infinite alternate; }
-        @keyframes tk-pulse { from { box-shadow: 0 0 4px rgba(0,153,77,0.2); } to { box-shadow: 0 0 16px rgba(0,153,77,0.4); } }
-        .tk .tk-diff { font-family: var(--tkmono); font-size: 11px; color: var(--tka); }
-        .tk .tk-callout { background: rgba(0,153,77,0.03); border: 1px solid rgba(0,153,77,0.12); border-radius: 8px; padding: 16px 20px; margin: 24px 0; }
-        .tk .tk-callout-header { font-family: var(--font-display); font-size: 11px; font-weight: 700; color: var(--tkg); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
-        .tk .tk-callout p { color: var(--tkt2); font-size: 13px; margin: 0; font-weight: 500; }
-
-        /* Chain blocks */
-        .tk .chain-scroll { overflow-x: auto; padding: 8px 0 16px; margin: 0 -8px; scrollbar-width: thin; scrollbar-color: rgba(0,0,0,0.15) transparent; }
-        .tk .chain-row { display: flex; align-items: flex-start; gap: 0; min-width: max-content; padding: 0 8px; }
-        .tk .chain-connector { display: flex; align-items: center; justify-content: center; width: 32px; min-width: 32px; padding-top: 20px; color: var(--tkd); font-size: 16px; }
-        .tk .chain-block { width: 260px; min-width: 260px; background: var(--tkcard); border: 1px solid var(--tkbr); border-radius: 8px; padding: 12px; transition: border-color 0.3s, box-shadow 0.3s; }
-        .tk .chain-block.valid { border-color: rgba(0,153,77,0.2); }
-        .tk .chain-block.invalid { border-color: rgba(204,34,51,0.25); }
-        .tk .cb-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .tk .cb-num { font-family: var(--font-display); font-size: 11px; font-weight: 700; color: #111; letter-spacing: 1px; }
-        .tk .cb-status { width: 8px; height: 8px; border-radius: 50%; background: var(--tkd); }
-        .tk .cb-status.valid { background: var(--tkg); box-shadow: 0 0 6px rgba(0,153,77,0.4); }
-        .tk .cb-status.invalid { background: var(--tkr); }
-        .tk .cb-row { display: flex; gap: 6px; }
-        .tk .cb-row .cb-field { flex: 1; }
-        .tk .cb-field { margin-bottom: 6px; }
-        .tk .cb-label { font-size: 8px; font-weight: 600; color: var(--tkd); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; font-family: var(--tkmono); }
-        .tk .cb-label .mv { color: var(--tkc); font-style: italic; }
-        .tk .cb-input { width: 100%; background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.06); border-radius: 3px; padding: 5px 6px; color: var(--tkt); font-family: var(--tkmono); font-size: 10px; outline: none; font-weight: 600; }
-        .tk .cb-input[disabled] { background: rgba(0,0,0,0.01); cursor: default; color: var(--tkd); }
-        .tk .cb-input.narrow { width: 50px; }
-        .tk .cb-input.hash-valid { color: var(--tkg); }
-        .tk .cb-input.hash-invalid { color: var(--tkr); }
-        .tk .cb-input.prev-hash { font-size: 8px; color: var(--tkd); }
-        .tk .cb-mine-row { text-align: right; margin-top: 6px; }
-        .tk .btn-mine-sm { background: rgba(0,153,77,0.08); border: 1px solid rgba(0,153,77,0.2); border-radius: 4px; color: var(--tkg); font-family: var(--tkmono); font-size: 10px; padding: 6px 12px; cursor: pointer; }
-        .tk .btn-mine-sm:hover { background: rgba(0,153,77,0.15); }
-        .tk .peer-label { font-family: var(--font-display); font-size: 12px; font-weight: 700; color: var(--tkc); letter-spacing: 2px; margin: 16px 0 6px; }
-
-        /* Transactions */
-        .tk .tx-list { margin-bottom: 6px; }
-        .tk .tx-row { display: flex; align-items: center; gap: 4px; padding: 3px 0; font-family: var(--tkmono); font-size: 10px; }
-        .tk .tx-from, .tk .tx-to { background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.06); border-radius: 3px; padding: 4px 5px; color: var(--tkt); font-family: var(--tkmono); font-size: 10px; outline: none; width: 60px; }
-        .tk .tx-amt { width: 48px; background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.06); border-radius: 3px; padding: 4px 5px; color: var(--tka); font-family: var(--tkmono); font-size: 10px; outline: none; text-align: right; }
-        .tk .tx-arrow { color: var(--tkd); font-size: 10px; }
-        .tk .tx-unit { color: var(--tkd); font-size: 8px; }
-        .tk .tx-del { background: none; border: none; color: var(--tkr); cursor: pointer; font-size: 12px; padding: 2px 4px; opacity: 0.5; }
-        .tk .tx-del:hover { opacity: 1; }
-        .tk .tx-add { display: block; width: 100%; background: none; border: 1px dashed rgba(0,0,0,0.12); border-radius: 4px; color: var(--tkd); font-size: 9px; padding: 4px; cursor: pointer; margin-top: 4px; }
-        .tk .tx-add:hover { border-color: rgba(0,153,77,0.2); color: var(--tkg); }
-        .tk .tx-coinbase { display: flex; align-items: center; gap: 6px; padding: 5px 8px; background: rgba(240,160,48,0.06); border: 1px solid rgba(240,160,48,0.15); border-radius: 4px; margin-bottom: 6px; font-family: var(--tkmono); font-size: 10px; }
-        .tk .tx-cb-label { color: var(--tka); font-weight: 700; font-size: 9px; }
-        .tk .tx-cb-amt { color: var(--tka); font-weight: 600; margin-left: auto; }
-
-        /* Keys & signatures */
-        .tk .key-display { margin-bottom: 16px; }
-        .tk .key-row { display: flex; gap: 12px; flex-wrap: wrap; }
-        .tk .key-col { flex: 1; min-width: 200px; }
-        .tk .key-label { font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
-        .tk .key-label.private { color: var(--tkr); }
-        .tk .key-label.public { color: var(--tkc); }
-        .tk .key-label.sig { color: var(--tkp); }
-        .tk .key-val { background: rgba(0,0,0,0.03); border: 1px solid var(--tkbr); border-radius: 4px; padding: 8px 10px; font-family: var(--tkmono); font-size: 9px; color: var(--tkt2); word-break: break-all; min-height: 32px; line-height: 1.4; }
-        .tk .key-val.private-val { border-color: rgba(204,34,51,0.15); }
-        .tk .key-val.public-val { border-color: rgba(0,153,204,0.15); }
-        .tk .key-val.sig-val { border-color: rgba(124,58,237,0.15); }
-        .tk .btn-gen { background: rgba(0,153,204,0.08); border: 1px solid rgba(0,153,204,0.2); border-radius: 6px; color: var(--tkc); font-family: var(--tkmono); font-size: 12px; padding: 10px 20px; cursor: pointer; font-weight: 600; }
-        .tk .btn-gen:hover { background: rgba(0,153,204,0.15); }
-        .tk .btn-sign { background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.2); border-radius: 6px; color: var(--tkp); font-family: var(--tkmono); font-size: 12px; padding: 10px 20px; cursor: pointer; font-weight: 600; }
-        .tk .btn-sign:hover { background: rgba(124,58,237,0.15); }
-        .tk .verify-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 4px; font-family: var(--tkmono); font-size: 11px; font-weight: 600; }
-        .tk .verify-badge.verified { background: rgba(0,153,77,0.1); border: 1px solid rgba(0,153,77,0.25); color: var(--tkg); }
-        .tk .verify-badge.failed { background: rgba(204,34,51,0.1); border: 1px solid rgba(204,34,51,0.25); color: var(--tkr); }
-        .tk .verify-badge.none { background: rgba(0,0,0,0.03); border: 1px solid var(--tkbr); color: var(--tkd); }
-        .tk .stx-sig-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; padding: 4px 8px; background: rgba(124,58,237,0.04); border: 1px solid rgba(124,58,237,0.12); border-radius: 4px; }
-        .tk .stx-sig-label { color: var(--tkp); font-family: var(--tkmono); font-size: 9px; font-weight: 700; }
-
-        /* SHA-256 Explorer */
-        .tk .sha-section { margin-bottom: 28px; }
-        .tk .sha-tag { font-family: var(--font-display); font-size: 10px; font-weight: 700; color: var(--tka); letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 10px; }
-        .tk .sha-pad-grid { display: grid; grid-template-columns: repeat(16, 1fr); gap: 2px; font-family: var(--tkmono); font-size: 10px; max-height: 220px; overflow-y: auto; }
-        .tk .sha-pad-cell { background: rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.04); border-radius: 2px; padding: 5px 2px; text-align: center; font-size: 9px; color: var(--tkd); line-height: 1.2; }
-        .tk .sha-pad-cell.msg { color: var(--tkc); background: rgba(0,153,204,0.04); }
-        .tk .sha-pad-cell.pad { color: var(--tka); background: rgba(240,160,48,0.04); }
-        .tk .sha-pad-cell.len { color: var(--tkp); background: rgba(124,58,237,0.04); }
-        .tk .sha-hv-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; }
-        .tk .sha-hv-box { background: var(--tkcard); border: 1px solid var(--tkbr); border-radius: 6px; padding: 10px 6px; text-align: center; }
-        .tk .sha-hv-box.final { background: rgba(0,153,77,0.03); border-color: rgba(0,153,77,0.2); }
-        .tk .sha-hv-label { font-style: italic; font-size: 12px; color: var(--tkc); margin-bottom: 4px; }
-        .tk .sha-hv-box.final .sha-hv-label { color: var(--tkg); }
-        .tk .sha-hv-val { font-family: var(--tkmono); font-size: 10px; color: var(--tkt); }
-        .tk .sha-sched-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; }
-        .tk .sha-sched-word { background: rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.04); border-radius: 4px; padding: 6px 4px; text-align: center; font-family: var(--tkmono); font-size: 9px; color: var(--tkt2); transition: all 0.2s; }
-        .tk .sha-sched-word .wi { display: block; font-size: 7px; color: var(--tkd); margin-bottom: 2px; }
-        .tk .sha-sched-word.from-msg { color: var(--tkc); border-color: rgba(0,153,204,0.12); }
-        .tk .sha-sched-word.active { color: var(--tkg); border-color: rgba(0,153,77,0.3); background: rgba(0,153,77,0.05); }
-        .tk .sha-round-ctrl { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: rgba(0,0,0,0.02); border: 1px solid var(--tkbr); border-radius: 6px; margin-bottom: 16px; flex-wrap: wrap; }
-        .tk .sha-round-info { font-family: var(--tkmono); font-size: 11px; color: var(--tkt2); white-space: nowrap; }
-        .tk .sha-round-num { color: var(--tkg); font-weight: 700; font-size: 15px; }
-        .tk .sha-round-slider { flex: 1; min-width: 100px; accent-color: var(--tkg); }
-        .tk .sha-round-btns { display: flex; gap: 3px; }
-        .tk .sha-rbtn { background: var(--tkcard); border: 1px solid var(--tkbr); border-radius: 3px; color: var(--tkt2); font-family: var(--tkmono); font-size: 11px; padding: 5px 10px; cursor: pointer; }
-        .tk .sha-rbtn:hover { border-color: var(--tkg); color: var(--tkg); }
-        .tk .sha-play-btn.playing { background: rgba(0,153,77,0.05); border-color: rgba(0,153,77,0.3); color: var(--tkg); }
-        .tk .sha-vars-grid { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 16px; }
-        .tk .sha-var-box { background: var(--tkcard); border: 1px solid var(--tkbr); border-radius: 6px; padding: 8px 10px; text-align: center; min-width: 80px; transition: all 0.2s; }
-        .tk .sha-var-box.changed { border-color: rgba(0,153,77,0.3); box-shadow: 0 0 10px rgba(0,153,77,0.06); }
-        .tk .sha-var-lbl { font-style: italic; font-size: 14px; color: var(--tkc); margin-bottom: 3px; }
-        .tk .sha-var-val { font-family: var(--tkmono); font-size: 10px; color: var(--tkt); }
-        .tk .sha-round-detail { background: var(--tkcard); border: 1px solid var(--tkbr); border-radius: 8px; padding: 16px 20px; }
-        .tk .sha-rd-title { font-family: var(--tkmono); font-size: 9px; font-weight: 600; color: var(--tka); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
-        .tk .sha-rd-row { display: flex; align-items: baseline; gap: 8px; padding: 4px 0; font-family: var(--tkmono); font-size: 11px; flex-wrap: wrap; }
-        .tk .sha-rd-row .lbl { color: var(--tkc); font-style: italic; font-weight: 600; min-width: 28px; }
-        .tk .sha-rd-row .eq { color: var(--tkd); }
-        .tk .sha-rd-row .val { color: var(--tkt2); word-break: break-all; }
-        .tk .sha-rd-row .res { color: var(--tkg); font-weight: 500; }
-        .tk .sha-ref-card { background: var(--tkcard); border: 1px solid var(--tkbr); border-radius: 8px; padding: 14px 18px; margin-bottom: 12px; }
-        .tk .sha-ref-title { font-family: var(--tkmono); font-size: 9px; font-weight: 600; color: var(--tka); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
-        .tk .sha-ref-row { display: flex; align-items: baseline; gap: 8px; padding: 3px 0; font-family: var(--tkmono); font-size: 11px; flex-wrap: wrap; }
-        .tk .sha-ref-fn { color: var(--tkc); font-weight: 600; min-width: 70px; }
-        .tk .sha-ref-eq { color: var(--tkd); }
-        .tk .sha-ref-def { color: var(--tkt2); }
-        .tk .sha-ref-note { color: var(--tkd); font-size: 9px; margin-left: 6px; }
-
-        /* Merkle Tree */
-        .tk .merkle-wrap { position: relative; margin: 24px 0; }
-        .tk .merkle-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-        .tk .merkle-svg line { stroke-width: 1.5; stroke: rgba(0,153,77,0.25); transition: stroke 0.3s; }
-        .tk .merkle-level { display: flex; justify-content: center; gap: 12px; position: relative; z-index: 1; margin-bottom: 20px; }
-        .tk .merkle-level:last-child { margin-bottom: 0; }
-        .tk .merkle-node { background: var(--tkcard); border: 1px solid var(--tkbr); border-radius: 8px; padding: 10px 14px; text-align: center; transition: border-color 0.3s, box-shadow 0.3s; position: relative; }
-        .tk .merkle-node.mk-root { border-color: rgba(0,153,77,0.25); background: rgba(0,153,77,0.02); min-width: 240px; }
-        .tk .merkle-node.mk-branch { min-width: 180px; }
-        .tk .merkle-node.mk-leaf { min-width: 160px; }
-        .tk .mk-tag { font-family: var(--font-display); font-size: 8px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
-        .tk .mk-tag-tx { color: var(--tkc); }
-        .tk .mk-tag-hash { color: var(--tka); }
-        .tk .mk-tag-branch { color: var(--tkp); }
-        .tk .mk-tag-root { color: var(--tkg); }
-        .tk .mk-label { font-family: var(--tkmono); font-size: 9px; color: var(--tkd); margin-bottom: 3px; }
-        .tk .mk-hash { font-family: var(--tkmono); font-size: 8px; word-break: break-all; line-height: 1.3; padding: 5px 6px; border-radius: 3px; margin-top: 4px; transition: color 0.3s, background 0.3s; font-weight: 600; }
-        .tk .mk-hash-leaf { color: var(--tkc); background: rgba(0,153,204,0.03); border: 1px solid rgba(0,153,204,0.08); }
-        .tk .mk-hash-branch { color: var(--tkp); background: rgba(124,58,237,0.03); border: 1px solid rgba(124,58,237,0.08); }
-        .tk .mk-hash-root { color: var(--tkg); background: rgba(0,153,77,0.04); border: 1px solid rgba(0,153,77,0.12); font-size: 9px; }
-        .tk .mk-concat { font-family: var(--tkmono); font-size: 7px; color: var(--tkd); margin-top: 3px; word-break: break-all; max-height: 24px; overflow: hidden; opacity: 0.6; }
-        .tk .mk-concat .mk-plus { color: var(--tka); font-weight: 700; margin: 0 2px; }
-        .tk .merkle-op-row { display: flex; justify-content: center; gap: 12px; margin-bottom: 14px; position: relative; z-index: 1; }
-        .tk .mk-op-badge { font-family: var(--tkmono); font-size: 8px; color: var(--tkd); background: rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.04); border-radius: 3px; padding: 2px 8px; }
-        .tk .mk-op-badge .fn { color: var(--tkg); font-weight: 600; }
-        .tk .mk-tx-row { display: flex; align-items: center; gap: 3px; margin-top: 4px; }
-        .tk .mk-tx-field { background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.06); border-radius: 3px; padding: 4px 5px; color: var(--tkt); font-family: var(--tkmono); font-size: 10px; outline: none; transition: border-color 0.2s; text-align: center; font-weight: 600; }
-        .tk .mk-tx-field:focus { border-color: rgba(0,153,204,0.3); }
-        .tk .mk-tx-from, .tk .mk-tx-to { width: 52px; }
-        .tk .mk-tx-amt { width: 40px; color: var(--tka); text-align: right; }
-        .tk .mk-tx-arrow { color: var(--tkd); font-size: 9px; }
-        .tk .mk-tx-unit { color: var(--tkd); font-size: 7px; font-family: var(--tkmono); }
-        .tk .merkle-node.mk-fresh { animation: mk-glow 0.6s ease-out; }
-        @keyframes mk-glow { 0% { box-shadow: 0 0 24px rgba(0,153,77,0.3); } 100% { box-shadow: none; } }
-
-        @media (max-width: 840px) {
-            .tk .chain-block { width: 220px; min-width: 220px; }
-            .tk .merkle-level { flex-wrap: wrap; gap: 8px; }
-            .tk .merkle-node.mk-leaf, .tk .merkle-node.mk-branch, .tk .merkle-node.mk-root { min-width: 140px; flex: 1 1 140px; }
-            .tk .sha-pad-grid { grid-template-columns: repeat(8, 1fr); }
-            .tk .sha-sched-grid { grid-template-columns: repeat(4, 1fr); }
-            .tk .sha-hv-grid { grid-template-columns: repeat(4, 1fr); }
-            .tk .sha-var-box { min-width: 65px; }
-            .tk .key-col { min-width: 100%; }
-        }
-    </style>
+@media(max-width:1180px){.toc{display:none}}
+@media(max-width:900px){
+  .tb-toggle{display:block}
+  .tb-search{width:150px}
+  .tb-search:focus{width:190px}
+  .sidebar{position:fixed;left:0;top:var(--topbar);z-index:160;transform:translateX(-100%);transition:transform .25s ease}
+  .sidebar.open{transform:none}
+  .main{padding:32px 22px 90px}
+  .results{width:min(400px,92vw)}
+  .atlas{padding:28px 22px 34px}
+  .atlas-overlay{padding:24px 12px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
 </head>
 <body>
 
-<!-- TOPBAR -->
-<div class="topbar">
-    <button class="topbar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
-        <span></span><span></span><span></span>
-    </button>
-    <a href="/" class="topbar-logo">thermoeconomics<span>.info</span></a>
-    <div class="topbar-sep"></div>
-    <span class="topbar-label" id="topbarLabel">The Study</span>
-    <div class="topbar-right">
-        <input type="text" class="topbar-search" id="searchInput" placeholder="Search…" autocomplete="off">
-        <a href="/" class="topbar-home">Home</a>
-    </div>
-</div>
+<header class="topbar">
+  <button class="tb-toggle" id="sidebarToggle" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+  <a href="/index.html" class="tb-logo">thermoeconomics<span>.info</span></a>
+  <button class="tb-atlas" id="atlasBtn">Atlas</button>
+  <div class="tb-right">
+    <input type="text" class="tb-search" id="searchInput" placeholder="Search all 165 pages…" autocomplete="off">
+    <div class="results" id="searchResults"></div>
+    <a href="/tree.html" class="tb-home">Tech Tree</a>
+  </div>
+</header>
 
-<!-- SEARCH RESULTS DROPDOWN -->
-<div class="search-results" id="searchResults"></div>
-
-<!-- LAYOUT -->
 <div class="layout">
-
-    <!-- LEFT SIDEBAR (Navigation) -->
-    <aside class="sidebar" id="sidebar"></aside>
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <!-- MAIN -->
-    <main class="main" id="mainContent"></main>
-
-    <!-- RIGHT SIDEBAR (Mode Switcher) -->
-    <aside class="rsidebar" id="rsidebar">
-        <button class="rsidebar-btn active" id="modeStudy" data-mode="study" title="Thermoeconomics Study">
-            <span class="rs-tooltip">Thermoeconomics</span>
-            ⚛
-        </button>
-        <button class="rsidebar-btn" id="modeAlt" data-mode="alt" title="How Crypto Works">
-            <span class="rs-tooltip">How Crypto Works</span>
-            ₿
-        </button>
-        <button class="rsidebar-btn" id="modeTk" data-mode="toolkit" title="Interactive Toolkit">
-            <span class="rs-tooltip">Interactive Toolkit</span>
-            ⚒
-        </button>
-        <div class="rsidebar-divider"></div>
-        <div class="rsidebar-label">STUDY</div>
-    </aside>
+  <nav class="sidebar" id="sidebar"></nav>
+  <main class="main">
+    <article class="article" id="mainContent"></article>
+    <aside class="toc" id="toc"></aside>
+  </main>
 </div>
 
-<!-- MAP MODAL -->
-<div class="map-overlay" id="mapOverlay">
-    <div class="map-modal" id="mapModal"></div>
+<div class="sb-overlay" id="sidebarOverlay"></div>
+
+<div class="atlas-overlay" id="atlasOverlay">
+  <div class="atlas" id="atlasModal"></div>
 </div>
 
 <script>
@@ -4164,282 +3673,328 @@ body: `<div class="tk"><div class="tk-def"><div class="tk-def-label">FIPS 180-4 
 <div class="tk-callout"><div class="tk-callout-header">Connection to Thermoeconomics</div><p><strong>This is the engine of proof-of-work.</strong> Every mining trial executes these 64 rounds, each performing irreversible bit operations that dissipate energy per Landauer's principle. The avalanche effect is what makes brute-force the only viable strategy.</p></div></div>`
 }
 ];
-// ============================================================
-// MODE STATE
-// ============================================================
-let currentMode = 'study'; // 'study', 'alt', or 'toolkit'
-
-function getActiveSections() {
-    return currentMode === 'study' ? SECTIONS : currentMode === 'alt' ? ALT_SECTIONS : TOOLKIT_SECTIONS;
-}
-function getActivePages() {
-    return currentMode === 'study' ? PAGES : currentMode === 'alt' ? ALT_PAGES : TOOLKIT_PAGES;
-}
-function getDefaultSlug() {
-    return currentMode === 'study' ? 'welcome' : currentMode === 'alt' ? 'alt-welcome' : 'tk-hash';
-}
 
 // ============================================================
-// BUILD SIDEBAR
+// ONTOLOGY — one library, seven strata
+// The three source corpora (Study / How Crypto Works / Toolkit)
+// are merged and re-shelved by what kind of knowing each section
+// carries, not by which file it came from.
+// ============================================================
+const ALL_SECTIONS = [...SECTIONS, ...ALT_SECTIONS, ...TOOLKIT_SECTIONS];
+const ALL_PAGES    = [...PAGES, ...ALT_PAGES, ...TOOLKIT_PAGES];
+
+const ATLAS = [
+  { id:'orientation', label:'Orientation',
+    blurb:'What this is, how to move through it, and why the adversarial frontier is the right starting posture.',
+    sections:['welcome','alt-welcome','alt-preface','tk-welcome'] },
+  { id:'foundations', label:'Foundations',
+    blurb:'Six scientific traditions, read in sequence. Information theory and proof of work first; the rest build on them.',
+    sections:['info-theory','pow','wolfram','comp-mech','deacon','active-inference'] },
+  { id:'synthesis', label:'Synthesis',
+    blurb:'Where the traditions converge — the thermoeconomic operator, PoEM, and the Qi/Quai architecture.',
+    sections:['synthesis','causal-invariance','quai-uni'] },
+  { id:'machinery', label:'Machinery',
+    blurb:'How the protocols are actually built: scripts, proofs, consensus, custody, and the quantum horizon.',
+    sections:['bitcoin-script','zk-proofs','alt-ch01','alt-ch02','alt-ch03','alt-ch04','alt-ch05','alt-ch14'] },
+  { id:'markets', label:'Markets',
+    blurb:'What gets built on top, and how value moves through it once the machinery is assumed.',
+    sections:['alt-ch06','alt-ch07','alt-ch08','alt-ch09','alt-ch10','alt-ch11','alt-ch12','alt-ch13','alt-ch15'] },
+  { id:'workbench', label:'Workbench',
+    blurb:'Hands-on cryptography. Type an input, watch the digest move. Nothing here is a description.',
+    sections:['tk-hashing','tk-chain','tk-tx','tk-asym','tk-protocol','tk-internals'] },
+  { id:'reference', label:'Reference',
+    blurb:'Glossary, key papers, equations, assessments, and the AI instructor prompt.',
+    sections:['reference'] }
+];
+
+// indexes
+const SEC = {};  ALL_SECTIONS.forEach(s => SEC[s.id] = s);
+const PAGES_BY_SEC = {};
+ALL_PAGES.forEach(p => (PAGES_BY_SEC[p.section] = PAGES_BY_SEC[p.section] || []).push(p));
+const STRATUM_OF = {};
+ATLAS.forEach(st => st.sections.forEach(id => STRATUM_OF[id] = st));
+
+// one global reading order, following the ontology
+const ORDER = [];
+ATLAS.forEach(st => st.sections.forEach(id => (PAGES_BY_SEC[id] || []).forEach(p => ORDER.push(p))));
+// anything not shelved still reachable at the end
+ALL_PAGES.forEach(p => { if (!ORDER.includes(p)) ORDER.push(p); });
+const BY_SLUG = {}; ORDER.forEach(p => BY_SLUG[p.slug] = p);
+const DEFAULT_SLUG = 'welcome';
+const stCount = st => st.sections.reduce((n,id) => n + (PAGES_BY_SEC[id] || []).length, 0);
+
+// ============================================================
+// SIDEBAR
 // ============================================================
 function buildSidebar() {
-    const sb = document.getElementById('sidebar');
-    const sections = getActiveSections();
-    const pages = getActivePages();
-    let html = '';
-    sections.forEach(sec => {
-        const secPages = pages.filter(p => p.section === sec.id);
-        html += `<div class="sb-section" data-section="${sec.id}">
-            <div class="sb-header" data-section="${sec.id}">
-                <span class="sb-arrow">▶</span> ${sec.label}
-            </div>
-            <div class="sb-pages">
-                ${secPages.map(p => `<div class="sb-link" data-slug="${p.slug}">${p.title}</div>`).join('')}
-            </div>
-        </div>`;
+  let html = '';
+  ATLAS.forEach(st => {
+    html += `<div class="stratum"><div class="stratum-label">${st.label}<span class="n">${stCount(st)}</span></div>`;
+    st.sections.forEach(id => {
+      const pages = PAGES_BY_SEC[id] || [];
+      if (!pages.length) return;
+      html += `<div class="sb-sec" data-section="${id}">
+        <div class="sb-head"><span class="sb-arrow">&#9654;</span>${SEC[id] ? SEC[id].label : id}</div>
+        <div class="sb-pages">${pages.map(p => `<div class="sb-link" data-slug="${p.slug}">${p.title}</div>`).join('')}</div>
+      </div>`;
     });
-    sb.innerHTML = html;
-
-    // Section toggle
-    sb.querySelectorAll('.sb-header').forEach(h => {
-        h.addEventListener('click', () => {
-            h.parentElement.classList.toggle('open');
-        });
-    });
-
-    // Page click
-    sb.querySelectorAll('.sb-link').forEach(link => {
-        link.addEventListener('click', () => {
-            location.hash = link.dataset.slug;
-            document.getElementById('sidebar').classList.remove('open');
-        });
-    });
+    html += '</div>';
+  });
+  const sb = document.getElementById('sidebar');
+  sb.innerHTML = html;
+  sb.querySelectorAll('.sb-head').forEach(h =>
+    h.addEventListener('click', () => h.parentElement.classList.toggle('open')));
+  sb.querySelectorAll('.sb-link').forEach(l =>
+    l.addEventListener('click', () => {
+      location.hash = l.dataset.slug;
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebarOverlay').classList.remove('open');
+    }));
 }
 
 // ============================================================
-// RENDER PAGE
+// RENDER
 // ============================================================
 function renderPage(slug) {
-    const pages = getActivePages();
-    const sections = getActiveSections();
-    const page = pages.find(p => p.slug === slug);
-    if (!page) { location.hash = getDefaultSlug(); return; }
+  const page = BY_SLUG[slug];
+  if (!page) { location.hash = DEFAULT_SLUG; return; }
+  const idx  = ORDER.indexOf(page);
+  const prev = idx > 0 ? ORDER[idx - 1] : null;
+  const next = idx < ORDER.length - 1 ? ORDER[idx + 1] : null;
+  const sec  = SEC[page.section];
+  const st   = STRATUM_OF[page.section];
 
-    const idx = pages.indexOf(page);
-    const prev = idx > 0 ? pages[idx - 1] : null;
-    const next = idx < pages.length - 1 ? pages[idx + 1] : null;
-    const sec = sections.find(s => s.id === page.section);
+  let html = `<div class="crumbs">
+      <span class="stratum-chip">${st ? st.label : 'Library'}</span>
+      <span class="sep">/</span>
+      <button data-opensec="${page.section}">${sec ? sec.label : ''}</button>
+    </div>`;
+  html += `<h1 class="page-title">${page.title}</h1>`;
+  if (page.meta) html += `<div class="page-meta">${page.meta}</div>`;
+  html += `<div class="page-body">${page.body}</div>`;
 
-    let html = `<div class="page-section-tag">${sec ? sec.label : ''}</div>`;
-    html += `<h1 class="page-title">${page.title}</h1>`;
-    if (page.meta) html += `<div class="page-meta">${page.meta}</div>`;
-    html += `<div class="page-body">${page.body}</div>`;
-
-    // Connection box (Study only)
-    if (page.connection) {
-        html += `<div class="connection-box">
-            <div class="connection-box-label">Connection to Thermoeconomics</div>
-            <div class="connection-box-text">${page.connection}</div>
-        </div>`;
-    }
-
-    // Author's notes
-    if (page.notes && page.notes.length) {
-        page.notes.forEach(n => {
-            html += `<div class="notes-box">
-                <button class="notes-toggle" onclick="this.parentElement.classList.toggle('open')">
-                    📝 Author's Notes <span style="font-weight:300;color:var(--text-muted);margin-left:8px;">${n.date || ''}</span>
-                </button>
-                <div class="notes-body">${n.text}</div>
-            </div>`;
-        });
-    }
-
-    // Prev / Next
-    html += `<div class="page-nav">`;
-    if (prev) {
-        html += `<div class="page-nav-btn prev" onclick="location.hash='${prev.slug}'">
-            <span class="page-nav-dir">← Previous</span>
-            <span class="page-nav-title">${prev.title}</span>
-        </div>`;
-    } else {
-        html += `<div class="page-nav-placeholder"></div>`;
-    }
-    html += `<div class="page-nav-map" onclick="openMap()" title="Map">⊞</div>`;
-    if (next) {
-        html += `<div class="page-nav-btn next" onclick="location.hash='${next.slug}'">
-            <span class="page-nav-dir">Next →</span>
-            <span class="page-nav-title">${next.title}</span>
-        </div>`;
-    } else {
-        html += `<div class="page-nav-placeholder"></div>`;
-    }
-    html += `</div>`;
-
-    document.getElementById('mainContent').innerHTML = html;
-    document.getElementById('mainContent').scrollTop = 0;
-    window.scrollTo(0, 0);
-
-    // Update sidebar active state
-    document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
-    const activeLink = document.querySelector(`.sb-link[data-slug="${slug}"]`);
-    if (activeLink) {
-        activeLink.classList.add('active');
-        const secEl = activeLink.closest('.sb-section');
-        if (secEl && !secEl.classList.contains('open')) secEl.classList.add('open');
-    }
-
-    // Wire up internal links
-    document.querySelectorAll('[data-goto]').forEach(a => {
-        a.style.cursor = 'pointer';
-        a.addEventListener('click', (e) => { e.preventDefault(); location.hash = a.dataset.goto; });
+  if (page.connection) {
+    html += `<div class="connection-box">
+      <div class="connection-box-label">Connection to Thermoeconomics</div>
+      <div class="connection-box-text">${page.connection}</div>
+    </div>`;
+  }
+  if (page.notes && page.notes.length) {
+    page.notes.forEach(n => {
+      html += `<div class="notes-box">
+        <button class="notes-toggle" onclick="this.parentElement.classList.toggle('open')">Author's Notes<span style="font-weight:300;color:var(--text-muted);margin-left:8px;">${n.date || ''}</span></button>
+        <div class="notes-body">${n.text}</div>
+      </div>`;
     });
+  }
 
-    // Render KaTeX if loaded
-    if (typeof renderMathInElement === 'function') {
-        renderMathInElement(document.getElementById('mainContent'), {
-            delimiters: [
-                { left: '$$', right: '$$', display: true },
-                { left: '$', right: '$', display: false }
-            ]
-        });
-    }
+  html += '<div class="page-nav">';
+  html += prev ? `<div class="page-nav-btn prev" onclick="location.hash='${prev.slug}'">
+      <span class="page-nav-dir">&larr; Previous</span><span class="page-nav-title">${prev.title}</span></div>`
+    : '<div class="page-nav-placeholder"></div>';
+  html += next ? `<div class="page-nav-btn next" onclick="location.hash='${next.slug}'">
+      <span class="page-nav-dir">Next &rarr;</span><span class="page-nav-title">${next.title}</span></div>`
+    : '<div class="page-nav-placeholder"></div>';
+  html += '</div>';
 
-    // Initialize toolkit interactive elements
-    if (slug.startsWith('tk-') && typeof tkInitPage === 'function') {
-        setTimeout(() => tkInitPage(slug), 50);
+  const main = document.getElementById('mainContent');
+  main.innerHTML = html;
+  window.scrollTo(0, 0);
+
+  // sidebar state
+  document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.sb-sec').forEach(s => s.classList.remove('here'));
+  const link = document.querySelector(`.sb-link[data-slug="${slug}"]`);
+  if (link) {
+    link.classList.add('active');
+    const secEl = link.closest('.sb-sec');
+    if (secEl) { secEl.classList.add('open','here'); }
+    if (link.offsetParent) {
+      const sb = document.getElementById('sidebar');
+      const top = link.offsetTop - sb.clientHeight / 2;
+      if (top > 0) sb.scrollTop = top;
     }
+  }
+
+  // internal links + breadcrumb section jump
+  main.querySelectorAll('[data-goto]').forEach(a => {
+    a.style.cursor = 'pointer';
+    a.addEventListener('click', e => { e.preventDefault(); location.hash = a.dataset.goto; });
+  });
+  const crumbBtn = main.querySelector('[data-opensec]');
+  if (crumbBtn) crumbBtn.addEventListener('click', () => openAtlas(page.section));
+
+  if (typeof renderMathInElement === 'function') {
+    renderMathInElement(main, { delimiters: [
+      { left:'$$', right:'$$', display:true },
+      { left:'$',  right:'$',  display:false }
+    ]});
+  }
+
+  buildTOC();
+  if (slug.startsWith('tk-') && typeof tkInitPage === 'function') setTimeout(() => tkInitPage(slug), 50);
 }
 
 // ============================================================
-// MAP
+// ON THIS PAGE
 // ============================================================
-function openMap() {
-    const overlay = document.getElementById('mapOverlay');
-    const modal = document.getElementById('mapModal');
-    const currentSlug = (location.hash || '#' + getDefaultSlug()).slice(1);
-    const sections = getActiveSections();
-    const pages = getActivePages();
-    const modeLabel = currentMode === 'study' ? 'The Study — Map' : currentMode === 'alt' ? 'How Crypto Works — Map' : 'Interactive Toolkit — Map';
-    let html = '<h2>' + modeLabel + '</h2>';
-    sections.forEach(sec => {
-        const secPages = pages.filter(p => p.section === sec.id);
-        html += `<div class="map-section-title">${sec.label}</div><div class="map-grid">`;
-        secPages.forEach(p => {
-            html += `<div class="map-node ${p.slug === currentSlug ? 'active' : ''}" onclick="location.hash='${p.slug}';document.getElementById('mapOverlay').classList.remove('open');">${p.title}</div>`;
-        });
-        html += '</div>';
+let tocObserver = null;
+function buildTOC() {
+  const toc  = document.getElementById('toc');
+  const body = document.querySelector('.page-body');
+  if (tocObserver) { tocObserver.disconnect(); tocObserver = null; }
+  if (!body) { toc.className = 'toc empty'; toc.innerHTML = ''; return; }
+
+  const heads = [...body.querySelectorAll('h2, h3')];
+  if (heads.length < 2) { toc.className = 'toc empty'; toc.innerHTML = ''; return; }
+
+  heads.forEach((h, i) => { if (!h.id) h.id = 'sec-' + i + '-' + h.textContent.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,32); });
+  toc.className = 'toc';
+  toc.innerHTML = '<div class="toc-label">On this page</div>' +
+    heads.map(h => `<a data-h="${h.id}" class="${h.tagName === 'H3' ? 'h3' : ''}">${h.textContent}</a>`).join('');
+  toc.querySelectorAll('a').forEach(a =>
+    a.addEventListener('click', () => document.getElementById(a.dataset.h).scrollIntoView({ behavior:'smooth', block:'start' })));
+
+  tocObserver = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      toc.querySelectorAll('a').forEach(a => a.classList.toggle('active', a.dataset.h === en.target.id));
     });
-    modal.innerHTML = html;
-    overlay.classList.add('open');
+  }, { rootMargin: '-70px 0px -75% 0px' });
+  heads.forEach(h => tocObserver.observe(h));
 }
 
-document.getElementById('mapOverlay').addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('open');
-});
+// ============================================================
+// ATLAS
+// ============================================================
+function openAtlas(focusSection) {
+  const current = (location.hash || '#' + DEFAULT_SLUG).slice(1);
+  let html = `<div class="atlas-head">
+      <div><h2>Atlas</h2></div>
+      <button class="atlas-close" id="atlasClose">&#10005;</button>
+    </div>
+    <p class="atlas-sub">${ALL_PAGES.length} pages on seven shelves. Orientation and Foundations run in sequence; Machinery, Markets, and the Workbench are reference surfaces you drop into.</p>`;
+
+  ATLAS.forEach(st => {
+    html += `<div class="atlas-stratum" id="atlas-${st.id}">
+      <div class="atlas-stratum-head">
+        <span class="atlas-stratum-name">${st.label}</span>
+        <span class="atlas-stratum-count">${stCount(st)} pages</span>
+      </div>
+      <p class="atlas-stratum-blurb">${st.blurb}</p>`;
+    st.sections.forEach(id => {
+      const pages = PAGES_BY_SEC[id] || [];
+      if (!pages.length) return;
+      html += `<div class="atlas-sec"><div class="atlas-sec-name">${SEC[id] ? SEC[id].label : id}</div><div class="atlas-grid">`;
+      pages.forEach(p => {
+        html += `<div class="atlas-node ${p.slug === current ? 'active' : ''}" data-slug="${p.slug}">${p.title}</div>`;
+      });
+      html += '</div></div>';
+    });
+    html += '</div>';
+  });
+
+  const modal = document.getElementById('atlasModal');
+  modal.innerHTML = html;
+  modal.querySelectorAll('.atlas-node').forEach(n =>
+    n.addEventListener('click', () => { location.hash = n.dataset.slug; closeAtlas(); }));
+  document.getElementById('atlasClose').addEventListener('click', closeAtlas);
+  document.getElementById('atlasOverlay').classList.add('open');
+
+  if (typeof focusSection === 'string') {
+    const st = STRATUM_OF[focusSection];
+    const el = st && document.getElementById('atlas-' + st.id);
+    if (el) el.scrollIntoView({ block:'start' });
+  }
+}
+function closeAtlas() { document.getElementById('atlasOverlay').classList.remove('open'); }
+document.getElementById('atlasBtn').addEventListener('click', () => openAtlas());
+document.getElementById('atlasOverlay').addEventListener('click', function (e) { if (e.target === this) closeAtlas(); });
 
 // ============================================================
-// SEARCH
+// SEARCH — across every shelf, not just the open one
 // ============================================================
 const searchInput = document.getElementById('searchInput');
 const searchResults = document.getElementById('searchResults');
+let selIdx = -1;
 
-searchInput.addEventListener('input', () => {
-    const q = searchInput.value.toLowerCase().trim();
-    if (q.length < 2) { searchResults.classList.remove('open'); return; }
-    const pages = getActivePages();
-    const sections = getActiveSections();
-    const matches = pages.filter(p =>
-        p.title.toLowerCase().includes(q) ||
-        p.body.toLowerCase().includes(q) ||
-        (p.connection && p.connection.toLowerCase().includes(q))
-    ).slice(0, 8);
-    if (!matches.length) { searchResults.classList.remove('open'); return; }
-    const sec = (id) => { const s = sections.find(s => s.id === id); return s ? s.label : ''; };
-    searchResults.innerHTML = matches.map(p =>
-        `<div class="search-result" onclick="location.hash='${p.slug}';searchInput.value='';searchResults.classList.remove('open');">
-            <div class="search-result-title">${p.title}</div>
-            <div class="search-result-section">${sec(p.section)}</div>
-        </div>`
-    ).join('');
-    searchResults.classList.add('open');
-});
-
-document.addEventListener('click', (e) => {
-    if (!searchResults.contains(e.target) && e.target !== searchInput) searchResults.classList.remove('open');
-});
-
-// ============================================================
-// MODE SWITCHING (Right Sidebar)
-// ============================================================
-function switchMode(mode) {
-    if (mode === currentMode) return;
-    currentMode = mode;
-
-    // Update right sidebar buttons
-    document.querySelectorAll('.rsidebar-btn').forEach(b => b.classList.remove('active'));
-    document.querySelector(`.rsidebar-btn[data-mode="${mode}"]`).classList.add('active');
-
-    // Update topbar label
-    document.getElementById('topbarLabel').textContent = mode === 'study' ? 'The Study' : mode === 'alt' ? 'How Crypto Works' : 'Interactive Toolkit';
-
-    // Rebuild left sidebar
-    buildSidebar();
-
-    // Navigate to default page of new mode
-    location.hash = getDefaultSlug();
+function runSearch() {
+  const q = searchInput.value.toLowerCase().trim();
+  if (q.length < 2) { searchResults.classList.remove('open'); return; }
+  const scored = [];
+  ORDER.forEach(p => {
+    const t = p.title.toLowerCase();
+    let s = 0;
+    if (t.includes(q)) s += t.startsWith(q) ? 100 : 60;
+    if (p.body.toLowerCase().includes(q)) s += 10;
+    if (p.connection && p.connection.toLowerCase().includes(q)) s += 6;
+    if (s) scored.push({ p, s });
+  });
+  scored.sort((a, b) => b.s - a.s);
+  const hits = scored.slice(0, 10);
+  if (!hits.length) { searchResults.classList.remove('open'); return; }
+  selIdx = -1;
+  searchResults.innerHTML = hits.map(({ p }) => {
+    const st = STRATUM_OF[p.section], sec = SEC[p.section];
+    return `<div class="result" data-slug="${p.slug}">
+      <div class="result-t">${p.title}</div>
+      <div class="result-s">${st ? st.label : ''} &middot; ${sec ? sec.label : ''}</div>
+    </div>`;
+  }).join('');
+  searchResults.querySelectorAll('.result').forEach(r =>
+    r.addEventListener('click', () => { location.hash = r.dataset.slug; searchInput.value = ''; searchResults.classList.remove('open'); }));
+  searchResults.classList.add('open');
 }
-
-document.querySelectorAll('.rsidebar-btn[data-mode]').forEach(btn => {
-    btn.addEventListener('click', () => {
-        switchMode(btn.dataset.mode);
-    });
+searchInput.addEventListener('input', runSearch);
+searchInput.addEventListener('keydown', e => {
+  const items = [...searchResults.querySelectorAll('.result')];
+  if (!items.length) return;
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    selIdx = (selIdx + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
+    items.forEach((it, i) => it.classList.toggle('sel', i === selIdx));
+    items[selIdx].scrollIntoView({ block:'nearest' });
+  } else if (e.key === 'Enter') {
+    const pick = items[selIdx >= 0 ? selIdx : 0];
+    location.hash = pick.dataset.slug; searchInput.value = ''; searchResults.classList.remove('open'); searchInput.blur();
+  }
+});
+document.addEventListener('click', e => {
+  if (!searchResults.contains(e.target) && e.target !== searchInput) searchResults.classList.remove('open');
 });
 
 // ============================================================
-// ROUTING
+// KEYBOARD
+// ============================================================
+document.addEventListener('keydown', e => {
+  const typing = /INPUT|TEXTAREA/.test(document.activeElement.tagName);
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); searchInput.focus(); searchInput.select(); return; }
+  if (e.key === 'Escape') { closeAtlas(); searchResults.classList.remove('open'); searchInput.blur(); return; }
+  if (typing) return;
+  const cur = BY_SLUG[(location.hash || '').slice(1)];
+  if (!cur) return;
+  const i = ORDER.indexOf(cur);
+  if (e.key === 'ArrowLeft'  && i > 0) location.hash = ORDER[i - 1].slug;
+  if (e.key === 'ArrowRight' && i < ORDER.length - 1) location.hash = ORDER[i + 1].slug;
+});
+
+// ============================================================
+// ROUTING + MOBILE
 // ============================================================
 function route() {
-    let slug = (location.hash || '#' + getDefaultSlug()).slice(1) || getDefaultSlug();
-
-    // Auto-detect mode from slug
-    if (slug.startsWith('tk-') && currentMode !== 'toolkit') {
-        currentMode = 'toolkit';
-        document.querySelectorAll('.rsidebar-btn').forEach(b => b.classList.remove('active'));
-        document.querySelector('.rsidebar-btn[data-mode="toolkit"]').classList.add('active');
-        document.getElementById('topbarLabel').textContent = 'Interactive Toolkit';
-        buildSidebar();
-    } else if (slug.startsWith('alt-') && currentMode !== 'alt') {
-        currentMode = 'alt';
-        document.querySelectorAll('.rsidebar-btn').forEach(b => b.classList.remove('active'));
-        document.querySelector('.rsidebar-btn[data-mode="alt"]').classList.add('active');
-        document.getElementById('topbarLabel').textContent = 'How Crypto Works';
-        buildSidebar();
-    } else if (!slug.startsWith('alt-') && !slug.startsWith('tk-') && currentMode !== 'study') {
-        currentMode = 'study';
-        document.querySelectorAll('.rsidebar-btn').forEach(b => b.classList.remove('active'));
-        document.querySelector('.rsidebar-btn[data-mode="study"]').classList.add('active');
-        document.getElementById('topbarLabel').textContent = 'The Study';
-        buildSidebar();
-    }
-
-    renderPage(slug);
+  const slug = (location.hash || '').slice(1) || DEFAULT_SLUG;
+  renderPage(slug);
 }
 window.addEventListener('hashchange', route);
-
-// ============================================================
-// SIDEBAR MOBILE
-// ============================================================
 document.getElementById('sidebarToggle').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
 });
 document.getElementById('sidebarOverlay').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
 });
 
-// ============================================================
-// INIT
-// ============================================================
 buildSidebar();
 route();
 
@@ -5035,6 +4590,7 @@ function tkInitPage(slug){
     case 'tk-sha256deep': tkInitSha256Deep(); break;
   }
 }
+
 </script>
 </body>
 </html>
