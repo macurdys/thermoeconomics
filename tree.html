@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,20 +64,46 @@ h1{font-family:var(--font-display);font-size:clamp(36px,6vw,52px);font-weight:70
 h1 .dot{color:var(--green)}
 .lede{max-width:620px;font-size:clamp(17px,2vw,21px);font-weight:300;line-height:1.7;color:var(--text-secondary)}
 
-#tipWrap{position:fixed;z-index:1300;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .16s ease,transform .16s ease;max-width:330px}
+#tipWrap{position:fixed;z-index:1300;pointer-events:auto;opacity:0;transform:translateY(4px);transition:opacity .16s ease,transform .16s ease;max-width:330px}
 #tipWrap.on{opacity:1;transform:none}
 .tip{background:var(--bg-white);border:1px solid var(--border);border-left:3px solid var(--tip-color,#1FBF00);border-radius:6px;box-shadow:0 12px 34px rgba(0,0,0,.10);padding:16px 18px}
 .tip h3{font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:0;line-height:1.25;color:var(--text-primary);margin-bottom:8px}
 .tip p{font-size:13.5px;font-weight:300;line-height:1.55;color:var(--text-secondary)}
 .tip .meta{font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;font-weight:600;color:var(--text-muted);margin-top:12px}
+.tip-open{margin-top:14px;width:100%;font-family:var(--font-body);font-size:12px;font-weight:600;letter-spacing:.4px;padding:8px 12px;border-radius:5px;border:1px solid var(--border);background:var(--bg);color:var(--text-primary);cursor:pointer;display:flex;justify-content:space-between;gap:10px}
+.tip-open:hover{border-color:var(--tip-color,#1FBF00);background:var(--bg-white)}
+.tip-open span{color:var(--text-muted);font-weight:400}
+
+/* ZOOM VIEW */
+#zoomView{display:none}
+body.zoomed #mainView{display:none}
+body.zoomed #zoomView{display:block}
+body.zoomed .page-head{display:none}
+.zoom-head{padding:104px 0 8px}
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12px;letter-spacing:1px;text-transform:uppercase;font-weight:600;color:var(--text-muted);margin-bottom:18px}
+.crumbs button{font-family:var(--font-body);font-size:12px;letter-spacing:1px;text-transform:uppercase;font-weight:600;background:none;border:none;cursor:pointer;color:var(--text-muted);padding:0}
+.crumbs button:hover{color:var(--text-primary)}
+.crumbs .sep{opacity:.45}
+.crumbs .here{color:var(--green);background:var(--text-primary);padding:4px 10px;border-radius:4px}
+.zoom-claim{max-width:640px;margin-top:14px;font-size:17px;font-weight:300;line-height:1.6;color:var(--text-secondary);border-left:2px solid var(--green);padding-left:16px}
+.zoom-title{font-family:var(--font-display);font-size:clamp(28px,4vw,40px);font-weight:700;line-height:1.15;color:var(--text-primary)}
+.papers{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:8px 0 44px}
+.paper{position:relative;text-align:left;background:var(--bg-white);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:7px;padding:18px 20px;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease}
+.paper:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.07)}
+.paper h4{font-family:var(--font-display);font-size:15px;font-weight:700;line-height:1.25;color:var(--text-primary);margin-bottom:6px;padding-right:22px}
+.paper .cite{font-size:12px;color:var(--text-muted);font-weight:400}
+.paper .go{position:absolute;top:14px;right:14px;font-size:13px;color:var(--text-muted);text-decoration:none;line-height:1}
+.paper .go:hover{color:var(--green)}
+.band-label{font-family:var(--font-body);font-size:11px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:var(--text-muted);margin:0 0 14px}
+.empty-sub{margin:40px 0 0;border:1px dashed var(--border);border-radius:8px;padding:56px 24px;text-align:center;color:var(--text-muted);font-size:14px;font-weight:300}
 
 /* TREE */
 .tree-wrap{padding:56px 0 96px;background:var(--bg)}
 .tree{position:relative}
-#edges{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:0}
-#edges path{fill:none;stroke:#CFCFCF;stroke-width:1.2;transition:stroke .25s ease,stroke-width .25s ease,opacity .25s ease}
-.tree.tracing #edges path{opacity:.18}
-.tree.tracing #edges path.lit{opacity:1;stroke-width:2;stroke:var(--trace-color,#1FBF00)}
+svg.edges{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:0}
+.edges path{fill:none;stroke:#CFCFCF;stroke-width:1.2;transition:stroke .25s ease,stroke-width .25s ease,opacity .25s ease}
+.tree.tracing .edges path{opacity:.18}
+.tree.tracing .edges path.lit{opacity:1;stroke-width:2;stroke:var(--trace-color,#1FBF00)}
 
 .tier{position:relative;z-index:1;display:grid;grid-template-columns:210px minmax(0,1fr) 210px;gap:20px;align-items:center;padding:22px 0}
 .tier-head{position:relative;z-index:1;padding-top:30px;border-top:1px solid var(--border-light)}
@@ -119,7 +146,7 @@ footer{padding:48px 0;background:var(--bg);border-top:1px solid var(--border-lig
   .tier{grid-template-columns:1fr;gap:12px}
   .rail{flex-direction:row;flex-wrap:wrap;justify-content:center}
   .rail.left,.rail.right{align-items:center}
-  #edges{display:none}
+  .edges{display:none}
   .tier{border-left:2px solid var(--border-light);padding-left:16px}
 }
 @media(max-width:760px){
@@ -151,19 +178,38 @@ footer{padding:48px 0;background:var(--bg);border-top:1px solid var(--border-lig
   <div class="container">
     <p class="overline">Ontology</p>
     <h1>The Tech Tree<span class="dot">.</span></h1>
-    <p class="lede">Read from the bottom. Hover for detail.</p>
+    <p class="lede">The claim sits at the top. Everything below it is what it had to stand on.</p>
 
       </div>
 </header>
 
-<main class="tree-wrap">
+<main id="mainView" class="tree-wrap">
   <div class="container">
     <div class="tree" id="tree">
-      <svg id="edges" aria-hidden="true"></svg>
+      <svg class="edges" id="edges" aria-hidden="true"></svg>
       <div id="tiers"></div>
     </div>
   </div>
 </main>
+
+<section id="zoomView">
+  <div class="container zoom-head">
+    <nav class="crumbs" id="crumbs"></nav>
+    <h2 class="zoom-title" id="zoomTitle"></h2>
+    <p class="zoom-claim" id="zoomClaim" hidden></p>
+  </div>
+  <div class="tree-wrap" style="padding-top:32px">
+    <div class="container">
+      <p class="band-label" id="papersLabel" hidden>Foundations</p>
+      <div class="papers" id="papers" hidden></div>
+      <div class="tree" id="subTree">
+        <svg class="edges" id="subEdges" aria-hidden="true"></svg>
+        <div id="subTiers"></div>
+      </div>
+      <div class="empty-sub" id="emptySub" hidden>No sub-tree mapped yet.</div>
+    </div>
+  </div>
+</section>
 
 
 <footer>
@@ -192,7 +238,38 @@ const NODES = [
   {id:'craft',t:0,c:'left',track:'physical',lvl:3,label:'Hands-On Systems Building',pre:[],
    blurb:'Building and operating physical systems yourself — wiring, plumbing, racks, soil. The discipline of a thing that either runs or doesn\'t.'},
   {id:'philosophy',t:0,c:'right',track:'human',lvl:3,label:'Economic Philosophy',pre:[],
-   blurb:'What value is before anyone measures it. Subjective preference, labor, and utility each smuggle in a physical assumption; finding it is the whole game.'},
+   blurb:'What value is before anyone measures it. Subjective preference, labor, and utility each smuggle in a physical assumption; finding it is the whole game.',
+   claim:'Value is physical before it is subjective — and the question of what grounds it stays open until something measures the grounding.',
+   papersRole:'Where this lands',
+   papers:[
+     {id:'poem-paper',label:'POEM: Proof of Entropy Minima',cite:'Kreder & Shastry, 2023',url:'https://arxiv.org/abs/2303.04305',
+      sub:{tiers:['Premise','Mechanism','Consequence'],nodes:[
+        {id:'hcr',t:0,track:'formal',lvl:4,label:'Heaviest Chain Rule',pre:[],blurb:'Chain weight accumulates the announced difficulty threshold, so every block that clears the bar counts the same regardless of how far past it landed.'},
+        {id:'intrinsic',t:0,track:'formal',lvl:4,label:'Intrinsic Block Weight',pre:[],blurb:'A digest far below target proves more work than the threshold credits. That surplus is discarded information.'},
+        {id:'entropydiff',t:1,track:'formal',lvl:4,label:'Entropy Difference',pre:['hcr','intrinsic'],blurb:'Weight computed from the entropy each block removes rather than from the difficulty it was assigned.'},
+        {id:'forkchoice',t:1,track:'formal',lvl:4,label:'Entropic Fork Choice',pre:['entropydiff'],blurb:'Select the tip at the entropy minimum, using the full bit content of every digest in the branch.'},
+        {id:'orphan',t:2,track:'formal',lvl:3,label:'Orphan Rate & Finalization',pre:['forkchoice'],blurb:'Fewer discarded blocks and faster convergence, because the rule stops throwing away evidence it already has.'},
+        {id:'static',t:2,track:'formal',lvl:4,label:'Blockchain as Committed Events',pre:['forkchoice'],blurb:'A chain read as a time-independent sequence of committed events rather than a race — the opening for the geodesic reading.'}
+      ]}},
+     {id:'fep-paper',label:'The Free-Energy Principle: A Unified Brain Theory?',cite:'Friston, 2010',url:'https://www.nature.com/articles/nrn2787',
+      sub:{tiers:['Premise','Mechanism','Consequence'],nodes:[
+        {id:'disorder',t:0,track:'formal',lvl:3,label:'Agents Resist Disorder',pre:[],blurb:'Anything that persists must keep itself in a small set of states — a bound on the entropy of its own sensory stream.'},
+        {id:'surprise',t:0,track:'formal',lvl:3,label:'Surprise Is Not Computable',pre:[],blurb:'An agent cannot evaluate the marginal it would need. It needs a quantity it can actually minimize.'},
+        {id:'variational',t:1,track:'formal',lvl:4,label:'Variational Free Energy',pre:['disorder','surprise'],blurb:'A tractable upper bound on surprise: expected energy minus entropy, minimized against an internal model.'},
+        {id:'percept',t:1,track:'formal',lvl:3,label:'Perception and Action',pre:['variational'],blurb:'Two ways down the same gradient — change the model, or change the sensory input the model is scored against.'},
+        {id:'unified',t:2,track:'formal',lvl:3,label:'Inference as a Single Account',pre:['percept'],blurb:'Learning, attention, and action fall out of one objective rather than three separate mechanisms.'},
+        {id:'bridge',t:2,track:'formal',lvl:4,label:'Bridge to Thermodynamic F',pre:['variational'],blurb:'The same F = U − TS shape as Gibbs free energy — the hinge the cross-entropy identity turns on.'}
+      ]}},
+     {id:'wolfram-paper',label:'A Class of Models with the Potential to Represent Fundamental Physics',cite:'Wolfram, 2020',url:'https://arxiv.org/abs/2004.08210',
+      sub:{tiers:['Premise','Mechanism','Consequence'],nodes:[
+        {id:'minimal',t:0,track:'formal',lvl:3,label:'Minimal Structureless Rules',pre:[],blurb:'Start with as little assumed structure as possible and let the behavior, not the axioms, carry the content.'},
+        {id:'hypergraph',t:0,track:'formal',lvl:3,label:'Hypergraph Substrate',pre:[],blurb:'Relations between abstract elements as the only primitive. Space is what the connectivity looks like at scale.'},
+        {id:'multiway',t:1,track:'formal',lvl:3,label:'Multiway Rewriting',pre:['minimal','hypergraph'],blurb:'Every applicable update taken in parallel, producing a branching space of histories rather than one.'},
+        {id:'causalinv',t:1,track:'formal',lvl:4,label:'Causal Invariance',pre:['multiway'],blurb:'Different update orders converge on the same causal graph — the property that makes a shared history possible at all.'},
+        {id:'emergent',t:2,track:'formal',lvl:3,label:'Emergent Space and Time',pre:['causalinv'],blurb:'Relativistic structure recovered from the causal graph instead of assumed at the start.'},
+        {id:'irreducible',t:2,track:'formal',lvl:4,label:'Computational Irreducibility',pre:['multiway'],blurb:'The bound: some outcomes admit no shortcut, so the work of running the process is the cost of knowing the result.'}
+      ]}}
+   ]},
 
   {id:'stats',t:1,c:'spine',track:'formal',lvl:3,label:'Probability & Statistics',pre:['emergence'],
    blurb:'Distributions, estimators, likelihood. The difference between noise you can average away and noise that owns the outcome.'},
@@ -236,7 +313,19 @@ const NODES = [
   {id:'crossentropy',t:4,c:'spine',track:'formal',lvl:4,label:'Energy = Cross-Entropy',pre:['maxent','thermo','active'],
    blurb:'The identity E_Q[log 1/P]: a knowledge lens Q read against a world P, with ordinary entropy the degenerate case where the two agree.'},
   {id:'poem',t:4,c:'spine',track:'formal',lvl:4,label:'Proof of Entropy Minima',pre:['consensus','crypto','landauer','maxent'],
-   blurb:'Fork choice by intrinsic work rather than block count — formalized with information-theoretic proofs and machine-checked causal invariance.'},
+   blurb:'Fork choice by intrinsic work rather than block count — formalized with information-theoretic proofs and machine-checked causal invariance.',
+   claim:'Fork choice should read the work a block actually did, not the work it was asked to do.',
+   sub:{tiers:['Primitives','Measures','Rule','Proof','Operator'],nodes:[
+     {id:'zeros',t:0,track:'formal',lvl:4,label:'Leading-Zero Structure',pre:[],blurb:'A digest carries more evidence than a threshold test reports. The zeros above the target are information the block already paid for.'},
+     {id:'dag',t:0,track:'formal',lvl:3,label:'Block DAG Ordering',pre:[],blurb:'Blocks as a partial order rather than a chain. Fork choice becomes a selection over a graph, not a count along a line.'},
+     {id:'floor',t:0,c:'left',track:'physical',lvl:4,label:'Landauer Floor',pre:[],blurb:'The joules under one hash. Fixes the exchange rate between the digest and the energy that produced it.'},
+     {id:'work',t:1,track:'formal',lvl:4,label:'Intrinsic Work',pre:['zeros','floor'],blurb:'Work read off the digest itself instead of the announced difficulty — the entropy actually removed, not the entropy claimed.'},
+     {id:'entropy',t:1,track:'formal',lvl:4,label:'Block Entropy',pre:['zeros','dag'],blurb:'Each block scored by the surprise it eliminates. Heavier blocks sit at lower entropy in the space of possible histories.'},
+     {id:'rule',t:2,track:'formal',lvl:4,label:'Minimum-Entropy Fork Choice',pre:['work','entropy','dag'],blurb:'Follow the branch at the entropy minimum. Ties resolve on intrinsic work, so a single lucky block can outweigh several ordinary ones.'},
+     {id:'bound',t:3,track:'formal',lvl:3,label:'Information-Theoretic Bound',pre:['rule'],blurb:'Cover & Thomas gives the ceiling: no strategy extracts more ordering evidence from a digest than the rule already uses.'},
+     {id:'z3',t:3,c:'right',track:'human',lvl:4,label:'Z3 Invariance Check',pre:['rule'],blurb:'Causal invariance discharged by an SMT solver rather than by argument — the claim is machine-checked, not asserted.'},
+     {id:'op',t:4,track:'formal',lvl:4,label:'PoEM as Thermoeconomic Operator',pre:['bound','z3'],blurb:'The finished object: a rule that maps expended energy to a canonical history, and the hook every layer above attaches to.'}
+   ]}},
   {id:'geodesics',t:4,c:'spine',track:'formal',lvl:4,label:'Thermoeconomic Geodesics',pre:['poem','wolfram','infogeo'],
    blurb:'Fork choice as motion along geodesics in entropy-weighted causal spacetime, with Qi playing the invariant role that c plays in relativity.'},
   {id:'hashspace',t:4,c:'spine',track:'formal',lvl:4,label:'Hash Possibility Space',pre:['crypto','fluctuation','tooling'],
@@ -263,115 +352,190 @@ const NODES = [
 
   {id:'field',t:6,c:'spine',track:'formal',lvl:4,crown:true,label:'Computational Thermoeconomics',
    pre:['controller','miningecon','fattails','aiinfra','geodesics','crossentropy','farm','teaching'],
+   claim:'Economic value is grounded in energy expended, entropy produced, and work performed — and proof of work is where that becomes measurable rather than arguable.',
    blurb:'The claim the whole tree supports: economic value is grounded in energy expended, entropy produced, and work performed — and proof of work is the protocol where that becomes measurable.'}
 ];
 
 const LEVELS={1:'Reading',2:'Applied',3:'Fluent',4:'Originated'};
 const TRACKS={formal:'Formal core',physical:'Physical inroad',human:'Human inroad'};
 const COLORS={formal:'#1FBF00',physical:'#E58A00',human:'#4A6CF7'};
-const byId=Object.fromEntries(NODES.map(n=>[n.id,n]));
-NODES.forEach(n=>n.post=NODES.filter(m=>(m.pre||[]).includes(n.id)).map(m=>m.id));
 
-/* ---------- build tree ---------- */
-const tiersEl=document.getElementById('tiers');
-[...TIERS].reverse().forEach(tier=>{
-  const head=document.createElement('div');
-  head.className='tier-head';
-  head.innerHTML=`<span class="tier-label">${tier.n} &middot; ${tier.name}</span>`;
-  tiersEl.appendChild(head);
+/* ---------- generic graph renderer ----------
+   A view = {wrap, mount, svg, tiers, nodes, prefix}. The main tree and every
+   exploded sub-tree use the same code path, so adding a `sub` block to any
+   node in NODES is all it takes to make that box explorable.               */
 
-  const row=document.createElement('div');
-  row.className='tier';
-  ['left','spine','right'].forEach(col=>{
-    const box=document.createElement('div');
-    box.className = col==='spine' ? 'spine' : 'rail '+col;
-    NODES.filter(n=>n.t===tier.n && n.c===col).forEach(n=>{
-      const b=document.createElement('button');
-      b.className='node'+(n.crown?' crown':'');
-      b.id='n-'+n.id;
-      b.dataset.id=n.id;b.dataset.track=n.track;b.dataset.level=n.lvl;
-      b.textContent=n.label;
-      b.addEventListener('click',()=>toggle(n.id));
-      b.addEventListener('mouseenter',()=>showTip(n,b));
-      b.addEventListener('focus',()=>showTip(n,b));
-      b.addEventListener('mouseleave',hideTip);
-      b.addEventListener('blur',hideTip);
-      box.appendChild(b);
+function makeView(o){
+  o.map=Object.fromEntries(o.nodes.map(n=>[n.id,n]));
+  o.nodes.forEach(n=>n.post=o.nodes.filter(m=>(m.pre||[]).includes(n.id)).map(m=>m.id));
+  o.traced=null;
+  render(o); return o;
+}
+
+function render(v){
+  v.mount.innerHTML='';
+  [...v.tiers].reverse().forEach(tier=>{
+    const head=document.createElement('div');
+    head.className='tier-head';
+    head.innerHTML=`<span class="tier-label">${tier.n} &middot; ${tier.name}</span>`;
+    v.mount.appendChild(head);
+    const row=document.createElement('div');
+    row.className='tier';
+    ['left','spine','right'].forEach(col=>{
+      const box=document.createElement('div');
+      box.className=col==='spine'?'spine':'rail '+col;
+      v.nodes.filter(n=>n.t===tier.n&&(n.c||'spine')===col).forEach(n=>{
+        const b=document.createElement('button');
+        b.className='node'+(n.crown?' crown':'');
+        b.id=v.prefix+n.id;
+        b.dataset.id=n.id;b.dataset.track=n.track;b.dataset.level=n.lvl;
+        b.textContent=n.label;
+        b.addEventListener('click',e=>{e.stopPropagation();toggle(v,n.id)});
+        b.addEventListener('mouseenter',()=>showTip(n,b));
+        b.addEventListener('focus',()=>showTip(n,b));
+        b.addEventListener('mouseleave',queueHide);
+        b.addEventListener('blur',queueHide);
+        box.appendChild(b);
+      });
+      row.appendChild(box);
     });
-    row.appendChild(box);
+    v.mount.appendChild(row);
   });
-  tiersEl.appendChild(row);
-});
+  requestAnimationFrame(()=>drawEdges(v));
+}
 
-/* ---------- edges ---------- */
-const svg=document.getElementById('edges');
-const tree=document.getElementById('tree');
-function drawEdges(){
-  if(window.innerWidth<=1080){svg.innerHTML='';return;}
-  const box=tree.getBoundingClientRect();
-  svg.setAttribute('viewBox',`0 0 ${box.width} ${box.height}`);
-  svg.innerHTML='';
-  NODES.forEach(n=>{
-    const to=document.getElementById('n-'+n.id);
-    if(!to||to.classList.contains('filtered'))return;
+function drawEdges(v){
+  v.svg.innerHTML='';
+  if(window.innerWidth<=1080||!v.wrap.offsetParent)return;
+  const box=v.wrap.getBoundingClientRect();
+  v.svg.setAttribute('viewBox',`0 0 ${box.width} ${box.height}`);
+  v.nodes.forEach(n=>{
+    const to=document.getElementById(v.prefix+n.id);if(!to)return;
     const tb=to.getBoundingClientRect();
-    const x2=tb.left-box.left+tb.width/2, y2=tb.top-box.top+tb.height;
+    const x2=tb.left-box.left+tb.width/2,y2=tb.top-box.top+tb.height;
     (n.pre||[]).forEach(p=>{
-      const from=document.getElementById('n-'+p);
-      if(!from||from.classList.contains('filtered'))return;
+      const from=document.getElementById(v.prefix+p);if(!from)return;
       const fb=from.getBoundingClientRect();
-      const x1=fb.left-box.left+fb.width/2, y1=fb.top-box.top;
+      const x1=fb.left-box.left+fb.width/2,y1=fb.top-box.top;
       const dy=(y1-y2)*0.45;
       const path=document.createElementNS('http://www.w3.org/2000/svg','path');
       path.setAttribute('d',`M ${x1} ${y1} C ${x1} ${y1-dy}, ${x2} ${y2+dy}, ${x2} ${y2}`);
       path.dataset.from=p;path.dataset.to=n.id;
-      svg.appendChild(path);
+      v.svg.appendChild(path);
     });
   });
 }
-window.addEventListener('resize',()=>{clearTimeout(window._rd);window._rd=setTimeout(drawEdges,120)});
-window.addEventListener('load',drawEdges);
-setTimeout(drawEdges,300);
-
-/* ---------- hover detail ---------- */
-const tipWrap=document.getElementById('tipWrap'),tip=document.getElementById('tip');
-function showTip(n,el){
-  tip.innerHTML=`<h3>${n.label}</h3><p>${n.blurb}</p><div class="meta">${TRACKS[n.track]} &middot; ${LEVELS[n.lvl]}</div>`;
-  tipWrap.style.setProperty('--tip-color',COLORS[n.track]);
-  tipWrap.classList.add('on');
-  const r=el.getBoundingClientRect(),t=tipWrap.getBoundingClientRect();
-  let x=Math.max(14,Math.min(r.left+r.width/2-t.width/2,innerWidth-t.width-14));
-  let y=r.top-t.height-12;
-  if(y<78)y=r.bottom+12;
-  tipWrap.style.left=x+'px';tipWrap.style.top=y+'px';
-}
-function hideTip(){tipWrap.classList.remove('on')}
 
 /* ---------- trace lineage ---------- */
-function ancestors(id,acc=new Set()){(byId[id].pre||[]).forEach(p=>{if(!acc.has(p)){acc.add(p);ancestors(p,acc)}});return acc}
-function descendants(id,acc=new Set()){(byId[id].post||[]).forEach(p=>{if(!acc.has(p)){acc.add(p);descendants(p,acc)}});return acc}
-let traced=null;
-function toggle(id){traced===id?clearTrace():trace(id)}
-function trace(id){
-  const n=byId[id];
-  const lit=new Set([...descendants(id),...ancestors(id),id]);
-  traced=id;
-  tree.classList.add('tracing');
-  tree.style.setProperty('--trace-color',COLORS[n.track]);
-  document.querySelectorAll('.node').forEach(el=>{
+function ancestors(v,id,acc=new Set()){(v.map[id].pre||[]).forEach(p=>{if(!acc.has(p)){acc.add(p);ancestors(v,p,acc)}});return acc}
+function descendants(v,id,acc=new Set()){(v.map[id].post||[]).forEach(p=>{if(!acc.has(p)){acc.add(p);descendants(v,p,acc)}});return acc}
+function toggle(v,id){v.traced===id?clearTrace(v):trace(v,id)}
+function trace(v,id){
+  const n=v.map[id],lit=new Set([...descendants(v,id),...ancestors(v,id),id]);
+  v.traced=id;
+  v.wrap.classList.add('tracing');
+  v.wrap.style.setProperty('--trace-color',COLORS[n.track]);
+  v.mount.querySelectorAll('.node').forEach(el=>{
     el.classList.toggle('lit',lit.has(el.dataset.id));
     el.classList.toggle('active',el.dataset.id===id);
   });
-  svg.querySelectorAll('path').forEach(p=>p.classList.toggle('lit',lit.has(p.dataset.from)&&lit.has(p.dataset.to)));
+  v.svg.querySelectorAll('path').forEach(p=>p.classList.toggle('lit',lit.has(p.dataset.from)&&lit.has(p.dataset.to)));
 }
-function clearTrace(){
-  traced=null;
-  tree.classList.remove('tracing');
-  document.querySelectorAll('.node').forEach(el=>el.classList.remove('lit','active'));
-  svg.querySelectorAll('path').forEach(p=>p.classList.remove('lit'));
+function clearTrace(v){
+  if(!v)return;
+  v.traced=null;v.wrap.classList.remove('tracing');
+  v.mount.querySelectorAll('.node').forEach(el=>el.classList.remove('lit','active'));
+  v.svg.querySelectorAll('path').forEach(p=>p.classList.remove('lit'));
 }
-document.addEventListener('keydown',e=>{if(e.key==='Escape')clearTrace()});
-document.addEventListener('click',e=>{if(!e.target.closest('.node'))clearTrace()});
+
+/* ---------- hover detail ---------- */
+const tipWrap=document.getElementById('tipWrap'),tip=document.getElementById('tip');
+let hideTimer=null;
+function showTip(n,el){
+  clearTimeout(hideTimer);
+  const kids=(n.sub&&n.sub.nodes&&n.sub.nodes.length)||0,pap=(n.papers||[]).length;
+  const has=kids?kids+' nodes':pap?pap+' papers':'empty';
+  tip.innerHTML=`<h3>${n.label}</h3><p>${n.blurb}</p>`+
+    `<div class="meta">${TRACKS[n.track]} &middot; ${LEVELS[n.lvl]}</div>`+
+    `<button class="tip-open">Explore inside<span>${has}</span></button>`;
+  tip.querySelector('.tip-open').addEventListener('click',()=>{hideTip();explode(n)});
+  tipWrap.style.setProperty('--tip-color',COLORS[n.track]);
+  tipWrap.classList.add('on');
+  const r=el.getBoundingClientRect(),t=tipWrap.getBoundingClientRect();
+  const x=Math.max(14,Math.min(r.left+r.width/2-t.width/2,innerWidth-t.width-14));
+  let y=r.top-t.height-12; if(y<78)y=r.bottom+12;
+  tipWrap.style.left=x+'px';tipWrap.style.top=y+'px';
+}
+function queueHide(){hideTimer=setTimeout(hideTip,220)}
+function hideTip(){tipWrap.classList.remove('on')}
+tipWrap.addEventListener('mouseenter',()=>clearTimeout(hideTimer));
+tipWrap.addEventListener('mouseleave',hideTip);
+
+/* ---------- views ---------- */
+const tree=document.getElementById('tree'),svg=document.getElementById('edges');
+const main=makeView({wrap:tree,mount:document.getElementById('tiers'),svg,tiers:TIERS,nodes:NODES,prefix:'m-'});
+
+const zoomWrap=document.getElementById('subTree'),emptySub=document.getElementById('emptySub');
+let sub=null,stack=[];
+
+function explode(n){
+  stack.push(n);
+  document.body.classList.add('zoomed');
+  document.getElementById('zoomTitle').textContent=n.label;
+  const cl=document.getElementById('zoomClaim');
+  cl.hidden=!n.claim; cl.textContent=n.claim||'';
+  drawCrumbs();
+  renderPapers(n);
+  const has=n.sub&&n.sub.nodes&&n.sub.nodes.length;
+  emptySub.hidden=!!(has||(n.papers&&n.papers.length));
+  emptySub.textContent=n.sub&&n.sub.tiers?`Tiers ready — ${n.sub.tiers.join(' / ')} — no nodes yet.`:'No sub-tree mapped yet.';
+  zoomWrap.hidden=!has;
+  sub=has?makeView({
+    wrap:zoomWrap,mount:document.getElementById('subTiers'),svg:document.getElementById('subEdges'),
+    tiers:n.sub.tiers.map((name,idx)=>({n:idx,name})),
+    nodes:n.sub.nodes,prefix:'z-'
+  }):null;
+  scrollTo({top:0,behavior:'instant'});
+}
+function renderPapers(n){
+  const band=document.getElementById('papers'),label=document.getElementById('papersLabel');
+  const list=n.papers||[];
+  band.hidden=label.hidden=!list.length;band.innerHTML='';
+  label.textContent=n.papersRole||'Foundations';
+  list.forEach(p=>{
+    const card=document.createElement('div');
+    card.className='paper';
+    card.innerHTML=`<a class="go" href="${p.url}" target="_blank" rel="noopener" title="Open the paper">&#8599;</a>
+                    <h4>${p.label}</h4><div class="cite">${p.cite}</div>`;
+    card.addEventListener('click',e=>{if(e.target.closest('.go'))return;explode(p)});
+    band.appendChild(card);
+  });
+}
+function drawCrumbs(){
+  const c=document.getElementById('crumbs');c.innerHTML='';
+  const root=document.createElement('button');root.textContent='Tree';
+  root.addEventListener('click',()=>{stack=[];sub=null;document.body.classList.remove('zoomed');drawEdges(main)});
+  c.appendChild(root);
+  stack.forEach((n,i)=>{
+    c.insertAdjacentHTML('beforeend','<span class="sep">/</span>');
+    if(i===stack.length-1){
+      const here=document.createElement('span');here.className='here';here.textContent=n.label;c.appendChild(here);
+    }else{
+      const b=document.createElement('button');b.textContent=n.label;
+      b.addEventListener('click',()=>{stack=stack.slice(0,i);explode(n)});c.appendChild(b);
+    }
+  });
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape')return;
+  if(sub&&sub.traced)return clearTrace(sub);
+  if(main.traced)return clearTrace(main);
+  if(document.body.classList.contains('zoomed')){stack=[];sub=null;document.body.classList.remove('zoomed');drawEdges(main)}
+});
+document.addEventListener('click',e=>{if(!e.target.closest('.node')&&!e.target.closest('.tip')){clearTrace(main);clearTrace(sub)}});
+window.addEventListener('resize',()=>{clearTimeout(window._rd);window._rd=setTimeout(()=>{drawEdges(main);sub&&drawEdges(sub)},120)});
+window.addEventListener('load',()=>drawEdges(main));
 
 /* ---------- nav ---------- */
 const nav=document.getElementById('nav');
