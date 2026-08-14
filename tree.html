@@ -100,19 +100,22 @@ body.zoomed .page-head{display:none}
 /* TREE */
 .tree-wrap{padding:56px 0 96px;background:var(--bg)}
 .tree{position:relative}
-svg.edges{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:0}
-.edges path{fill:none;stroke:#CFCFCF;stroke-width:1.2;transition:stroke .25s ease,stroke-width .25s ease,opacity .25s ease}
-.tree.tracing .edges path{opacity:.18}
-.tree.tracing .edges path.lit{opacity:1;stroke-width:2;stroke:var(--trace-color,#1FBF00)}
-
-.tier{position:relative;z-index:1;display:grid;grid-template-columns:210px minmax(0,1fr) 210px;gap:20px;align-items:center;padding:22px 0}
-.tier-head{position:relative;z-index:1;padding-top:30px;border-top:1px solid var(--border-light)}
+.tier{position:relative;z-index:1;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:20px;align-items:center;padding:20px 0;justify-items:center}
+.tier-head{position:relative;z-index:1;padding-top:30px;border-top:1px solid var(--border-light);text-align:center}
 .tier-head:first-of-type{border-top:none;padding-top:0}
 .tier-label{font-family:var(--font-body);font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green);background:var(--text-primary);display:inline-block;padding:4px 10px;border-radius:4px}
 .spine{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
-.rail{display:flex;flex-direction:column;gap:10px}
-.rail.left{align-items:flex-start}
-.rail.right{align-items:flex-end}
+.rail{display:none;flex-direction:column;gap:10px;align-items:center}
+body.show-left .rail.left{display:flex}
+body.show-right .rail.right{display:flex}
+.rail-toggles{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.rail-toggle{font-family:var(--font-body);font-size:12px;font-weight:500;padding:7px 14px;border-radius:100px;border:1px solid var(--border);background:var(--bg-white);color:var(--text-muted);cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.2s ease}
+.rail-toggle:hover{color:var(--text-primary);border-color:var(--text-muted)}
+.rail-toggle .dot{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.35}
+.rail-toggle[aria-pressed="true"]{color:var(--text-primary);border-color:currentColor}
+.rail-toggle[aria-pressed="true"] .dot{opacity:1}
+.rail-toggle.left[aria-pressed="true"]{color:#E58A00}
+.rail-toggle.right[aria-pressed="true"]{color:#4A6CF7}
 
 .node{font-family:var(--font-body);font-size:13.5px;font-weight:500;line-height:1.3;text-align:center;padding:11px 16px;border-radius:6px;border:1.5px solid;background:var(--bg-white);color:var(--text-primary);cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,opacity .25s ease;max-width:230px}
 .node:hover{transform:translateY(-2px)}
@@ -144,9 +147,7 @@ footer{padding:48px 0;background:var(--bg);border-top:1px solid var(--border-lig
 
 @media(max-width:1080px){
   .tier{grid-template-columns:1fr;gap:12px}
-  .rail{flex-direction:row;flex-wrap:wrap;justify-content:center}
-  .rail.left,.rail.right{align-items:center}
-  .edges{display:none}
+  body.show-left .rail.left,body.show-right .rail.right{flex-direction:row;flex-wrap:wrap;justify-content:center}
   .tier{border-left:2px solid var(--border-light);padding-left:16px}
 }
 @media(max-width:760px){
@@ -179,6 +180,10 @@ footer{padding:48px 0;background:var(--bg);border-top:1px solid var(--border-lig
     <p class="overline">Ontology</p>
     <h1>The Tech Tree<span class="dot">.</span></h1>
     <p class="lede">The claim sits at the top. Everything below it is what it had to stand on.</p>
+    <div class="rail-toggles">
+      <button class="rail-toggle left" id="toggleLeft" aria-pressed="false"><span class="dot"></span>Physical inroads</button>
+      <button class="rail-toggle right" id="toggleRight" aria-pressed="false"><span class="dot"></span>Institutional inroads</button>
+    </div>
 
       </div>
 </header>
@@ -186,7 +191,6 @@ footer{padding:48px 0;background:var(--bg);border-top:1px solid var(--border-lig
 <main id="mainView" class="tree-wrap">
   <div class="container">
     <div class="tree" id="tree">
-      <svg class="edges" id="edges" aria-hidden="true"></svg>
       <div id="tiers"></div>
     </div>
   </div>
@@ -203,7 +207,6 @@ footer{padding:48px 0;background:var(--bg);border-top:1px solid var(--border-lig
       <p class="band-label" id="papersLabel" hidden>Foundations</p>
       <div class="papers" id="papers" hidden></div>
       <div class="tree" id="subTree">
-        <svg class="edges" id="subEdges" aria-hidden="true"></svg>
         <div id="subTiers"></div>
       </div>
       <div class="empty-sub" id="emptySub" hidden>No sub-tree mapped yet.</div>
@@ -361,7 +364,7 @@ const TRACKS={formal:'Formal core',physical:'Physical inroad',human:'Human inroa
 const COLORS={formal:'#1FBF00',physical:'#E58A00',human:'#4A6CF7'};
 
 /* ---------- generic graph renderer ----------
-   A view = {wrap, mount, svg, tiers, nodes, prefix}. The main tree and every
+   A view = {wrap, mount, tiers, nodes, prefix}. The main tree and every
    exploded sub-tree use the same code path, so adding a `sub` block to any
    node in NODES is all it takes to make that box explorable.               */
 
@@ -401,29 +404,6 @@ function render(v){
     });
     v.mount.appendChild(row);
   });
-  requestAnimationFrame(()=>drawEdges(v));
-}
-
-function drawEdges(v){
-  v.svg.innerHTML='';
-  if(window.innerWidth<=1080||!v.wrap.offsetParent)return;
-  const box=v.wrap.getBoundingClientRect();
-  v.svg.setAttribute('viewBox',`0 0 ${box.width} ${box.height}`);
-  v.nodes.forEach(n=>{
-    const to=document.getElementById(v.prefix+n.id);if(!to)return;
-    const tb=to.getBoundingClientRect();
-    const x2=tb.left-box.left+tb.width/2,y2=tb.top-box.top+tb.height;
-    (n.pre||[]).forEach(p=>{
-      const from=document.getElementById(v.prefix+p);if(!from)return;
-      const fb=from.getBoundingClientRect();
-      const x1=fb.left-box.left+fb.width/2,y1=fb.top-box.top;
-      const dy=(y1-y2)*0.45;
-      const path=document.createElementNS('http://www.w3.org/2000/svg','path');
-      path.setAttribute('d',`M ${x1} ${y1} C ${x1} ${y1-dy}, ${x2} ${y2+dy}, ${x2} ${y2}`);
-      path.dataset.from=p;path.dataset.to=n.id;
-      v.svg.appendChild(path);
-    });
-  });
 }
 
 /* ---------- trace lineage ---------- */
@@ -439,13 +419,11 @@ function trace(v,id){
     el.classList.toggle('lit',lit.has(el.dataset.id));
     el.classList.toggle('active',el.dataset.id===id);
   });
-  v.svg.querySelectorAll('path').forEach(p=>p.classList.toggle('lit',lit.has(p.dataset.from)&&lit.has(p.dataset.to)));
 }
 function clearTrace(v){
   if(!v)return;
   v.traced=null;v.wrap.classList.remove('tracing');
   v.mount.querySelectorAll('.node').forEach(el=>el.classList.remove('lit','active'));
-  v.svg.querySelectorAll('path').forEach(p=>p.classList.remove('lit'));
 }
 
 /* ---------- hover detail ---------- */
@@ -472,8 +450,8 @@ tipWrap.addEventListener('mouseenter',()=>clearTimeout(hideTimer));
 tipWrap.addEventListener('mouseleave',hideTip);
 
 /* ---------- views ---------- */
-const tree=document.getElementById('tree'),svg=document.getElementById('edges');
-const main=makeView({wrap:tree,mount:document.getElementById('tiers'),svg,tiers:TIERS,nodes:NODES,prefix:'m-'});
+const tree=document.getElementById('tree');
+const main=makeView({wrap:tree,mount:document.getElementById('tiers'),tiers:TIERS,nodes:NODES,prefix:'m-'});
 
 const zoomWrap=document.getElementById('subTree'),emptySub=document.getElementById('emptySub');
 let sub=null,stack=[];
@@ -491,7 +469,7 @@ function explode(n){
   emptySub.textContent=n.sub&&n.sub.tiers?`Tiers ready — ${n.sub.tiers.join(' / ')} — no nodes yet.`:'No sub-tree mapped yet.';
   zoomWrap.hidden=!has;
   sub=has?makeView({
-    wrap:zoomWrap,mount:document.getElementById('subTiers'),svg:document.getElementById('subEdges'),
+    wrap:zoomWrap,mount:document.getElementById('subTiers'),
     tiers:n.sub.tiers.map((name,idx)=>({n:idx,name})),
     nodes:n.sub.nodes,prefix:'z-'
   }):null;
@@ -514,7 +492,7 @@ function renderPapers(n){
 function drawCrumbs(){
   const c=document.getElementById('crumbs');c.innerHTML='';
   const root=document.createElement('button');root.textContent='Tree';
-  root.addEventListener('click',()=>{stack=[];sub=null;document.body.classList.remove('zoomed');drawEdges(main)});
+  root.addEventListener('click',()=>{stack=[];sub=null;document.body.classList.remove('zoomed')});
   c.appendChild(root);
   stack.forEach((n,i)=>{
     c.insertAdjacentHTML('beforeend','<span class="sep">/</span>');
@@ -531,11 +509,16 @@ document.addEventListener('keydown',e=>{
   if(e.key!=='Escape')return;
   if(sub&&sub.traced)return clearTrace(sub);
   if(main.traced)return clearTrace(main);
-  if(document.body.classList.contains('zoomed')){stack=[];sub=null;document.body.classList.remove('zoomed');drawEdges(main)}
+  if(document.body.classList.contains('zoomed')){stack=[];sub=null;document.body.classList.remove('zoomed')}
 });
 document.addEventListener('click',e=>{if(!e.target.closest('.node')&&!e.target.closest('.tip')){clearTrace(main);clearTrace(sub)}});
-window.addEventListener('resize',()=>{clearTimeout(window._rd);window._rd=setTimeout(()=>{drawEdges(main);sub&&drawEdges(sub)},120)});
-window.addEventListener('load',()=>drawEdges(main));
+[['toggleLeft','show-left'],['toggleRight','show-right']].forEach(([id,cls])=>{
+  const b=document.getElementById(id);
+  b.addEventListener('click',()=>{
+    const on=document.body.classList.toggle(cls);
+    b.setAttribute('aria-pressed',String(on));
+  });
+});
 
 /* ---------- nav ---------- */
 const nav=document.getElementById('nav');
