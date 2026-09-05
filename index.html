@@ -11,6 +11,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,6 +70,7 @@
 
         html {
             scroll-behavior: smooth;
+            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
@@ -86,7 +88,7 @@
             color: inherit;
         }
 
-        img {
+        img, iframe, video, svg {
             max-width: 100%;
             display: block;
         }
@@ -122,6 +124,7 @@
         .section-title {
             font-family: var(--font-display);
             font-size: 42px;
+            overflow-wrap: anywhere;
             font-weight: 700;
             color: var(--text-primary);
             line-height: 1.15;
@@ -346,7 +349,9 @@
 
         .hero-title {
             font-family: var(--font-display);
-            font-size: 52px;
+            font-size: clamp(34px, 11vw, 52px);
+            max-width: 100%;
+            overflow-wrap: anywhere;
             font-weight: 700;
             line-height: 1.1;
             color: var(--text-primary);
@@ -1398,7 +1403,16 @@
             }
 
             .section-title {
-                font-size: 28px;
+                font-size: 26px;
+            }
+
+            .hero-title {
+                display: block;
+            }
+
+            .hero-author,
+            .footer-author {
+                flex-wrap: wrap;
             }
 
             .hero-ctas {
