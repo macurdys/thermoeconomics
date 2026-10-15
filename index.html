@@ -962,7 +962,7 @@
 
         .utxo-bottom {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 60px;
             align-items: start;
         }
@@ -1448,9 +1448,7 @@
                 <li><a href="#what">Science</a></li>
                 <li><a href="#research">Research</a></li>
                 <li><a href="#course">Course</a></li>
-                <li><a href="#utxo">Models</a></li>
-                <li><a href="#tools">Tools</a></li>
-                <li><a href="#tree">Tech Tree</a></li>
+                <li><a href="#utxo">Architectures</a></li>
                 <li><a href="/study.html" class="nav-cta">The Study</a></li>
             </ul>
             <button class="nav-mobile-toggle" id="navToggle" aria-label="Toggle navigation">
@@ -1476,12 +1474,7 @@
                 <h1 class="hero-title">Thermoeconomics<span class="dot">.</span></h1>
                 <p class="hero-subtitle">Where physics meets economics. A computational framework connecting energy, entropy, and proof of work to the foundations of economic value.</p>
                 <div class="hero-ctas">
-                    <a href="https://www.wolfram.com/wolfram-u/" target="_blank" rel="noopener" class="btn btn-primary">Start the Course →</a>
-                    <a href="/study.html" class="btn btn-secondary">Open Knowledge Base</a>
-                </div>
-                <div class="hero-author">
-                    <span class="hero-author-line"></span>
-                    By Steph Macurdy · Wolfram Blockchain Labs · UTXO Alliance
+                    <a href="/study.html" class="btn btn-primary">Enter the Study →</a>
                 </div>
             </div>
         </div>
@@ -1558,7 +1551,6 @@
 
             <div class="research-grid">
 
-                <!-- REPORT 0: The Logistics of Dispersed Knowledge -->
                 <div class="research-card animate">
                     <div>
                         <div class="research-meta">
@@ -1583,7 +1575,7 @@
                         </div>
 
                         <div class="research-cta">
-                            <a href="Logistics_of_Dispersed_Knowledge.pdf" target="_blank" rel="noopener" class="btn-pdf">Read Full Paper →</a>
+                            <span class="btn-pdf" style="opacity: 0.5; pointer-events: none;">Coming soon</span>
                         </div>
                     </div>
 
@@ -1603,51 +1595,6 @@
                     </div>
                 </div>
 
-                <!-- REPORT 1: Thermoeconomics of Computation -->
-                <div class="research-card animate">
-                    <div>
-                        <div class="research-meta">
-                            <span class="research-badge">Theoretical Framework</span>
-                            June 2026 · 4 pages
-                        </div>
-                        <div class="research-title">The Thermoeconomics of Computation</div>
-                        <div class="research-authors">Steph Macurdy, Wolfram Research</div>
-
-                        <div class="research-summary">
-                            All computational work exists on a continuous spectrum bounded by pure entropy production (randomness) and pure free energy extraction (intelligence). This framework treats <strong>energy (kW)</strong> as the fundamental constraint and medium of exchange — operators face a strict opportunity cost between routing power to cryptographic consensus or AI inference, and the resulting global equilibrium forms a closed thermodynamic loop where energy secures the ledger and intelligence optimizes future energy extraction.
-                        </div>
-
-                        <div class="research-topics">
-                            <span class="research-topic">Kilowatt Opportunity Cost</span>
-                            <span class="research-topic">Proof of Work</span>
-                            <span class="research-topic">Expected Free Energy</span>
-                            <span class="research-topic">Logistics Function</span>
-                            <span class="research-topic">Arbitrage</span>
-                            <span class="research-topic">Landauer Limit</span>
-                        </div>
-
-                        <div class="research-cta">
-                            <a href="thermoeconomics_of_computation.pdf" target="_blank" rel="noopener" class="btn-pdf">Read Full Paper →</a>
-                        </div>
-                    </div>
-
-                    <div class="research-findings">
-                        <div class="research-finding">
-                            <div class="research-finding-label">The Monetary Floor</div>
-                            <div class="research-finding-text">P<sub>min</sub> = V<sub>Consensus</sub>(S(E<sub>R</sub>)) — the market capitalizes the thermodynamic sacrifice of Proof-of-Work into the value of the monetary unit, creating a liquid claim on future energy.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">The Organizational Ceiling</div>
-                            <div class="research-finding-text">P<sub>max</sub> is bounded by the Landauer limit and by the total free energy that resulting intelligence can marshal — V(I) follows a logistic curve between the randomness floor and the intelligence ceiling.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">The Closed Loop</div>
-                            <div class="research-finding-text">Kilowatts routed to E<sub>R</sub> secure the ledger that prices energy; kilowatts routed to E<sub>I</sub> generate intelligence that drives down the cost of the next kilowatt — a self-sustaining thermoeconomic loop.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- REPORT 2: From Big Bang to Blockchain -->
                 <div class="research-card animate animate-delay-2">
                     <div>
                         <div class="research-meta">
@@ -1707,319 +1654,6 @@
                     </div>
                 </div>
 
-                <!-- REPORT 3: Thermoeconomic Operator -->
-                <div class="research-card animate">
-                    <div>
-                        <div class="research-meta">
-                            <span class="research-badge">Paper</span>
-                            December 2025 · 11 pages
-                        </div>
-                        <div class="research-title">A Thermoeconomic Operator</div>
-                        <div class="research-authors">Steph Macurdy, Wolfram Research</div>
-
-                        <div class="research-summary">
-                            All Proof-of-Work protocols anchor to the same physical phenomenon: repeated hash-based Bernoulli trials whose outcomes are IID. This paper connects the IID process to the <strong>Maximum Entropy Principle</strong> (Jaynes, 1957) and to the <strong>Generalized Boltzmann Distribution</strong> — the only distribution where Gibbs-Shannon entropy equals thermodynamic entropy. The blockchain is treated not as a ledger, but as a <strong>Thermoeconomic Operator</strong>: a system that converts physical work into informational order, creating a deterministic mapping between the physical and digital economic worlds.
-                        </div>
-
-                        <div class="research-topics">
-                            <span class="research-topic">Maximum Entropy</span>
-                            <span class="research-topic">Boltzmann Distribution</span>
-                            <span class="research-topic">SHA-256</span>
-                            <span class="research-topic">PoEM Consensus</span>
-                            <span class="research-topic">Qi Emission</span>
-                            <span class="research-topic">Formal Isomorphism</span>
-                            <span class="research-topic">Free Energy</span>
-                        </div>
-
-                        <div class="research-cta">
-                            <a href="Thermodyanmic_Operator_V5.pdf" target="_blank" rel="noopener" class="btn-pdf">Read Full Paper →</a>
-                        </div>
-                    </div>
-
-                    <div class="research-findings">
-                        <div class="research-finding">
-                            <div class="research-finding-label">Information as Rank</div>
-                            <div class="research-finding-text">Threshold methods are lossy compression — they discard surplus entropy reduction. PoEM ranks outputs by absolute value, extracting maximum information from the state space and hitting the physical limit of finality.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">Market-Induced Hamiltonian</div>
-                            <div class="research-finding-text">The Hamiltonian is the price of the token. The market retroactively imposes an energy function on hash space, establishing a formal isomorphism — not physical identity — between hash-market systems and thermodynamics.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">Information as Value</div>
-                            <div class="research-finding-text">Qi emission is strictly proportional to hash rate (Watts). Because cumulative entropy reduction is a lossless proxy for work, Qi becomes a direct representation of the free energy supplied to the system — a unit of account for computational work.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-              
-           <!-- REPORT 4: Qi Quai Report -->
-                <div class="research-card animate">
-                    <div>
-                        <div class="research-meta">
-                            <span class="research-badge">Report</span>
-                            November 2025 · 24 pages
-                        </div>
-                        <div class="research-title">Qi Quai - Controller Report</div>
-                        <div class="research-authors">Andrius Kulikauskas PhD, Math4Wisdom; 
-                            Commissioned by Steph Macurdy</div>
-
-                        <div class="research-summary">
-                            Can Active Inference or thermodynamics offer insight into the relationship between Qi and Quai? This report investigates the Quai Network's dual currency system through the lens of <strong>energy, entropy, and free energy</strong> — mapping the protocol's control mechanism, analyzing miner incentives, and building a conceptual bridge between cryptocurrency economics and the Free Energy Principle.
-                        </div>
-
-                        <div class="research-topics">
-                            <span class="research-topic">Active Inference</span>
-                            <span class="research-topic">Dual Currency</span>
-                            <span class="research-topic">Free Energy Principle</span>
-                            <span class="research-topic">Proof of Work</span>
-                            <span class="research-topic">Game Theory</span>
-                            <span class="research-topic">Gresham's Law</span>
-                        </div>
-
-                        <div class="research-cta">
-                            <a href="qi_quai_report.pdf" target="_blank" rel="noopener" class="btn-pdf">Read Full Report →</a>
-                        </div>
-                    </div>
-
-                    <div class="research-findings">
-                        <div class="research-finding">
-                            <div class="research-finding-label">Protocol Analysis</div>
-                            <div class="research-finding-text">The kQuai controller balances demand by increasing kQuai when miners prefer Qi and decreasing it when they prefer Quai. Distilled to kQuai(i) = kQuai(i−1)[1 ± r].</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">Economics of Maintenance</div>
-                            <div class="research-finding-text">Bitcoin's mining cost to market cap ratio (~1% annually) reveals undervaluation signals — a metric extensible to dual currency systems.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">Thermodynamic Bridge</div>
-                            <div class="research-finding-text">Qi maps to belief in the system (energy); Quai maps to belief in belief in the system (entropy). The equation is interpreted as a dialogue between P(x,y) and Q(x).</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="research-card animate animate-delay-2">
-                    <div>
-                        <div class="research-meta">
-                            <span class="research-badge">Theoretical Framework</span>
-                            June 2025 · 3 pages
-                        </div>
-                        <div class="research-title">From Ontology to Computation: A Structural Framework</div>
-                        <div class="research-authors">Steph Macurdy · American Energy Money</div>
-
-                        <div class="research-summary">
-                            A concise roadmap connecting physical reality to computational work. Argues that ontology, mathematics, epistemology, and computation form a <strong>sequential dependency chain</strong> — bounded by thermodynamic laws and grounded in the insight that information is physical. Computation is framed as a competition for free energy to produce structured intelligence.
-                        </div>
-
-                        <div class="research-topics">
-                            <span class="research-topic">Ontology</span>
-                            <span class="research-topic">Thermodynamics</span>
-                            <span class="research-topic">Shannon Entropy</span>
-                            <span class="research-topic">Landauer's Principle</span>
-                            <span class="research-topic">Information Theory</span>
-                            <span class="research-topic">Computation</span>
-                        </div>
-
-                        <div class="research-cta">
-                            <a href="ontology_to_computation.pdf" target="_blank" rel="noopener" class="btn-pdf">Read Full Paper →</a>
-                        </div>
-                    </div>
-
-                    <div class="research-findings">
-                        <div class="research-finding">
-                            <div class="research-finding-label">Core Thesis</div>
-                            <div class="research-finding-text">Reality → Mathematics → Epistemology → Computation is a linear structural progression, not a set of parallel disciplines. Each layer depends on the one before it.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">Landauer's Bound</div>
-                            <div class="research-finding-text">Erasing one bit of information requires at minimum E ≥ k_B T ln 2 of thermodynamic work — establishing an irreducible energy cost for all computation.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">Thermodynamic Spectrum</div>
-                            <div class="research-finding-text">All computational work spans a spectrum from pure entropy production (heat, randomness) to the extraction of free energy for structured, intelligent action on the physical world.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Engineering with Irreducibility -->
-                <div class="research-card animate">
-                    <div>
-                        <div class="research-meta">
-                            <span class="research-badge">Thesis</span>
-                            14 pages
-                        </div>
-                        <div class="research-title">Engineering with Irreducibility</div>
-                        <div class="research-authors">Steph Macurdy, Wolfram Blockchain Labs</div>
-
-                        <div class="research-summary">
-                            An integrative framework for emergence, tracing a path from <strong>Wolfram's computation</strong> to <strong>Deacon's teleodynamics</strong> to <strong>Nakamoto's proof-of-work</strong>. Treating all processes as computation is an epistemological choice with ontological consequences; computational irreducibility becomes the boundary condition that makes emergence possible. Proof-of-work is then read as the first engineering schematic for building symbolic value on top of a physically enforced constraint.
-                        </div>
-
-                        <div class="research-topics">
-                            <span class="research-topic">Emergence</span>
-                            <span class="research-topic">Teleodynamics</span>
-                            <span class="research-topic">Via Negativa</span>
-                            <span class="research-topic">Symbolic Value</span>
-                            <span class="research-topic">Constraint</span>
-                            <span class="research-topic">Proof of Work</span>
-                        </div>
-
-                        <div class="research-cta">
-                            <a href="Engineering_with_Irreducibility.pdf" target="_blank" rel="noopener" class="btn-pdf">Read the Thesis →</a>
-                        </div>
-                    </div>
-
-                    <div class="research-findings">
-                        <div class="research-finding">
-                            <div class="research-finding-label">Emergence by Absence</div>
-                            <div class="research-finding-text">Emergence is defined by boundary conditions, not by the thing itself — so it is best specified via negativa, by the constraints describing what it is not, rather than by any property embedded in the generating rule.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">Three Levels of Cause</div>
-                            <div class="research-finding-text">Deacon's hierarchy — thermodynamic, morphodynamic, teleodynamic — each strictly dependent on the layer beneath it. Proof-of-work spans all three: physical cost, cheap validation, and end-directed value.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">Irreducibility as a Tool</div>
-                            <div class="research-finding-text">Computational irreducibility is not only a limit on what observers can know — it is a mechanism engineers can deliberately impose to establish boundary conditions and cultivate emergent behavior.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Quantifying Work, Eliminating Time, Minimizing Entropy -->
-                <div class="research-card animate">
-                    <div>
-                        <div class="research-meta">
-                            <span class="research-badge">Thesis</span>
-                            44 pages
-                        </div>
-                        <div class="research-title">Quantifying Work, Eliminating Time, and Minimizing Entropy</div>
-                        <div class="research-authors">Steph Macurdy, Wolfram Blockchain Labs · Wolfram Model sections by Justice Evans-Hunter, Wolfram Institute</div>
-
-                        <div class="research-summary">
-                            Consensus has always been a clock problem: Bitcoin bound time to state in the timechain, and every scaling effort since has been an attempt to loosen that coupling. This paper argues for replacing the clock entirely with <strong>causal invariance</strong> — ordering events by their intrinsic relationships rather than by timestamps — and pairs it with a dual-token architecture that separates store of value from unit of account, tokenizing cost of production directly in energy.
-                        </div>
-
-                        <div class="research-topics">
-                            <span class="research-topic">Causal Invariance</span>
-                            <span class="research-topic">Entropy Minimization</span>
-                            <span class="research-topic">Multiway Hypergraphs</span>
-                            <span class="research-topic">Dual Token</span>
-                            <span class="research-topic">Gresham's Law</span>
-                            <span class="research-topic">Energy-Backed Money</span>
-                        </div>
-
-                        <div class="research-cta">
-                            <a href="Quantifying_Work_Eliminating_Time_Minimizing_Entropy.pdf" target="_blank" rel="noopener" class="btn-pdf">Read the Thesis →</a>
-                        </div>
-                    </div>
-
-                    <div class="research-findings">
-                        <div class="research-finding">
-                            <div class="research-finding-label">Time as a Bottleneck</div>
-                            <div class="research-finding-text">Traditional chains embed time in state updates, so throughput stalls until nodes agree on each block. Proof of History separates the two; causal invariance removes the need for a clock at all.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">Trust as Entropy Reduction</div>
-                            <div class="research-finding-text">To trust is to prune the space of adverse outcomes. Cryptographic primitives collapse "this could have come from anyone" into a single verifiable state — institutionalizing trust without a central actor.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">Energy as Numeraire</div>
-                            <div class="research-finding-text">Gold rewards stockpiling; energy rewards production. Denominating returns in the one input every industry requires aligns capital allocation with the driver of economic expansion itself.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Economic Observer Theory -->
-                <div class="research-card animate">
-                    <div>
-                        <div class="research-meta">
-                            <span class="research-badge">Thesis</span>
-                            56 pages
-                        </div>
-                        <div class="research-title">Economic Observer Theory</div>
-                        <div class="research-authors">Steph Macurdy, Wolfram Blockchain Labs · Wolfram Model sections by Justice Evans-Hunter, Wolfram Institute</div>
-
-                        <div class="research-summary">
-                            The long-form treatment of natural emergence, running from the <strong>computational observer</strong> through the Principle of Computational Equivalence to the origins of symbolic value. If observers are computationally bounded and equivalent to the systems they observe, then price, temperature, and pressure are all the same kind of object — reductions an end-directed observer extracts from an irreducible world in order to spend less work.
-                        </div>
-
-                        <div class="research-topics">
-                            <span class="research-topic">Observer Theory</span>
-                            <span class="research-topic">Computational Equivalence</span>
-                            <span class="research-topic">Second Law of Statistical Mechanics</span>
-                            <span class="research-topic">Emergence</span>
-                            <span class="research-topic">Symbolic Value</span>
-                            <span class="research-topic">Ruliology</span>
-                        </div>
-
-                        <div class="research-cta">
-                            <a href="Economic_Observer_Theory.pdf" target="_blank" rel="noopener" class="btn-pdf">Read the Thesis →</a>
-                        </div>
-                    </div>
-
-                    <div class="research-findings">
-                        <div class="research-finding">
-                            <div class="research-finding-label">The Bounded Observer</div>
-                            <div class="research-finding-text">Observers are computationally equivalent to what they observe, and therefore find it irreducible. The second law is downstream of computational equivalence, not the other way around.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">Reduction as Economics</div>
-                            <div class="research-finding-text">End-directedness drives observers to equivalence states together and extract reducible insight — temperature, pressure, price. Any technology that increases that capacity will be exploited.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">Value from Constraint</div>
-                            <div class="research-finding-text">Symbolic value is defined not by substrate but by the features left absent by overlapping constraints — an empty container whose worth is set by the end-directedness of whoever uses it.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- The Wolfram Model -->
-                <div class="research-card animate">
-                    <div>
-                        <div class="research-meta">
-                            <span class="research-badge">Essay</span>
-                            29 pages
-                        </div>
-                        <div class="research-title">The Wolfram Model</div>
-                        <div class="research-authors">Steph Macurdy · Wolfram Model sections by Justice Evans-Hunter, Wolfram Institute</div>
-
-                        <div class="research-summary">
-                            A guided walk from <strong>A New Kind of Science</strong> to the Wolfram Model and the <strong>Ruliad</strong>. Starting with elementary cellular automata and their four behavioral classes, the essay builds through the Principle of Computational Equivalence and computational irreducibility into hypergraph rewriting — showing how space, time, relativity, and quantum branching emerge not as fundamental laws but as artifacts of how a finite observer samples the Ruliad. Closes with an even-handed account of how the program has been received, and where its credibility will ultimately be decided.
-                        </div>
-
-                        <div class="research-topics">
-                            <span class="research-topic">Cellular Automata</span>
-                            <span class="research-topic">Computational Equivalence</span>
-                            <span class="research-topic">Irreducibility</span>
-                            <span class="research-topic">The Ruliad</span>
-                            <span class="research-topic">Observer Theory</span>
-                            <span class="research-topic">Causal Invariance</span>
-                            <span class="research-topic">Ruliology</span>
-                        </div>
-
-                        <div class="research-cta">
-                            <a href="IAM_Wolfram_Essay_V2.pdf" target="_blank" rel="noopener" class="btn-pdf">Read the Essay →</a>
-                        </div>
-                    </div>
-
-                    <div class="research-findings">
-                        <div class="research-finding">
-                            <div class="research-finding-label">Physics from Observership</div>
-                            <div class="research-finding-text">Statistical mechanics, general relativity, and quantum mechanics are derived bottom-up as consequences of a bounded observer being forced to sequentialize, coarse-grain, and consolidate the Ruliad — not as fundamental laws imposed on it.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">Irreducibility as Leverage</div>
-                            <div class="research-finding-text">Where computational reducibility compresses a system into a shorter description, multi-computation inverts the move — treating irreducibility as the resource, and navigation of the resulting landscape as an exercise in observer theory.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">An Honest Ledger</div>
-                            <div class="research-finding-text">The reception section states the case on both sides: concrete citable results and widely used tooling against self-publication outside peer review and a shortage of falsifiable predictions. The framework stands or falls on predictive power.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- UTXO Handbook -->
                 <div class="research-card animate">
                     <div>
                         <div class="research-meta">
@@ -2061,7 +1695,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- PRESENTATION 1: Ergodicity & Consensus -->
+
                 <div class="research-card animate">
                     <div>
                         <div class="research-meta">
@@ -2114,95 +1748,8 @@
                     </div>
                 </div>
 
-                <!-- PRESENTATION 2: Active Inference Symposium -->
-                <div class="research-card animate animate-delay-2">
-                    <div>
-                        <div class="research-meta">
-                            <span class="research-badge">Presentation</span>
-                            Active Inference Symposium · Slide deck
-                        </div>
-                        <div class="research-title">Money &amp; The Free Energy Principle</div>
-                        <div class="research-authors">Steph Macurdy, Wolfram Research; Andrius Kulikauskas PhD, Math4Wisdom</div>
-
-                        <div class="research-summary">
-                            Two roads run from the same origin: an <strong>informational</strong> road through proof of work, distributed consensus, Shannon information, and the maximum entropy principle, and a <strong>physical</strong> road through gradient dissipation, least action, and self-organization. They meet at active inference — and the meeting point is where money gets its thermodynamic reading.
-                        </div>
-
-                        <div class="research-topics">
-                            <span class="research-topic">Free Energy Principle</span>
-                            <span class="research-topic">Active Inference</span>
-                            <span class="research-topic">Proof of Entropy Minima</span>
-                            <span class="research-topic">Landauer's Bound</span>
-                            <span class="research-topic">Causal Invariance</span>
-                            <span class="research-topic">Dual Currency</span>
-                        </div>
-
-                        <div class="research-cta">
-                            <a href="Active_Inference_Presentation.pdf" target="_blank" rel="noopener" class="btn-pdf">View the Deck →</a>
-                        </div>
-                    </div>
-
-                    <div class="research-findings">
-                        <div class="research-finding">
-                            <div class="research-finding-label">A Difference That Makes a Difference</div>
-                            <div class="research-finding-text">∆S = 2<sup>−n</sup>, where n is the number of states removed from the macrostate. The bit that longest-chain PoW forfeits is the bit PoEM keeps — the difference between instantaneous finalization and waiting out multiple rounds of validation.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">Information is Physical</div>
-                            <div class="research-finding-text">Landauer's bound, verified in the double-well Brownian experiment, prices erasure at k<sub>B</sub>T ln2. Computation is work, so a consensus rule that measures entropy reduction is measuring free energy expenditure directly.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">Belief and Belief in Belief</div>
-                            <div class="research-finding-text">Qi rewards track block difficulty (k<sub>Qi</sub>B); Quai rewards move through the controller k<sub>Quai</sub>(i) = k<sub>Quai</sub>(i−1)[1 ± r]. Qi carries entropy and the unit of account, Quai carries free energy and the store of value.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- PRESENTATION 3: Math4Wisdom -->
-                <div class="research-card animate">
-                    <div>
-                        <div class="research-meta">
-                            <span class="research-badge">Presentation</span>
-                            Math4Wisdom · July 1, 2026
-                        </div>
-                        <div class="research-title">What Does a Dollar Cost to Make?</div>
-                        <div class="research-authors">Steph Macurdy · Wolfram Blockchain Labs</div>
-
-                        <div class="research-summary">
-                            Arithmetic is the same everywhere; monetary production is not. The talk starts from a question with a public answer — what a note costs to print — and follows it into seigniorage, monetary aggregates, and the case for a production function that anyone can audit and any machine can verify.
-                        </div>
-
-                        <div class="research-topics">
-                            <span class="research-topic">Seigniorage</span>
-                            <span class="research-topic">Monetary Supply</span>
-                            <span class="research-topic">Bitcoin Production Function</span>
-                            <span class="research-topic">Commodified Compute</span>
-                            <span class="research-topic">Randomness</span>
-                            <span class="research-topic">Ontology</span>
-                        </div>
-
-                        <div class="research-cta">
-                            <a href="Math4Wisdom_Presentation.pdf" target="_blank" rel="noopener" class="btn-pdf">View the Deck →</a>
-                        </div>
-                    </div>
-
-                    <div class="research-findings">
-                        <div class="research-finding">
-                            <div class="research-finding-label">Seigniorage Actualized</div>
-                            <div class="research-finding-text">Federal Reserve variable printing costs run 4.1 to 11.3 cents per note depending on denomination — putting realized seigniorage between $0.959 and $0.9999 on the dollar.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">An Auditable Alternative</div>
-                            <div class="research-finding-text">Set the M1, M2, and monetary base series against Bitcoin's production function — 32 halving epochs of 210,000 blocks at 50/2<sup>i</sup> — and the contrast is between a supply you observe after the fact and one you can compute in advance.</div>
-                        </div>
-                        <div class="research-finding">
-                            <div class="research-finding-label">What Normalizes</div>
-                            <div class="research-finding-text">Oil, solar, and nuclear watts are not fungible, and a watt here is not a watt there — but a FLOP here is approximately a FLOP there. Commodified compute plus definable randomness gives a unit that is permissionless, enforceable, and meritocratic.</div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
+        </div>
     </section>
 
     <!-- ============================================
@@ -2249,12 +1796,6 @@
                     <div class="module-desc">Energy, entropy, and value. Proof of work as thermodynamic process. Active inference. Causal invariance and consensus.</div>
                 </div>
             </div>
-
-
-            <div class="course-cta-row animate">
-                <a href="https://www.wolfram.com/wolfram-u/" target="_blank" rel="noopener" class="btn btn-primary">Start on Wolfram U →</a>
-                <span class="course-cta-note">Free course · Wolfram Language · Interactive notebooks</span>
-            </div>
         </div>
     </section>
 
@@ -2263,9 +1804,9 @@
          ============================================ -->
     <section class="utxo-section section" id="utxo">
         <div class="container">
-            <p class="overline animate">Blockchain Architectures</p>
-            <h2 class="section-title animate animate-delay-1">UTXO Ledger Model</h2>
-            <p class="section-subtitle animate animate-delay-2" style="margin-bottom: 60px;">From Bitcoin's original design to the exotic variants powering modern chains — the UTXO Alliance maps the entire landscape.</p>
+            <p class="overline animate">Architectures</p>
+            <h2 class="section-title animate animate-delay-1">Blockchain Architectures</h2>
+            <p class="section-subtitle animate animate-delay-2" style="margin-bottom: 60px;">From Bitcoin's original design to the variants powering modern chains.</p>
 
             <!-- Handbook images -->
             <div class="utxo-images animate animate-delay-3">
@@ -2281,11 +1822,6 @@
 
             <!-- Text + chain tags -->
             <div class="utxo-bottom animate animate-delay-4">
-                <div class="utxo-text-bottom">
-                    <p>Bitcoin introduced the <strong>Unspent Transaction Output (UTXO)</strong> model — a fundamentally different way of tracking value on a blockchain. Instead of accounts with balances, the system tracks individual outputs waiting to be spent.</p>
-                    <p>Since Bitcoin, dozens of chains have taken this foundation and built on it — adding smart contracts, sharding, merged mining, and more. The <strong>UTXO Alliance</strong> brings these projects together to advance the model. The knowledge base includes a comprehensive visual guide to every major UTXO variant, adapted from the Alliance's official handbook.</p>
-                    <a href="/study.html#quai" class="btn btn-secondary" style="margin-top: 16px;">Explore in the Study →</a>
-                </div>
                 <div class="chain-right-col">
                     <div class="chain-tags-bottom">
                         <span class="chain-tag" data-chain="bitcoin" data-img="Bitcoin.png" data-name="Bitcoin" data-desc="The original UTXO model — basic script locking, Proof of Work consensus, and the foundation every other variant builds on.">Bitcoin</span>
@@ -2312,80 +1848,7 @@
         </div>
     </section>
 
-    <!-- ============================================
-         TOOLS
-         ============================================ -->
-    <section class="tools-section section" id="tools">
-        <div class="container">
-            <p class="overline animate">Interactive Tools</p>
-            <h2 class="section-title animate animate-delay-1" style="margin-bottom: 48px;">Compute, explore, verify</h2>
-            <div class="tools-grid">
-                <a href="https://americanenergymoney.com" target="_blank" rel="noopener" class="tool-card animate">
-                    <span class="tool-icon"></span>
-                    <div class="tool-title">Mining Calculator</div>
-                    <div class="tool-desc">Compare SHA-256 mining profitability across Bitcoin, Quai Network, and other proof-of-work chains. Model difficulty growth and ROI over time.</div>
-                    <span class="tool-link">Open calculator →</span>
-                </a>
-                <a href="https://www.youtube.com/@wolframblockchainlabs" target="_blank" rel="noopener" class="tool-card animate animate-delay-1">
-                    <span class="tool-icon"></span>
-                    <div class="tool-title">Video Library</div>
-                    <div class="tool-desc">Full lecture series from Wolfram Blockchain Labs covering every module of the thermoeconomics curriculum.</div>
-                    <span class="tool-link">Watch on YouTube →</span>
-                </a>
-                <a href="https://www.wolfram.com/cloud/" target="_blank" rel="noopener" class="tool-card animate animate-delay-2">
-                    <span class="tool-icon"></span>
-                    <div class="tool-title">Wolfram Notebooks</div>
-                    <div class="tool-desc">Interactive computational notebooks. Run blockchain queries, hash functions, and cryptographic operations live in Wolfram Cloud.</div>
-                    <span class="tool-link">Open notebooks →</span>
-                </a>
-            </div>
-        </div>
-    </section>
 
-
-    <!-- ============================================
-         TECH TREE (condensed)
-         ============================================ -->
-    <section class="tree-section section" id="tree">
-        <div class="container">
-            <p class="overline animate">Ontology</p>
-            <h2 class="section-title animate animate-delay-1">The tech tree</h2>
-            <p class="section-subtitle animate animate-delay-2" style="margin-bottom: 48px;">The claim sits at the top. Everything below it is what it had to stand on.</p>
-
-            <div class="tt-map animate animate-delay-2">
-                <div class="tt-row">
-                    <span class="tt-tier">6 &middot; Field</span>
-                    <div class="tt-pills"><span class="tt-pill" data-level="4">Computational Thermoeconomics</span></div>
-                </div>
-                <div class="tt-row">
-                    <span class="tt-tier">5 &middot; Application</span>
-                    <div class="tt-pills"><span class="tt-pill" data-level="4">Token &amp; Controller Design</span><span class="tt-pill" data-level="4">Mining Economics &amp; Difficulty</span><span class="tt-pill" data-level="2">Fat Tails, Options &amp; Portfolios</span><span class="tt-pill" data-level="3">AI Infrastructure &amp; Neuro-Symbolic Agents</span></div>
-                </div>
-                <div class="tt-row">
-                    <span class="tt-tier">4 &middot; Synthesis</span>
-                    <div class="tt-pills"><span class="tt-pill" data-level="4">Energy = Cross-Entropy</span><span class="tt-pill" data-level="4">Proof of Entropy Minima</span><span class="tt-pill" data-level="4">Thermoeconomic Geodesics</span><span class="tt-pill" data-level="4">Hash Possibility Space</span><span class="tt-pill" data-level="4">Holographic Sharding</span></div>
-                </div>
-                <div class="tt-row">
-                    <span class="tt-tier">3 &middot; Systems</span>
-                    <div class="tt-pills"><span class="tt-pill" data-level="4">Distributed Consensus</span><span class="tt-pill" data-level="3">Cryptography &amp; Hash Functions</span><span class="tt-pill" data-level="3">Wolfram Physics</span><span class="tt-pill" data-level="3">Active Inference &amp; Bayesian Mechanics</span></div>
-                </div>
-                <div class="tt-row">
-                    <span class="tt-tier">2 &middot; Inference</span>
-                    <div class="tt-pills"><span class="tt-pill" data-level="4">MaxEnt &amp; Bayesian Inference</span><span class="tt-pill" data-level="3">Information Geometry</span><span class="tt-pill" data-level="3">Fluctuation Theorems</span><span class="tt-pill" data-level="4">Thermodynamics of Computation</span></div>
-                </div>
-                <div class="tt-row">
-                    <span class="tt-tier">1 &middot; Foundations</span>
-                    <div class="tt-pills"><span class="tt-pill" data-level="3">Probability &amp; Statistics</span><span class="tt-pill" data-level="4">Shannon Information Theory</span><span class="tt-pill" data-level="4">Thermodynamics &amp; Statistical Mechanics</span><span class="tt-pill" data-level="3">Theory of Computation</span></div>
-                </div>
-                <div class="tt-row">
-                    <span class="tt-tier">0 &middot; Ground</span>
-                    <div class="tt-pills"><span class="tt-pill" data-level="3">Complex Systems &amp; Emergence</span></div>
-                </div>
-            </div>
-
-            <a href="/tree.html" class="btn btn-primary animate animate-delay-3">Open the tech tree →</a>
-        </div>
-    </section>
 
     <!-- ============================================
          FOOTER
@@ -2500,7 +1963,7 @@
                 previewInner.classList.remove('visible');
                 setTimeout(() => {
                     previewImg.src = tag.dataset.img;
-                    previewImg.alt = tag.dataset.name + ' UTXO architecture';
+                    previewImg.alt = tag.dataset.name + ' architecture';
                     previewName.textContent = tag.dataset.name;
                     previewDesc.textContent = tag.dataset.desc;
                     previewInner.classList.add('visible');
@@ -2514,7 +1977,7 @@
         const firstTag = chainTags[0];
         if (firstTag) {
             previewImg.src = firstTag.dataset.img;
-            previewImg.alt = firstTag.dataset.name + ' UTXO architecture';
+            previewImg.alt = firstTag.dataset.name + ' architecture';
             previewName.textContent = firstTag.dataset.name;
             previewDesc.textContent = firstTag.dataset.desc;
             previewInner.classList.add('visible');
