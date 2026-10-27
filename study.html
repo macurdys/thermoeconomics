@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Study — Thermoeconomics</title>
-<meta name="description" content="An open knowledge base for computational thermoeconomics. Foundations, synthesis, machinery, markets, and a hands-on workbench.">
+<meta name="description" content="An open knowledge base for computational thermoeconomics. Foundational papers, proof of work, active inference, discrete physics, and a hands-on playground.">
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -175,6 +175,45 @@ a{text-decoration:none;color:inherit}
   .atlas-overlay{padding:24px 12px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+/* ---- Start Here / Series additions ---- */
+.page-body .lead{font-size:18px;font-weight:300;line-height:1.75;color:var(--text-primary);}
+.page-body .where{display:block;margin-top:6px;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);}
+.page-body ol.route{list-style:none;padding:0;margin:24px 0;counter-reset:r;border:1px solid var(--border-light);border-radius:10px;background:var(--bg-white);}
+.page-body ol.route li{counter-increment:r;display:grid;grid-template-columns:36px 190px 1fr;gap:12px;align-items:baseline;padding:12px 16px;border-bottom:1px solid var(--border-light);margin:0;}
+.page-body ol.route li:last-child{border-bottom:none;}
+.page-body ol.route li::before{content:counter(r,decimal-leading-zero);font-family:var(--font-mono);font-size:12px;color:var(--green-ink);}
+.page-body ol.route li.ref{background:var(--bg);}
+.page-body ol.route li.ref::before{color:var(--text-muted);}
+.page-body .route-k{font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--text-primary);}
+.page-body a.route-k{text-decoration:none;border-bottom:1px solid var(--green);}
+.page-body .route-d{font-size:14px;color:var(--text-secondary);}
+.page-body .series-flow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:24px 0;}
+.page-body .sf-pair{display:flex;flex-direction:column;gap:8px;}
+.page-body .sf-node{border:1px solid var(--green-ink);background:var(--green-subtle);border-radius:8px;padding:10px 14px;display:flex;flex-direction:column;min-width:150px;}
+.page-body .sf-node.dim{border-style:dashed;border-color:var(--border);background:transparent;}
+.page-body .sf-k{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);}
+.page-body .sf-t{font-size:14px;font-weight:500;color:var(--text-primary);}
+.page-body .sf-arrow{font-size:20px;color:var(--text-muted);}
+.page-body .paper-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0;}
+.page-body .paper-card{border:1px solid var(--border-light);border-radius:10px;padding:18px 20px;background:var(--bg-white);}
+.page-body .paper-card.dim{border-style:dashed;border-color:var(--border);background:transparent;}
+.page-body .paper-card p{font-size:14px;margin:0;color:var(--text-secondary);}
+.page-body .pc-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12px;color:var(--text-muted);margin-bottom:8px;}
+.page-body .pc-title{font-family:var(--font-display);font-weight:700;font-size:17px;color:var(--text-primary);margin-bottom:6px;}
+.page-body .chip{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);background:var(--text-primary);padding:3px 8px;border-radius:3px;}
+.page-body .chip.draft{color:var(--text-primary);background:transparent;border:1px dashed var(--text-primary);padding:2px 7px;}
+.page-body a.btn-pdf{display:inline-block;font-weight:600;font-size:14px;color:var(--text-primary);background:var(--green);padding:10px 22px;border-radius:6px;text-decoration:none;box-shadow:0 0 24px var(--green-glow);}
+.page-body a.btn-pdf:hover{transform:translateY(-1px);}
+.page-body .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin:20px 0;}
+.page-body .gallery figure{margin:0;border:1px solid var(--border-light);border-radius:10px;overflow:hidden;background:var(--bg-white);}
+.page-body .gallery img{width:100%;height:auto;display:block;margin:0;border:none;border-radius:0;}
+.page-body .gallery figcaption{font-size:13px;color:var(--text-muted);padding:10px 14px;border-top:1px solid var(--border-light);line-height:1.5;}
+@media (max-width:700px){
+  .page-body ol.route li{grid-template-columns:30px 1fr;}
+  .page-body ol.route li .route-d{grid-column:2;}
+  .page-body .paper-cards{grid-template-columns:1fr;}
+}
+
 </style>
 </head>
 <body>
@@ -210,44 +249,225 @@ a{text-decoration:none;color:inherit}
 // STUDY DATA (Thermoeconomics)
 // ============================================================
 const SECTIONS = [
-    { id: "welcome", label: "Welcome" },
-    { id: "info-theory", label: "Information Theory" },
+    { id: "welcome", label: "Orientation" },
+    { id: "series", label: "The Series" },
+    { id: "info-theory", label: "Information & Entropy" },
+    { id: "thermo", label: "Thermodynamics of Computation" },
     { id: "pow", label: "Proof of Work" },
-    { id: "wolfram", label: "Wolfram Physics" },
-    { id: "comp-mech", label: "Computational Mechanics" },
-    { id: "deacon", label: "Terrence Deacon" },
-    { id: "active-inference", label: "Active Inference" },
-    { id: "synthesis", label: "Synthesis & Quai" },
-    { id: "quai-uni", label: "Quai University" },
-    { id: "causal-invariance", label: "Mission: Causal Invariance" },
+    { id: "dist-sys", label: "Distributed Systems" },
+    { id: "crypto", label: "Cryptography" },
+    { id: "btc-crypto", label: "Cryptography in Bitcoin" },
     { id: "bitcoin-script", label: "Bitcoin Script" },
-    { id: "zk-proofs", label: "ZK Proof Systems" },
-    { id: "reference", label: "Reference" }
+    { id: "quai", label: "Proof of Entropy Minima" },
+    { id: "quai-uni", label: "Quai University" },
+    { id: "active-inference", label: "Active Inference" },
+    { id: "deacon", label: "Teleodynamics" },
+    { id: "comp-mech", label: "Computational Mechanics" },
+    { id: "wolfram", label: "Wolfram Physics" },
+    { id: "causal-invariance", label: "Mission: Causal Invariance" },
+    { id: "philosophies", label: "Other Philosophies" },
+    { id: "synthesis", label: "Synthesis" },
+    { id: "reference", label: "Reference" },
+    { id: "drawings", label: "Drawings" },
+    { id: "live", label: "Live Sessions" },
+    { id: "oracles", label: "Oracles" }
 ];
 
 const PAGES = [
 // -------- WELCOME --------
+// -------- START HERE --------
 {
 slug: "welcome", section: "welcome", title: "Welcome to the Study",
-body: `<p>This is the open knowledge base for <strong>Computational Thermoeconomics</strong> — the emerging science connecting energy, entropy, information theory, and proof-of-work blockchain systems to the foundations of economic value.</p>
-<p>Use the <strong>sidebar</strong> to navigate sections, or the <strong>← →</strong> buttons at the bottom to read sequentially. The recommended reading order follows the learning sequence: start with Information Theory, then Proof of Work, and build upward through six scientific traditions until they converge in the Synthesis.</p>
-<p>Every page is a single slice of the theory. Some are dense with equations and video. Some are lean explanations of one key idea. Scroll down on any page to go deeper into that slice — you'll find author's notes, related videos, transcripts, and connections to the broader framework.</p>
+body: `<p class="lead">The Study is the working library behind thermoeconomics.info. It gathers papers, lectures, conversations, and runnable code around one question: <strong>can economic value be grounded in physical work — energy spent, entropy produced, computation performed — and checked by anyone, without trusting whoever did the work?</strong></p>
+<h2>What is happening here</h2>
+<p>Three things at once.</p>
+<ul>
+<li><strong>A research program.</strong> Original papers in the <a data-goto="series">Economics of Information series</a> are published here first, often as working drafts. Drafts are marked as drafts.</li>
+<li><strong>A reading path.</strong> The classic results those papers rest on — Shannon, Landauer, Nakamoto, Friston, Wolfram — are laid out in the order you need them, each with a short page saying why it matters here.</li>
+<li><strong>A course in the making.</strong> <a data-goto="live-sessions">Live sessions</a> will be recorded against these pages and assembled into courses. What you see now is the base layer.</li>
+</ul>
+<h2>The shape of it</h2>
+<p>After four short orientation pages, the Study opens with the foundational papers, then follows three pillars — <strong>Proof of Work</strong>, <strong>Active Inference</strong>, and <strong>Discrete Physics</strong>. Thermodynamics, computation, distributed systems, cryptography, other blockchains, and other philosophies are picked up along the way. It ends in the Playground and the Appendices.</p>
+<p>Next: <a data-goto="why">why this exists</a>, then <a data-goto="route">the route through it</a>.</p>
 <h2>For AI-Assisted Learning</h2>
-<p>This knowledge base is designed for both humans and AI. In the Reference section you'll find an <strong>AI Instructor Prompt</strong> — copy it into a conversation with Claude or ChatGPT, tell the AI your background, and let it guide you through this material interactively.</p>`
+<p>The Appendices include an <a data-goto="ai-prompt">AI Instructor Prompt</a>. Paste it into a conversation with an AI model, describe your background, and let it guide you through this material interactively.</p>`
+},
+{
+slug: "why", section: "welcome", title: "Why This Exists",
+body: `<p class="lead">Economics usually treats value as an abstraction. Physics treats energy as something you can measure. Networks need to agree on a shared state without a trusted party. <strong>Proof of work is the one running system where all three meet</strong> — every block turns real energy into a public record that anyone can verify in microseconds.</p>
+<h2>Three claims the Study develops</h2>
+<h3>1 · Information is physical</h3>
+<p>Shannon gave information a precise measure. Landauer and Bennett showed that erasing it has an irreducible thermodynamic cost. So verification is not free, and work that is cheap to check but costly to produce has a physical floor. <span class="where">Pillar: <a data-goto="pow">Proof of Work</a></span></p>
+<h3>2 · Coordination is inference</h3>
+<p>Agents — cells, people, firms, nodes — persist by predicting their environment and acting to reduce surprise. A proof-of-work network can be read the same way: many nodes converging on one model of shared history. <span class="where">Pillar: <a data-goto="active-inference">Active Inference</a></span></p>
+<h3>3 · Physics may be computation</h3>
+<p>If the universe is a discrete rewriting process, then consistency of history across observers is causal invariance — the same property a consensus protocol needs. <span class="where">Pillar: <a data-goto="comp-mech">Discrete Physics</a></span></p>
+<h2>Why now</h2>
+<p>Software agents increasingly need to coordinate without shared trust, and compute has become an energy market in its own right. Both turn an old theoretical question into a practical one.</p>
+<h2>What this is not</h2>
+<p>It is not investment advice and not a token pitch. Thermoeconomics does not claim that value <em>equals</em> energy. It asks what can be verified, at what physical cost, and what that implies for coordination. Claims are scoped; where a result depends on a model assumption, the page says so.</p>`
+},
+{
+slug: "route", section: "welcome", title: "The Route",
+body: `<p class="lead">One path, eleven shelves. The first six read in sequence — the <strong>← →</strong> buttons at the bottom of every page follow this order. The rest are surfaces you drop into.</p>
+<ol class="route">
+<li><span class="route-k">Start Here</span><span class="route-d">What, why, and this map.</span></li>
+<li><a data-goto="series" class="route-k">Foundations</a><span class="route-d">The Economics of Information series, then the classic papers: Shannon, Jaynes, Landauer, Bennett — and cryptography from Diffie–Hellman to elliptic curves and zero-knowledge proofs.</span></li>
+<li><a data-goto="pow" class="route-k">I · Proof of Work</a><span class="route-d">Dwork–Naor to Nakamoto, the distributed-systems results behind it, the cryptography Bitcoin uses and the quantum debate, and Proof of Entropy Minima.</span></li>
+<li><a data-goto="active-inference" class="route-k">II · Active Inference</a><span class="route-d">The free energy principle, Markov blankets, and teleodynamics.</span></li>
+<li><a data-goto="comp-mech" class="route-k">III · Discrete Physics</a><span class="route-d">Computational mechanics, then Wolfram’s model and causal invariance.</span></li>
+<li><a data-goto="other-philosophies" class="route-k">Convergence</a><span class="route-d">Other economic philosophies, then the synthesis.</span></li>
+<li class="ref"><a data-goto="alt-welcome" class="route-k">Blockchains+</a><span class="route-d">How other chains are built. Reference.</span></li>
+<li class="ref"><a data-goto="alt-ch06-s1" class="route-k">Markets</a><span class="route-d">Exchanges, DeFi, oracles, MEV, stablecoins. Reference.</span></li>
+<li class="ref"><a data-goto="tk-welcome" class="route-k">Playground</a><span class="route-d">Interactive toys: hashing, mining, signatures, Merkle trees.</span></li>
+<li class="ref"><a data-goto="glossary" class="route-k">Appendices</a><span class="route-d">Glossary, papers, equations, assessments, Bitcoin Script reference, drawings.</span></li>
+<li class="ref"><a data-goto="live-sessions" class="route-k">Live</a><span class="route-d">Recorded sessions, as they happen.</span></li>
+</ol>
+<h2>Threads that run through it</h2>
+<p>Six threads are not shelves of their own — they surface inside the pillars. Each row shows where to pick one up.</p>
+<table>
+<tr><th>Thread</th><th>Where it appears</th></tr>
+<tr><td>Thermodynamics</td><td><a data-goto="thermo">Thermodynamics of Computation</a> · <a data-goto="series-part2a">Part 2A</a> · <a data-goto="pow-thermo">PoW as Thermodynamic Process</a> · <a data-goto="absential">Absential Features</a></td></tr>
+<tr><td>Computation</td><td><a data-goto="bennett">Bennett</a> · <a data-goto="epsilon-machines">Epsilon Machines</a> · <a data-goto="irreducibility">Computational Irreducibility</a> · <a data-goto="tk-sha256deep">SHA-256 Deep Dive</a></td></tr>
+<tr><td>Distributed systems</td><td><a data-goto="dist-systems">Distributed Systems</a> · <a data-goto="causal-invariance">Causal Invariance and Consensus</a></td></tr>
+<tr><td>Cryptography</td><td><a data-goto="crypto">Cryptography</a> (Foundations) · <a data-goto="btc-crypto">Cryptography in Bitcoin</a> · <a data-goto="quantum-debate">The Quantum Debate</a> · <a data-goto="alt-ch05-s1">Custody: Cryptographic Foundations</a> · <a data-goto="tk-keys">Key Pairs toy</a> · <a data-goto="bitcoin-script">Bitcoin Script</a> (Appendix)</td></tr>
+<tr><td>Other blockchains</td><td><a data-goto="btc-chain-compare">BTC vs. BCH vs. Quai</a> · <a data-goto="alt-ch04">L1 Blockchains</a> · <a data-goto="drawings">UTXO Architectures</a></td></tr>
+<tr><td>Other philosophies</td><td><a data-goto="other-philosophies">Other Philosophies</a> · <a data-goto="incomplete-nature">Incomplete Nature</a> · <a data-goto="alt-preface-s1">The Adversarial Frontier</a></td></tr>
+</table>`
 },
 {
 slug: "how-to-use", section: "welcome", title: "How to Use This Resource",
-body: `<h2>Learning Paths</h2>
-<p>There is no single correct order. Choose based on where you're coming from:</p>
-<h3>Path A: "I'm a Bitcoin miner — I want the physics"</h3>
-<p>Start with <a data-goto="pow">Proof of Work</a>, then <a data-goto="info-theory">Information Theory</a> (Shannon → Jaynes → Landauer). Read <a data-goto="pow-thermo">PoW as Thermodynamic Process</a>. Finish with the <a data-goto="operator">Thermoeconomic Operator</a> and <a data-goto="quai">Quai Network</a>.</p>
-<h3>Path B: "I'm a physics student curious about blockchain"</h3>
-<p>Quick pass through <a data-goto="info-theory">Information Theory</a> (focus on Jaynes and Landauer). Then <a data-goto="comp-mech">Computational Mechanics</a>. Then <a data-goto="pow">Proof of Work</a> for blockchain fundamentals. The <a data-goto="pow-thermo">synthesis page</a> is where your physics meets their money.</p>
-<h3>Path C: "I want to learn with AI"</h3>
-<p>Go to the <a data-goto="ai-prompt">AI Instructor Prompt</a> in Reference. Copy it into a new conversation. Tell the AI your background. Let it guide you.</p>
+body: `<p>Every page is one slice of the theory. Some are dense with equations and video; some explain a single idea. Scroll down on any page for the connection to thermoeconomics, author’s notes, videos, and transcripts. Use the <strong>sidebar</strong> or the <strong>Atlas</strong> to jump; use <strong>← →</strong> to read in order.</p>
+<h2>Learning Paths</h2>
+<p>The default route works for most readers. If you already know where you are coming from:</p>
+<h3>Path A: “I’m a Bitcoin miner — I want the physics”</h3>
+<p>Read <a data-goto="series-part2b">Part 2B</a> on what hashes reveal, then <a data-goto="pow">Proof of Work</a>, then <a data-goto="thermo">Thermodynamics of Computation</a> and <a data-goto="series-part2a">Part 2A</a>. Finish with <a data-goto="pow-thermo">PoW as Thermodynamic Process</a> and <a data-goto="poem">PoEM</a>.</p>
+<h3>Path B: “I’m a physics student curious about blockchain”</h3>
+<p>Start with <a data-goto="jaynes">Jaynes</a> and <a data-goto="landauer">Landauer</a>, then <a data-goto="comp-mech">Computational Mechanics</a> and <a data-goto="wolfram-overview">Wolfram Physics</a>. Then <a data-goto="pow">Proof of Work</a> and <a data-goto="dist-systems">Distributed Systems</a> for the protocol side.</p>
+<h3>Path C: “I’m an economist”</h3>
+<p>Start with <a data-goto="series-part1">Part 1: The Logistics of Dispersed Knowledge</a>, then <a data-goto="other-philosophies">Other Philosophies</a>, then <a data-goto="ai-economics">Active Inference and Economic Systems</a> and <a data-goto="qi-quai">Qi &amp; Quai</a>.</p>
+<h3>Path D: “I want to learn with AI”</h3>
+<p>Open the <a data-goto="ai-prompt">AI Instructor Prompt</a>, paste it into a new conversation, tell the AI your background, and let it guide you.</p>
+<h3>Path E: “I’m building a course or a session”</h3>
+<p>Each page is designed to be one teachable unit. See <a data-goto="live-sessions">Live Sessions</a> for how recordings will attach back to pages, and the <a data-goto="assessment">Assessment Bank</a> for questions.</p>
 <h2>Dual Language</h2>
 <p>Code examples appear in <strong>Wolfram Language</strong> (primary) and <strong>Python</strong> (open-source track). The concepts are the same; only the syntax differs.</p>`
 },
+
+// -------- THE SERIES --------
+{
+slug: "series", section: "series", title: "The Economics of Information Series",
+body: `<p class="lead">Four papers, read in order, that build the argument of the Study. Each one points back to the classic results that follow it in the Foundations shelf.</p>
+<div class="series-flow">
+<div class="sf-node"><span class="sf-k">Part 1</span><span class="sf-t">Why verifiable evidence?</span></div>
+<div class="sf-arrow">→</div>
+<div class="sf-pair">
+<div class="sf-node"><span class="sf-k">Part 2A · micro</span><span class="sf-t">What one erasure costs</span></div>
+<div class="sf-node"><span class="sf-k">Part 2B · macro</span><span class="sf-t">What proofs reveal in aggregate</span></div>
+</div>
+<div class="sf-arrow">→</div>
+<div class="sf-node dim"><span class="sf-k">Part 3</span><span class="sf-t">Synthesis</span></div>
+</div>
+<div class="paper-cards">
+<div class="paper-card">
+<div class="pc-meta"><span class="chip">Part 1</span>October 2026 · 18 pages</div>
+<div class="pc-title"><a data-goto="series-part1">The Logistics of Dispersed Knowledge</a></div>
+<p>Seven questions from Hayek to information design, ending with one: how can costly computation turn private claims into publicly verifiable evidence?</p>
+</div>
+<div class="paper-card">
+<div class="pc-meta"><span class="chip">Part 2A</span>October 2026 · 10 pages</div>
+<div class="pc-title"><a data-goto="series-part2a">From Shannon to Gibbs</a></div>
+<p>When does an information-theoretic bit become a thermodynamic one? The micro thermodynamics of hashrate: memory entropy, erasure, and a conditional Landauer floor.</p>
+</div>
+<div class="paper-card">
+<div class="pc-meta"><span class="chip">Part 2B</span><span class="chip draft">Working Draft</span>October 2026 · 16 pages</div>
+<div class="pc-title"><a data-goto="series-part2b">What Can We Infer From Hashes?</a></div>
+<p>The macro thermodynamics of hashrate: from observed proofs to an estimate of hidden computation, its uncertainty, and conditional energy expenditure.</p>
+</div>
+<div class="paper-card dim">
+<div class="pc-meta"><span class="chip">Part 3</span><span class="chip draft">Forthcoming</span></div>
+<div class="pc-title">Minimizing Uncertainty at Scale</div>
+<p>Synthesizes Parts 1, 2A, and 2B — what these relationships imply for coordination and resource allocation.</p>
+</div>
+</div>
+<h2>How to read them</h2>
+<p>Part 1 needs no physics. Parts 2A and 2B are companions and can be read in either order: 2A works at the level of a single memory reset; 2B works at the level of a whole network’s computation. If the probability gets heavy, the <a data-goto="tk-block">Block &amp; Proof of Work</a> toy in the Playground makes it concrete.</p>`,
+connection: "The series is the spine of the Study. Every pillar that follows — proof of work, active inference, discrete physics — is either an input to these papers or a place their results are applied."
+},
+{
+slug: "series-part1", section: "series", title: "Part 1 — The Logistics of Dispersed Knowledge",
+meta: "Steph Macurdy · Institute of Thermoeconomics · October 2026 · 18 pages",
+body: `<p><a class="btn-pdf" href="Logistics_of_Dispersed_Knowledge.pdf" target="_blank" rel="noopener">Read the paper (PDF) →</a></p>
+<p class="lead">Modern information economics can be traced as a sequence of questions. This paper follows seven of them, from <strong>Hayek’s dispersed knowledge</strong> to a question the field has not fully absorbed: how can costly computation turn private claims into <strong>publicly verifiable evidence</strong>?</p>
+<h2>The seven questions</h2>
+<ol>
+<li><strong>Dispersed knowledge</strong> — Hayek: how does an economy use knowledge no single mind holds?</li>
+<li><strong>Asymmetric information</strong> — what happens when one side knows more?</li>
+<li><strong>Costly information acquisition</strong> — Grossman–Stiglitz: if information is costly, who pays to acquire it?</li>
+<li><strong>Mechanism design</strong> — can institutions make truthful reporting the best strategy?</li>
+<li><strong>Market microstructure</strong> — how does information enter prices trade by trade?</li>
+<li><strong>Information design</strong> — how should a designer choose what others get to learn?</li>
+<li><strong>Verifiable computation</strong> — can work that is costly to produce but cheap to check become evidence?</li>
+</ol>
+<h2>Key findings</h2>
+<h3>Costly to produce, cheap to verify</h3>
+<p>A miner’s private search — hardware, electricity, repeated hashing — compresses into a compact public certificate. Anyone can check that the header hash is below the target without seeing the work or trusting the worker.</p>
+<h3>Four levels of evidence</h3>
+<p>Identity, integrity, procedural, and semantic evidence each answer a different question. A valid signature or proof of work establishes rule compliance — not that an external claim is true.</p>
+<h3>Verification relocates trust</h3>
+<p>Checking the proof replaces trusting the speaker, but trust moves into the protocol, its implementation, cryptographic assumptions, and incentives. A verifier knows only the distinctions its predicate can make.</p>
+<h2>Where to go next</h2>
+<p><a data-goto="series-part2a">Part 2A</a> asks what that verification costs physically. For the economics lineage, see <a data-goto="other-philosophies">Other Philosophies</a>.</p>`,
+connection: "Proof of work does not make markets perfectly informed or prove arbitrary claims true. It adds a verifiable signal technology inside a strategically designed institution — the economic framing for everything downstream."
+},
+{
+slug: "series-part2a", section: "series", title: "Part 2A — From Shannon to Gibbs",
+meta: "Steph Macurdy, Institute of Thermoeconomics &amp; Dr. Karl Kreder, Dominant Strategies · October 2026 · 10 pages",
+body: `<p><a class="btn-pdf" href="From_Shannon_to_Gibbs_Part2A.pdf" target="_blank" rel="noopener">Read the paper (PDF) →</a></p>
+<p class="lead">Shannon and Gibbs entropy share a mathematical form, but linking information to thermodynamic cost requires specifying the <strong>physical states and operations</strong> involved. This is the <strong>micro</strong> half of the series’ thermodynamics of hashrate.</p>
+<h2>The argument</h2>
+<p>The law of large numbers gives expected surprisal an empirical meaning. Jaynes’s maximum-entropy construction yields Gibbs ensembles. Boltzmann’s constant supplies the units:</p>
+<p>$$S_G = k_B\\,H \\quad\\text{(for a distribution over physical microstates)}$$</p>
+<p>An exact split of memory entropy into logical and internal parts identifies when erasure carries a Landauer cost. Applied to an idealized proof-of-work search, that gives conditional lower bounds on failed-reset heat per proof and on sustained power.</p>
+<h2>Key findings</h2>
+<h3>Same form, different claims</h3>
+<p>$S_G = k_B H$ is exact for a distribution over physical microstates — not for an arbitrary message. Jaynes’s constraints and the calibration of $k_B$ carry the physics.</p>
+<h3>Logical vs. internal entropy</h3>
+<p>Memory entropy decomposes into uncertainty about the logical value plus entropy within each logical state. Only when the internal part is unchanged does logical erasure fix the physical entropy drop.</p>
+<h3>Difficulty bits ≠ erased bits</h3>
+<p>Search statistics supply $(1-p)/p$ expected failures; a separate reset assumption supplies heat per failure. Their product bounds mean heat per proof, and a required proof rate turns it into a power floor.</p>
+<h2>Background</h2>
+<p><a data-goto="jaynes">Jaynes (1957)</a> · <a data-goto="landauer">Landauer (1961)</a> · <a data-goto="bennett">Bennett (1982)</a></p>`,
+connection: "Part 2A is where an information bit and a thermodynamic bit are carefully related rather than equated. Its companion, Part 2B, scales the same ideas up to a whole network."
+},
+{
+slug: "series-part2b", section: "series", title: "Part 2B — What Can We Infer From Hashes?",
+meta: "Steph Macurdy · Institute of Thermoeconomics · October 2026 · 16 pages · <strong>Working draft</strong>",
+body: `<p><a class="btn-pdf" href="What_Can_We_Infer_From_Hashes_Part2B.pdf" target="_blank" rel="noopener">Read the draft (PDF) →</a></p>
+<p class="lead">What can we infer about the hidden activity of a distributed computational process from its constraints and the statistics of its observed outputs? This is the <strong>macro</strong> half of the series’ thermodynamics of hashrate.</p>
+<h2>The chain of distributions</h2>
+<p>Difficulty → Bernoulli → Binomial / Geometric → Poisson / Exponential → inferred hash → physical energy.</p>
+<ul>
+<li><strong>Difficulty</strong> fixes the success probability per attempt: with $d$ leading zero bits, $p = 2^{-d}$.</li>
+<li><strong>Bernoulli</strong> describes one hash; <strong>binomial</strong> counts proofs in $n$ hashes; <strong>geometric</strong> counts hashes until the first proof, with mean $1/p$.</li>
+<li><strong>Poisson</strong> counts proofs in physical time; <strong>exponential</strong> describes waiting times.</li>
+</ul>
+<h2>The estimator</h2>
+<p>Observing $k$ proofs in time $t$ gives a maximum-likelihood estimate of interval-average hashrate:</p>
+<p>$$\\hat{\\bar H} = \\frac{k}{p\\,t} = \\frac{k\\,2^{d}}{t}$$</p>
+<p>Its relative standard error is $1/\\sqrt{\\mu}$, where $\\mu$ is the expected proof count: 100 proofs give about 10%, 10,000 about 1%.</p>
+<h2>Key findings</h2>
+<h3>Totals, not histories</h3>
+<p>Any two hashrate trajectories with the same integral produce the same distribution of proof counts. The count reveals cumulative work, not when it happened.</p>
+<h3>Point estimates need intervals</h3>
+<p>Ten proofs in 50 seconds at $d = 40$ point to about 220 GH/s, but the exact 95% Poisson interval runs from roughly 105 to 404 GH/s.</p>
+<h3>Engineering cost ≠ Landauer floor</h3>
+<p>Energy estimated as $\\epsilon_h\\,k/p$ rests on measured joules per hash. A Landauer bound applies only to a specified reset model. If $\\epsilon_h$ already includes the reset, adding the two double counts it.</p>
+<h2>Try it</h2>
+<p>Mine a block by hand in the <a data-goto="tk-block">Block &amp; Proof of Work</a> toy and count the failed nonces.</p>`,
+connection: "Part 2B is how an outside observer gets from a public ledger to an estimate of hidden physical work — the empirical bridge between proof of work and energy."
+},
+
 
 // -------- INFORMATION THEORY --------
 {
@@ -292,8 +512,27 @@ body: `<blockquote><strong>Paper:</strong> E.T. Jaynes, "Information Theory and 
 connection: "The difficulty adjustment in proof of work is a MaxEnt constraint. It fixes the average rate of block production (one constraint), and within that constraint, the specific hash values that satisfy the target are maximally random (maximum entropy). The Thermoeconomic Operator paper shows this formally: IID hash-based Bernoulli trials under the difficulty constraint yield the Generalized Boltzmann Distribution — the only distribution where Gibbs-Shannon entropy equals thermodynamic entropy.",
 notes: [{ date: "2025-12", text: "This is the most important single result for the Thermoeconomic Operator. The formal chain: IID hashes → MaxEnt under difficulty constraint → Generalized Boltzmann → formal isomorphism between hash-market system and thermodynamics. Jaynes' separation principle is key: the physics (Landauer cost) and the inference (MaxEnt over hash space) are cleanly separated but convergent." }]
 },
+// -------- THERMODYNAMICS OF COMPUTATION --------
 {
-slug: "landauer", section: "info-theory", title: "Landauer (1961) — Irreversibility and Heat Generation",
+slug: "thermo", section: "thermo", title: "Thermodynamics of Computation",
+body: `<p class="lead">Computation runs on physical machines, so it obeys the second law. Two results set the terms: <strong>Landauer</strong> showed that erasing information has a minimum heat cost; <strong>Bennett</strong> showed that computation itself need not.</p>
+<h2>The floor</h2>
+<p>Resetting one bit of memory in contact with a reservoir at temperature $T$ dissipates, on average, at least</p>
+<p>$$Q \\ge k_B T \\ln 2$$</p>
+<p>At room temperature (300 K) that is about $2.9 \\times 10^{-21}$ joules — many orders of magnitude below what real hardware spends per operation. The floor matters less as an engineering number than as a principle: logically irreversible operations cannot be thermodynamically free.</p>
+<h2>Where the cost lives</h2>
+<p>Bennett showed that a computation can in principle be run reversibly and then uncomputed, leaving only the answer. What cannot be avoided is discarding information you no longer keep. For proof of work, that points the question at the failed attempts: what, physically, is reset after each one?</p>
+<h2>Read in this order</h2>
+<ol>
+<li><a data-goto="landauer">Landauer (1961)</a> — irreversibility and heat generation.</li>
+<li><a data-goto="bennett">Bennett (1982)</a> — the thermodynamics of computation.</li>
+<li><a data-goto="series-part2a">Part 2A</a> — when a logical bit erased is a physical entropy drop, and what that implies for a mining search.</li>
+</ol>`,
+connection: "This shelf is the thermodynamics thread of the Study. It returns in Proof of Work (PoW as Thermodynamic Process), in Deacon (absential features and work), and in the Synthesis."
+},
+
+{
+slug: "landauer", section: "thermo", title: "Landauer (1961) — Irreversibility and Heat Generation",
 meta: "Rolf Landauer · IBM Journal of Research and Development · 1961",
 body: `<blockquote><strong>Paper:</strong> Rolf Landauer, "Irreversibility and Heat Generation in the Computing Process," <em>IBM Journal of Research and Development</em>, Vol. 5, No. 3, 1961.<br><a href="https://doi.org/10.1147/rd.53.0183" target="_blank">DOI →</a></blockquote>
 <h2>Summary</h2>
@@ -308,7 +547,7 @@ connection: "Landauer's principle is the bridge between information theory and p
 notes: [{ date: "2025-12", text: "The 10-billion-times gap between Landauer and reality is actually a feature of the argument, not a weakness. It means the fundamental result is robust — we're not relying on being near the limit. We're saying: even at the limit, the cost is nonzero and irreducible. Everything above the limit is engineering overhead that may shrink. The limit itself cannot." }]
 },
 {
-slug: "bennett", section: "info-theory", title: "Bennett (1982) — Thermodynamics of Computation",
+slug: "bennett", section: "thermo", title: "Bennett (1982) — Thermodynamics of Computation",
 meta: "Charles H. Bennett · International Journal of Theoretical Physics · 1982",
 body: `<blockquote><strong>Paper:</strong> Charles H. Bennett, "The Thermodynamics of Computation — A Review," <em>International Journal of Theoretical Physics</em>, Vol. 21, 1982.<br><a href="https://doi.org/10.1007/BF02084158" target="_blank">DOI →</a></blockquote>
 <h2>Summary</h2>
@@ -659,7 +898,7 @@ connection: "This is the formal core of thermoeconomics. It proves that the conn
 notes: [{ date: "2025-12", text: "The key insight is that PoEM hits the physical limit of information extraction. Threshold PoW throws away information (lossy compression). PoEM counts every bit of entropy reduction (lossless). This is why Qi can be proportional to hash rate — PoEM ensures no work is wasted." }]
 },
 {
-slug: "quai", section: "synthesis", title: "Quai Network",
+slug: "quai", section: "quai", title: "Quai Network",
 body: `<p>Quai Network is the proof-of-work blockchain that most fully embodies the thermoeconomic thesis. It was designed from the ground up with the understanding that proof of work is a thermodynamic process.</p>
 <h2>Three Features</h2>
 <p><strong>Proof of Entropy Minima (PoEM)</strong> — A consensus mechanism that ranks every hash output by absolute value. Lower hash = greater entropy reduction = more information extracted per computation. No threshold, no wasted work.</p>
@@ -668,7 +907,7 @@ body: `<p>Quai Network is the proof-of-work blockchain that most fully embodies 
 connection: "Quai is the implementation of the thesis. PoEM is MaxEnt applied to consensus. Qi is Landauer's principle made economic. The dual currency is the energy/entropy duality given token form. Every design decision traces back to the physics."
 },
 {
-slug: "poem", section: "synthesis", title: "Proof of Entropy Minima (PoEM)",
+slug: "poem", section: "quai", title: "Proof of Entropy Minima (PoEM)",
 meta: "Karl Kreder · 2023",
 body: `<blockquote><strong>Paper:</strong> Karl Kreder, "Proof of Entropy Minima," 2023.<br><a href="https://arxiv.org/pdf/2303.04305" target="_blank">arXiv →</a></blockquote>
 <h2>The Problem with Threshold Difficulty</h2>
@@ -686,7 +925,7 @@ body: `<blockquote><strong>Paper:</strong> Karl Kreder, "Proof of Entropy Minima
 connection: "PoEM is the MaxEnt principle applied to consensus. The difficulty adjustment constrains the rate of entropy reduction. Within that constraint, PoEM selects the block that reduced entropy the most — maximum information extraction per unit of computation. This is why Qi emission can be strictly proportional to hash rate."
 },
 {
-slug: "qi-quai", section: "synthesis", title: "Qi & Quai — Dual Currency System",
+slug: "qi-quai", section: "quai", title: "Qi & Quai — Dual Currency System",
 body: `<h2>Two Tokens, Two Sides of Value</h2>
 <p>Quai Network issues two tokens simultaneously from the same mining process:</p>
 <p><strong>Qi</strong> — The energy token. Emission is strictly proportional to hash rate (watts). Qi represents the <em>free energy</em> supplied to the system. It is energy money in the precise thermodynamic sense: each unit is backed by a measurable, irreversible expenditure of physical energy.</p>
@@ -721,7 +960,7 @@ connection: "This is the full narrative arc of thermoeconomics: from the low-ent
 notes: [{ date: "2026-01", text: "The DrK conversation is the best entry point for anyone coming from physics. Start here if you want the big picture before the formalism. The Jordan Hall conversation extends the argument into the philosophy of agency and value — connecting to Deacon's framework." }]
 },
 {
-slug: "controller", section: "synthesis", title: "Qi Quai — Controller Report",
+slug: "controller", section: "quai", title: "Qi Quai — Controller Report",
 meta: "Andrius Kulikauskas for Steph Macurdy · November 2025 · 24 pages",
 body: `<blockquote><strong>Report:</strong> Andrius Kulikauskas, "Qi Quai — Controller Report," prepared for Steph Macurdy, November 2025.<br><a href="https://thermoeconomics.info/qi_quai_report.pdf" target="_blank">Read Full Report (PDF) →</a></blockquote>
 <h2>Abstract</h2>
@@ -1253,8 +1492,206 @@ Source: thermoeconomics.info/study</div>
 <p>After pasting, tell the AI something like: <em>"I'm a Bitcoin miner with no physics background. Teach me why my mining rig is a thermodynamic engine."</em></p>`
 },
 // -------- ZK PROOF SYSTEMS --------
+// -------- DISTRIBUTED SYSTEMS --------
 {
-slug: "zk-proofs", section: "zk-proofs", title: "ZK Proof Systems",
+slug: "dist-systems", section: "dist-sys", title: "Distributed Systems",
+body: `<p class="lead">Before Bitcoin, distributed-computing theory had already established why agreement among machines is hard. Proof of work is best read as an answer to these results, not an escape from them.</p>
+<h2>Four results</h2>
+<h3>Lamport (1978) — Time, Clocks, and the Ordering of Events</h3>
+<p>Without a global clock, the only coherent notion of time in a network is logical: event A “happened before” B if information could have flowed from A to B. Ordering is something a system constructs, not something it reads off a clock. <a href="https://lamport.azurewebsites.net/pubs/time-clocks.pdf" target="_blank" rel="noopener">Paper</a></p>
+<h3>Lamport, Shostak &amp; Pease (1982) — The Byzantine Generals Problem</h3>
+<p>Nodes may fail arbitrarily, including by lying. With unsigned messages, agreement is possible only if fewer than a third of participants are faulty. <a href="https://lamport.azurewebsites.net/pubs/byz.pdf" target="_blank" rel="noopener">Paper</a></p>
+<h3>Fischer, Lynch &amp; Paterson (1985) — FLP Impossibility</h3>
+<p>In a fully asynchronous network, no deterministic protocol can guarantee consensus if even one process may crash. Every practical protocol gives something up: determinism, asynchrony, or guaranteed termination. <a href="https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf" target="_blank" rel="noopener">Paper</a></p>
+<h3>Dwork, Lynch &amp; Stockmeyer (1988) — Partial Synchrony</h3>
+<p>Consensus becomes solvable if the network eventually behaves synchronously — the assumption most modern BFT protocols rely on.</p>
+<h2>What Nakamoto changed</h2>
+<p>Classical protocols assume a known set of participants. Nakamoto consensus allows open membership by making votes cost work, which resists Sybil attacks. It trades deterministic finality for probabilistic finality — confidence grows with each block — and relies on randomness in block discovery and bounded network delay.</p>
+<h2>Where this thread continues</h2>
+<p><a data-goto="nakamoto">Nakamoto (2008)</a> · <a data-goto="poem">PoEM</a> · <a data-goto="causal-invariance">Causal Invariance and Consensus</a> · <a data-goto="tk-distributed">Distributed Ledger toy</a></p>`,
+connection: "Distributed systems explain why consensus needs a cost or a trusted roster. Thermoeconomics asks what that cost is physically — and Wolfram’s causal invariance asks whether physics itself solves the same ordering problem."
+},
+
+// -------- OTHER PHILOSOPHIES --------
+{
+slug: "other-philosophies", section: "philosophies", title: "Other Philosophies",
+body: `<p class="lead">Thermoeconomics did not appear from nowhere. Several thinkers tied economics to physics, information, or time long before blockchains — and some of them supply the strongest objections to this program.</p>
+<h2>Forerunners</h2>
+<h3>Frederick Soddy — Wealth, Virtual Wealth and Debt (1926)</h3>
+<p>A Nobel chemist turned economic critic. Soddy distinguished real wealth, which is bound by physical law and decays, from debt, a claim that can compound without physical limit. The tension between the two is a recurring theme in monetary critiques.</p>
+<h3>Nicholas Georgescu-Roegen — The Entropy Law and the Economic Process (1971)</h3>
+<p>Treated production as the transformation of low-entropy resources into high-entropy waste, and argued that economics ignores the second law at its peril. He founded what became ecological economics.</p>
+<h3>Friedrich Hayek — The Use of Knowledge in Society (1945)</h3>
+<p>Prices as a signalling system that aggregates knowledge no single mind holds. This is the starting point of <a data-goto="series-part1">Part 1</a>, which asks what proof of work adds to that picture.</p>
+<h2>Contemporaries</h2>
+<h3>Ergodicity economics — Ole Peters, Nassim Taleb</h3>
+<p>For many processes, the average over an ensemble differs from the average one agent experiences over time. Decisions that look rational in expectation can be ruinous along a single path. The Study’s <em>Ergodicity &amp; Consensus</em> deck draws on this distinction.</p>
+<h3>Steve Keen — energy and money in production</h3>
+<p>Argues that standard production functions leave out energy, and that money and private debt must be modelled explicitly, following Minsky.</p>
+<h3>Terrence Deacon — constraint as cause</h3>
+<p>A philosophy of emergence rather than economics, but central to how the Study treats institutions. See <a data-goto="incomplete-nature">Incomplete Nature</a>.</p>
+<h2>Objections worth taking seriously</h2>
+<ul>
+<li><strong>Energy theories of value have a poor record.</strong> Thermoeconomics does not claim value equals energy. It claims verification has a physical cost floor and asks what follows.</li>
+<li><strong>Hayek’s prices already aggregate information.</strong> Part 1 accepts this and asks a narrower question: what can be verified without trusting the reporter?</li>
+<li><strong>Georgescu-Roegen’s pessimism.</strong> If every process degrades resources, is spending energy on consensus waste? The Synthesis addresses where work produces constraint rather than only heat.</li>
+</ul>`,
+connection: "These are the economic and philosophical neighbours of thermoeconomics. Read them before the Synthesis so the convergence is tested against its strongest alternatives."
+},
+
+// -------- DRAWINGS --------
+{
+slug: "drawings", section: "drawings", title: "Drawings & Diagrams",
+body: `<p class="lead">Visual references for the Study. Architecture diagrams come from the <a href="https://github.com/UTXO-Alliance/handbooks" target="_blank" rel="noopener">UTXO Alliance Handbook</a>; hand drawings and whiteboard captures from live sessions will be added here.</p>
+<h2>Blockchain basics</h2>
+<div class="gallery">
+<figure><img src="https://raw.githubusercontent.com/UTXO-Alliance/handbooks/main/utxo-model-flavors-handbook/readme-assets/README-high-level-blockchain.png" alt="High-level blockchain architecture" loading="lazy"><figcaption>High-level architecture — how transactions flow from creation to consensus</figcaption></figure>
+<figure><img src="https://raw.githubusercontent.com/UTXO-Alliance/handbooks/main/utxo-model-flavors-handbook/readme-assets/README-simple-blockchain.png" alt="Simple blockchain structure" loading="lazy"><figcaption>The building blocks — transactions, blocks, and the chain</figcaption></figure>
+</div>
+<h2>UTXO Architectures</h2>
+<div class="gallery">
+<figure><img src="Bitcoin.png" alt="Bitcoin architecture" loading="lazy"><figcaption><strong>Bitcoin</strong> — the original UTXO model</figcaption></figure>
+<figure><img src="Cardano.png" alt="Cardano architecture" loading="lazy"><figcaption><strong>Cardano</strong> — extended UTXO with datum and redeemer</figcaption></figure>
+<figure><img src="Ergo.png" alt="Ergo architecture" loading="lazy"><figcaption><strong>Ergo</strong> — extended UTXO with registers</figcaption></figure>
+<figure><img src="Nervos.png" alt="Nervos architecture" loading="lazy"><figcaption><strong>Nervos</strong> — the cell model</figcaption></figure>
+<figure><img src="Alephium.png" alt="Alephium architecture" loading="lazy"><figcaption><strong>Alephium</strong> — stateful UTXO with sharding</figcaption></figure>
+<figure><img src="Quai.png" alt="Quai Network architecture" loading="lazy"><figcaption><strong>Quai Network</strong> — hierarchical UTXO with PoEM</figcaption></figure>
+<figure><img src="Digibyte.png" alt="DigiByte architecture" loading="lazy"><figcaption><strong>DigiByte</strong> — classic UTXO, five mining algorithms</figcaption></figure>
+<figure><img src="Hathor.png" alt="Hathor architecture" loading="lazy"><figcaption><strong>Hathor</strong> — UTXO on a DAG ledger</figcaption></figure>
+</div>
+<p>Full handbook: <a href="UTXO-Model-Flavors-Menu-v2.2.pdf" target="_blank" rel="noopener">Core Ingredients of Blockchains: UTXO Handbook (PDF)</a></p>`
+},
+
+// -------- LIVE SESSIONS --------
+{
+slug: "live-sessions", section: "live", title: "Live Sessions",
+body: `<p class="lead">The Study is the base material. Live sessions will be recorded against it and assembled into courses. No sessions have been recorded in this format yet — this page is where they will collect.</p>
+<h2>How it will work</h2>
+<ol>
+<li><strong>Anchor.</strong> Every session is tied to a page or section of the Study, so the material and the recording point at each other.</li>
+<li><strong>Record.</strong> The recording, transcript, and any drawings attach back to that page — videos and notes below the main text, drawings in <a data-goto="drawings">Drawings</a>.</li>
+<li><strong>Assemble.</strong> Sessions are grouped into course modules that follow the route: Foundations, then the three pillars, then the Playground builds.</li>
+</ol>
+<h2>Planned tracks</h2>
+<table>
+<tr><th>Track</th><th>Base material</th><th>Status</th></tr>
+<tr><td>Reading the Series</td><td><a data-goto="series">Parts 1, 2A, 2B</a>, then Part 3</td><td>Planned</td></tr>
+<tr><td>Proof of Work</td><td><a data-goto="pow">Proof of Work</a> · <a data-goto="dist-systems">Distributed Systems</a> · <a data-goto="poem">PoEM</a></td><td>Planned</td></tr>
+<tr><td>Active Inference</td><td><a data-goto="active-inference">Active Inference</a> · <a data-goto="deacon">Deacon</a></td><td>Planned</td></tr>
+<tr><td>Discrete Physics</td><td><a data-goto="comp-mech">Computational Mechanics</a> · <a data-goto="wolfram-overview">Wolfram Physics</a></td><td>Planned</td></tr>
+<tr><td>Build sessions</td><td><a data-goto="tk-welcome">Playground</a></td><td>Planned</td></tr>
+</table>
+<h2>Earlier recordings</h2>
+<p>Recorded conversations that already follow this pattern: <a data-goto="big-bang">From Big Bang to Blockchain</a> (with DrK and Jordan Hall), and the 2023 Quai University calls in the <a data-goto="videos">Video Library</a>.</p>`
+}
+
+,
+// -------- FOUNDATIONS: CRYPTOGRAPHY --------
+{
+slug: "crypto", section: "crypto", title: "Cryptography",
+body: `<p class="lead">Cryptography supplies the asymmetries that make trustless systems possible: operations that are <strong>easy one way and infeasible the other</strong>. Every blockchain is assembled from a handful of them.</p>
+<h2>The primitives</h2>
+<table>
+<tr><th>Primitive</th><th>Easy</th><th>Hard</th><th>Used for</th></tr>
+<tr><td>Hash function</td><td>Compute $H(x)$</td><td>Find $x$ from $H(x)$, or two inputs with the same output</td><td>Proof of work, block links, Merkle roots, addresses</td></tr>
+<tr><td>Key exchange</td><td>Compute $g^a$ from $a$</td><td>Recover $a$ from $g^a$ (discrete log)</td><td>Shared secrets over public channels</td></tr>
+<tr><td>Trapdoor function</td><td>Multiply two primes</td><td>Factor the product</td><td>RSA encryption and signatures</td></tr>
+<tr><td>Elliptic curves</td><td>Compute $kG$ from $k$</td><td>Recover $k$ from $kG$</td><td>Compact keys and signatures — Bitcoin’s keys</td></tr>
+<tr><td>Zero-knowledge proofs</td><td>Verify a short proof</td><td>Forge one without the secret</td><td>Privacy and scaling</td></tr>
+</table>
+<h2>One thing to notice</h2>
+<p>The Bitcoin ledger uses no encryption: every transaction is public. It is built from <strong>hashes</strong> (to commit to data and to price work) and <strong>signatures</strong> (to prove authority to spend). Encryption appears only around the edges, such as encrypted peer connections.</p>
+<h2>Read in this order</h2>
+<ol>
+<li><a data-goto="hash-functions">Hash Functions</a> — one-way by design.</li>
+<li><a data-goto="diffie-hellman">Diffie &amp; Hellman (1976)</a> — public-key cryptography begins.</li>
+<li><a data-goto="rsa">RSA (1977)</a> — trapdoors from factoring.</li>
+<li><a data-goto="merkle">Merkle (1979)</a> — hash trees.</li>
+<li><a data-goto="elliptic-curves">Elliptic Curves (1985)</a> — the same ideas, much smaller keys.</li>
+<li><a data-goto="zk-proofs">Zero-Knowledge Proofs</a> — proving without revealing.</li>
+</ol>
+<p>The applied side — exactly how Bitcoin uses SHA-256, secp256k1, and signatures, and why quantum computers threaten some of it — is in <a data-goto="btc-crypto">Cryptography in Bitcoin</a> under Proof of Work.</p>`,
+connection: "Cryptographic hardness is a computational asymmetry, and proof of work is the one place that asymmetry is deliberately priced in energy. Hash functions are where thermodynamics and cryptography meet."
+},
+{
+slug: "hash-functions", section: "crypto", title: "Hash Functions — One-Way by Design",
+body: `<p class="lead">A cryptographic hash function maps input of any length to a fixed-length digest. It is deterministic and fast to compute, yet behaves, for every practical purpose, like a random function.</p>
+<h2>Three security properties</h2>
+<ul>
+<li><strong>Preimage resistance</strong> — given a digest $y$, finding any $x$ with $H(x) = y$ is infeasible. For a 256-bit hash, brute force takes about $2^{256}$ tries.</li>
+<li><strong>Second-preimage resistance</strong> — given $x$, finding a different $x'$ with the same digest is infeasible.</li>
+<li><strong>Collision resistance</strong> — finding <em>any</em> two inputs with the same digest is infeasible. The birthday bound makes this easier than preimages: about $2^{128}$ tries for a 256-bit output.</li>
+</ul>
+<h2>The avalanche effect</h2>
+<p>Change one bit of input and roughly half the output bits flip, with no visible pattern. That is what lets the <a data-goto="series-part2b">Part 2B</a> model treat each hash attempt as an independent, uniformly random trial. Try it in the <a data-goto="tk-hash">SHA-256 toy</a>.</p>
+<h2>How SHA-256 is built</h2>
+<p>SHA-256 was designed by the NSA and published by NIST as part of the SHA-2 family. It uses the Merkle–Damgård construction: pad the message to a multiple of 512 bits, then feed it block by block through a compression function that runs 64 rounds over eight 32-bit words. The constants are taken from the fractional parts of square and cube roots of the first primes — “nothing-up-my-sleeve” numbers. Step through the rounds in the <a data-goto="tk-sha256deep">SHA-256 Deep Dive</a>.</p>
+<h2>What hashes are used for</h2>
+<p>Commitments (publish $H(x)$ now, reveal $x$ later), integrity checks, linking blocks, building Merkle trees, deriving addresses — and, by imposing a target on the output, proof of work.</p>`,
+connection: "A hash function turns a uniform 2^256 state space into a lottery with a precisely known success probability. That known probability is what makes hidden work statistically measurable."
+},
+{
+slug: "diffie-hellman", section: "crypto", title: "Diffie & Hellman (1976) — New Directions in Cryptography",
+body: `<p class="lead">Before 1976, two parties who wanted to communicate secretly had to share a key in advance. Whitfield Diffie and Martin Hellman showed how two strangers can agree on a shared secret while an eavesdropper hears every message. It is the founding paper of public-key cryptography. <a href="https://ee.stanford.edu/~hellman/publications/24.pdf" target="_blank" rel="noopener">Paper</a></p>
+<h2>The exchange</h2>
+<p>Alice and Bob publicly agree on a large prime $p$ and a generator $g$. Each picks a private number — Alice $a$, Bob $b$ — and publishes:</p>
+<p>$$A = g^a \\bmod p, \\qquad B = g^b \\bmod p$$</p>
+<p>Each then raises the other’s public value to their own private number:</p>
+<p>$$s = B^a = A^b = g^{ab} \\bmod p$$</p>
+<p>An eavesdropper sees $p$, $g$, $A$, and $B$, but to compute $s$ must essentially recover $a$ or $b$ — the <strong>discrete logarithm problem</strong>.</p>
+<h2>A toy example</h2>
+<p>With $p = 23$, $g = 5$, $a = 4$, $b = 3$: Alice publishes $5^4 \\bmod 23 = 4$; Bob publishes $5^3 \\bmod 23 = 10$. Alice computes $10^4 \\bmod 23 = 18$; Bob computes $4^3 \\bmod 23 = 18$. Same secret. Real systems use numbers hundreds of digits long, or elliptic curves.</p>
+<h2>Why it matters</h2>
+<p>The paper also proposed the idea of <strong>digital signatures</strong> built on one-way functions with trapdoors — the concept every blockchain transaction depends on. Ralph Merkle had independently developed an earlier key-agreement scheme (“Merkle’s puzzles”), credited as a precursor.</p>`,
+connection: "Diffie–Hellman established that security can come from a computational asymmetry rather than a shared secret. Bitcoin's keys rest on the elliptic-curve version of the same discrete-log problem."
+},
+{
+slug: "rsa", section: "crypto", title: "RSA (1977) — Trapdoors from Factoring",
+body: `<p class="lead">Rivest, Shamir, and Adleman gave the first practical construction of the trapdoor function Diffie and Hellman described: one function that works for both encryption and signatures.</p>
+<h2>The construction</h2>
+<p>Pick two large primes $p, q$; publish $n = pq$ and an exponent $e$. Compute the private exponent $d$ with $e\\,d \\equiv 1 \\pmod{\\varphi(n)}$, where $\\varphi(n) = (p-1)(q-1)$.</p>
+<p>$$c = m^e \\bmod n, \\qquad m = c^d \\bmod n$$</p>
+<p>Anyone can encrypt with $(n, e)$; only the holder of $d$ can decrypt. Run it backwards — compute $m^d$ with the private key, verify with $e$ — and you have a signature.</p>
+<h2>A toy example</h2>
+<p>$p = 61$, $q = 53$ gives $n = 3233$ and $\\varphi(n) = 3120$. With $e = 17$, the private exponent is $d = 2753$. Encrypting $m = 65$ gives $c = 2790$; decrypting returns 65.</p>
+<h2>Why Bitcoin does not use it</h2>
+<p>RSA’s security rests on the difficulty of factoring $n$. Matching the security of a 256-bit elliptic-curve key takes an RSA modulus of about 3072 bits, so keys and signatures are far larger. For a ledger where every signature is stored forever by every node, size matters.</p>`,
+connection: "RSA shows the general pattern — a public operation anyone can check, a private one only the key holder can perform. Elliptic curves deliver the same pattern at a fraction of the size."
+},
+{
+slug: "merkle", section: "crypto", title: "Merkle (1979) — Hash Trees",
+body: `<p class="lead">Ralph Merkle’s hash tree commits to a large set of data with a single digest, and lets anyone prove one item belongs to the set with only a logarithmic number of hashes.</p>
+<h2>How it works</h2>
+<p>Hash each item to form the leaves. Hash pairs of leaves together, then pairs of those, until one hash remains: the <strong>Merkle root</strong>. Change any item and the root changes.</p>
+<h2>Proofs of inclusion</h2>
+<p>To prove item $x$ is in a tree of $N$ items, supply the sibling hashes along its path to the root — about $\\log_2 N$ of them. A block of 4,000 transactions needs only 12 hashes to prove any one of them is included. This is what lets light clients verify payments without downloading full blocks.</p>
+<h2>Where it appears</h2>
+<p>Every Bitcoin block header carries the Merkle root of its transactions. Taproot uses a Merkle tree of spending scripts so only the branch actually used is revealed. Ethereum uses a variant (Merkle–Patricia tries) for its state. Build one in the <a data-goto="tk-merkle">Merkle Tree toy</a>.</p>`,
+connection: "A Merkle root compresses an arbitrarily large commitment into 256 bits — the same move proof of work makes when it compresses hidden search into one verifiable header."
+},
+{
+slug: "elliptic-curves", section: "crypto", title: "Elliptic Curves (1985) — Small Keys, Same Hardness",
+body: `<p class="lead">Victor Miller and Neal Koblitz independently proposed doing public-key cryptography in the group of points on an elliptic curve over a finite field. The discrete-log problem there appears much harder than in ordinary modular arithmetic, so keys can be far smaller.</p>
+<h2>The curve</h2>
+<p>An elliptic curve is the set of points satisfying</p>
+<p>$$y^2 = x^3 + ax + b \\pmod p$$</p>
+<p>plus a “point at infinity”. Two points can be “added” by drawing the line through them and reflecting its third intersection with the curve. Adding a point to itself repeatedly gives <strong>scalar multiplication</strong>: $kG = G + G + \\dots + G$.</p>
+<h2>The one-way step</h2>
+<p>Given a private integer $k$ and a public base point $G$, computing $K = kG$ is fast — double-and-add takes about 256 steps for a 256-bit $k$. Going back from $K$ to $k$ is the <strong>elliptic-curve discrete log problem</strong>, for which the best known classical attacks take about $2^{128}$ operations at this size.</p>
+<h2>Why size matters</h2>
+<table>
+<tr><th>Security level</th><th>Elliptic curve key</th><th>RSA modulus</th></tr>
+<tr><td>128-bit</td><td>256 bits</td><td>3072 bits</td></tr>
+<tr><td>192-bit</td><td>384 bits</td><td>7680 bits</td></tr>
+</table>
+<p>Smaller keys mean smaller signatures, cheaper verification, and less data stored on every node. Bitcoin’s curve, secp256k1, is covered in <a data-goto="btc-signatures">secp256k1 and Bitcoin Signatures</a>.</p>
+<h2>The catch</h2>
+<p>Shor’s quantum algorithm solves the elliptic-curve discrete log efficiently on a large enough quantum computer. See <a data-goto="quantum-debate">The Quantum Debate</a>.</p>`,
+connection: "Elliptic-curve cryptography is what makes Bitcoin ownership a 32-byte secret. The asymmetry between computing kG and recovering k is the security of every coin."
+},
+
+{
+slug: "zk-proofs", section: "crypto", title: "ZK Proof Systems",
 body: `<p>Zero-knowledge proofs are cryptographic protocols that allow one party (the <strong>prover</strong>) to convince another party (the <strong>verifier</strong>) that a statement is true — without revealing <em>why</em> it is true, or any information beyond the fact of its truth.</p>
 <p>The implications are profound: you can prove you know a secret without disclosing it, prove you are over 18 without revealing your birthdate, or prove a computation was executed correctly without re-running it. ZK proofs are the cryptographic foundation of modern privacy-preserving systems, Layer 2 scaling, and trustless computation.</p>
 <h2>About This Resource</h2>
@@ -1284,7 +1721,7 @@ body: `<p>Zero-knowledge proofs are cryptographic protocols that allow one party
 <p>Navigate to <strong>Read the Book</strong> in the sidebar to open the full text embedded in this window, or download the PDF directly above.</p>`
 },
 {
-slug: "zk-book", section: "zk-proofs", title: "Read: The Seven-Layer Magic Trick",
+slug: "zk-book", section: "crypto", title: "Read: The Seven-Layer Magic Trick",
 body: `<blockquote><strong>Book:</strong> Charles Hoskinson, <em>The Seven-Layer Magic Trick: A Complete Guide to Zero-Knowledge Proof Systems</em>, Midnight Network, March 2026. &nbsp;<a href="./the-seven-layer-magic-trick.pdf" target="_blank">Download PDF &rarr;</a></blockquote>
 <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px;">338 pages &nbsp;&middot;&nbsp; CC BY 4.0 &nbsp;&middot;&nbsp; Use your browser's native PDF controls to navigate, zoom, search, and download. If the embed does not load, use the download link above to open in your PDF reader.</p>
 <div style="width:100%;height:82vh;border:1px solid var(--border-light);border-radius:10px;overflow:hidden;margin-top:8px;">
@@ -1296,13 +1733,152 @@ body: `<blockquote><strong>Book:</strong> Charles Hoskinson, <em>The Seven-Layer
   </object>
 </div>`
 }
+,
+
+// -------- PROOF OF WORK: CRYPTOGRAPHY IN BITCOIN --------
+{
+slug: "btc-crypto", section: "btc-crypto", title: "Cryptography in Bitcoin",
+body: `<p class="lead">Bitcoin uses two cryptographic tools, each for a different job. <strong>Hashes</strong> commit to data and price work. <strong>Signatures</strong> prove the right to spend.</p>
+<table>
+<tr><th>Tool</th><th>Algorithm</th><th>Job</th></tr>
+<tr><td>Hash</td><td>SHA-256 (usually applied twice)</td><td>Proof of work, block hashes, transaction IDs, Merkle roots</td></tr>
+<tr><td>Hash</td><td>RIPEMD-160 of SHA-256 (“HASH160”)</td><td>Shortening public keys into addresses</td></tr>
+<tr><td>Signature</td><td>ECDSA on secp256k1</td><td>Authorizing spends (legacy and SegWit v0)</td></tr>
+<tr><td>Signature</td><td>Schnorr on secp256k1</td><td>Authorizing spends (Taproot, since 2021)</td></tr>
+</table>
+<h2>Read in this order</h2>
+<ol>
+<li><a data-goto="btc-sha256">SHA-256 and Proof of Work</a></li>
+<li><a data-goto="btc-hashes">Where Hashes Live in Bitcoin</a></li>
+<li><a data-goto="btc-signatures">secp256k1 and Bitcoin Signatures</a></li>
+<li><a data-goto="quantum-debate">The Quantum Debate</a></li>
+</ol>
+<p>The theory behind each is in the Foundations <a data-goto="crypto">Cryptography</a> shelf. The full scripting language is in the <a data-goto="bitcoin-script">Bitcoin Script</a> appendix.</p>`,
+connection: "Hashes carry the thermodynamic side of Bitcoin; signatures carry the property side. The quantum threat falls almost entirely on the second."
+},
+{
+slug: "btc-sha256", section: "btc-crypto", title: "SHA-256 and Proof of Work",
+body: `<p class="lead">Mining is repeated SHA-256 hashing of an 80-byte block header until the result falls below a target.</p>
+<h2>The header</h2>
+<table>
+<tr><th>Field</th><th>Bytes</th></tr>
+<tr><td>Version</td><td>4</td></tr>
+<tr><td>Previous block hash</td><td>32</td></tr>
+<tr><td>Merkle root of transactions</td><td>32</td></tr>
+<tr><td>Timestamp</td><td>4</td></tr>
+<tr><td>Target (compact “nBits”)</td><td>4</td></tr>
+<tr><td>Nonce</td><td>4</td></tr>
+</table>
+<h2>The rule</h2>
+<p>The block hash is SHA-256 applied twice: $h = \\text{SHA256}(\\text{SHA256}(\\text{header}))$. Read as a 256-bit number, $h$ must not exceed the target $T$. The probability that one attempt succeeds is about $T / 2^{256}$ — the $p$ of <a data-goto="series-part2b">Part 2B</a>. The familiar leading zeros in block explorers are this rule made visible.</p>
+<h2>Why hash twice?</h2>
+<p>Nakamoto never explained it. The usual explanation is defence against length-extension weaknesses of Merkle–Damgård hashes, and as a hedge against future attacks on a single application. It doubles the work per attempt but changes nothing about the statistics.</p>
+<h2>Searching</h2>
+<p>The 4-byte nonce gives only about 4.3 billion tries — exhausted in well under a second by modern hardware. Miners also vary an extra nonce inside the coinbase transaction (which changes the Merkle root) and the timestamp. Mine a block yourself in the <a data-goto="tk-block">Block &amp; Proof of Work toy</a>.</p>`,
+connection: "Because SHA-256 outputs behave uniformly, the target fixes a known success probability per attempt. That is the bridge from cryptography to statistics to energy developed in Parts 2A and 2B."
+},
+{
+slug: "btc-hashes", section: "btc-crypto", title: "Where Hashes Live in Bitcoin",
+body: `<p class="lead">Beyond mining, hashes appear wherever Bitcoin needs to name, link, or commit to data.</p>
+<h2>Linking blocks</h2>
+<p>Each header contains the previous block’s hash. Altering any past block changes its hash and breaks every later link, so rewriting history means redoing all the work since. See it in the <a data-goto="tk-blockchain">Blockchain toy</a>.</p>
+<h2>Naming transactions</h2>
+<p>A transaction ID (txid) is the double SHA-256 of the serialized transaction. Since SegWit, the txid excludes witness (signature) data, so signatures cannot change a transaction’s ID; a separate wtxid includes them.</p>
+<h2>Committing to the block’s contents</h2>
+<p>Transaction IDs are paired and double-hashed up to a <a data-goto="merkle">Merkle root</a> stored in the header. If a level has an odd number of entries, the last is duplicated.</p>
+<h2>Making addresses</h2>
+<ul>
+<li><strong>P2PKH</strong> (addresses starting with 1): HASH160 of the public key — RIPEMD-160 of SHA-256 — encoded in Base58Check, whose checksum is the first 4 bytes of a double SHA-256.</li>
+<li><strong>P2WPKH</strong> (starting with bc1q): the same HASH160, encoded in Bech32.</li>
+<li><strong>P2TR</strong> (Taproot, starting with bc1p): the output holds a 32-byte public key directly, not a hash of it.</li>
+</ul>
+<p>Hashing the public key means it stays hidden until the coins are spent. That detail matters for <a data-goto="quantum-debate">the quantum debate</a>.</p>
+<h2>What gets signed</h2>
+<p>A signature does not sign the raw transaction; it signs a hash of selected transaction data (the “sighash”), so the signature commits to exactly which inputs and outputs it authorizes. Taproot uses <em>tagged</em> hashes so a hash computed for one purpose can never be reused for another.</p>`
+},
+{
+slug: "btc-signatures", section: "btc-crypto", title: "secp256k1 and Bitcoin Signatures",
+body: `<p class="lead">A Bitcoin private key is a 256-bit number. The public key is that number multiplied by a fixed point on the curve secp256k1. A signature proves you know the private key without revealing it.</p>
+<h2>The curve</h2>
+<p>$$y^2 = x^3 + 7 \\pmod p, \\qquad p = 2^{256} - 2^{32} - 977$$</p>
+<p>Private key: a random integer $d$ between 1 and the group order $n$ (just under $2^{256}$). Public key: $Q = dG$, usually stored compressed in 33 bytes. Nakamoto chose secp256k1 rather than the more common NIST P-256; its simple, non-random-looking parameters leave little room for a hidden weakness and allow fast verification. Generate a pair in the <a data-goto="tk-keys">Key Pairs toy</a>.</p>
+<h2>ECDSA</h2>
+<p>To sign a message hash $z$: pick a fresh secret nonce $k$, compute $R = kG$ and take $r$ as its x-coordinate mod $n$, then</p>
+<p>$$s = k^{-1}(z + r\\,d) \\bmod n$$</p>
+<p>The signature is $(r, s)$. A verifier computes $u_1 = z\\,s^{-1}$ and $u_2 = r\\,s^{-1}$ and checks that $u_1G + u_2Q$ has x-coordinate $r$. Only someone who knew $d$ could have produced a pair that passes.</p>
+<h3>The nonce is everything</h3>
+<p>Reuse $k$ for two signatures, or let it be predictable, and the private key can be solved for with simple algebra. Real-world thefts of bitcoin have followed from weak random number generators in wallets.</p>
+<h2>Schnorr (Taproot, 2021)</h2>
+<p>BIP 340 added Schnorr signatures on the same curve. They are a fixed 64 bytes (ECDSA signatures are usually 71–72 bytes) and are <strong>linear</strong>: several keys can be combined into one key and one signature (MuSig2), and many signatures can be verified together faster than one at a time. Try signing in the <a data-goto="tk-signatures">Digital Signatures toy</a>.</p>`,
+connection: "Ownership in Bitcoin is nothing more than knowledge of d. Everything about custody, key management, and the quantum threat follows from that."
+},
+{
+slug: "quantum-debate", section: "btc-crypto", title: "The Quantum Debate",
+body: `<p class="lead">A large enough quantum computer would break Bitcoin’s signatures long before it threatened its hashing. The debate is about when that could happen and what Bitcoin should do beforehand.</p>
+<h2>Two algorithms, two very different threats</h2>
+<table>
+<tr><th></th><th>Shor’s algorithm</th><th>Grover’s algorithm</th></tr>
+<tr><td>Attacks</td><td>Elliptic-curve discrete log (ECDSA, Schnorr)</td><td>Brute-force search (SHA-256)</td></tr>
+<tr><td>Speedup</td><td>Exponential — recovers a private key from a public key</td><td>Quadratic — $2^{256}$ preimage search becomes about $2^{128}$</td></tr>
+<tr><td>Consequence</td><td>Theft of coins whose public key is known</td><td>Hashes stay secure; mining gains a modest, costly edge</td></tr>
+</table>
+<h2>Why ECDSA is the target</h2>
+<p>Ownership is knowledge of a private key $d$, and the public key $Q = dG$ is designed to be shareable. Classical computers cannot get from $Q$ back to $d$. Shor’s algorithm can. The same applies to Schnorr signatures, which use the same curve. Hash-based protections hold up: Grover only halves the effective security bits, and 128 bits remains far beyond reach.</p>
+<h2>Which coins are exposed</h2>
+<ul>
+<li><strong>Exposed now:</strong> early pay-to-public-key outputs (including many Satoshi-era coins), any address that has been reused after spending, and Taproot outputs, which place the public key directly in the output.</li>
+<li><strong>Hidden until spent:</strong> unused P2PKH and P2WPKH addresses, where only a hash of the public key is on chain.</li>
+<li><strong>Exposed while spending:</strong> once a transaction is broadcast, its public key is visible in the mempool. A fast enough quantum attacker could derive the key and race a competing transaction before confirmation.</li>
+</ul>
+<h2>What the debate is about</h2>
+<h3>Timeline</h3>
+<p>Published estimates for breaking 256-bit elliptic-curve keys run to thousands of error-corrected logical qubits — likely millions of physical ones. No machine is close today. Views on when one might exist range from about a decade to never.</p>
+<h3>Migration</h3>
+<p>In 2024 NIST standardized post-quantum algorithms, including ML-DSA (lattice-based) and SLH-DSA (hash-based) signatures. Adopting one in Bitcoin requires a soft fork and new output types. The cost is size: an ML-DSA signature is about 2.4 KB, compared with 64 bytes for Schnorr.</p>
+<h3>Vulnerable coins</h3>
+<p>The hardest question is social. Coins whose owners never migrate — including long-dormant early coins — could be stolen by whoever builds a quantum computer first. Some proposals would phase out old signature types and freeze unmigrated coins; others hold that freezing anyone’s coins violates Bitcoin’s core property. There is no consensus.</p>
+<h2>Further reading</h2>
+<p><a data-goto="alt-ch14-s1">Quantum Computing</a> · <a data-goto="alt-ch14-s2">Blockchain Vulnerability Assessment</a> · <a data-goto="alt-ch14-s3">Quantum-Resistance Transition</a></p>`,
+connection: "The quantum debate separates Bitcoin's two cryptographic layers cleanly: the work layer (hashes) survives, the ownership layer (elliptic-curve signatures) must migrate. Proof of work's physical anchor is the more durable half."
+},
+// -------- MARKETS: ORACLES --------
+{
+slug: "oracles", section: "oracles", title: "Oracles",
+body: `<p class="lead">A blockchain can verify its own history, but it cannot see the outside world. An <strong>oracle</strong> is whatever brings an outside fact — a price, a weather reading, an election result — onto the chain. Every DeFi market that settles on a price depends on one.</p>
+<h2>The oracle problem</h2>
+<p>Inside the chain, rules are enforced by verification: anyone can check a signature or a proof of work. An external fact cannot be checked that way. Once it is on chain, contracts treat it as true, so the oracle becomes the point where trust re-enters a trustless system. Whoever can move the oracle can move every contract that reads it.</p>
+<h2>Design families</h2>
+<table>
+<tr><th>Design</th><th>How it works</th><th>Example</th><th>Main risk</th></tr>
+<tr><td>Single source</td><td>One trusted party signs and posts the value</td><td>Early exchange feeds</td><td>That party is a single point of failure</td></tr>
+<tr><td>Decentralized network</td><td>Many independent nodes report; the contract takes an aggregate such as the median</td><td>Chainlink</td><td>Node operators share data sources or incentives</td></tr>
+<tr><td>First-party publishers, pull model</td><td>Exchanges and trading firms sign prices; users pull a signed update on chain when they need it</td><td>Pyth</td><td>Depends on publisher honesty and update freshness</td></tr>
+<tr><td>On-chain market price</td><td>Read a time-weighted average price from a DEX pool</td><td>Uniswap TWAP</td><td>Thin pools can be pushed</td></tr>
+<tr><td>Optimistic</td><td>A claim is accepted unless someone posts a bond and disputes it within a window; disputes escalate to a vote</td><td>UMA (used for Polymarket resolution)</td><td>Dispute voters can be influenced</td></tr>
+</table>
+<h2>How oracles fail</h2>
+<p>The common attack is not hacking the oracle but feeding it a manipulated market. In February 2020, flash-loan attacks on bZx moved thinly traded prices that its contracts relied on. In October 2022, an attacker on Mango Markets pushed up the price of the MNGO token on the venues the oracle watched, then borrowed against the inflated collateral and drained roughly $110 million. In both cases the oracle reported the market accurately; the market itself was the weak point.</p>
+<h2>Defences</h2>
+<ul>
+<li>Aggregate many independent sources and use medians rather than means.</li>
+<li>Average over time so a brief spike cannot be used.</li>
+<li>Cap how much a reported value may move per update, and pause on outliers.</li>
+<li>Size positions to the depth of the markets the oracle reads.</li>
+</ul>
+<h2>What an oracle can and cannot prove</h2>
+<p><a data-goto="series-part1">Part 1</a> separates identity, integrity, procedural, and semantic evidence. A signed oracle update proves who posted it and that it was not altered — identity and integrity. It cannot prove the posted value is <em>true</em>. Proof of work is the same: it proves rule-following, not facts about the world.</p>
+<h2>Related</h2>
+<p><a data-goto="alt-ch07-s5">DeFi: Infrastructure Dependencies</a> · <a data-goto="alt-ch15-s1">Prediction Markets</a> · <a data-goto="btc-chain-compare">BTC vs. BCH vs. Quai</a> (oracle and merge-mining design)</p>`,
+connection: "An oracle marks the boundary between what a chain can verify and what it must take on trust. Thermoeconomics locates that boundary precisely: proofs certify procedure, never semantics."
+}
+
 ];
 
 // ============================================================
 // ALT STUDY DATA (How Crypto Works)
 // ============================================================
 const ALT_SECTIONS = [
-    { id: "alt-welcome", label: "Welcome" },
+    { id: "alt-welcome", label: "How Crypto Actually Works" },
     { id: "alt-preface", label: "Preface" },
     { id: "alt-ch01", label: "Bitcoin" },
     { id: "alt-ch02", label: "Ethereum" },
@@ -3684,27 +4260,39 @@ const ALL_SECTIONS = [...SECTIONS, ...ALT_SECTIONS, ...TOOLKIT_SECTIONS];
 const ALL_PAGES    = [...PAGES, ...ALT_PAGES, ...TOOLKIT_PAGES];
 
 const ATLAS = [
-  { id:'orientation', label:'Orientation',
-    blurb:'What this is, how to move through it, and why the adversarial frontier is the right starting posture.',
-    sections:['welcome','alt-welcome','alt-preface','tk-welcome'] },
+  { id:'start', label:'Start Here',
+    blurb:'What the Study is, why it exists, and the route through it. Four short pages.',
+    sections:['welcome'] },
   { id:'foundations', label:'Foundations',
-    blurb:'Six scientific traditions, read in sequence. Information theory and proof of work first; the rest build on them.',
-    sections:['info-theory','pow','wolfram','comp-mech','deacon','active-inference'] },
-  { id:'synthesis', label:'Synthesis',
-    blurb:'Where the traditions converge — the thermoeconomic operator, PoEM, and the Qi/Quai architecture.',
-    sections:['synthesis','causal-invariance','quai-uni'] },
-  { id:'machinery', label:'Machinery',
-    blurb:'How the protocols are actually built: scripts, proofs, consensus, custody, and the quantum horizon.',
-    sections:['bitcoin-script','zk-proofs','alt-ch01','alt-ch02','alt-ch03','alt-ch04','alt-ch05','alt-ch14'] },
+    blurb:'The Economics of Information series first, then the classic results it rests on: Shannon and Jaynes on entropy, Landauer and Bennett on the physical cost of computation, and the cryptography — hashes, Diffie–Hellman, RSA, Merkle trees, elliptic curves, and zero-knowledge proofs.',
+    sections:['series','info-theory','thermo','crypto'] },
+  { id:'pow', label:'I · Proof of Work',
+    blurb:'From pricing via processing to Nakamoto consensus — with the distributed-systems results that make it necessary, the cryptography Bitcoin actually uses (SHA-256, secp256k1, signatures, and the quantum debate), and Proof of Entropy Minima as the frontier design.',
+    sections:['pow','dist-sys','btc-crypto','quai'] },
+  { id:'active-inference', label:'II · Active Inference',
+    blurb:'Agents and networks as inference engines. Friston’s free energy principle, Markov blankets, and Deacon’s account of constraint as cause.',
+    sections:['active-inference','deacon'] },
+  { id:'discrete-physics', label:'III · Discrete Physics',
+    blurb:'Computation as the substrate. Computational mechanics, then Wolfram’s model — irreducibility, the ruliad, and causal invariance as a physical account of consensus.',
+    sections:['comp-mech','wolfram','causal-invariance'] },
+  { id:'convergence', label:'Convergence',
+    blurb:'Other economic philosophies that anticipated or challenge this program, then the synthesis: the thermoeconomic operator and the Big Bang to Blockchain arc.',
+    sections:['philosophies','synthesis'] },
+  { id:'chains', label:'Blockchains+',
+    blurb:'Reference shelf. How Bitcoin, Ethereum, Solana and other L1s are built, how custody works, and the quantum horizon.',
+    sections:['alt-welcome','alt-preface','alt-ch01','alt-ch02','alt-ch03','alt-ch04','alt-ch05','alt-ch14'] },
   { id:'markets', label:'Markets',
-    blurb:'What gets built on top, and how value moves through it once the machinery is assumed.',
-    sections:['alt-ch06','alt-ch07','alt-ch08','alt-ch09','alt-ch10','alt-ch11','alt-ch12','alt-ch13','alt-ch15'] },
-  { id:'workbench', label:'Workbench',
-    blurb:'Hands-on cryptography. Type an input, watch the digest move. Nothing here is a description.',
-    sections:['tk-hashing','tk-chain','tk-tx','tk-asym','tk-protocol','tk-internals'] },
-  { id:'reference', label:'Reference',
-    blurb:'Glossary, key papers, equations, assessments, and the AI instructor prompt.',
-    sections:['reference'] }
+    blurb:'Reference shelf. What gets built on top — exchanges, DeFi, oracles, MEV, stablecoins — and how value moves through it once the machinery is assumed.',
+    sections:['alt-ch06','alt-ch07','oracles','alt-ch08','alt-ch09','alt-ch10','alt-ch11','alt-ch12','alt-ch13','alt-ch15'] },
+  { id:'playground', label:'Playground',
+    blurb:'Hands-on toys. Type an input, watch the digest move, mine a block, break a chain. Nothing here is a description.',
+    sections:['tk-welcome','tk-hashing','tk-chain','tk-tx','tk-asym','tk-protocol','tk-internals'] },
+  { id:'appendices', label:'Appendices',
+    blurb:'Glossary, key papers, equations, assessments, the AI instructor prompt, the Bitcoin Script reference, and the drawings.',
+    sections:['reference','bitcoin-script','drawings'] },
+  { id:'live', label:'Live',
+    blurb:'Where recorded sessions will collect as the base material becomes courses.',
+    sections:['live'] }
 ];
 
 // indexes
@@ -3717,9 +4305,8 @@ ATLAS.forEach(st => st.sections.forEach(id => STRATUM_OF[id] = st));
 // one global reading order, following the ontology
 const ORDER = [];
 ATLAS.forEach(st => st.sections.forEach(id => (PAGES_BY_SEC[id] || []).forEach(p => ORDER.push(p))));
-// anything not shelved still reachable at the end
-ALL_PAGES.forEach(p => { if (!ORDER.includes(p)) ORDER.push(p); });
-const BY_SLUG = {}; ORDER.forEach(p => BY_SLUG[p.slug] = p);
+// unshelved pages stay reachable by link and search, but sit outside the reading order
+const BY_SLUG = {}; ALL_PAGES.forEach(p => BY_SLUG[p.slug] = p);
 const DEFAULT_SLUG = 'welcome';
 const stCount = st => st.sections.reduce((n,id) => n + (PAGES_BY_SEC[id] || []).length, 0);
 
@@ -3760,7 +4347,7 @@ function renderPage(slug) {
   if (!page) { location.hash = DEFAULT_SLUG; return; }
   const idx  = ORDER.indexOf(page);
   const prev = idx > 0 ? ORDER[idx - 1] : null;
-  const next = idx < ORDER.length - 1 ? ORDER[idx + 1] : null;
+  const next = idx >= 0 && idx < ORDER.length - 1 ? ORDER[idx + 1] : null;
   const sec  = SEC[page.section];
   const st   = STRATUM_OF[page.section];
 
@@ -3873,7 +4460,7 @@ function openAtlas(focusSection) {
       <div><h2>Atlas</h2></div>
       <button class="atlas-close" id="atlasClose">&#10005;</button>
     </div>
-    <p class="atlas-sub">${ALL_PAGES.length} pages on seven shelves. Orientation and Foundations run in sequence; Machinery, Markets, and the Workbench are reference surfaces you drop into.</p>`;
+    <p class="atlas-sub">${ALL_PAGES.length} pages on ${ATLAS.length} shelves. Start Here through Convergence read in sequence; Blockchains+, Markets, the Playground, and the Appendices are surfaces you drop into.</p>`;
 
   ATLAS.forEach(st => {
     html += `<div class="atlas-stratum" id="atlas-${st.id}">
@@ -3916,6 +4503,13 @@ document.getElementById('atlasOverlay').addEventListener('click', function (e) {
 // ============================================================
 const searchInput = document.getElementById('searchInput');
 const searchResults = document.getElementById('searchResults');
+searchInput.placeholder = `Search all ${ALL_PAGES.length} pages…`;
+// KaTeX loads deferred: render math on the first page once it arrives
+window.addEventListener('load', () => {
+  const main = document.getElementById('mainContent');
+  if (main && typeof renderMathInElement === 'function') renderMathInElement(main, { delimiters: [
+    { left:'$$', right:'$$', display:true }, { left:'$', right:'$', display:false } ]});
+});
 let selIdx = -1;
 
 function runSearch() {
