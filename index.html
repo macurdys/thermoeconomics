@@ -588,6 +588,28 @@
             border-radius: 3px;
         }
 
+        .research-badge.draft {
+            color: var(--text-primary);
+            background: transparent;
+            border: 1px dashed var(--text-primary);
+            padding: 2px 7px;
+        }
+
+        .research-series-note {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--text-muted);
+            border-left: 2px solid var(--green);
+            padding-left: 12px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .research-series-note strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
         .research-title {
             font-family: var(--font-display);
             font-size: 24px;
@@ -1580,6 +1602,52 @@
             <h2 class="section-title animate animate-delay-1" style="margin-bottom: 48px;">New Research</h2>
 
             <div class="research-grid">
+
+                <div class="research-card animate">
+                    <div>
+                        <div class="research-meta" style="flex-wrap: wrap;">
+                            <span class="research-badge">Paper · Series Part 2B</span>
+                            <span class="research-badge draft">Working Draft</span>
+                            October 2026 · 16 pages
+                        </div>
+                        <div class="research-title">What Can We Infer From Hashes?</div>
+                        <div class="research-authors">Steph Macurdy, Institute of Thermoeconomics</div>
+
+                        <div class="research-series-note">Companion to Part 2A. Together they give a <strong>micro and macro thermodynamics of hashrate</strong> — 2A at the level of a single memory reset, 2B at the level of aggregate network computation. Part 3 will synthesize Parts 1, 2A, and 2B.</div>
+
+                        <div class="research-summary">
+                            Difficulty fixes the probability of success; observed proofs supply the evidence. A chain of distributions — <strong>Bernoulli, binomial, geometric, Poisson, exponential</strong> — connects single hash trials to proof counts and waiting times in physical time. From these, a maximum-likelihood estimate of interval-average hashrate follows, with exact Poisson confidence bounds. Combined with an independently specified energy per hash, the estimate becomes a <strong>conditional estimate of physical energy expenditure</strong> — never a reconstruction of the failed attempts themselves.
+                        </div>
+
+                        <div class="research-topics">
+                            <span class="research-topic">Bernoulli Trials</span>
+                            <span class="research-topic">Poisson Process</span>
+                            <span class="research-topic">Maximum Likelihood</span>
+                            <span class="research-topic">Confidence Bounds</span>
+                            <span class="research-topic">Hashrate Inference</span>
+                            <span class="research-topic">Landauer's Principle</span>
+                        </div>
+
+                        <div class="research-cta">
+                            <a href="What_Can_We_Infer_From_Hashes_Part2B.pdf" target="_blank" rel="noopener" class="btn-pdf">Read the Draft →</a>
+                        </div>
+                    </div>
+
+                    <div class="research-findings">
+                        <div class="research-finding">
+                            <div class="research-finding-label">Totals, Not Histories</div>
+                            <div class="research-finding-text">k proofs at difficulty d over t seconds estimate average hashrate as k·2<sup>d</sup>/t. Any two trajectories with the same integral produce the same count distribution — the count reveals cumulative work, not when it happened.</div>
+                        </div>
+                        <div class="research-finding">
+                            <div class="research-finding-label">Precision Scales with Proofs</div>
+                            <div class="research-finding-text">Relative standard error is 1/√μ: 100 proofs give ~10%, 10,000 give ~1%. Ten proofs in 50 s at d = 40 point to 220 GH/s, but the exact 95% interval spans 105–404 GH/s.</div>
+                        </div>
+                        <div class="research-finding">
+                            <div class="research-finding-label">Engineering Cost ≠ Landauer Floor</div>
+                            <div class="research-finding-text">Energy estimated as ϵ<sub>h</sub>·k/p rests on measured joules per hash. A Landauer bound applies only to a specified reset model. If ϵ<sub>h</sub> already includes the reset, adding the two double counts it.</div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="research-card animate">
                     <div>
