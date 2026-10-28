@@ -214,6 +214,107 @@ a{text-decoration:none;color:inherit}
   .page-body .paper-cards{grid-template-columns:1fr;}
 }
 
+/* ---- Atlas map ---- */
+.map-overlay{position:fixed;inset:0;z-index:450;display:none;background:#cfe3ef;overflow:hidden}
+.map-overlay.open{display:block}
+.map-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab;outline:none}
+.map-canvas.dragging{cursor:grabbing}
+.map-labels{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:2}
+.map-rlabel,.map-slabel,.map-here{position:absolute;left:0;top:0;will-change:transform;white-space:nowrap}
+.map-rlabel{pointer-events:auto;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px}
+.map-rlabel .rn{font-family:var(--font-display);font-weight:700;font-size:16px;letter-spacing:.2px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.7),0 0 14px rgba(0,0,0,.45)}
+.map-rlabel .rs{font-size:9.5px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:#fff;background:rgba(10,10,10,.62);border-left:3px solid var(--c);padding:2px 7px 2px 6px;border-radius:3px}
+.map-rlabel:hover .rn{text-decoration:underline;text-decoration-color:var(--green);text-underline-offset:4px}
+.map-slabel{pointer-events:auto;cursor:pointer;font-size:11px;font-weight:600;color:var(--text-primary);background:rgba(255,255,255,.94);padding:3px 9px 3px 7px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.18);display:flex;align-items:center;gap:6px}
+.map-slabel i{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.map-slabel:hover{background:#fff;box-shadow:0 0 0 2px var(--green),0 2px 8px rgba(0,0,0,.18)}
+.map-here{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#0a0a0a;background:var(--green);padding:3px 8px;border-radius:4px;box-shadow:0 0 18px rgba(57,255,20,.6)}
+.map-top{position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:flex-start;gap:10px;pointer-events:none;z-index:3}
+.map-title{pointer-events:auto;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:10px;padding:10px 14px;box-shadow:0 6px 24px rgba(0,0,0,.12);max-width:520px}
+.map-title h2{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--text-primary);margin:0;line-height:1.2}
+.map-title p{font-size:12px;color:var(--text-muted);margin:3px 0 0;line-height:1.45}
+.map-btns{margin-left:auto;display:flex;gap:8px;pointer-events:auto}
+.map-btn{font-family:var(--font-body);font-size:12px;font-weight:600;padding:9px 14px;border-radius:8px;border:none;background:rgba(255,255,255,.92);color:var(--text-primary);cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.12)}
+.map-btn:hover{background:#fff}
+.map-btn.close{background:#0a0a0a;color:#fff;width:38px;padding:9px 0}
+.map-panel{position:absolute;top:86px;right:14px;bottom:14px;width:340px;overflow-y:auto;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:12px;padding:18px 18px 22px;box-shadow:0 12px 40px rgba(0,0,0,.18);z-index:3}
+.map-panel .mp-k{font-size:10.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green-ink);margin-bottom:4px}
+.map-panel .mp-h{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--text-primary);line-height:1.2;margin-bottom:8px}
+.map-panel .mp-t{font-size:13px;font-style:italic;color:var(--text-muted);line-height:1.55;margin:0 0 8px}
+.map-panel .mp-b{font-size:13.5px;color:var(--text-secondary);line-height:1.6;margin:0 0 14px}
+.map-panel .mp-b .gold{color:#a77b00}
+.map-panel button{font-family:var(--font-body)}
+.mp-back{background:none;border:none;font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;padding:0;margin-bottom:12px}
+.mp-back:hover{color:var(--text-primary)}
+.mp-here{display:flex;align-items:center;gap:8px;width:100%;text-align:left;font-size:12.5px;font-weight:600;color:var(--text-primary);background:var(--green-subtle);border:1px solid rgba(31,191,0,.35);border-radius:8px;padding:8px 10px;cursor:pointer;margin-bottom:14px}
+.mp-here i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);flex-shrink:0}
+.mp-legend{display:flex;flex-direction:column;gap:6px}
+.mp-reg{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:var(--bg-white);border:1px solid var(--border-light);border-radius:8px;padding:8px 10px;cursor:pointer;transition:border-color .15s}
+.mp-reg:hover{border-color:var(--text-muted)}
+.mp-reg i{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.mp-reg span{display:flex;flex-direction:column}
+.mp-reg b{font-size:13px;font-weight:600;color:var(--text-primary)}
+.mp-reg em{font-style:normal;font-size:11px;color:var(--text-muted)}
+.mp-sec{border-top:1px solid var(--border-light);padding:10px 0 6px}
+.mp-sec.focus{background:linear-gradient(90deg,var(--green-subtle),transparent);margin:0 -18px;padding:10px 18px 6px}
+.mp-sec-h{display:flex;align-items:center;gap:8px;width:100%;background:none;border:none;padding:0;cursor:pointer;font-size:13.5px;font-weight:700;color:var(--text-primary);text-align:left}
+.mp-sec-h i{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.mp-sec-h span{margin-left:auto;font-size:11px;font-weight:500;color:var(--text-muted)}
+.mp-pages{display:flex;flex-direction:column;margin:6px 0 0 16px}
+.mp-pages a{font-size:12.5px;color:var(--text-secondary);padding:3px 0;cursor:pointer;line-height:1.4}
+.mp-pages a:hover{color:var(--text-primary);text-decoration:underline;text-decoration-color:var(--green)}
+.mp-pages a.cur{color:var(--text-primary);font-weight:600}
+.mp-pages a.cur::before{content:'● ';color:var(--green-ink)}
+.map-tip{position:absolute;pointer-events:none;background:rgba(10,10,10,.92);color:#fff;font-size:12px;padding:7px 10px;border-radius:6px;max-width:260px;z-index:5;display:none;line-height:1.4}
+.map-tip b{display:block;font-weight:600}
+.map-tip span{display:block;color:rgba(255,255,255,.6);font-size:11px}
+.map-compass{position:absolute;left:14px;bottom:14px;width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.9);box-shadow:0 6px 24px rgba(0,0,0,.14);z-index:3;display:flex;align-items:center;justify-content:center}
+.map-compass > div{width:44px;height:44px;transition:transform .05s linear}
+.map-loading{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:6;background:linear-gradient(#5f9fd6,#e6f1f6);font-family:var(--font-display);font-weight:700;font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.4)}
+.atlas-head-btns{display:flex;align-items:center;gap:8px}
+.atlas-mapbtn{font-family:var(--font-body);font-size:12px;font-weight:600;padding:7px 14px;border-radius:6px;border:1px solid var(--border);background:var(--green);color:var(--text-primary);cursor:pointer}
+@media (max-width:760px){
+  .map-panel{top:auto;left:8px;right:8px;bottom:8px;width:auto;max-height:40vh;padding:14px 14px 18px}
+  .map-title p{display:none}
+  .map-compass{bottom:auto;top:76px;left:14px;width:44px;height:44px}
+  .map-compass > div{width:36px;height:36px}
+  .map-rlabel .rn{font-size:13px}
+}
+
+
+/* ---- Tree of Thought ---- */
+button.tb-home{border:none;cursor:pointer;font-family:var(--font-body)}
+.map-btn.onto{background:#0a0a0a;color:var(--green)}
+.map-overlay.onto .map-btn.onto{background:var(--green);color:#0a0a0a}
+.map-overlay.onto{background:#1d2244}
+.map-overlay.onto .map-panel{background:rgba(255,255,255,.95)}
+.map-olabel{position:absolute;left:0;top:0;will-change:transform;white-space:nowrap;pointer-events:auto;cursor:pointer;font-size:11.5px;font-weight:600;color:#fff;background:rgba(10,10,10,.74);border:1px solid rgba(255,255,255,.16);padding:3px 9px;border-radius:4px}
+.map-olabel:hover{border-color:var(--green)}
+.map-olabel.crown{font-family:var(--font-display);font-size:14px;font-weight:700;color:#0a0a0a;background:var(--green);border:none;padding:5px 12px;box-shadow:0 0 22px rgba(57,255,20,.55)}
+.mp-tree{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;background:#0a0a0a;border:none;border-radius:8px;padding:11px 13px;cursor:pointer;margin-bottom:14px}
+.mp-tree b{font-family:var(--font-display);font-size:14px;color:var(--green)}
+.mp-tree span{font-size:12px;color:rgba(255,255,255,.7)}
+.mp-tree:hover{box-shadow:0 0 0 2px var(--green)}
+.mp-tier{border-top:1px solid var(--border-light);padding:11px 0 8px}
+.mp-tier-h{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:var(--text-primary)}
+.mp-tier-h i{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.mp-tier-h span{font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted)}
+.mp-tier p{font-size:12.5px;color:var(--text-muted);line-height:1.5;margin:4px 0 8px}
+.mp-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.mp-chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--text-primary);background:var(--bg-white);border:1px solid var(--border);border-radius:14px;padding:4px 10px;cursor:pointer;text-align:left}
+.mp-chip i{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.mp-chip:hover{border-color:var(--text-primary)}
+.mp-sub{font-size:10.5px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--text-muted);margin:14px 0 7px}
+.mp-claim{margin:0 0 6px;padding:8px 12px;border-left:3px solid var(--green);background:var(--green-subtle);font-size:13px;font-style:italic;color:var(--text-primary);line-height:1.55}
+.mp-pages.flush{margin-left:0}
+.mp-pages.flush a{display:flex;flex-direction:column}
+.mp-pages a em{font-style:normal;font-size:11px;color:var(--text-muted)}
+.mp-inside{border-top:1px solid var(--border-light);margin-top:12px}
+.mp-cite{display:inline-block;font-size:12px;font-weight:600;color:var(--text-primary);border-bottom:1px solid var(--green);margin-bottom:6px}
+.mp-stage{margin:8px 0}
+.mp-stage b{display:block;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--green-ink);margin-bottom:4px}
+.mp-step{font-size:12.5px;color:var(--text-secondary);line-height:1.5;padding:3px 0 3px 10px;border-left:2px solid var(--border)}
+.mp-step span{display:block;font-weight:600;color:var(--text-primary)}
 </style>
 </head>
 <body>
@@ -225,7 +326,6 @@ a{text-decoration:none;color:inherit}
   <div class="tb-right">
     <input type="text" class="tb-search" id="searchInput" placeholder="Search all 165 pages…" autocomplete="off">
     <div class="results" id="searchResults"></div>
-    <a href="/tree.html" class="tb-home">Tech Tree</a>
   </div>
 </header>
 
@@ -238,6 +338,19 @@ a{text-decoration:none;color:inherit}
 </div>
 
 <div class="sb-overlay" id="sidebarOverlay"></div>
+
+<div class="map-overlay" id="mapOverlay" role="dialog" aria-label="Atlas map">
+  <canvas class="map-canvas" id="mapCanvas"></canvas>
+  <div class="map-labels" id="mapLabels"></div>
+  <div class="map-top">
+    <div class="map-title"><h2>Atlas</h2><p>The Study as an island. Drag to look all the way around · scroll or pinch to zoom · right-drag or shift-drag to pan · click a beacon or bead to explore.</p></div>
+    <div class="map-btns"><button class="map-btn onto" id="mapOntoBtn">Tree of Thought</button><button class="map-btn" id="mapListBtn">List view</button><button class="map-btn close" id="mapClose" aria-label="Close atlas">&#10005;</button></div>
+  </div>
+  <aside class="map-panel" id="mapPanel"></aside>
+  <div class="map-compass" title="North"><div id="mapCompass"><svg viewBox="0 0 44 44" width="100%" height="100%"><circle cx="22" cy="22" r="20" fill="none" stroke="#d9d9d9" stroke-width="1"/><path d="M22 6 L27 22 L22 19 L17 22 Z" fill="#e4572e"/><path d="M22 38 L27 22 L22 25 L17 22 Z" fill="#9a9a9a"/><text x="22" y="5.2" text-anchor="middle" font-size="6.5" font-weight="700" fill="#0a0a0a" font-family="sans-serif" dy="0">N</text></svg></div></div>
+  <div class="map-tip" id="mapTip"></div>
+  <div class="map-loading" id="mapLoading">Surveying the island…</div>
+</div>
 
 <div class="atlas-overlay" id="atlasOverlay">
   <div class="atlas" id="atlasModal"></div>
@@ -4454,11 +4567,11 @@ function buildTOC() {
 // ============================================================
 // ATLAS
 // ============================================================
-function openAtlas(focusSection) {
+function openAtlasList(focusSection) {
   const current = (location.hash || '#' + DEFAULT_SLUG).slice(1);
   let html = `<div class="atlas-head">
       <div><h2>Atlas</h2></div>
-      <button class="atlas-close" id="atlasClose">&#10005;</button>
+      <div class="atlas-head-btns">${webglOK() ? '<button class="atlas-mapbtn" id="atlasMapBtn">Map view</button>' : ''}<button class="atlas-close" id="atlasClose">&#10005;</button></div>
     </div>
     <p class="atlas-sub">${ALL_PAGES.length} pages on ${ATLAS.length} shelves. Start Here through Convergence read in sequence; Blockchains+, Markets, the Playground, and the Appendices are surfaces you drop into.</p>`;
 
@@ -4486,6 +4599,7 @@ function openAtlas(focusSection) {
   modal.querySelectorAll('.atlas-node').forEach(n =>
     n.addEventListener('click', () => { location.hash = n.dataset.slug; closeAtlas(); }));
   document.getElementById('atlasClose').addEventListener('click', closeAtlas);
+  const mb = document.getElementById('atlasMapBtn'); if (mb) mb.addEventListener('click', () => openAtlas(typeof focusSection === 'string' ? focusSection : null));
   document.getElementById('atlasOverlay').classList.add('open');
 
   if (typeof focusSection === 'string') {
@@ -4494,9 +4608,818 @@ function openAtlas(focusSection) {
     if (el) el.scrollIntoView({ block:'start' });
   }
 }
-function closeAtlas() { document.getElementById('atlasOverlay').classList.remove('open'); }
+function closeAtlas() { document.getElementById('atlasOverlay').classList.remove('open'); closeMap(); }
 document.getElementById('atlasBtn').addEventListener('click', () => openAtlas());
 document.getElementById('atlasOverlay').addEventListener('click', function (e) { if (e.target === this) closeAtlas(); });
+
+// ============================================================
+// ATLAS MAP — a 3D island; every shelf is a region, every
+// section a beacon, every page a waypoint. three.js loads on
+// first open; without WebGL the list view above is used.
+// ============================================================
+const MAP_REGIONS = {
+  'start':            { place:'Harbor of Arrival',    terrain:'A sheltered harbor on the southern shore. Every journey starts at the dock.', x:2,   z:84,  s:10, h:1.4, biome:'beach',    color:'#f2b632' },
+  'foundations':      { place:'The Bedrock Shallows', terrain:'Rocky lowlands, tide pools and shallow water: the bedrock everything else stands on.', x:-10, z:60, s:20, h:0.4, biome:'rock', color:'#3d9bd1' },
+  'pow':              { place:'Forge Highlands',      terrain:'Volcanic uplands where energy becomes work, with a live crater at their center.', x:-56, z:4, s:22, h:15, biome:'volcanic', color:'#e4572e', rmin:9 },
+  'active-inference': { place:'Cloud Forest Plateau', terrain:'Misty highland forest, where agents read their surroundings and act to stay alive.', x:-30, z:-52, s:19, h:11, biome:'cloud', color:'#14a38b' },
+  'discrete-physics': { place:'The Rule Desert',      terrain:'High desert and stepped mesas. Deep, computational, mostly unmapped territory.', x:20, z:-62, s:22, h:8, biome:'desert', color:'#d9892b' },
+  'convergence':      { place:'The Summit',           terrain:'Snow peaks at the heart of the island, where every tradition meets.', x:-6, z:-8, s:17, h:30, biome:'snow', color:'#7b61c9', rmin:5 },
+  'chains':           { place:'Blockchain Jungle',    terrain:'Dense lowland jungle on the east coast. Many chains, many paths.', x:64, z:12, s:22, h:2.2, biome:'jungle', color:'#2f8f3a' },
+  'markets':          { place:'Market Plains',        terrain:'Open grassland and trading towns in the northeast.', x:54, z:-44, s:21, h:3, biome:'plains', color:'#b89a1e' },
+  'playground':       { place:'Sandbox Cove',         terrain:'A sandy cove on the southwest shore, made for hands-on play.', x:-58, z:54, s:13, h:1.1, biome:'cove', color:'#e8669a' },
+  'appendices':       { place:'Library Isles',        terrain:'Offshore islands that hold the reference stacks.', x:78, z:72, s:14, h:0, biome:'isles', color:'#4f74b8', island:true, spread:15 },
+  'live':             { place:'Signal Point',         terrain:'A western headland with the broadcast lighthouse.', x:-95, z:-16, s:8, h:0, biome:'headland', color:'#ff5a36', island:true }
+};
+const MAP_BIOME = {
+  beach:{amp:.4,ridge:0}, rock:{amp:1.7,ridge:.55}, volcanic:{amp:3.6,ridge:1}, cloud:{amp:2.4,ridge:.35},
+  desert:{amp:1.1,ridge:0}, snow:{amp:7.5,ridge:1}, jungle:{amp:1.1,ridge:0}, plains:{amp:.55,ridge:0},
+  cove:{amp:.35,ridge:0}, isles:{amp:.8,ridge:0}, headland:{amp:1.4,ridge:.5}
+};
+// ============================================================
+// THE TREE OF THOUGHT — the ontology of the field, ideas only.
+// Read upward: each knot stands on its `pre`; `pages` say where
+// on the island (in the Study) that idea is taught.
+// ============================================================
+const ONTO_TIERS = [
+  { name:'Roots',    sub:'Ground',       note:'Dispositions, not subjects. The way of looking that makes everything above worth building.' },
+  { name:'Trunk',    sub:'Formalisms',   note:'The four load-bearing formalisms: chance, information, energy, and computation.' },
+  { name:'Branches', sub:'Machinery',    note:'The formalisms turned into machinery for inference, irreversibility, and agreement, with the work priced in joules.' },
+  { name:'Limbs',    sub:'Pillars',      note:'The Study’s three pillars, plus the theory of constraint that connects physical work to function.' },
+  { name:'Fruit',    sub:'Constructs',   note:'Original constructs. This is where the tree stops being a reading list and becomes a claim.' },
+  { name:'Canopy',   sub:'Applications', note:'The constructs pointed at live systems: networks, monetary design, mining, risk, and machines that reason.' },
+  { name:'Crown',    sub:'Field',        note:'The whole, named and defensible as a discipline.' }
+];
+const ONTO_INSIDE = {
+  poemPaper: { title:'POEM: Proof of Entropy Minima', cite:'Kreder & Shastry, 2023', url:'https://arxiv.org/abs/2303.04305', stages:[
+    { name:'Premise', steps:[
+      { label:'Heaviest Chain Rule', blurb:'Chain weight accumulates the announced difficulty threshold, so every block that clears the bar counts the same regardless of how far past it landed.' },
+      { label:'Intrinsic Block Weight', blurb:'A digest far below target proves more work than the threshold credits. That surplus is discarded information.' } ] },
+    { name:'Mechanism', steps:[
+      { label:'Entropy Difference', blurb:'Weight computed from the entropy each block removes rather than from the difficulty it was assigned.' },
+      { label:'Entropic Fork Choice', blurb:'Select the tip at the entropy minimum, using the full bit content of every digest in the branch.' } ] },
+    { name:'Consequence', steps:[
+      { label:'Orphan Rate & Finalization', blurb:'Fewer discarded blocks and faster convergence, because the rule stops throwing away evidence it already has.' },
+      { label:'Blockchain as Committed Events', blurb:'A chain read as a time-independent sequence of committed events rather than a race — the opening for the geodesic reading.' } ] } ] },
+  poemOperator: { title:'From primitives to operator', stages:[
+    { name:'Primitives', steps:[
+      { label:'Leading-Zero Structure', blurb:'A digest carries more evidence than a threshold test reports. The zeros past the target are information the block already paid for.' },
+      { label:'Block DAG Ordering', blurb:'Blocks as a partial order rather than a chain. Fork choice becomes a selection over a graph, not a count along a line.' },
+      { label:'Landauer Floor', blurb:'The joules under one hash. Fixes the exchange rate between the digest and the energy that produced it.' } ] },
+    { name:'Measures', steps:[
+      { label:'Intrinsic Work', blurb:'Work read off the digest itself instead of the announced difficulty — the entropy actually removed, not the entropy claimed.' },
+      { label:'Block Entropy', blurb:'Each block scored by the surprise it eliminates. Heavier blocks sit at lower entropy in the space of possible histories.' } ] },
+    { name:'Rule', steps:[
+      { label:'Minimum-Entropy Fork Choice', blurb:'Follow the branch at the entropy minimum. A single lucky block can outweigh several ordinary ones.' } ] },
+    { name:'Proof', steps:[
+      { label:'Information-Theoretic Bound', blurb:'No strategy extracts more ordering evidence from a digest than the rule already uses.' },
+      { label:'Machine-Checked Invariance', blurb:'Causal invariance discharged by an SMT solver rather than by argument.' } ] },
+    { name:'Operator', steps:[
+      { label:'PoEM as Thermoeconomic Operator', blurb:'A rule that maps expended energy to a canonical history — the hook every layer above attaches to.' } ] } ] },
+  fep: { title:'The Free-Energy Principle: A Unified Brain Theory?', cite:'Friston, 2010', url:'https://www.nature.com/articles/nrn2787', stages:[
+    { name:'Premise', steps:[
+      { label:'Agents Resist Disorder', blurb:'Anything that persists must keep itself in a small set of states — a bound on the entropy of its own sensory stream.' },
+      { label:'Surprise Is Not Computable', blurb:'An agent cannot evaluate the marginal it would need. It needs a quantity it can actually minimize.' } ] },
+    { name:'Mechanism', steps:[
+      { label:'Variational Free Energy', blurb:'A tractable upper bound on surprise: expected energy minus entropy, minimized against an internal model.' },
+      { label:'Perception and Action', blurb:'Two ways down the same gradient — change the model, or change the sensory input the model is scored against.' } ] },
+    { name:'Consequence', steps:[
+      { label:'Inference as a Single Account', blurb:'Learning, attention, and action fall out of one objective rather than three separate mechanisms.' },
+      { label:'Bridge to Thermodynamic F', blurb:'The same F = U − TS shape as Gibbs free energy — the hinge the cross-entropy identity turns on.' } ] } ] },
+  wolfram: { title:'A Class of Models with the Potential to Represent Fundamental Physics', cite:'Wolfram, 2020', url:'https://arxiv.org/abs/2004.08210', stages:[
+    { name:'Premise', steps:[
+      { label:'Minimal Structureless Rules', blurb:'Start with as little assumed structure as possible and let the behavior, not the axioms, carry the content.' },
+      { label:'Hypergraph Substrate', blurb:'Relations between abstract elements as the only primitive. Space is what the connectivity looks like at scale.' } ] },
+    { name:'Mechanism', steps:[
+      { label:'Multiway Rewriting', blurb:'Every applicable update taken in parallel, producing a branching space of histories rather than one.' },
+      { label:'Causal Invariance', blurb:'Different update orders converge on the same causal graph — the property that makes a shared history possible at all.' } ] },
+    { name:'Consequence', steps:[
+      { label:'Emergent Space and Time', blurb:'Relativistic structure recovered from the causal graph instead of assumed at the start.' },
+      { label:'Computational Irreducibility', blurb:'Some outcomes admit no shortcut, so the work of running the process is the cost of knowing the result.' } ] } ] }
+};
+const ONTO = [
+  { id:'emergence', t:0, label:'Complex Systems & Emergence', pre:[], pages:['comp-mech','structural-complexity'],
+    blurb:'Behavior that lives in the interactions rather than the parts. The habit of asking what a rule generates before asking what a variable predicts.' },
+  { id:'value', t:0, label:'Value & Economic Philosophy', pre:[], pages:['other-philosophies','series-part1'],
+    blurb:'What value is before anyone measures it. Subjective preference, labor, and utility each smuggle in a physical assumption; finding it is the work.',
+    claim:'Value is physical before it is subjective — and the question of what grounds it stays open until something measures the grounding.' },
+
+  { id:'stats', t:1, label:'Probability & Statistics', pre:['emergence'], pages:['series-part2b'],
+    blurb:'Distributions, estimators, likelihood. The difference between noise you can average away and noise that owns the outcome.' },
+  { id:'shannon', t:1, label:'Information Theory', pre:['stats'], pages:['info-theory','shannon'],
+    blurb:'Entropy as a measure of surprise. Information carries the same mathematical structure as thermodynamic entropy — the bridge every upper tier crosses.' },
+  { id:'thermo', t:1, label:'Thermodynamics & Statistical Mechanics', pre:['emergence'], pages:['thermo','series-part2a'],
+    blurb:'Energy, entropy, free energy, and the arrow of time. The Boltzmann distribution and U = F + TS are the load-bearing identities.' },
+  { id:'computation', t:1, label:'Theory of Computation', pre:['emergence'], pages:['irreducibility','bennett'],
+    blurb:'Church–Turing, universality, undecidability, and computational irreducibility. Some outcomes can only be reached by running them.' },
+
+  { id:'maxent', t:2, label:'MaxEnt & Bayesian Inference', pre:['shannon','stats'], pages:['jaynes','series-part2a'],
+    blurb:'Jaynes: given partial information, choose the distribution that assumes the least. Inference becomes constrained entropy maximization.' },
+  { id:'infogeo', t:2, label:'Information Geometry', pre:['shannon','stats'], pages:[],
+    blurb:'Fisher → Cramér–Rao → Kullback–Leibler → Chentsov → Amari. Distributions as a curved manifold carrying one natural metric.' },
+  { id:'ergodicity', t:2, label:'Ergodicity', pre:['stats','value'], pages:['other-philosophies'],
+    blurb:'Time averages against ensemble averages — and the lineage that tied value to energy, from Soddy to Georgescu-Roegen.' },
+  { id:'fluctuation', t:2, label:'Fluctuation Theorems', pre:['thermo'], pages:[],
+    blurb:'Crooks and Jarzynski: irreversibility is quantified, not absolute. Work and entropy production obey exact distributional relations.' },
+  { id:'landauer', t:2, label:'Thermodynamics of Computation', pre:['thermo','computation'], pages:['thermo','landauer','bennett','series-part2a'],
+    blurb:'Landauer and Bennett: erasing a bit dissipates at least kT ln 2 of heat. Computation is physically expensive and the price is calculable.' },
+  { id:'crypto', t:2, label:'Cryptography & Hash Functions', pre:['computation','shannon'], pages:['crypto','hash-functions','elliptic-curves','btc-sha256'],
+    blurb:'Preimage resistance, digest structure, and leading-zero targets — the primitive that turns expended work into portable evidence.' },
+  { id:'consensus', t:2, label:'Distributed Consensus', pre:['computation'], pages:['dist-systems','nakamoto'],
+    blurb:'Lamport’s logical clocks and the FLP impossibility result. Without a global clock, ordering is logical and guaranteed agreement is off the table.' },
+
+  { id:'pow', t:3, label:'Proof of Work', pre:['crypto','consensus','landauer'], pages:['pow','nakamoto','pow-thermo','series-part2b'],
+    blurb:'Work that is costly to produce and cheap to verify, turned into an ordering rule for a network with no global clock.' },
+  { id:'active', t:3, label:'Active Inference', pre:['maxent','infogeo'], pages:['active-inference','free-energy','markov-blankets','ai-economics'], inside:['fep'],
+    blurb:'The free energy principle: agents act to minimize expected surprise. A variational bound that mirrors thermodynamic free energy exactly.' },
+  { id:'wolfram', t:3, label:'Wolfram Physics', pre:['computation','emergence'], pages:['wolfram-overview','physics-project','causal-invariance','ruliad'], inside:['wolfram'],
+    blurb:'Causal invariance, multiway systems, and the ruliad. A rewriting substrate where space, time, and observers are all emergent.' },
+  { id:'teleo', t:3, label:'Teleodynamics', pre:['emergence','thermo'], pages:['deacon','incomplete-nature','autogenic','absential'],
+    blurb:'Deacon: constraint as cause. How work against thermodynamic gradients produces form, function, and aboutness.' },
+
+  { id:'crossentropy', t:4, label:'Energy = Cross-Entropy', pre:['maxent','thermo','active'], pages:['operator','series-part2a'],
+    blurb:'The identity E_Q[log 1/P]: a knowledge lens Q read against a world P, with ordinary entropy the degenerate case where the two agree.' },
+  { id:'poem', t:4, label:'Proof of Entropy Minima', pre:['pow','crypto','landauer','maxent'], pages:['poem','quai'], inside:['poemPaper','poemOperator'],
+    blurb:'Fork choice by intrinsic work rather than block count — formalized with information-theoretic proofs and machine-checked causal invariance.',
+    claim:'Fork choice should read the work a block actually did, not the work it was asked to do.' },
+  { id:'geodesics', t:4, label:'Thermoeconomic Geodesics', pre:['poem','wolfram','infogeo'], pages:['causal-invariance','synthesis'],
+    blurb:'Fork choice as motion along geodesics in entropy-weighted causal spacetime, with Qi playing the invariant role that c plays in relativity.' },
+  { id:'hashspace', t:4, label:'Hash Possibility Space', pre:['crypto','fluctuation'], pages:['hash-functions','tk-sha256deep'],
+    blurb:'The space a hash function opens, and what leading-zero structure reveals about the work standing behind a digest.' },
+  { id:'sharding', t:4, label:'Holographic Sharding', pre:['poem','consensus'], pages:['quai'],
+    blurb:'Independent work criteria per shard so security ceilings add rather than divide — work reapplied horizontally instead of sharing one target.' },
+
+  { id:'controller', t:5, label:'Token & Controller Design', pre:['poem','crossentropy'], pages:['qi-quai','controller'],
+    blurb:'Two-unit monetary architecture: difficulty-linked issuance, exchange dynamics, and the arbitrage the pairing creates.' },
+  { id:'miningecon', t:5, label:'Mining Economics & Difficulty', pre:['pow','poem','ergodicity'], pages:['series-part2b','btc-sha256'],
+    blurb:'Difficulty adjustment, profitability under volatility, and hashprice as the market’s live read on energy converted into security.' },
+  { id:'fattails', t:5, label:'Fat Tails & Ergodic Risk', pre:['ergodicity','stats'], pages:['other-philosophies'],
+    blurb:'Taleb’s statistical consequences of fat tails: when the rare event owns the outcome, ensemble averages mislead and exposure has to be bounded.' },
+  { id:'aiinfra', t:5, label:'Neuro-Symbolic Agents', pre:['computation','active'], pages:['ai-economics'],
+    blurb:'Symbolic reasoning wired to learned models, with uncertainty modeled explicitly — agents that coordinate on verifiable evidence.' },
+
+  { id:'field', t:6, label:'Computational Thermoeconomics', pre:['controller','miningecon','fattails','aiinfra','geodesics','crossentropy','sharding','hashspace'], pages:['welcome','why','synthesis'],
+    blurb:'The claim the whole tree supports: economic value is grounded in energy expended, entropy produced, and work performed — and proof of work is the protocol where that becomes measurable.',
+    claim:'Economic value is grounded in energy expended, entropy produced, and work performed — and proof of work is where that becomes measurable rather than arguable.' }
+];
+
+const THREE_SRC = 'https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js';
+let MAP = null, mapLoading = null;
+
+function webglOK() {
+  try { const c = document.createElement('canvas');
+    return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl'))); }
+  catch (e) { return false; }
+}
+function loadThree() {
+  if (window.THREE) return Promise.resolve();
+  if (!mapLoading) mapLoading = new Promise((res, rej) => {
+    const s = document.createElement('script'); s.src = THREE_SRC; s.onload = res;
+    s.onerror = () => { mapLoading = null; rej(); }; document.head.appendChild(s);
+  });
+  return mapLoading;
+}
+function openAtlas(focusSection) {
+  const focus = typeof focusSection === 'string' ? focusSection : null;
+  if (!webglOK()) return openAtlasList(focus === 'ontology' ? null : focus);
+  document.getElementById('atlasOverlay').classList.remove('open');
+  const ov = document.getElementById('mapOverlay');
+  ov.classList.add('open'); document.body.style.overflow = 'hidden';
+  document.getElementById('mapLoading').style.display = 'flex';
+  loadThree().then(() => {
+    if (!MAP) MAP = buildMap();
+    document.getElementById('mapLoading').style.display = 'none';
+    MAP.open(focus === 'ontology' ? null : focus, focus === 'ontology');
+  }).catch(() => { closeMap(); openAtlasList(focus === 'ontology' ? null : focus); });
+}
+function closeMap() {
+  const ov = document.getElementById('mapOverlay');
+  if (!ov.classList.contains('open')) return;
+  ov.classList.remove('open'); document.body.style.overflow = '';
+  if (MAP) MAP.stop();
+}
+document.getElementById('mapClose').addEventListener('click', closeAtlas);
+document.getElementById('mapListBtn').addEventListener('click', () => { closeMap(); openAtlasList(); });
+
+function buildMap() {
+  const T = THREE;
+  const REG_IDS = ATLAS.map(st => st.id).filter(id => MAP_REGIONS[id]);
+  const REGS = REG_IDS.map(id => Object.assign({ id }, MAP_REGIONS[id]));
+  const RIDX = {}; REG_IDS.forEach((id, i) => RIDX[id] = i);
+  const W = new Float32Array(REGS.length);
+
+  // ---------- seeded randomness + noise ----------
+  let seed = 20261027;
+  const rnd = () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const perm = new Uint8Array(512); { const r = [...Array(256).keys()];
+    for (let i = 255; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [r[i], r[j]] = [r[j], r[i]]; }
+    for (let i = 0; i < 512; i++) perm[i] = r[i & 255]; }
+  const fade = t => t * t * t * (t * (t * 6 - 15) + 10), lerp = (a, b, t) => a + t * (b - a);
+  const grad = (h, x, y) => { const g = h & 7, u = g < 4 ? x : y, v = g < 4 ? y : x; return ((g & 1) ? -u : u) + ((g & 2) ? -2 * v : 2 * v); };
+  function noise(x, y) {
+    const X = Math.floor(x) & 255, Y = Math.floor(y) & 255; x -= Math.floor(x); y -= Math.floor(y);
+    const u = fade(x), v = fade(y), a = perm[X] + Y, b = perm[X + 1] + Y;
+    return lerp(lerp(grad(perm[a], x, y), grad(perm[b], x - 1, y), u),
+                lerp(grad(perm[a + 1], x, y - 1), grad(perm[b + 1], x - 1, y - 1), u), v) * 0.45;
+  }
+  const fbm = (x, y, o) => { let s = 0, a = 1, f = 1, n = 0; for (let i = 0; i < o; i++) { s += a * noise(x * f, y * f); n += a; a *= .5; f *= 2.03; } return s / n; };
+  const ridged = (x, y, o) => { let s = 0, a = 1, f = 1, n = 0; for (let i = 0; i < o; i++) { const r = 1 - Math.abs(noise(x * f, y * f) * 2); s += a * r * r; n += a; a *= .5; f *= 2.1; } return s / n; };
+  const smooth = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+  const gauss = (x, z, cx, cz, s) => Math.exp(-((x - cx) ** 2 + (z - cz) ** 2) / (2 * s * s));
+
+  // ---------- sections on the land ----------
+  const SECPOS = {};
+  ATLAS.forEach(st => {
+    const R = MAP_REGIONS[st.id]; if (!R) return;
+    const secs = st.sections.filter(id => (PAGES_BY_SEC[id] || []).length);
+    const n = secs.length, spread = R.spread || Math.min(R.s * .8, 3 + n * 2.4), rmin = R.rmin || 0;
+    secs.forEach((id, k) => {
+      const r = n === 1 ? 0 : rmin + (spread - rmin * .5) * Math.sqrt((k + .6) / n), a = k * 2.39996 + 0.7;
+      SECPOS[id] = { x: R.x + r * Math.cos(a), z: R.z + r * Math.sin(a), st: st.id };
+    });
+  });
+  const ISLANDS = [];
+  Object.entries(SECPOS).forEach(([id, p]) => { if (p.st === 'appendices') ISLANDS.push({ x: p.x, z: p.z, s: 6, peak: 5.5, r: 'appendices' }); });
+  ISLANDS.push({ x: -95, z: -16, s: 9, peak: 8, r: 'live' }, { x: -86, z: -14, s: 7, peak: 6, r: 'live' });
+  const PW = MAP_REGIONS.pow;
+
+  // ---------- terrain ----------
+  function sample(x, z) {
+    const nF = fbm(x * .045, z * .045, 4), nR = ridged(x * .04 + 31, z * .04 + 17, 4);
+    const d = Math.hypot(x, z), ang = Math.atan2(z, x);
+    const coast = 86 + 14 * fbm(Math.cos(ang) * 1.7 + 11, Math.sin(ang) * 1.7 + 7, 3);
+    const land = (coast - d) / 12;
+    let h = 1.8 + nF, det = 0, ws = 0, wdes = 0;
+    for (let i = 0; i < REGS.length; i++) {
+      const R = REGS[i]; if (R.island) { W[i] = 0; continue; }
+      const w = gauss(x, z, R.x, R.z, R.s); W[i] = w; h += w * (R.h - 1.8); ws += w;
+      const B = MAP_BIOME[R.biome]; det += w * B.amp * ((1 - B.ridge) * nF * 2.4 + B.ridge * (nR * 2 - .7));
+      if (R.biome === 'desert') wdes = w;
+    }
+    h += det / (ws + .25);
+    const wd = wdes / (ws + .25);
+    if (wd > .02) { const t = 2.6, f = h / t, fl = Math.floor(f), q = (fl + smooth(.7, .95, f - fl)) * t; h += (q - h) * Math.min(1, wd * 1.7); }
+    const dc = Math.hypot(x - PW.x, z - PW.z); if (dc < 7.5) h -= (7.5 - dc) * 1.25;
+    h -= 4.4 * gauss(x, z, 14, 77, 8) + 5 * gauss(x, z, -68, 66, 7);
+    const m = smooth(-.6, .7, land);
+    let H = (-8 + 3 * nF) * (1 - m) + h * m;
+    let wis = 0, whd = 0;
+    for (const I of ISLANDS) {
+      const b = gauss(x, z, I.x, I.z, I.s), hi = I.peak * b + .9 * nF - 1.4;
+      if (hi > H) H = hi;
+      if (I.r === 'appendices') wis = Math.max(wis, b); else whd = Math.max(whd, b);
+    }
+    W[RIDX.appendices] = wis * 1.4; W[RIDX.live] = whd * 1.4;
+    sample.nR = nR; sample.nF = nF;
+    return H;
+  }
+  const dominant = () => { let b = -1, bw = .06; for (let i = 0; i < W.length; i++) if (W[i] > bw) { bw = W[i]; b = i; } return b; };
+
+  const C = hex => new T.Color(hex);
+  const PAL = {
+    beach: [C('#e6d39d'), C('#d9c48a')], rock: [C('#7b746b'), C('#9c9488')], volcanic: [C('#4b3d38'), C('#7a4a32')],
+    cloud: [C('#2f6e50'), C('#4a8c64')], desert: [C('#d9a868'), C('#c27645')], snow: [C('#8a847d'), C('#a39d94')],
+    jungle: [C('#24601f'), C('#3b7d2f')], plains: [C('#a3ad55'), C('#c5b867')], cove: [C('#ecd9a5'), C('#e0c98e')],
+    isles: [C('#5c9a49'), C('#7aa95a')], headland: [C('#668f4c'), C('#86a161')]
+  };
+  const GRASS = C('#7fa457'), SAND = C('#dcc994'), DEEP = C('#1d4c63'), SHALLOW = C('#4f8f8f'), SNOW = C('#f4f6f8'), CLIFF = C('#776d63'), tmp = new T.Color();
+
+  const SIZE = 280, SEG = 230;
+  const geo = new T.PlaneGeometry(SIZE, SIZE, SEG, SEG); geo.rotateX(-Math.PI / 2);
+  const pos = geo.attributes.position, cols = new Float32Array(pos.count * 3);
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i), z = pos.getZ(i), h = sample(x, z);
+    pos.setY(i, h);
+    const c = new T.Color(0, 0, 0); let tot = 0;
+    for (let k = 0; k < REGS.length; k++) {
+      const w = W[k]; if (w < .003) continue; const p = PAL[REGS[k].biome];
+      tmp.copy(p[0]).lerp(p[1], Math.min(1, Math.max(0, sample.nF * 1.6 + .5))); c.r += tmp.r * w; c.g += tmp.g * w; c.b += tmp.b * w; tot += w;
+    }
+    if (tot > 0) { c.multiplyScalar(1 / tot); c.lerp(GRASS, Math.max(0, 1 - tot * 2.2)); } else c.copy(GRASS);
+    if (h < .9 && h > -.35 && REGS[dominant()] && !['rock', 'volcanic'].includes(REGS[dominant()].biome)) c.lerp(SAND, smooth(.9, .2, h));
+    if (h <= -.35) c.copy(SHALLOW).lerp(DEEP, smooth(-.35, -6, h));
+    if (h > 19) c.lerp(SNOW, smooth(19, 25, h + sample.nR * 3));
+    cols[i * 3] = c.r; cols[i * 3 + 1] = c.g; cols[i * 3 + 2] = c.b;
+  }
+  geo.computeVertexNormals();
+  const nrm = geo.attributes.normal;
+  for (let i = 0; i < pos.count; i++) {
+    const ny = nrm.getY(i), h = pos.getY(i);
+    if (ny < .82 && h > .6 && h < 21) { tmp.setRGB(cols[i * 3], cols[i * 3 + 1], cols[i * 3 + 2]).lerp(CLIFF, Math.min(.85, (.82 - ny) * 2.6));
+      cols[i * 3] = tmp.r; cols[i * 3 + 1] = tmp.g; cols[i * 3 + 2] = tmp.b; }
+  }
+  geo.setAttribute('color', new T.BufferAttribute(cols, 3));
+  const heightAt = (x, z) => sample(x, z);
+
+  // ---------- scene ----------
+  const canvas = document.getElementById('mapCanvas');
+  const renderer = new T.WebGLRenderer({ canvas, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFSoftShadowMap;
+  const scene = new T.Scene();
+  const sky = document.createElement('canvas'); sky.width = 2; sky.height = 256;
+  { const g = sky.getContext('2d'), gr = g.createLinearGradient(0, 0, 0, 256);
+    gr.addColorStop(0, '#5f9fd6'); gr.addColorStop(.55, '#a9d0ec'); gr.addColorStop(1, '#e6f1f6'); g.fillStyle = gr; g.fillRect(0, 0, 2, 256); }
+  scene.background = new T.CanvasTexture(sky);
+  scene.fog = new T.Fog(0xd4e7f1, 300, 700);
+  const camera = new T.PerspectiveCamera(42, 1, .5, 2000);
+
+  const hemi = new T.HemisphereLight(0xdcefff, 0x5b4a39, .7); scene.add(hemi);
+  const sun = new T.DirectionalLight(0xfff1da, 1.05); sun.position.set(-110, 170, 90);
+  sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048);
+  Object.assign(sun.shadow.camera, { left: -150, right: 150, top: 150, bottom: -150, near: 10, far: 500 });
+  sun.shadow.bias = -.0008; scene.add(sun);
+
+  const terrain = new T.Mesh(geo, new T.MeshStandardMaterial({ vertexColors: true, roughness: .93, metalness: 0 }));
+  terrain.receiveShadow = true; terrain.castShadow = true; scene.add(terrain);
+
+  const water = new T.Mesh(new T.PlaneGeometry(1600, 1600), new T.MeshStandardMaterial({ color: 0x2b7fae, transparent: true, opacity: .78, roughness: .18, metalness: .15 }));
+  water.rotation.x = -Math.PI / 2; water.position.y = 0; water.receiveShadow = true; scene.add(water);
+
+  // ---------- vegetation and rocks ----------
+  const nearLandmark = (x, z) => Object.entries(SECPOS).some(([id, p]) => { const r = 4.6 + .16 * (PAGES_BY_SEC[id] || []).length; return (p.x - x) ** 2 + (p.z - z) ** 2 < r * r; });
+  function scatter(stId, count, o) {
+    const R = MAP_REGIONS[stId], idx = RIDX[stId], pts = []; let tries = 0;
+    while (pts.length < count && tries < count * 14) {
+      tries++;
+      const a = rnd() * 6.2832, r = Math.sqrt(rnd()) * R.s * (o.rad || 1.7), x = R.x + r * Math.cos(a), z = R.z + r * Math.sin(a);
+      const h = heightAt(x, z);
+      if (h < (o.minH ?? .7) || h > (o.maxH ?? 99) || dominant() !== idx || nearLandmark(x, z)) continue;
+      pts.push({ x, z, h });
+    }
+    return pts;
+  }
+  const flat = c => new T.MeshStandardMaterial({ color: c || 0xffffff, roughness: .9, flatShading: true });
+  function plant(geom, pts, scl, colors, mat) {
+    if (!pts.length) return;
+    const m = new T.InstancedMesh(geom, mat || flat(), pts.length), o = new T.Object3D(), c = new T.Color();
+    pts.forEach((p, i) => {
+      const s = scl[0] + rnd() * (scl[1] - scl[0]), sy = s * (scl[2] ? scl[2] + rnd() * .4 : 1);
+      o.position.set(p.x, p.h - .15, p.z); o.rotation.set(0, rnd() * 6.28, 0); o.scale.set(s, sy, s); o.updateMatrix();
+      m.setMatrixAt(i, o.matrix); m.setColorAt(i, c.set(colors[Math.floor(rnd() * colors.length)]));
+    });
+    m.castShadow = true; scene.add(m);
+  }
+  const blob = new T.IcosahedronGeometry(1, 0).translate(0, .9, 0);
+  const cone = new T.ConeGeometry(1, 3, 6).translate(0, 1.5, 0);
+  const rock = new T.DodecahedronGeometry(1, 0);
+  const cactus = new T.CylinderGeometry(.22, .28, 2.2, 6).translate(0, 1.1, 0);
+  plant(blob, scatter('chains', 1500, { rad: 1.9, minH: .6 }), [1, 1.6, .9], ['#1f5a1c', '#2a6e23', '#356f2a', '#1c4f1f', '#3f8030']);
+  plant(cone, scatter('active-inference', 650, { rad: 1.8, minH: .8 }), [.8, 1.3, 1], ['#1f4d3a', '#28604a', '#2f6a4c', '#1a3f33']);
+  plant(cone, scatter('pow', 170, { rad: 1.8, minH: .8, maxH: 11 }), [.7, 1.1, 1], ['#3d4a2a', '#4a5530', '#2f3d26']);
+  plant(blob, scatter('markets', 120, { rad: 1.8 }), [.9, 1.4, .8], ['#5f8a35', '#73983f', '#4d7a2d']);
+  plant(blob, scatter('appendices', 90, { rad: 2.2, minH: .9 }), [.9, 1.4, .9], ['#3f7d35', '#4d8a3c']);
+  plant(cone, scatter('live', 45, { rad: 2.2, minH: 1 }), [.6, 1, 1], ['#2f5a2b', '#3d6a33']);
+  plant(blob, scatter('playground', 30, { rad: 1.6, minH: 1 }), [.8, 1.2, 1], ['#4f9a3a', '#5aa844']);
+  plant(rock, scatter('foundations', 140, { rad: 1.7, minH: -.6 }), [.4, 1.3, .7], ['#8a8278', '#6f685f', '#a1988b']);
+  plant(rock, scatter('discrete-physics', 80, { rad: 1.7 }), [.4, 1.2, .7], ['#b5643a', '#9c5532', '#c98250']);
+  plant(rock, scatter('pow', 60, { rad: 1.6 }), [.5, 1.4, .7], ['#3a302c', '#4d3f39']);
+  plant(rock, scatter('convergence', 50, { rad: 1.5, minH: 6 }), [.6, 1.6, .7], ['#8b857e', '#a19b93']);
+  plant(cactus, scatter('discrete-physics', 90, { rad: 1.8 }), [.8, 1.2, 1], ['#5e8a3a', '#6d9643']);
+  // trading towns
+  const houses = [];
+  Object.entries(SECPOS).forEach(([id, p]) => { if (p.st !== 'markets') return;
+    for (let k = 0; k < 6; k++) { const a = rnd() * 6.28, r = 4.2 + rnd() * 2.5, x = p.x + r * Math.cos(a), z = p.z + r * Math.sin(a), h = heightAt(x, z); if (h > .6) houses.push({ x, z, h }); } });
+  plant(new T.BoxGeometry(1.1, 1, 1.4).translate(0, .5, 0), houses, [.9, 1.3, .8], ['#f1e6d2', '#d98b5f', '#e9d8b9', '#b9573a']);
+
+  // ---------- landmarks ----------
+  const pickables = [], gems = [], labels = [];
+  const gemGeo = new T.OctahedronGeometry(1.1, 0), postGeo = new T.CylinderGeometry(.09, .09, 2.8, 6).translate(0, 1.4, 0);
+  const beadGeo = new T.SphereGeometry(.4, 14, 10), ringGeo = new T.RingGeometry(1.25, 1.7, 32).rotateX(-Math.PI / 2);
+  const buoyGeo = new T.CylinderGeometry(1.3, 1.5, .6, 16);
+  let current = (location.hash || '#' + DEFAULT_SLUG).slice(1);
+  const BEADS = {};
+  Object.entries(SECPOS).forEach(([id, p]) => {
+    const R = MAP_REGIONS[p.st], col = new T.Color(R.color);
+    let base = heightAt(p.x, p.z); const wet = base < .25; if (wet) base = .3;
+    p.y = base;
+    const g = new T.Group(); g.position.set(p.x, base, p.z);
+    if (wet) { const b = new T.Mesh(buoyGeo, flat(0xf3efe6)); b.position.y = -.1; b.castShadow = true; g.add(b); }
+    const post = new T.Mesh(postGeo, flat(0x2a2a2a)); post.castShadow = true; g.add(post);
+    const gem = new T.Mesh(gemGeo, new T.MeshStandardMaterial({ color: col, emissive: col, emissiveIntensity: .35, roughness: .35, flatShading: true }));
+    gem.position.y = 3.6; gem.castShadow = true; gem.userData = { type: 'section', id }; g.add(gem);
+    const ring = new T.Mesh(ringGeo, new T.MeshBasicMaterial({ color: col, transparent: true, opacity: .75, depthWrite: false }));
+    ring.position.y = .12; g.add(ring);
+    scene.add(g); pickables.push(gem); gems.push(gem);
+    const pages = PAGES_BY_SEC[id] || [], n = pages.length, rb = 2.6 + .16 * n;
+    const bm = new T.MeshStandardMaterial({ color: 0xffffff, emissive: col, emissiveIntensity: .45, roughness: .4 });
+    pages.forEach((pg, k) => {
+      const a = k / n * 6.2832 + .4, x = p.x + rb * Math.cos(a), z = p.z + rb * Math.sin(a);
+      const y = Math.max(heightAt(x, z), .2) + .55;
+      const b = new T.Mesh(beadGeo, bm); b.position.set(x, y, z); b.castShadow = true;
+      b.userData = { type: 'page', slug: pg.slug, id }; scene.add(b); pickables.push(b); BEADS[pg.slug] = b;
+    });
+  });
+
+  // signature props
+  const lava = new T.Mesh(new T.CircleGeometry(4, 28).rotateX(-Math.PI / 2), new T.MeshBasicMaterial({ color: 0xff6a1a }));
+  lava.position.set(PW.x, Math.max(heightAt(PW.x, PW.z), .5) + 4, PW.z); scene.add(lava);
+  const lavaLight = new T.PointLight(0xff5a1a, 1.4, 40); lavaLight.position.copy(lava.position).y += 3; scene.add(lavaLight);
+  const smoke = [];
+  for (let i = 0; i < 9; i++) { const s = new T.Mesh(new T.SphereGeometry(1.6, 10, 8), new T.MeshStandardMaterial({ color: 0x8c8580, transparent: true, opacity: .5, depthWrite: false }));
+    s.userData.t = i / 9; scene.add(s); smoke.push(s); }
+  // summit cairn at the highest point
+  let peak = { x: 0, z: 0, h: -99 };
+  for (let x = -26; x <= 14; x += 1) for (let z = -28; z <= 12; z += 1) { const h = heightAt(x, z); if (h > peak.h) peak = { x, z, h }; }
+  // ---------- the Tree of Thought, rooted at the Summit ----------
+  const TB = new T.Vector3(peak.x, peak.h - .6, peak.z);
+  const TY = [0, 9, 17, 25, 33, 40, 47], TRAD = [8, 3.4, 8.5, 11.5, 12.5, 9.5, 0];
+  const OCOL = ['#c08a55', '#3d9bd1', '#14a38b', '#e4572e', '#f2b632', '#9be15d', '#39ff14'];
+  const OMAP = {}; ONTO.forEach(n => { OMAP[n.id] = n; n.post = []; });
+  ONTO.forEach(n => (n.pre || []).forEach(p => OMAP[p] && OMAP[p].post.push(n.id)));
+  const oang = {};
+  ONTO_TIERS.forEach((tier, t) => {
+    const ns = ONTO.filter(n => n.t === t);
+    ns.forEach((n, i) => {
+      if (t <= 1 || !n.pre.length) n._a = (i / ns.length) * 6.2832 + t * .7;
+      else { let sx = 0, sz = 0; n.pre.forEach(p => { sx += Math.cos(oang[p]); sz += Math.sin(oang[p]); }); n._a = Math.atan2(sz, sx); }
+    });
+    ns.sort((a, b) => a._a - b._a);
+    ns.forEach((n, i) => { oang[n.id] = ns.length === 1 ? n._a : ns[0]._a + i * 6.2832 / ns.length; });
+  });
+  const OPOS = {};
+  ONTO.forEach(n => {
+    const a = oang[n.id], r = TRAD[n.t], x = TB.x + r * Math.cos(a), z = TB.z + r * Math.sin(a);
+    OPOS[n.id] = new T.Vector3(x, n.t === 0 ? Math.max(heightAt(x, z), TB.y - 12) + 1.4 : TB.y + TY[n.t], z);
+  });
+  const barkMat = new T.MeshStandardMaterial({ color: 0x6b4a2f, roughness: .95, flatShading: true, emissive: 0x000000 });
+  const trunk = new T.Mesh(new T.CylinderGeometry(.7, 2.6, TY[5] + 3, 10).translate(0, (TY[5] + 3) / 2, 0), barkMat);
+  trunk.position.set(TB.x, TB.y - 1.5, TB.z); trunk.castShadow = true; trunk.userData = { type: 'tree' }; scene.add(trunk); pickables.push(trunk);
+  const EDGES = [];
+  ONTO.forEach(n => (n.pre || []).forEach(p => {
+    const a = OPOS[p], b = OPOS[n.id]; if (!a) return;
+    const mid = a.clone().add(b).multiplyScalar(.5); mid.x = TB.x + (mid.x - TB.x) * .4; mid.z = TB.z + (mid.z - TB.z) * .4;
+    const m = new T.Mesh(new T.TubeGeometry(new T.QuadraticBezierCurve3(a, mid, b), 22, Math.max(.14, .44 - n.t * .05), 6, false),
+      new T.MeshStandardMaterial({ color: 0x6b4a2f, roughness: .9, flatShading: true, transparent: true, opacity: 1, emissive: 0x000000 }));
+    m.castShadow = true; scene.add(m); EDGES.push({ m, from: p, to: n.id });
+  }));
+  const leafMat = new T.MeshStandardMaterial({ color: 0x3f8f45, roughness: .9, flatShading: true, transparent: true, opacity: .62, depthWrite: false });
+  for (let i = 0; i < 46; i++) {
+    const t = 2 + Math.floor(rnd() * 4), a = rnd() * 6.28, r = TRAD[t] * (.45 + rnd() * .75);
+    const l = new T.Mesh(new T.IcosahedronGeometry(2.6 + rnd() * 2.6, 0), leafMat);
+    l.position.set(TB.x + r * Math.cos(a), TB.y + TY[t] + (rnd() - .3) * 5, TB.z + r * Math.sin(a)); scene.add(l);
+  }
+  const ONODES = {};
+  ONTO.forEach(n => {
+    const c = new T.Color(OCOL[n.t]);
+    const m = new T.Mesh(new T.SphereGeometry(n.t === 6 ? 1.8 : 1.05, 18, 14), new T.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: .45, roughness: .35, transparent: true, opacity: 1 }));
+    m.position.copy(OPOS[n.id]); m.castShadow = true; m.userData = { type: 'onode', id: n.id }; scene.add(m); pickables.push(m); ONODES[n.id] = m;
+  });
+  const ties = new T.Group(); scene.add(ties);
+  function showTies(id) {
+    while (ties.children.length) { const c = ties.children.pop(); c.geometry.dispose(); c.material.dispose(); }
+    if (!id) return;
+    const n = OMAP[id], seen = new Set(), from = OPOS[id];
+    (n.pages || []).forEach(slug => {
+      const pg = BY_SLUG[slug]; if (!pg || seen.has(pg.section) || !SECPOS[pg.section]) return; seen.add(pg.section);
+      const s = SECPOS[pg.section], to = new T.Vector3(s.x, s.y + 3.6, s.z);
+      const ctl = from.clone().add(to).multiplyScalar(.5); ctl.y = Math.max(from.y, to.y) + 18;
+      const pts = new T.QuadraticBezierCurve3(from, ctl, to).getPoints(40);
+      ties.add(new T.Line(new T.BufferGeometry().setFromPoints(pts), new T.LineBasicMaterial({ color: OCOL[n.t], transparent: true, opacity: .9 })));
+    });
+  }
+  // lighthouse at Signal Point
+  const lh = new T.Group(); const lhx = -99, lhz = -12, lhy = Math.max(heightAt(lhx, lhz), .4);
+  lh.position.set(lhx, lhy - .2, lhz);
+  const tower = new T.Mesh(new T.CylinderGeometry(.75, 1.15, 7, 14).translate(0, 3.5, 0), flat(0xf5f2ea)); tower.castShadow = true; lh.add(tower);
+  [1.8, 4.2].forEach(y => { const b = new T.Mesh(new T.CylinderGeometry(.98, 1.03, .7, 14), flat(0xd9412b)); b.position.y = y; lh.add(b); });
+  const lamp = new T.Mesh(new T.SphereGeometry(.55, 12, 10), new T.MeshBasicMaterial({ color: 0xfff1a8 })); lamp.position.y = 7.5; lh.add(lamp);
+  const beam = new T.Mesh(new T.ConeGeometry(2.2, 16, 18, 1, true).translate(0, -8, 0).rotateZ(Math.PI / 2),
+    new T.MeshBasicMaterial({ color: 0xfff3b0, transparent: true, opacity: .22, depthWrite: false, side: T.DoubleSide }));
+  beam.position.y = 7.5; lh.add(beam); scene.add(lh);
+  // harbor pier and boat
+  const hp = SECPOS['welcome'];
+  if (hp) { const pier = new T.Mesh(new T.BoxGeometry(1.4, .35, 13), flat(0x8a6a48)); pier.position.set(hp.x + 2.5, .45, hp.z + 7.5); pier.castShadow = true; scene.add(pier);
+    const boat = new T.Group(); const hull = new T.Mesh(new T.BoxGeometry(1.6, .6, 3.6), flat(0xf3efe6)); hull.position.y = .3; boat.add(hull);
+    const sail = new T.Mesh(new T.ConeGeometry(1.1, 3.2, 3).translate(0, 2.2, 0), flat(0xf2b632)); boat.add(sail);
+    boat.position.set(hp.x + 5, 0, hp.z + 12); scene.add(boat); boat.userData.bob = true; smoke.boat = boat; }
+  // clouds
+  const clouds = [], cmat = new T.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: .88, roughness: 1, depthWrite: false });
+  for (let i = 0; i < 12; i++) {
+    const c = new T.Group(); for (let k = 0; k < 5; k++) { const s = new T.Mesh(new T.SphereGeometry(3 + rnd() * 3, 10, 8), cmat); s.position.set(k * 3.5 - 7, rnd() * 1.5, rnd() * 3); s.scale.y = .55; c.add(s); }
+    const a = rnd() * 6.28, r = 40 + rnd() * 90; c.position.set(r * Math.cos(a), 48 + rnd() * 14, r * Math.sin(a)); c.userData = { a, r, sp: .00006 + rnd() * .00008 }; scene.add(c); clouds.push(c);
+  }
+  const AI = MAP_REGIONS['active-inference'], mistMat = new T.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: .45, depthWrite: false });
+  for (let i = 0; i < 7; i++) { const s = new T.Mesh(new T.SphereGeometry(4 + rnd() * 3, 10, 8), mistMat); const a = rnd() * 6.28, r = rnd() * 16;
+    s.position.set(AI.x + r * Math.cos(a), AI.h + 8 + rnd() * 3, AI.z + r * Math.sin(a)); s.scale.y = .35; scene.add(s); }
+
+  // ---------- the route: Harbor to Summit ----------
+  const routePts = [];
+  const routeSecs = ATLAS.slice(0, ATLAS.findIndex(st => st.id === 'convergence') + 1).flatMap(st => st.sections.filter(id => SECPOS[id]));
+  for (let i = 0; i < routeSecs.length - 1; i++) {
+    const a = SECPOS[routeSecs[i]], b = SECPOS[routeSecs[i + 1]], steps = Math.max(6, Math.round(Math.hypot(b.x - a.x, b.z - a.z) / 1.5));
+    for (let s = 0; s < steps; s++) { const t = s / steps, x = a.x + (b.x - a.x) * t, z = a.z + (b.z - a.z) * t; routePts.push(new T.Vector3(x, Math.max(heightAt(x, z), .15) + .35, z)); }
+  }
+  const endSec = SECPOS[routeSecs[routeSecs.length - 1]]; routePts.push(new T.Vector3(endSec.x, Math.max(heightAt(endSec.x, endSec.z), .15) + .35, endSec.z));
+  const route = new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(routePts), routePts.length * 2, .2, 6, false),
+    new T.MeshStandardMaterial({ color: 0xffe08a, emissive: 0xffc94a, emissiveIntensity: .45, roughness: .5 }));
+  scene.add(route);
+
+  // you are here
+  const hereRing = new T.Mesh(new T.RingGeometry(.7, 1, 32).rotateX(-Math.PI / 2), new T.MeshBasicMaterial({ color: 0x39ff14, transparent: true, opacity: .9, depthWrite: false }));
+  scene.add(hereRing);
+
+  // ---------- HTML labels ----------
+  const layer = document.getElementById('mapLabels'); layer.innerHTML = '';
+  ATLAS.forEach(st => {
+    const R = MAP_REGIONS[st.id]; if (!R) return;
+    let y = Math.max(heightAt(R.x, R.z), 0);
+    Object.values(SECPOS).forEach(p => { if (p.st === st.id) y = Math.max(y, p.y + 4); });
+    if (st.id === 'convergence') y = peak.h + 6;
+    const el = document.createElement('div'); el.className = 'map-rlabel';
+    el.innerHTML = `<span class="rn">${R.place}</span><span class="rs" style="--c:${R.color}">${st.label}</span>`;
+    el.addEventListener('click', () => selectRegion(st.id)); layer.appendChild(el);
+    labels.push({ el, v: new T.Vector3(R.x, y + 7, R.z), kind: 'region', st: st.id });
+  });
+  Object.entries(SECPOS).forEach(([id, p]) => {
+    const el = document.createElement('div'); el.className = 'map-slabel';
+    el.innerHTML = `<i style="background:${MAP_REGIONS[p.st].color}"></i>${SEC[id] ? SEC[id].label : id}`;
+    el.addEventListener('click', () => selectSection(id)); layer.appendChild(el);
+    labels.push({ el, v: new T.Vector3(p.x, p.y + 5.2, p.z), kind: 'section', st: p.st });
+  });
+  const hereEl = document.createElement('div'); hereEl.className = 'map-here'; hereEl.textContent = 'You are here'; layer.appendChild(hereEl);
+  const hereLabel = { el: hereEl, v: new T.Vector3(), kind: 'here' }; labels.push(hereLabel);
+  { const el = document.createElement('div'); el.className = 'map-rlabel tree';
+    el.innerHTML = '<span class="rn">The Tree of Thought</span><span class="rs" style="--c:#39ff14">Ontology</span>';
+    el.addEventListener('click', () => setOntology(true)); layer.appendChild(el);
+    labels.push({ el, v: new T.Vector3(TB.x, TB.y + TY[6] + 6, TB.z), kind: 'tree' }); }
+  ONTO.forEach(n => {
+    const el = document.createElement('div'); el.className = 'map-olabel' + (n.t === 6 ? ' crown' : ''); el.textContent = n.label;
+    el.addEventListener('click', () => selectNode(n.id)); layer.appendChild(el);
+    labels.push({ el, v: OPOS[n.id].clone().add(new T.Vector3(0, n.t === 6 ? 2.8 : 1.7, 0)), kind: 'onode', id: n.id });
+  });
+
+  // ---------- camera control ----------
+  const cam = { theta: .35, phi: .95, r: 220, t: new T.Vector3(0, 4, 6) };
+  let anim = null, auto = true, selected = null, hereSlug = null;
+  const clampCam = () => { cam.phi = Math.min(1.38, Math.max(.22, cam.phi)); cam.r = Math.min(320, Math.max(22, cam.r));
+    const d = Math.hypot(cam.t.x, cam.t.z); if (d > 130) { cam.t.x *= 130 / d; cam.t.z *= 130 / d; } };
+  function placeCamera() {
+    camera.position.set(cam.t.x + cam.r * Math.sin(cam.phi) * Math.sin(cam.theta), cam.t.y + cam.r * Math.cos(cam.phi), cam.t.z + cam.r * Math.sin(cam.phi) * Math.cos(cam.theta));
+    if (camera.position.y < 2) camera.position.y = 2;
+    camera.lookAt(cam.t);
+  }
+  function flyTo(x, y, z, r, phi) {
+    auto = false;
+    anim = { t0: performance.now(), dur: 1100, from: { x: cam.t.x, y: cam.t.y, z: cam.t.z, r: cam.r, phi: cam.phi }, to: { x, y, z, r, phi: phi ?? cam.phi } };
+  }
+  const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+  const pointers = new Map(); let drag = null, pinch = 0;
+  const ray = new T.Raycaster(), mouse = new T.Vector2();
+  const tip = document.getElementById('mapTip'); let hovered = null;
+  function pick(e, objs) {
+    const r = canvas.getBoundingClientRect(); mouse.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(mouse, camera); return ray.intersectObjects(objs, false)[0];
+  }
+  function setHover(obj, e) {
+    if (hovered && hovered !== obj) hovered.scale.setScalar(hovered.userData.type === 'onode' && hovered.userData.id === oSel ? 1.5 : 1);
+    hovered = obj;
+    if (!obj) { tip.style.display = 'none'; canvas.style.cursor = ''; return; }
+    if (obj.userData.type !== 'tree') obj.scale.setScalar(obj.userData.type === 'page' ? 1.7 : obj.userData.id === oSel ? 1.7 : 1.3); canvas.style.cursor = 'pointer';
+    const u = obj.userData;
+    if (u.type === 'onode') { const n = OMAP[u.id]; tip.innerHTML = `<b>${n.label}</b><span>${ONTO_TIERS[n.t].name} · ${ONTO_TIERS[n.t].sub} · click to trace</span>`; }
+    else if (u.type === 'tree') { tip.innerHTML = '<b>The Tree of Thought</b><span>The ontology of the field · click to read it</span>'; }
+    else if (u.type === 'page') { const pg = BY_SLUG[u.slug]; tip.innerHTML = `<b>${pg.title}</b><span>${SEC[u.id].label} · click to open</span>`; }
+    else { const n = (PAGES_BY_SEC[u.id] || []).length; tip.innerHTML = `<b>${SEC[u.id].label}</b><span>${n} page${n === 1 ? '' : 's'} · click to explore</span>`; }
+    const r = canvas.getBoundingClientRect(); tip.style.display = 'block';
+    tip.style.left = Math.min(e.clientX - r.left + 14, r.width - 270) + 'px'; tip.style.top = (e.clientY - r.top + 14) + 'px';
+  }
+  canvas.addEventListener('pointerdown', e => {
+    canvas.setPointerCapture(e.pointerId); pointers.set(e.pointerId, { x: e.clientX, y: e.clientY }); auto = false; anim = null;
+    if (pointers.size === 1) drag = { x: e.clientX, y: e.clientY, sx: e.clientX, sy: e.clientY, moved: false, pan: e.button === 2 || e.shiftKey };
+    else if (pointers.size === 2) { const [a, b] = [...pointers.values()]; pinch = Math.hypot(a.x - b.x, a.y - b.y); drag = null; }
+  });
+  canvas.addEventListener('pointermove', e => {
+    if (pointers.has(e.pointerId)) pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.size === 2 && pinch) {
+      const [a, b] = [...pointers.values()], d = Math.hypot(a.x - b.x, a.y - b.y); cam.r *= pinch / d; pinch = d; clampCam(); return;
+    }
+    if (drag) {
+      const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag.x = e.clientX; drag.y = e.clientY;
+      if (Math.abs(e.clientX - drag.sx) + Math.abs(e.clientY - drag.sy) > 5) { drag.moved = true; canvas.classList.add('dragging'); setHover(null); }
+      const h = canvas.clientHeight || 1;
+      if (drag.pan) {
+        const k = cam.r * .0016, s = Math.sin(cam.theta), c = Math.cos(cam.theta);
+        cam.t.x -= (dx * c + dy * s) * k; cam.t.z -= (-dx * s + dy * c) * k;
+      } else { cam.theta -= dx * 6.2832 / h * .55; cam.phi -= dy * 6.2832 / h * .4; }
+      clampCam(); return;
+    }
+    if (e.pointerType === 'mouse') { const hit = pick(e, pickables); setHover(hit ? hit.object : null, e); }
+  });
+  const endPointer = e => {
+    if (drag && !drag.moved && pointers.size === 1) click(e);
+    pointers.delete(e.pointerId); if (pointers.size < 2) pinch = 0; if (!pointers.size) { drag = null; canvas.classList.remove('dragging'); }
+  };
+  canvas.addEventListener('pointerup', endPointer);
+  canvas.addEventListener('pointercancel', e => { pointers.delete(e.pointerId); drag = null; pinch = 0; canvas.classList.remove('dragging'); });
+  canvas.addEventListener('pointerleave', () => setHover(null));
+  canvas.addEventListener('contextmenu', e => e.preventDefault());
+  canvas.addEventListener('wheel', e => { e.preventDefault(); auto = false; anim = null; cam.r *= Math.exp(e.deltaY * .0011); clampCam(); }, { passive: false });
+
+  function click(e) {
+    const hit = pick(e, pickables);
+    if (hit) { const u = hit.object.userData; if (u.type === 'page') return go(u.slug); if (u.type === 'onode') return selectNode(u.id); if (u.type === 'tree') return onto ? treePanel() : setOntology(true); return selectSection(u.id); }
+    if (onto) return;
+    const land = pick(e, [terrain]);
+    if (land) { heightAt(land.point.x, land.point.z); const i = dominant(); if (i >= 0) selectRegion(REGS[i].id, null, true); }
+  }
+  function go(slug) { closeAtlas(); location.hash = slug; }
+
+  // ---------- panel ----------
+  const panel = document.getElementById('mapPanel');
+  const countOf = st => stCount(st);
+  function overview() {
+    selected = null;
+    const total = ATLAS.reduce((n, st) => n + countOf(st), 0), hp = BY_SLUG[current];
+    panel.innerHTML = `<div class="mp-k">Atlas</div><div class="mp-h">The Island of Thermoeconomics</div>
+      <p class="mp-b">${total} pages across ${REGS.length} regions. Each region is a shelf, each beacon a section, each glowing bead a page. Follow the <b class="gold">golden trail</b> from the Harbor, through the Shallows and the highlands, up to the Summit to read in order. The jungle, plains, cove, isles and headland are there to explore.</p>
+      ${hp && STRATUM_OF[hp.section] ? `<button class="mp-here" data-slug="${hp.slug}"><i></i>You are here: ${hp.title}</button>` : ''}
+      <button class="mp-tree" id="mpTree"><b>The Tree of Thought</b><span>The ontology of the field, growing from the Summit &rarr;</span></button>
+      <div class="mp-legend">${ATLAS.filter(st => MAP_REGIONS[st.id]).map(st => { const R = MAP_REGIONS[st.id];
+        return `<button class="mp-reg" data-st="${st.id}"><i style="background:${R.color}"></i><span><b>${R.place}</b><em>${st.label} · ${countOf(st)} pages</em></span></button>`; }).join('')}</div>`;
+    panel.querySelectorAll('.mp-reg').forEach(b => b.addEventListener('click', () => selectRegion(b.dataset.st)));
+    panel.querySelector('#mpTree').addEventListener('click', () => setOntology(true));
+    const h = panel.querySelector('.mp-here'); if (h) h.addEventListener('click', () => { const p = BY_SLUG[h.dataset.slug]; selectSection(p.section); });
+    panel.scrollTop = 0;
+  }
+  function selectRegion(stId, secId, keepCam) {
+    const st = ATLAS.find(s => s.id === stId), R = MAP_REGIONS[stId]; if (!st || !R) return;
+    if (onto) setOntology(false, true);
+    selected = stId;
+    panel.innerHTML = `<button class="mp-back">&larr; All regions</button>
+      <div class="mp-k" style="color:${R.color}">${st.label}</div><div class="mp-h">${R.place}</div>
+      <p class="mp-t">${R.terrain}</p><p class="mp-b">${st.blurb}</p>
+      ${st.sections.filter(id => (PAGES_BY_SEC[id] || []).length).map(id => `<div class="mp-sec${id === secId ? ' focus' : ''}" id="mps-${id}">
+        <button class="mp-sec-h" data-sec="${id}"><i style="background:${R.color}"></i>${SEC[id] ? SEC[id].label : id}<span>${PAGES_BY_SEC[id].length}</span></button>
+        <div class="mp-pages">${PAGES_BY_SEC[id].map(p => `<a data-slug="${p.slug}" class="${p.slug === current ? 'cur' : ''}">${p.title}</a>`).join('')}</div></div>`).join('')}`;
+    panel.querySelector('.mp-back').addEventListener('click', () => { overview(); flyTo(0, 4, 6, 220, .95); });
+    panel.querySelectorAll('.mp-sec-h').forEach(b => b.addEventListener('click', () => selectSection(b.dataset.sec)));
+    panel.querySelectorAll('.mp-pages a').forEach(a => {
+      a.addEventListener('click', () => go(a.dataset.slug));
+      a.addEventListener('mouseenter', () => { const b = BEADS[a.dataset.slug]; if (b) b.scale.setScalar(1.9); });
+      a.addEventListener('mouseleave', () => { const b = BEADS[a.dataset.slug]; if (b) b.scale.setScalar(1); });
+    });
+    if (secId) { const el = document.getElementById('mps-' + secId); if (el) el.scrollIntoView({ block: 'center' }); } else panel.scrollTop = 0;
+    if (!secId && !keepCam) { const y = Math.max(heightAt(R.x, R.z), 0); flyTo(R.x, y, R.z, R.island ? 60 : 40 + R.s * 2.4, .9); }
+  }
+  function selectSection(id) {
+    const p = SECPOS[id]; if (!p) return;
+    if (onto) setOntology(false, true);
+    selectRegion(p.st, id); flyTo(p.x, p.y + 1, p.z, 34, .85);
+  }
+
+  // ---------- ontology mode ----------
+  let onto = false, oSel = null, oLit = null;
+  const dayBg = scene.background, duskCanvas = document.createElement('canvas'); duskCanvas.width = 2; duskCanvas.height = 256;
+  { const g = duskCanvas.getContext('2d'), gr = g.createLinearGradient(0, 0, 0, 256);
+    gr.addColorStop(0, '#0b1230'); gr.addColorStop(.6, '#262c58'); gr.addColorStop(1, '#5a4766'); g.fillStyle = gr; g.fillRect(0, 0, 2, 256); }
+  const duskBg = new T.CanvasTexture(duskCanvas);
+  const anc = (id, acc = new Set()) => { (OMAP[id].pre || []).forEach(p => { if (!acc.has(p)) { acc.add(p); anc(p, acc); } }); return acc; };
+  const desc = (id, acc = new Set()) => { OMAP[id].post.forEach(p => { if (!acc.has(p)) { acc.add(p); desc(p, acc); } }); return acc; };
+  function litApply() {
+    ONTO.forEach(n => {
+      const m = ONODES[n.id], on = !oLit || oLit.has(n.id);
+      m.material.opacity = on ? 1 : .16;
+      m.material.emissiveIntensity = onto ? (on ? (n.id === oSel ? 1.7 : 1) : .15) : .45;
+      m.scale.setScalar(n.id === oSel ? 1.5 : 1);
+    });
+    EDGES.forEach(e => {
+      const on = !oLit || (oLit.has(e.from) && oLit.has(e.to));
+      e.m.material.opacity = on ? 1 : .1;
+      e.m.material.emissive.set(onto && on ? 0xffb347 : 0x000000);
+      e.m.material.emissiveIntensity = onto ? (oLit && on ? 1 : .4) : 0;
+    });
+  }
+  function setOntology(on, quiet) {
+    onto = on; selected = null; oSel = null; oLit = null;
+    sun.intensity = on ? .28 : 1.05; hemi.intensity = on ? .32 : .7;
+    scene.background = on ? duskBg : dayBg; scene.fog.color.set(on ? 0x1d2244 : 0xd4e7f1);
+    leafMat.opacity = on ? .06 : .62; barkMat.emissive.set(on ? 0x2a1a0c : 0x000000);
+    document.getElementById('mapOverlay').classList.toggle('onto', on);
+    document.getElementById('mapOntoBtn').textContent = on ? 'Back to the island' : 'Tree of Thought';
+    litApply(); showTies(null);
+    if (quiet) return;
+    if (on) { treePanel(); flyTo(TB.x, TB.y + 25, TB.z, canvas.clientWidth < 700 ? 150 : 118, 1.25); }
+    else { overview(); flyTo(0, 4, 6, canvas.clientWidth < 700 ? 290 : 215, .95); }
+  }
+  document.getElementById('mapOntoBtn').addEventListener('click', () => setOntology(!onto));
+  const chips = ids => ids.map(id => `<button class="mp-chip" data-o="${id}"><i style="background:${OCOL[OMAP[id].t]}"></i>${OMAP[id].label}</button>`).join('');
+  const bindChips = () => panel.querySelectorAll('.mp-chip').forEach(b => b.addEventListener('click', () => selectNode(b.dataset.o)));
+  function treePanel() {
+    oSel = null; oLit = null; litApply(); showTies(null);
+    panel.innerHTML = `<button class="mp-back" id="ontoExit">&larr; Back to the island</button>
+      <div class="mp-k">Ontology</div><div class="mp-h">The Tree of Thought</div>
+      <p class="mp-b">One tree for the whole field, rooted at the Summit. Read it upward: dispositions at the roots, the four formalisms in the trunk, machinery in the branches, the three pillars as limbs, original constructs as fruit, their applications in the canopy, and the discipline at the crown. Click any knot to light what it stands on and what grows from it, and to see where on the island it is taught.</p>
+      ${ONTO_TIERS.map((tier, t) => ({ tier, t })).reverse().map(({ tier, t }) => `<div class="mp-tier">
+        <div class="mp-tier-h"><i style="background:${OCOL[t]}"></i>${tier.name}<span>${tier.sub}</span></div>
+        <p>${tier.note}</p><div class="mp-chips">${chips(ONTO.filter(n => n.t === t).map(n => n.id))}</div></div>`).join('')}`;
+    panel.querySelector('#ontoExit').addEventListener('click', () => setOntology(false));
+    bindChips(); panel.scrollTop = 0;
+  }
+  function nodePanel(id) {
+    const n = OMAP[id], tier = ONTO_TIERS[n.t];
+    const pages = (n.pages || []).map(s => BY_SLUG[s]).filter(p => p && STRATUM_OF[p.section]);
+    panel.innerHTML = `<button class="mp-back" id="ontoBack">&larr; The whole tree</button>
+      <div class="mp-k" style="color:${n.t === 6 ? 'var(--green-ink)' : OCOL[n.t]}">${tier.name} · ${tier.sub}</div><div class="mp-h">${n.label}</div>
+      <p class="mp-b">${n.blurb}</p>${n.claim ? `<blockquote class="mp-claim">${n.claim}</blockquote>` : ''}
+      ${n.pre.length ? `<div class="mp-sub">Stands on</div><div class="mp-chips">${chips(n.pre)}</div>` : ''}
+      ${n.post.length ? `<div class="mp-sub">Makes possible</div><div class="mp-chips">${chips(n.post)}</div>` : ''}
+      <div class="mp-sub">Where it lives on the island</div>
+      ${pages.length ? `<div class="mp-pages flush">${pages.map(p => `<a data-slug="${p.slug}">${p.title}<em>${MAP_REGIONS[STRATUM_OF[p.section].id].place}</em></a>`).join('')}</div>`
+        : '<p class="mp-t">Not yet written up in the Study.</p>'}
+      ${(n.inside || []).map(k => ONTO_INSIDE[k]).map(ins => `<div class="mp-inside"><div class="mp-sub">Inside · ${ins.title}</div>
+        ${ins.cite ? `<a class="mp-cite" href="${ins.url}" target="_blank" rel="noopener">${ins.cite} &#8599;</a>` : ''}
+        ${ins.stages.map(st => `<div class="mp-stage"><b>${st.name}</b>${st.steps.map(s => `<div class="mp-step"><span>${s.label}</span>${s.blurb}</div>`).join('')}</div>`).join('')}</div>`).join('')}`;
+    panel.querySelector('#ontoBack').addEventListener('click', () => { treePanel(); flyTo(TB.x, TB.y + 25, TB.z, canvas.clientWidth < 700 ? 150 : 118, 1.25); });
+    panel.querySelectorAll('.mp-pages a').forEach(a => a.addEventListener('click', () => go(a.dataset.slug)));
+    bindChips(); panel.scrollTop = 0;
+  }
+  function selectNode(id) {
+    if (!OMAP[id]) return;
+    if (!onto) setOntology(true, true);
+    oSel = id; oLit = new Set([id, ...anc(id), ...desc(id)]);
+    litApply(); showTies(id); nodePanel(id);
+    const p = OPOS[id]; flyTo(p.x, p.y, p.z, canvas.clientWidth < 700 ? 90 : 62, 1.15);
+  }
+
+  // ---------- loop ----------
+  let raf = 0, last = performance.now();
+  const v = new T.Vector3();
+  function resize() {
+    const w = canvas.clientWidth || window.innerWidth, h = canvas.clientHeight || window.innerHeight;
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', () => { if (raf) resize(); });
+  const compass = document.getElementById('mapCompass');
+  function frame(now) {
+    raf = requestAnimationFrame(frame);
+    const dt = Math.min(50, now - last); last = now;
+    if (anim) {
+      const k = Math.min(1, (now - anim.t0) / anim.dur), e = ease(k), f = anim.from, t = anim.to;
+      cam.t.set(f.x + (t.x - f.x) * e, f.y + (t.y - f.y) * e, f.z + (t.z - f.z) * e); cam.r = f.r + (t.r - f.r) * e; cam.phi = f.phi + (t.phi - f.phi) * e;
+      if (k >= 1) anim = null;
+    } else if (auto) cam.theta += dt * .00005;
+    placeCamera();
+    gems.forEach((g, i) => { g.rotation.y += dt * .0012; g.position.y = 3.6 + Math.sin(now * .002 + i) * .18; });
+    clouds.forEach(c => { c.userData.a += c.userData.sp * dt; c.position.x = c.userData.r * Math.cos(c.userData.a); c.position.z = c.userData.r * Math.sin(c.userData.a); });
+    smoke.forEach(s => { s.userData.t = (s.userData.t + dt * .00012) % 1; const t = s.userData.t;
+      s.position.set(lava.position.x + Math.sin(t * 9) * 1.5, lava.position.y + 1 + t * 20, lava.position.z + t * 5); s.scale.setScalar(.5 + t * 1.5); s.material.opacity = .45 * (1 - t); });
+    if (smoke.boat) smoke.boat.position.y = Math.sin(now * .0015) * .12;
+    beam.rotation.y = now * .0009;
+    lavaLight.intensity = 1.2 + Math.sin(now * .004) * .3;
+    if (hereSlug && BEADS[hereSlug]) { const b = BEADS[hereSlug]; hereRing.visible = true; hereRing.position.set(b.position.x, b.position.y - .4, b.position.z);
+      const s = 1 + ((now * .001) % 1) * 1.6; hereRing.scale.setScalar(s); hereRing.material.opacity = .9 * (1 - ((now * .001) % 1)); hereLabel.v.copy(b.position).y += 1.4; }
+    else hereRing.visible = false;
+    renderer.render(scene, camera);
+    // labels: project, then place by priority so none overlap
+    const w = canvas.clientWidth, h = canvas.clientHeight, cand = [];
+    labels.forEach(L => {
+      if (L.kind === 'here' && !(hereSlug && BEADS[hereSlug])) { L.el.style.display = 'none'; return; }
+      v.copy(L.v).project(camera);
+      if (v.z > 1 || v.x < -1.15 || v.x > 1.15 || v.y < -1.15 || v.y > 1.15) { L.el.style.display = 'none'; return; }
+      const dist = camera.position.distanceTo(L.v);
+      let op = 1, pri = 2;
+      if (L.kind === 'onode') { if (!onto) { L.el.style.display = 'none'; return; } pri = L.id === oSel ? 0 : (oLit && oLit.has(L.id) ? 1 : 2); op = oLit && !oLit.has(L.id) ? 0 : 1; }
+      else if (onto) { L.el.style.display = 'none'; return; }
+      if (L.kind === 'tree') pri = 1;
+      if (L.kind === 'here') pri = 0;
+      if (L.kind === 'section') { op = (selected === L.st || cam.r < 90) ? Math.max(0, Math.min(1, (150 - dist) / 40)) : 0; pri = selected === L.st ? 1 : 3; }
+      if (L.kind === 'region') op = selected === L.st && cam.r < 60 ? .3 : Math.max(.4, Math.min(1, (420 - dist) / 120));
+      if (op <= .02) { L.el.style.display = 'none'; return; }
+      cand.push({ L, sx: (v.x * .5 + .5) * w, sy: (-v.y * .5 + .5) * h, op, dist, pri });
+    });
+    cand.sort((a, b) => a.pri - b.pri || a.dist - b.dist);
+    const placed = [];
+    cand.forEach(c => {
+      const L = c.L;
+      if (L.el.style.display === 'none') L.el.style.display = '';
+      if (!L.w) { L.w = L.el.offsetWidth; L.h = L.el.offsetHeight; }
+      const r = { x0: c.sx - L.w / 2 - 3, y0: c.sy - L.h - 3, x1: c.sx + L.w / 2 + 3, y1: c.sy + 3 };
+      if (placed.some(p => r.x0 < p.x1 && r.x1 > p.x0 && r.y0 < p.y1 && r.y1 > p.y0)) { L.el.style.display = 'none'; return; }
+      placed.push(r);
+      L.el.style.opacity = c.op;
+      L.el.style.transform = `translate(${c.sx}px, ${c.sy}px) translate(-50%, -100%)`;
+      L.el.style.zIndex = String(1000 - Math.round(c.dist));
+    });
+    compass.style.transform = `rotate(${cam.theta}rad)`;
+  }
+
+  return {
+    open(focus, ontoMode) {
+      resize(); last = performance.now();
+      hereSlug = BY_SLUG[current = (location.hash || '#' + DEFAULT_SLUG).slice(1)] && BEADS[current] ? current : null;
+      if (ontoMode) { if (!raf) raf = requestAnimationFrame(frame); cam.r = 260; return setOntology(true); }
+      if (onto) setOntology(false, true);
+      overview();
+      if (focus && SECPOS[focus]) { cam.r = 200; selectSection(focus); }
+      else { cam.r = 300; cam.phi = .8; auto = true; flyTo(0, 4, 6, (canvas.clientWidth < 700 ? 290 : 215), .95); auto = true; }
+      if (!raf) raf = requestAnimationFrame(frame);
+    },
+    stop() { cancelAnimationFrame(raf); raf = 0; setHover(null); }
+  };
+}
+
 
 // ============================================================
 // SEARCH — across every shelf, not just the open one
